@@ -1,0 +1,349 @@
+.btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 15.5px 40px;
+  min-height: 59px;
+  width: fit-content;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 1;
+  text-align: center;
+  color: $white-color;
+  background: $root-base-on-light-shift-down;
+  border: none;
+  border-radius: 40px;
+  transition: all $transition-default;
+  & > svg {
+    min-width: 24px;
+    width: 24px;
+    height: 24px;
+    color: $white-color;
+  }
+  & > * + * {
+    margin-left: 16px;
+  }
+  & > .bg {
+    padding: 0.5px 8.5px;
+    width: fit-content;
+    background: $white-color;
+    border-radius: 16px;
+    & > svg {
+      min-width: 27px;
+      width: 27px;
+      height: 27px;
+      color: $icon-faint-on-light;
+    }
+  }
+  &:focus {
+    outline: none;
+  }
+  &:hover {
+    color: $white-color;
+  }
+  &--sm {
+    padding: 11px 16px;
+    min-height: 36px;
+    font-size: 14px;
+    & > svg {
+      min-width: 14px;
+      width: 14px;
+      height: 14px;
+    }
+  }
+  &--md {
+    padding: 14px 16px;
+    min-height: 44px;
+    font-size: 14px;
+    & > svg {
+      min-width: 16px;
+      width: 16px;
+      height: 16px;
+    }
+  }
+  &--md-bold {
+    padding: 12px 32px;
+    min-height: 44px;
+    font-size: 16px;
+    font-weight: bold;
+  }
+  &--white {
+    color: $text-base-on-light;
+    background: $white-color;
+    & > svg {
+      color: $icon-faint-on-light;
+    }
+  }
+  &--white-blue {
+    color: $text-accent-on-light;
+    background: $white-color;
+    & > svg {
+      color: $icon-accent-on-light;
+    }
+  }
+  &--red {
+    color: $white-color;
+    background: $root-complement-2-on-light;
+  }
+  &--blue {
+    color: $white-color;
+    background: $root-accent-on-light;
+  }
+  &--orange {
+    color: $white-color;
+    background: $root-complement-on-light;
+  }
+  &--violet {
+    background: $fancy-complement-on-dark;
+  }
+
+  @media screen and (hover: hover) {
+    &:hover {
+      background: $root-base-on-light;
+      & > .bg {
+        & > svg {
+          color: $icon-accent-on-light;
+        }
+      }
+    }
+    &--white {
+      &:hover {
+        color: $text-complement-on-dark;
+        background: $white-color;
+        & > svg {
+          color: $icon-complement-on-dark-shift-up;
+        }
+      }
+    }
+    &--white-blue {
+      &:hover {
+        color: $text-accent-on-light-shift-down;
+        background: $white-color;
+        & > svg {
+          color: $icon-accent-on-light-shift-down;
+        }
+      }
+    }
+    &--red {
+      &:hover {
+        background: $root-complement-2-on-light-shift-down;
+      }
+    }
+    &--blue {
+      &:hover {
+        background: $root-accent-on-light-shift-down;
+      }
+    }
+    &--orange {
+      &:hover {
+        background: $root-complement-on-light-shift-down;
+      }
+    }
+    &--violet {
+      &:hover {
+        background: $fancy-complement-on-dark-shift-down;
+      }
+    }
+  }
+}
+
+.btn-control {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 16px;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1;
+  text-align: center;
+  color: rgba($text-base-on-light, 0.8);
+  background: $root-base-on-dark;
+  border: none;
+  border-radius: 24px;
+  transition: all $transition-default;
+  & > svg {
+    min-width: 24px;
+    width: 24px;
+    height: 24px;
+    color: $icon-base-on-light;
+  }
+  & > * + * {
+    margin-left: 8px;
+  }
+  &:focus {
+    outline: none;
+  }
+  &:active {
+    background: $root-faint-on-dark-shift-down;
+  }
+
+  @media screen and (hover: hover) {
+    &:hover {
+      background: $root-base-on-dark-shift-down;
+    }
+    &:active {
+      background: $root-faint-on-dark-shift-down;
+    }
+    &--blue {
+      &:hover {
+        color: rgba($text-accent-on-light, 0.8);
+        & > svg {
+          color: $icon-accent-on-light;
+        }
+      }
+    }
+  }
+  @media screen and (max-width: 767px) {
+    padding: 0;
+    background: transparent;
+    border-radius: 0;
+    &:not(.btn-control--blue) {
+      & > span {
+        display: none;
+      }
+      & > * + * {
+        margin-left: 0;
+      }
+    }
+  }
+}
+
+.btn-circle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  min-width: 198px;
+  width: 198px;
+  height: 198px;
+  font-size: 16px;
+  font-weight: 500;
+  text-align: center;
+  color: $white-color;
+  background: $root-accent-on-light;
+  border: none;
+  border-radius: 50%;
+  transition: all $transition-default;
+  &--sm {
+    min-width: 128px;
+    width: 128px;
+    height: 128px;
+  }
+  &:focus {
+    outline: none;
+  }
+  &:hover {
+    color: $white-color;
+  }
+
+  @media screen and (hover: hover) {
+    &:hover {
+      background: $root-accent-on-light-shift-down;
+    }
+  }
+}
+
+.ai-btn {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  padding: 16px 64px 16px 16px;
+  font-size: 16px;
+  font-weight: 500;
+  white-space: nowrap;
+  text-align: left;
+  background: $back-base-on-light;
+  border: none;
+  border-radius: 8px;
+  transition: all $transition-default;
+  &:focus {
+    outline: none;
+  }
+  img {
+    position: absolute;
+    top: -11px;
+    right: -14px;
+    z-index: -1;
+    display: block;
+    width: 79px;
+    height: 62px;
+    object-fit: contain;
+  }
+  &--lg {
+    padding: 25px 64px 25px 32px;
+    font-size: 18px;
+    img {
+      top: -14px;
+      right: -6px;
+      width: 140px;
+      height: 97px;
+    }
+  }
+
+  @media screen and (hover: hover) {
+    &:hover {
+      background: $white-color;
+    }
+  }
+}
+
+.back-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  min-width: 56px;
+  width: 56px;
+  height: 56px;
+  font-size: 0;
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  transition: all $transition-default;
+  & > svg {
+    min-width: 56px;
+    width: 56px;
+    height: 56px;
+    color: $icon-faint-on-light;
+  }
+  &:focus {
+    outline: none;
+  }
+
+  @media screen and (hover: hover) {
+    &:hover {
+      & > svg {
+        color: $text-accent-on-light-shift-up;
+      }
+    }
+  }
+}
+
+.feedback-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 4px;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1;
+  text-align: center;
+  color: $text-faint-on-light;
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  transition: all $transition-default;
+  & > svg {
+    min-width: 16px;
+    width: 16px;
+    height: 16px;
+    color: $icon-faint-on-light;
+  }
+  & > * + * {
+    margin-left: 4px;
+  }
+  &:focus {
+    outline: none;
+  }
+}

@@ -1,0 +1,67 @@
+// vertical
+.simplebar-track.simplebar-vertical {
+  top: 0;
+  right: 30px;
+  z-index: 201;
+  width: 3px;
+  height: 100%;
+  opacity: 0;
+  background: transparent;
+  background-clip: content-box;
+  transition: opacity $transition-default, right $transition-default,
+    width $transition-default;
+  border-radius: 0;
+}
+.simplebar-scrollbar {
+  height: 100%;
+  &::before {
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    height: 100%;
+    opacity: 1;
+    background: $text-faint-on-light-shift-up;
+    border-radius: 67px;
+  }
+}
+.simplebar-track.simplebar-vertical .simplebar-scrollbar::before {
+  top: 0;
+  bottom: 0;
+}
+.simplebar-scrollbar.simplebar-visible::before {
+  opacity: 1;
+}
+.simplebar-track.simplebar-vertical.simplebar-hover {
+  width: 5px;
+  cursor: pointer;
+}
+.simplebar-content {
+  padding: 0;
+}
+
+// custom
+.scroll-x {
+  overflow-x: hidden;
+  margin-right: -30px;
+  padding-right: 30px;
+  clip-path: inset(0 30px 0 0);
+
+  @media screen and (hover: hover) {
+    &:hover {
+      .simplebar-track.simplebar-vertical {
+        opacity: 1;
+      }
+    }
+  }
+  @media screen and (hover: none) {
+    .simplebar-track.simplebar-vertical {
+      opacity: 1;
+    }
+  }
+
+  .simplebar-content-wrapper {
+    padding-right: 8px;
+    clip-path: inset(0 30px 0 0);
+  }
+}

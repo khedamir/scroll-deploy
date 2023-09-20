@@ -1,0 +1,166 @@
+@import "styles/config";
+
+.menu {
+  position: fixed;
+  top: 80px;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 499;
+  background: $white-color;
+  transform: translate(0, -104vh);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: all $transition-default;
+  &.is--active {
+    transform: translate(0, 0);
+    opacity: 1;
+    visibility: visible;
+    pointer-events: all;
+    .menu {
+      &__wrap {
+        opacity: 1;
+        transition: all $transition-default 0.2s;
+      }
+    }
+  }
+
+  @media screen and (min-width: 1200px) {
+    display: none;
+  }
+  @media screen and (max-width: 767px) {
+    top: 64px;
+  }
+
+  &__wrap {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    overflow-x: hidden;
+    overflow-y: auto;
+    padding: 40px 16px 34px;
+    height: calc(100dvh - 80px);
+    opacity: 0;
+    transition: all 0.1s;
+
+    @media screen and (max-width: 767px) {
+      padding: 4px 16px 32px;
+      height: calc(100dvh - 64px);
+    }
+  }
+  &__main {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+
+    @media screen and (max-width: 767px) {
+      flex-direction: column-reverse;
+    }
+  }
+  &__block {
+    @media screen and (min-width: 768px) {
+      max-width: 360px;
+      width: calc(100% - 8px);
+      &:nth-child(2n) {
+        margin-left: 16px;
+      }
+    }
+    @media screen and (max-width: 767px) {
+      width: 100%;
+      &:nth-last-child(n + 2) {
+        margin-top: 40px;
+      }
+    }
+  }
+  &__account {
+    margin-top: 40px;
+
+    @media screen and (min-width: 768px) {
+      display: none;
+    }
+  }
+  &__controls {
+    @media screen and (max-width: 767px) {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+    }
+  }
+  &__ai {
+    width: 100%;
+    background: $root-faint-on-dark;
+
+    @media screen and (max-width: 767px) {
+      padding: 0;
+      width: fit-content;
+      background: transparent;
+      & > span {
+        display: none;
+      }
+      & > img {
+        position: static;
+        width: 40px;
+        height: 40px;
+      }
+    }
+  }
+  &__ai + &__btn,
+  &__btn + &__ai,
+  &__btn + &__btn {
+    margin-top: 24px;
+
+    @media screen and (max-width: 767px) {
+      margin-top: 0;
+      margin-left: 12px;
+    }
+  }
+  &__btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: auto;
+    padding: 16.5px 20px;
+    font-size: 18px;
+    font-weight: 500;
+    line-height: 1;
+    text-align: center;
+    background: $root-faint-on-dark;
+    border: none;
+    border-radius: 8px;
+    transition: all $transition-default;
+
+    & svg {
+      min-width: 32px;
+      width: 32px;
+      height: 32px;
+      color: $icon-base-on-light;
+    }
+    & > * + * {
+      margin-left: 8px;
+    }
+    &:focus {
+      outline: none;
+    }
+
+    @media screen and (min-width: 768px) {
+      &--mobile {
+        display: none;
+      }
+    }
+    @media screen and (max-width: 767px) {
+      padding: 4px;
+      background: transparent;
+      & > span {
+        display: none;
+      }
+      & > * + * {
+        margin-left: 0;
+      }
+    }
+  }
+  &__footer {
+    margin-top: 40px;
+  }
+}

@@ -1,0 +1,195 @@
+.videos {
+    &__wrapper {
+        display: flex;
+        flex-wrap: wrap;
+    }
+    &__item {
+        @media screen and (min-width: 1024px) {
+            width: calc(50% - 10px);
+            &:nth-child(2n) {
+                margin-left: 20px;
+            }
+            &:nth-child(n + 3) {
+                margin-top: 32px;
+            }
+        }
+        @media screen and (min-width: 768px) and (max-width: 1023px) {
+            width: calc(50% - 10px);
+            &:nth-child(2n) {
+                margin-left: 20px;
+            }
+            &:nth-child(n + 3) {
+                margin-top: 16px;
+            }
+        }
+        @media screen and (max-width: 767px) {
+            width: 100%;
+        }
+    }
+    &__item + &__item {
+        @media screen and (max-width: 767px) {
+            margin-top: 24px;
+        }
+    }
+}
+
+.video {
+    &__media {
+        position: relative;
+        display: block;
+        width: 100%;
+        &::before {
+            content: '';
+            display: block;
+            padding-top: 56.5%;
+        }
+        img, iframe {
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            display: block;
+            width: 100%!important;
+            height: 100%!important;
+            object-fit: cover;
+        }
+    }
+    &__main {
+        padding: 24px 16px;
+        width: 100%;
+        background: $white-color;
+        
+        @media screen and (max-width: 767px) {
+            display: flex;
+            flex-direction: column;
+            padding: 8px 16px 24px;
+        }
+    }
+    &__heading {
+        font-size: 29px;
+        font-weight: 600;
+        line-height: 1.1;
+
+        @media screen and (max-width: 767px) {
+            font-size: 16px;
+            opacity: 0.8;
+        }
+    }
+    &__inner {
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+        margin-top: 8px;
+        margin-bottom: -8px;
+    }
+    &__author {
+        display: flex;
+        align-items: center;
+        margin-right: 24px;
+        margin-bottom: 8px;
+        width: fit-content;
+        font-size: 16px;
+        font-weight: 600;
+        color: $text-base-on-light-shift-up;
+        & > img {
+            display: block;
+            overflow: hidden;
+            min-width: 32px;
+            width: 32px;
+            height: 32px;
+            object-fit: cover;
+            border-radius: 50%;
+        }
+        & > * + * {
+            margin-left: 8px;
+        }
+        &[href] {
+            &:hover {
+                color: $text-base-on-light-shift-up;
+            }
+        }
+
+        @media screen and (max-width: 767px) {
+            margin-right: 32px;
+            font-size: 14px;
+            font-weight: 500;
+            & > img {
+                display: none;
+            }
+            & > * + * {
+                margin-left: 0;
+            }
+        }
+    }
+    &__time {
+        display: block;
+        margin-bottom: 8px;
+        width: fit-content;
+        font-size: 14px;
+        font-weight: 500;
+        color: $text-faint-on-light-shift-up;
+    }
+    &__bottom {
+        margin-top: 24px;
+        width: 100%;
+
+        @media screen and (max-width: 767px) {
+            order: -1;
+            margin-top: 0;
+            margin-bottom: 16px;
+        }
+    }
+    &__content {
+        margin: 24px -16px 0;
+        padding: 32px 24px 8px;
+        font-size: 14px;
+        font-weight: 500;
+        color: $text-base-on-light;
+        background: $root-base-on-dark-shift-down;
+        border-radius: 16px;
+        * {
+            margin-bottom: 24px;
+    
+            &:last-child {
+                margin-bottom: 0;
+            }
+        }
+        a {
+            display: inline;
+            color: $text-accent-on-dark-shift-up;
+            &:hover {
+                color: $text-accent-on-dark-shift-up;
+            }
+        }
+    }
+    &__content-more {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 16px auto 0;
+        padding: 0;
+        min-width: 24px;
+        width: 24px;
+        height: 24px;
+        font-size: 0;
+        background: transparent;
+        border: none;
+        border-radius: 0;
+        transition: all $transition-default;
+        & > svg {
+            min-width: 24px;
+            width: 24px;
+            height: 24px;
+            color: $icon-base-on-light-shift-down;
+        }
+        &:focus {
+            outline: none;
+        }
+        &.is--active {
+            & > svg {
+                transform: rotate(180deg);
+            }
+        }
+    }
+}

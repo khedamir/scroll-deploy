@@ -1,0 +1,135 @@
+.input-field {
+  &--border {
+    .input-field {
+      &__input,
+      &__textarea {
+        padding: 11.25px 16px;
+        font-size: 16px;
+        font-weight: 500;
+        border: 1px solid rgba($line-faint-on-light, 0.5);
+        border-radius: 8px;
+        &:focus {
+          border-color: rgba($line-accent-on-light-shift-up, 0.85);
+        }
+      }
+      &__textarea {
+        min-height: 103px;
+        &--high {
+          min-height: 203px;
+        }
+      }
+      &__textarea-wrap {
+        .input-field {
+          &__textarea {
+            padding: 11.25px 16px 51.25px 16px;
+          }
+        }
+      }
+      &__error {
+        color: $text-critic-on-light;
+      }
+    }
+  }
+  &.is--error {
+    .input-field {
+      &__label {
+        color: $text-complement-on-light-shift-up;
+      }
+      &__input {
+        border-color: $text-complement-on-light-shift-up;
+      }
+      &__error {
+        display: block;
+      }
+    }
+  }
+  &.is--error.input-field--border {
+    .input-field {
+      &__label {
+        color: $text-critic-on-light;
+      }
+      &__input {
+        border-color: $text-critic-on-light;
+      }
+    }
+  }
+  &__top {
+    display: flex;
+    align-items: center;
+    margin-bottom: 4px;
+  }
+  &__label {
+    display: block;
+    font-size: 14px;
+    font-weight: 500;
+    color: $text-base-on-light;
+    transition: color $transition-default;
+  }
+  &__tab {
+    display: block;
+    font-size: 14px;
+    font-weight: 500;
+    color: $text-faint-on-light-shift-up;
+    transition: color $transition-default;
+    &.is--active {
+      color: $text-base-on-light;
+    }
+  }
+  &__tab + &__tab {
+    margin-left: 24px;
+    padding-left: 24px;
+    border-left: 1px solid rgba($root-faint-on-light-shift-down, 0.8);
+  }
+  &__inner {
+    position: relative;
+  }
+  &__input,
+  &__textarea {
+    appearance: none;
+    display: block;
+    padding: 4.25px 4px;
+    width: 100%;
+    font-size: 20px;
+    font-weight: 600;
+    color: $root-base-on-light;
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid rgba($line-faint-on-light, 0.5);
+    border-radius: 0;
+    transition: all $transition-default;
+    &::placeholder {
+      opacity: 1;
+      color: $root-faint-on-light-shift-up;
+    }
+    &:focus {
+      outline: none;
+      border-color: $text-complement-on-light-shift-up;
+    }
+  }
+  &__input {
+    line-height: 1;
+  }
+  &__textarea {
+    overflow: hidden;
+    resize: none;
+    line-height: 1.25;
+  }
+  &__textarea-wrap {
+    position: relative;
+    z-index: 1;
+  }
+  &__textarea-btn {
+    position: absolute;
+    right: 8px;
+    bottom: 8px;
+    z-index: 1;
+    min-width: 60px;
+  }
+  &__error {
+    display: none;
+    margin-top: 4px;
+    font-size: 14px;
+    font-weight: 500;
+    color: $text-complement-on-light-shift-up;
+  }
+}

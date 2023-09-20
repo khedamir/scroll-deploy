@@ -1,0 +1,493 @@
+// search
+.c-search {
+  &__inner {
+    position: relative;
+  }
+  &__input {
+    appearance: none;
+    display: block;
+    padding: 16px;
+    width: 100%;
+    font-size: 16px;
+    font-weight: 500;
+    color: $root-base-on-light;
+    background: $back-base-on-light;
+    border: none;
+    border-radius: 8px;
+    transition: all $transition-default;
+    &::placeholder {
+      opacity: 1;
+      color: $root-base-on-light;
+    }
+    &:focus {
+      outline: none;
+    }
+  }
+}
+
+// account
+.c-account {
+  &__inner {
+    position: relative;
+    z-index: 1;
+    display: block;
+    padding: 29px 40px 29px 22px;
+    width: 100%;
+    text-align: left;
+    background: $white-color;
+    border: 1px solid $root-faint-on-light-shift-up;
+    border-radius: 16px;
+    &:focus {
+      outline: none;
+    }
+  }
+  &__name {
+    display: block;
+    width: fit-content;
+    font-size: 18px;
+    font-weight: 500;
+    color: $text-faint-on-light-shift-down;
+  }
+  &__help {
+    position: absolute;
+    top: 50%;
+    right: 7px;
+    z-index: 1;
+    transform: translate(0, -50%);
+    display: block;
+    width: fit-content;
+    font-size: 14px;
+    font-weight: normal;
+    writing-mode: vertical-rl;
+    color: $text-faint-on-light-shift-up;
+  }
+}
+
+// icon btn
+.c-icon-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  min-width: 24px;
+  width: 24px;
+  height: 24px;
+  font-size: 0;
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  & > svg {
+    min-width: 24px;
+    width: 24px;
+    height: 24px;
+    color: $icon-base-on-light-shift-up;
+  }
+  &:focus {
+    outline: none;
+  }
+  &:active {
+    & > svg {
+      color: $icon-accent-on-light-shift-down;
+    }
+  }
+
+  @media screen and (hover: hover) {
+    &:hover {
+      & > svg {
+        color: $icon-accent-on-light;
+      }
+    }
+    &:active {
+      & > svg {
+        color: $icon-accent-on-light-shift-down;
+      }
+    }
+  }
+}
+
+// bookmark btn
+.c-bookmark {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  min-width: 24px;
+  width: 24px;
+  height: 24px;
+  font-size: 0;
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  transition: all $transition-default;
+  &:focus {
+    outline: none;
+  }
+  &:active {
+    .c-bookmark__icon {
+      color: $icon-faint-on-light;
+    }
+  }
+  &.is--active {
+    .c-bookmark {
+      &__icon {
+        &--default {
+          opacity: 0;
+          visibility: hidden;
+        }
+        &--filled {
+          opacity: 1;
+          visibility: visible;
+        }
+      }
+    }
+  }
+  &__icon {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    min-width: 24px;
+    width: 24px;
+    height: 24px;
+    color: $icon-base-on-light-shift-up;
+    &--filled {
+      opacity: 0;
+      visibility: hidden;
+    }
+  }
+
+  @media screen and (hover: hover) {
+    &:hover {
+      .c-bookmark__icon {
+        color: $icon-base-on-light;
+      }
+    }
+    &:active {
+      .c-bookmark__icon {
+        color: $icon-faint-on-light;
+      }
+    }
+  }
+}
+
+// ava
+.c-ava {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  padding: 0;
+  min-width: 36px;
+  width: 36px;
+  height: 36px;
+  font-size: 16px;
+  font-weight: 500;
+  text-align: center;
+  line-height: 1;
+  color: $white-color;
+  background: $root-accent-on-light-shift-up;
+  border: none;
+  border-radius: 50%;
+  transition: all $transition-default;
+  & > img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  &:focus {
+    outline: none;
+  }
+  &:hover {
+    color: $white-color;
+  }
+  &:active {
+    background: $root-accent-on-light;
+  }
+}
+
+// play
+.c-play {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 16px 8px 8px;
+  width: fit-content;
+  font-size: 14px;
+  font-weight: 500;
+  white-space: nowrap;
+  text-align: center;
+  color: $text-base-on-light;
+  background: $root-base-on-dark-shift-down;
+  border-radius: 60px;
+  & > svg {
+    min-width: 32px;
+    width: 32px;
+    height: 32px;
+    color: $icon-base-on-light;
+  }
+  & > * + * {
+    margin-left: 8px;
+  }
+
+  @media screen and (hover: hover) {
+    &:hover {
+      color: $white-color;
+      background: $root-accent-on-light-shift-up;
+      & > svg {
+        color: $icon-accent-on-light;
+      }
+    }
+  }
+}
+
+// quote
+.c-quote {
+  &__wrapper {
+    position: relative;
+    z-index: 1;
+    margin-right: auto;
+    margin-left: auto;
+    max-width: 484px;
+    width: 100%;
+    &::before {
+      content: "";
+      position: absolute;
+      top: -2px;
+      left: 0;
+      z-index: -1;
+      display: block;
+      min-width: 48px;
+      width: 48px;
+      height: 48px;
+      background-image: url(../public/img/sprite/icon-quote-grey.svg);
+      background-repeat: no-repeat;
+      background-size: contain;
+      background-position: center center;
+    }
+
+    @media screen and (max-width: 767px) {
+      &::before {
+        top: -16px;
+        left: 7px;
+      }
+    }
+  }
+  &__description {
+    display: block;
+    font-size: 18px;
+    font-weight: normal;
+    line-height: 1.33;
+    text-indent: 112px;
+
+    @media screen and (max-width: 767px) {
+      text-indent: 104px;
+    }
+  }
+  &__author {
+    display: block;
+    margin-top: 12px;
+    width: fit-content;
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 1.125;
+    color: rgba($text-faint-on-light, 0.8);
+
+    @media screen and (min-width: 768px) {
+      margin-left: auto;
+      text-align: right;
+    }
+    @media screen and (max-width: 767px) {
+      margin-top: 16px;
+    }
+  }
+}
+
+// more
+.c-more {
+  position: relative;
+  &.is--active {
+    .c-more {
+      &__trigger {
+        & > svg {
+          color: $icon-faint-on-light-shift-down;
+        }
+      }
+      &__dropdown {
+        visibility: visible;
+        opacity: 1;
+        transform: scale(1) translateY(0);
+        pointer-events: all;
+      }
+    }
+  }
+  &__trigger {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    min-width: 24px;
+    width: 24px;
+    height: 24px;
+    font-size: 0;
+    background: transparent;
+    border: none;
+    border-radius: 0;
+    transition: all $transition-default;
+    & > svg {
+      min-width: 24px;
+      width: 24px;
+      height: 24px;
+      color: $icon-faint-on-light-shift-up;
+    }
+    &:focus {
+      outline: none;
+    }
+
+    @media screen and (hover: hover) {
+      &:hover {
+        & > svg {
+          color: $icon-faint-on-light-shift-down;
+        }
+      }
+    }
+  }
+  &__dropdown {
+    position: absolute;
+    bottom: calc(100% + 4px);
+    left: 0;
+    z-index: 100;
+    transform: scale(0.99) translateY(0.7em);
+    display: block;
+    padding: 8px;
+    overflow: hidden;
+    visibility: hidden;
+    opacity: 0;
+    transform-origin: top;
+    min-width: max-content;
+    width: fit-content;
+    background: $white-color;
+    border-radius: 8px;
+    box-shadow: 0px 1px 2px 0px rgba(38, 39, 40, 0.1),
+      0px 0px 1px 0px rgba(38, 39, 40, 0.1);
+    transition-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+    transition-duration: 250ms;
+    transition-property: opacity, transform;
+    pointer-events: none;
+    will-change: opacity, transform;
+    &:hover {
+      display: block;
+    }
+  }
+  &__btn {
+    display: block;
+    padding: 10px 8px;
+    width: 100%;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 1;
+    text-align: left;
+    color: $root-base-on-light-shift-up;
+    background: transparent;
+    border: none;
+    border-radius: 4px;
+    transition: all $transition-default;
+    &:focus {
+      outline: none;
+    }
+
+    @media screen and (hover: hover) {
+      &:hover {
+        background: $root-base-on-dark;
+      }
+    }
+  }
+}
+
+// status
+.c-status {
+  display: block;
+  padding: 6px 8px;
+  min-width: max-content;
+  width: fit-content;
+  font-size: 12px;
+  font-weight: normal;
+  line-height: 1;
+  text-align: center;
+  color: $text-base-on-light-shift-up;
+  background: $root-complement-on-light-shift-up;
+  border-radius: 4px;
+  &--purple {
+    background: $root-complement-on-dark-shift-up;
+  }
+  &--red {
+    color: $white-color;
+    background: $root-critic-on-light;
+  }
+}
+
+// author
+.c-author {
+  &__wrapper {
+    display: flex;
+    align-items: center;
+    width: fit-content;
+    text-align: left;
+  }
+  &__img {
+    display: block;
+    overflow: hidden;
+    max-width: 76px;
+    min-width: 76px;
+    height: 76px;
+    border-radius: 50%;
+    img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+  &__img + &__body {
+    margin-left: 16px;
+  }
+  &__name {
+    display: block;
+    width: fit-content;
+    font-size: 16px;
+    font-weight: 500;
+    color: rgba($text-base-on-light, 0.8);
+  }
+}
+
+// tags
+.c-tags {
+  &__list {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    margin-right: -8px;
+    margin-bottom: -8px;
+  }
+  &__item {
+    margin-right: 8px;
+    margin-bottom: 8px;
+  }
+  &__elem {
+    display: block;
+    padding: 10px 8px;
+    width: fit-content;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 1;
+    color: $text-base-on-light;
+    background: $back-base-on-light;
+    border-radius: 7px;
+    &:hover {
+      color: $text-base-on-light;
+    }
+  }
+}
