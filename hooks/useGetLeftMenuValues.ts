@@ -17,7 +17,7 @@ export const useGetLeftMenuValues = () => {
     const getValueLeftMenu = async () => {
       try {
         const response = await axios.get(
-          `${process.env.API_URL}/navigation/main`
+          `https://pacoswitu.beget.app/api/v1/navigation/main`
         );
         // console.log(Object.values(response.data.message))
         const newsObj: IValue[] = Object.values(response.data.message);
