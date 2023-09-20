@@ -1,5 +1,5 @@
 import React, { FC } from "react";
-import "./Menu.scss";
+import "./menu.scss";
 import Image from "next/image";
 import aiImg from "../../app/assets/img/ai-img.png";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
