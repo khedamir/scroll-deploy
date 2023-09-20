@@ -33,7 +33,7 @@ export const useGetUser = () => {
     useEffect(() => {
         const getUser = async () => {
             try {
-                const response = await axios.get(`${serverUrl}/users`)
+                const response = await axios.get(`${process.env.API_URL}/users`)
                 // const newsObj = Object.values(response);
                 setUser(response.data.message.main.VALUES);
             } catch (error) {

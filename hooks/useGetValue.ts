@@ -24,7 +24,7 @@ export const useGetValue = (category: string | string[] | undefined, id: string 
     useEffect(() => {
         const getNews = async () => {
             try {
-                const response = await axios.get(`${serverUrl}/${category}/${id}`);
+                const response = await axios.get(`${process.env.API_URL}/${category}/${id}`);
                 const newsObj = Object.values(response.data.message.data) as News[];
                 setNews(newsObj);
             } catch (error) {
