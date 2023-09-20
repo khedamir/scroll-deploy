@@ -23,7 +23,7 @@ export const useGetValuesNews = (name : string, limit : number) => {
     useEffect(() => {
         const getNews = async () => {
             try {
-                const response = await axios.get(`${process.env.API_URL}/${name}?limit=${limit}`);
+                const response = await axios.get(`https://pacoswitu.beget.app/api/v1/${name}?limit=${limit}`);
                 const newsObj = Object.values(response.data.message.data) as News[];
                 setNews(newsObj);
                 console.log(newsObj)
