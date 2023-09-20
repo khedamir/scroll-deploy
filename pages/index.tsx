@@ -14,7 +14,6 @@ import SectionLayout from "../components/mainPageComponents/sectionLayout";
 import FirstBlock from "../components/mainPageComponents/firstBlock";
 
 const Index: NextPage = () => {
-  console.log(process.env.API_URL)
   return (
     <div className="layout__wrap layout__wrap--padding">
       <div className="layout__left">

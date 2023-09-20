@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useGetLeftMenuValues } from "../../hooks/useGetLeftMenuValues";
 import { server } from "../../utils/serverUrl";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
@@ -10,27 +10,35 @@ const LeftMenu = () => {
   const { values } = useAppSelector((state) => state.leftMenuReducer);
   const dispatch = useAppDispatch();
   useGetLeftMenuValues();
+  const [itemsVisible, setItemsVisible] = useState(false);
 
   return (
     <nav className="nav layout__nav">
-      <ul className="nav__list is--open">
-        {values.map((value) => (
-          <li
-            onClick={() => dispatch(setNameRubric(value.NAME))}
-            key={value.ID}
-            className="nav__item"
-          >
-            <Link
-              href={`/rubrics/${value.CODE}/${value.ID}`}
-              className="nav__link"
-            >
-              <img src={`${server}${value.THEME_ICON_PATH}`} />
-              <span>{value.NAME}</span>
-            </Link>
-          </li>
-        ))}
+      <ul className={`nav__list ${itemsVisible && "is--open"}`}>
+        {values.map(
+          (value) =>
+            (value.SHOW_IN_MAIN_MENU || itemsVisible) && (
+              <li
+                onClick={() => dispatch(setNameRubric(value.NAME))}
+                key={value.ID}
+                className="nav__item"
+              >
+                <Link
+                  href={`/rubrics/${value.CODE}/${value.ID}`}
+                  className="nav__link"
+                >
+                  <img src={`${server}${value.THEME_ICON_PATH}`} />
+                  <span>{value.NAME}</span>
+                </Link>
+              </li>
+            )
+        )}
       </ul>
-      <button className="nav__more is--open" aria-label="Показать больше">
+      <button
+        onClick={() => setItemsVisible(!itemsVisible)}
+        className={`nav__more ${itemsVisible && "is--open"}`}
+        aria-label="Показать больше"
+      >
         <ReactSVG src="img/sprite/icon-arrow-down.svg" />
       </button>
     </nav>

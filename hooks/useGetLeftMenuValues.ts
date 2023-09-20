@@ -8,6 +8,7 @@ interface IValue {
   ID: string;
   NAME: string;
   THEME_ICON_PATH: string;
+  SHOW_IN_MAIN_MENU: boolean;
 }
 
 export const useGetLeftMenuValues = () => {
