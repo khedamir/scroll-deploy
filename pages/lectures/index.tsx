@@ -65,6 +65,7 @@ const Lectures = () => {
                   <div className="lectures__wrapper">
                     {LecturesList.map((lecture) => (
                       <Link
+                        key={lecture.id}
                         href={`/lectures/${lecture.id}`}
                         className="category-card category-card--sm lectures__item"
                       >

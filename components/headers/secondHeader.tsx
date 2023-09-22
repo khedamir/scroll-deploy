@@ -13,9 +13,9 @@ const SecondHeader: FC<HeaderProps> = () => {
       <div className="container">
         <div className="header__wrapper">
           <div className="header__left">
-            <a href="/" className="header__logotype">
+            <Link href="/" className="header__logotype">
               <img src="/img/logotype.svg" alt="SCROLL" />
-            </a>
+            </Link>
           </div>
           <div className="header__center"></div>
           <div className="header__right">

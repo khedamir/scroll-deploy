@@ -1,3 +1,4 @@
+import Link from "next/link";
 import React from "react";
 
 interface HeaderProps {
@@ -11,7 +12,7 @@ const ThirdyHeader = () => {
       <div className="container">
         <div className="header__wrapper header__wrapper--inner">
           <div className="header__left">
-            <a
+            <Link
               href="/"
               className="header__logotype header__logotype--small"
             >
@@ -19,7 +20,7 @@ const ThirdyHeader = () => {
                 <source srcSet="/img/logotype.svg" media="(min-width: 768px)" />
                 <img src="/img/logotype-small.svg" alt="SCROLL" />
               </picture>
-            </a>
+            </Link>
           </div>
           <div className="header__center">
             <h3 className="header__heading">Вебинер</h3>
