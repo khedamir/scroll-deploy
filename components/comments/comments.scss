@@ -135,7 +135,7 @@
     border: none;
     border-radius: 16px;
     transition: all $transition-default;
-    & > svg {
+    & svg {
       min-width: 24px;
       width: 24px;
       height: 24px;
@@ -148,7 +148,7 @@
     @media screen and (hover: hover) {
       &:hover {
         background: $root-base-on-dark-shift-down;
-        & > svg {
+        & svg {
           color: $icon-accent-on-light;
         }
       }
@@ -190,7 +190,7 @@
     border: none;
     border-radius: 40px;
     transition: all $transition-default;
-    & > svg {
+    & > div svg {
       min-width: 16px;
       width: 16px;
       height: 16px;

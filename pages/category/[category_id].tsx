@@ -4,7 +4,7 @@ import { useGetValue } from "../../hooks/useGetValue";
 import { server, serverUrl } from "../../utils/serverUrl";
 import { useGetUser } from "../../hooks/useGetUser";
 import consultation from "../../app/assets/img/widget-consultation-01.jpg";
-import LeftMenu from "../../components/leftmenu/LeftMenu";
+import LeftMenu from "../../components/sidebar/sidebar";
 import { useRouter } from "next/router";
 import { GetServerSidePropsContext, NextPage } from "next";
 import Image from "next/image";

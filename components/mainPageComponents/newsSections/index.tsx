@@ -18,11 +18,11 @@ const NewsSections = () => {
         </div>
         <div className="news-list__wrapper">
           {List.map((item) => (
-            <Link key={item.id} href="#" className="news-list__item">
+            <Link key={item.id} href={`rubrics/${item.id}`} className="news-list__item">
               <span className="news-list__value">{item.current}</span>
               <div className="news-list__inner">
                 <span className="news-list__name">{item.name}</span>
-                <ReactSVG className="news-list__icon" src="img/sprite/icon-arrow-link-up.svg" />
+                <ReactSVG className="news-list__icon" src="/img/sprite/icon-arrow-link-up.svg" />
               </div>
             </Link>
           ))}

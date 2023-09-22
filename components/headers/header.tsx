@@ -40,7 +40,11 @@ const Header: FC<HeaderProps> = ({
                 />
               </div>
             </div>
-            <ChatAi buttonClasses="header__ai" active={chatAiActive} setActive={setChatAiActive} />
+            <ChatAi
+              buttonClasses="header__ai"
+              active={chatAiActive}
+              setActive={setChatAiActive}
+            />
           </div>
           <div className="header__right">
             <div className="header__controls header__controls--first">

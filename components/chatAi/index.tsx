@@ -88,7 +88,7 @@ const ChatAi: FC<ChatAiProps> = ({ active, setActive, buttonClasses }) => {
         className={`ai-btn ${buttonClasses}`}
       >
         <span>Спросить у ИИ</span>
-        <img src="img/ai-img.png" alt="AI" />
+        <img src="/img/ai-img.png" alt="AI" />
       </button>
     </>
   );

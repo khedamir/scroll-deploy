@@ -8,12 +8,12 @@ const NewsCard = () => {
         <div className="news-card__grid-left">
           <div className="news-card__grid-wrapper">
             <Link
-              href="#"
+              href="/news/1"
               className="tidings-card tidings-card--md news-card__grid-card news-card__grid-card--full"
             >
               <div className="tidings-card__wrapper">
                 <picture className="tidings-card__bg">
-                  <img src="img/tidings-card-03.jpg" alt="Image" />
+                  <img src="/img/tidings-card-03.jpg" alt="Image" />
                 </picture>
                 <div className="tidings-card__body">
                   <span className="tidings-card__name">
@@ -28,7 +28,7 @@ const NewsCard = () => {
               </div>
             </Link>
             <Link
-              href="#"
+              href="/news/1"
               className="tidings-card tidings-card--lg news-card__grid-card"
             >
               <div className="tidings-card__wrapper">
@@ -47,7 +47,7 @@ const NewsCard = () => {
           </div>
         </div>
         <div className="news-card__grid-right">
-          <Link href="#" className="tidings-card news-card__grid-card">
+          <Link href="/news/1" className="tidings-card news-card__grid-card">
             <div className="tidings-card__wrapper">
               <div className="tidings-card__body">
                 <span className="tidings-card__name">
@@ -61,7 +61,7 @@ const NewsCard = () => {
               </div>
             </div>
           </Link>
-          <Link href="#" className="tidings-card news-card__grid-card">
+          <Link href="/news/1" className="tidings-card news-card__grid-card">
             <div className="tidings-card__wrapper">
               <div className="tidings-card__body">
                 <span className="tidings-card__name">
@@ -75,7 +75,7 @@ const NewsCard = () => {
               </div>
             </div>
           </Link>
-          <Link href="#" className="tidings-card news-card__grid-card">
+          <Link href="/news/1" className="tidings-card news-card__grid-card">
             <div className="tidings-card__wrapper">
               <div className="tidings-card__body">
                 <span className="tidings-card__name">

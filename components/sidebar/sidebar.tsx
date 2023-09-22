@@ -6,7 +6,7 @@ import Link from "next/link";
 import { setNameRubric } from "../../store/slices/leftMenuSlice";
 import { ReactSVG } from "react-svg";
 
-const LeftMenu = () => {
+const Sidebar = () => {
   const { values } = useAppSelector((state) => state.leftMenuReducer);
   const dispatch = useAppDispatch();
   useGetLeftMenuValues();
@@ -24,7 +24,7 @@ const LeftMenu = () => {
                 className="nav__item"
               >
                 <Link
-                  href={`/rubrics/${value.CODE}/${value.ID}`}
+                  href={`/rubrics/${value.ID}`}
                   className="nav__link"
                 >
                   <img src={`${server}${value.THEME_ICON_PATH}`} />
@@ -39,10 +39,10 @@ const LeftMenu = () => {
         className={`nav__more ${itemsVisible && "is--open"}`}
         aria-label="Показать больше"
       >
-        <ReactSVG src="img/sprite/icon-arrow-down.svg" />
+        <ReactSVG src="/img/sprite/icon-arrow-down.svg" />
       </button>
     </nav>
   );
 };
 
-export default LeftMenu;
+export default Sidebar;

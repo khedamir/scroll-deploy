@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import LeftMenu from "../../../components/leftmenu/LeftMenu";
+import LeftMenu from "../../../components/sidebar/sidebar";
 import Footer from "../../../components/footer";
 import Header from "../../../components/header";
 import { useRouter } from "next/router";

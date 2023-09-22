@@ -60,18 +60,18 @@ const Menu: FC<MenuProps> = ({
 
               <button className="menu__btn">
                 <span>Закладки</span>
-                <ReactSVG src="img/sprite/icon-bookmarks.svg" />
+                <ReactSVG src="/img/sprite/icon-bookmarks.svg" />
               </button>
               <button className="menu__btn menu__btn--mobile notifications-btn">
                 <span>Уведомления</span>
-                <ReactSVG src="img/sprite/icon-notifications.svg" />
+                <ReactSVG src="/img/sprite/icon-notifications.svg" />
               </button>
               <button
                 onClick={() => setActive(false)}
                 className="menu__btn menu__btn--mobile menu__close"
               >
                 <span>Закрыть</span>
-                <ReactSVG src="img/sprite/icon-close.svg" />
+                <ReactSVG src="/img/sprite/icon-close.svg" />
               </button>
             </div>
             <div className="c-account menu__account">

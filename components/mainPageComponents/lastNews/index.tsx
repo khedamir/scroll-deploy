@@ -11,7 +11,7 @@ const LastNews = () => {
         <div className="news-card__grid">
           <div className="news-card__grid-left">
             <Link
-              href={`/articles/${news[0].ID}`}
+              href={`/news/1`}
               className="tidings-card tidings-card--lg news-card__grid-card news-card__grid-card--full"
             >
               <div className="tidings-card__wrapper">

@@ -1,14 +1,21 @@
-import React from "react";
-import "./commments.scss";
+import React, { useState, FC } from "react";
+import "./comments.scss";
+import { ReactSVG } from "react-svg";
 
-const Comments = () => {
+interface CommentsProps {
+  otherClassName?: string;
+}
+
+const Comments: FC<CommentsProps> = ({ otherClassName }) => {
+  const [text, setText] = useState("");
+  const [inputActive, setInputActive] = useState(false);
   return (
-    <div className="comments">
+    <div className={`comments ${otherClassName}`}>
       <div className="comments__top">
         <h3 className="comments__heading">5 комментариев</h3>
       </div>
       <div className="comments-new comments__new">
-        <div className="comments-new__wrapper">
+        <div className={`comments-new__wrapper ${inputActive && "is--active"}`}>
           <picture className="comments-new__img">
             <span>М</span>
           </picture>
@@ -16,22 +23,21 @@ const Comments = () => {
             <textarea
               className="comments-new__input comments-new__trigger"
               placeholder="Введите комментарий"
+              value={text}
+              onChange={(e) => setText(e.target.value)}
+              onClick={() => setInputActive(true)}
             ></textarea>
             <div className="comments-new__holder">
               <div className="comments-new__inner">
                 <div className="comments-new__controls">
                   <button className="comments-new__emoji">
-                    <svg>
-                      <use href="img/sprite.svg#icon-emoji"></use>
-                    </svg>
+                    <ReactSVG src="/img/sprite/icon-emoji.svg" />
                   </button>
                 </div>
                 <div className="comments-new__controls">
                   <button className="comments-new__clear">Отмена</button>
-                  <button className="comments-new__enter" disabled>
-                    <svg>
-                      <use href="img/sprite.svg#icon-arrow-next"></use>
-                    </svg>
+                  <button className="comments-new__enter" disabled={!text}>
+                    <ReactSVG src="/img/sprite/icon-arrow-next.svg" />
                   </button>
                 </div>
               </div>
@@ -45,7 +51,7 @@ const Comments = () => {
             <div className="comment-card comments-all__card">
               <div className="comment-card__top">
                 <a href="#" className="comment-card__author">
-                  <img src="img/user.jpg" alt="Image" />
+                  <img src="/img/user.jpg" alt="Image" />
                   <span>Александр Македонский</span>
                 </a>
                 <span className="comment-card__time comment-card__time--desktop">
@@ -63,9 +69,7 @@ const Comments = () => {
               </div>
               <div className="comment-card__bottom">
                 <button className="feedback-btn comment-card__like">
-                  <svg>
-                    <use href="img/sprite.svg#icon-like-thumb-up"></use>
-                  </svg>
+                  <ReactSVG src="/img/sprite/icon-like-thumb-up.svg" />
                   <span>44</span>
                 </button>
                 <span className="comment-card__time comment-card__time--mobile">
@@ -78,7 +82,7 @@ const Comments = () => {
               <div className="comment-card comments-all__card">
                 <div className="comment-card__top">
                   <a href="#" className="comment-card__author">
-                    <img src="img/user.jpg" alt="Image" />
+                    <img src="/img/user.jpg" alt="Image" />
                     <span>Александр Македонский</span>
                   </a>
                   <span className="comment-card__time comment-card__time--desktop">
@@ -96,9 +100,7 @@ const Comments = () => {
                 </div>
                 <div className="comment-card__bottom">
                   <button className="feedback-btn comment-card__like">
-                    <svg>
-                      <use href="img/sprite.svg#icon-like-thumb-up"></use>
-                    </svg>
+                    <ReactSVG src="/img/sprite/icon-like-thumb-up.svg" />
                     <span>44</span>
                   </button>
                   <span className="comment-card__time comment-card__time--mobile">
@@ -110,7 +112,7 @@ const Comments = () => {
               <div className="comment-card comments-all__card">
                 <div className="comment-card__top">
                   <a href="#" className="comment-card__author">
-                    <img src="img/user-02.jpg" alt="Image" />
+                    <img src="/img/user-02.jpg" alt="Image" />
                     <span>Eminem</span>
                   </a>
                   <span className="comment-card__time comment-card__time--desktop">
@@ -128,9 +130,7 @@ const Comments = () => {
                 </div>
                 <div className="comment-card__bottom">
                   <button className="feedback-btn comment-card__like">
-                    <svg>
-                      <use href="img/sprite.svg#icon-like-thumb-up"></use>
-                    </svg>
+                    <ReactSVG src="/img/sprite/icon-like-thumb-up.svg" />
                     <span>44</span>
                   </button>
                   <span className="comment-card__time comment-card__time--mobile">
@@ -142,7 +142,7 @@ const Comments = () => {
               <div className="comment-card comments-all__card">
                 <div className="comment-card__top">
                   <a href="#" className="comment-card__author">
-                    <img src="img/user-01.jpg" alt="Image" />
+                    <img src="/img/user-01.jpg" alt="Image" />
                     <span>Dr. Dre</span>
                   </a>
                   <span className="comment-card__time comment-card__time--desktop">
@@ -160,9 +160,7 @@ const Comments = () => {
                 </div>
                 <div className="comment-card__bottom">
                   <button className="feedback-btn comment-card__like">
-                    <svg>
-                      <use href="img/sprite.svg#icon-like-thumb-up"></use>
-                    </svg>
+                    <ReactSVG src="/img/sprite/icon-like-thumb-up.svg" />
                     <span>44</span>
                   </button>
                   <span className="comment-card__time comment-card__time--mobile">

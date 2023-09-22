@@ -4,7 +4,7 @@ import { ReactSVG } from "react-svg";
 
 const VideoWidget = () => {
   return (
-    <Link href="#" className="video-widget layout__sticky">
+    <Link href="/videos" className="video-widget layout__sticky">
       <div className="video-widget__body">
         <div className="video-widget__inner">
           <span className="video-widget__title">Какие-то видео</span>
@@ -13,7 +13,7 @@ const VideoWidget = () => {
         <span className="video-widget__help">35 новых видео</span>
       </div>
       <picture className="video-widget__img">
-        <img src="img/video-widget-01.jpg" alt="Image" />
+        <img src="/img/video-widget-01.jpg" alt="Image" />
       </picture>
     </Link>
   );
