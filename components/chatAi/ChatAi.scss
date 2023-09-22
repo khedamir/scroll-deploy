@@ -14,22 +14,21 @@
   &.active {
     display: flex;
   }
-}
+  .modal {
+    background-color: #ffbe95;
+    padding: 36px;
+    border-radius: 12px;
 
-.modal {
-  background-color: #ffbe95;
-  padding: 36px;
-  border-radius: 12px;
+    .messages {
+      height: 200px;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 12px 0;
 
-  .messages {
-    height: 200px;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
-    padding: 12px 0;
-
-    .user {
-      text-align: right;
+      .user {
+        text-align: right;
+      }
     }
   }
 }

@@ -14,9 +14,8 @@ const SecondSidebar = () => {
         <ul className="nav-sections__list">
           <li
             className={`nav-sections__item ${
-              (router.pathname === "/videos" ||
-                router.pathname === "/videos/[id]") &&
-              "is--active"
+              router.pathname === "/videos" ||
+              (router.pathname === "/videos/[id]" && "is--active")
             }`}
           >
             <Link href="/videos" className="nav-sections__link">
@@ -25,9 +24,8 @@ const SecondSidebar = () => {
           </li>
           <li
             className={`nav-sections__item ${
-              (router.pathname === "/tranding-videos" ||
-                router.pathname === "/tranding-videos/[id]") &&
-              "is--active"
+              router.pathname === "/tranding-videos" ||
+              (router.pathname === "/tranding-videos/[id]" && "is--active")
             }`}
           >
             <Link href="/tranding-videos" className="nav-sections__link">
@@ -36,9 +34,8 @@ const SecondSidebar = () => {
           </li>
           <li
             className={`nav-sections__item ${
-              (router.pathname === "/lectures" ||
-                router.pathname === "/lectures/[id]") &&
-              "is--active"
+              router.pathname === "/lectures" ||
+              (router.pathname === "/lectures/[id]" && "is--active")
             }`}
           >
             <Link href="/lectures" className="nav-sections__link">
@@ -47,9 +44,8 @@ const SecondSidebar = () => {
           </li>
           <li
             className={`nav-sections__item ${
-              (router.pathname === "/podcasts" ||
-                router.pathname === "/podcasts/[id]") &&
-              "is--active"
+              router.pathname === "/podcasts" ||
+              (router.pathname === "/podcasts/[id]" && "is--active")
             }`}
           >
             <Link href="/podcasts" className="nav-sections__link">
@@ -58,9 +54,8 @@ const SecondSidebar = () => {
           </li>
           <li
             className={`nav-sections__item ${
-              (router.pathname === "/lawyers-club" ||
-                router.pathname === "/lawyers-club/[id]") &&
-              "is--active"
+              router.pathname === "/lawyers-club" ||
+              (router.pathname === "/lawyers-club/[id]" && "is--active")
             }`}
           >
             <Link href="/lawyers-club" className="nav-sections__link">

@@ -1,5 +1,4 @@
 import React, { FC } from "react";
-import "./footer.scss";
 import VCRUIcon from "../../public/img/sprite/icon-vcru.svg";
 import TelegramIcon from "../../public/img/sprite/icon-telegram.svg";
 import VKIcon from "../../public/img/sprite/icon-vk.svg";

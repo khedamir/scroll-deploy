@@ -1,17 +1,17 @@
 import React from "react";
 import { NextPage } from "next";
 import Footer from "../components/footer";
-import NewsList from "../components/mainPageComponents/newsList";
-import PopularVideos from "../components/mainPageComponents/popularVideos";
-import AudioPodcasts from "../components/mainPageComponents/audioPodcasts";
-import VideoWidget from "../components/widgets/video";
-import ContentWidgets from "../components/widgets/content";
-import NewsCard from "../components/mainPageComponents/newsCard";
-import ClubBlock from "../components/mainPageComponents/clubBlock";
-import SectionLayout from "../components/mainPageComponents/sectionLayout";
-import FirstBlock from "../components/mainPageComponents/firstBlock";
+import VideoWidget from "../components/widgets/videoWidget";
 import Sidebar from "../components/sidebar/sidebar";
-import LecturesBlock from "../components/mainPageComponents/lecturesBlock";
+import SectionLayout from "../components/pageHome/sectionLayout";
+import ClubBlock from "../components/pageHome/clubBlock";
+import FirstBlock from "../components/pageHome/firstBlock";
+import LecturesBlock from "../components/pageHome/lecturesBlock";
+import NewsCard from "../components/pageHome/newsCard";
+import PopularVideos from "../components/pageHome/popularVideos";
+import AudioPodcasts from "../components/pageHome/audioPodcasts";
+import NewsList from "../components/pageHome/newsList";
+import ContentWidget from "../components/widgets/contentWidget";
 
 const Index: NextPage = () => {
   return (
@@ -43,7 +43,7 @@ const Index: NextPage = () => {
                   <NewsList name="news" limit={3} largeNewIndex={2} />
                 </>
               }
-              children2={<ContentWidgets />}
+              children2={<ContentWidget />}
             />
             <SectionLayout
               children1={<LecturesBlock />}

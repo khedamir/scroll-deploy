@@ -1,9 +1,9 @@
 import React, { FC, ReactNode, useState } from "react";
 import Menu from "../menu";
 import { useRouter } from "next/router";
-import ThirdyHeader from "../headers/thirdyHeader";
-import SecondHeader from "../headers/secondHeader";
-import Header from "../headers/header";
+import ThirdyHeader from "../header/thirdyHeader";
+import SecondHeader from "../header/secondHeader";
+import Header from "../header/header";
 
 type layoutProps = {
   children: ReactNode;

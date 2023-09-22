@@ -1,5 +1,4 @@
 import React, { useState, FC } from "react";
-import "./comments.scss";
 import { ReactSVG } from "react-svg";
 
 interface CommentsProps {

@@ -1,7 +1,7 @@
 import Link from "next/link";
 import React from "react";
 
-const ContentWidgets = () => {
+const ContentWidget = () => {
   return (
     <div className="content-widget layout__sticky">
       <div className="content-widget__wrapper">
@@ -27,4 +27,4 @@ const ContentWidgets = () => {
   );
 };
 
-export default ContentWidgets;
+export default ContentWidget;

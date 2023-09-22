@@ -3,6 +3,9 @@ import Footer from "../../components/footer";
 import { ReactSVG } from "react-svg";
 import Comments from "../../components/comments";
 import Sidebar from "../../components/sidebar/sidebar";
+import NewWidget from "../../components/widgets/newWidget";
+import MediaControls from "../../components/mediaControls";
+import Link from "next/link";
 
 const New = () => {
   return (
@@ -32,36 +35,12 @@ const New = () => {
                       <div className="media-block">
                         <picture className="media-block__photo">
                           <img src="/img/big-news-img.jpg" alt="Image" />
-                          <a href="#" className="media-block__comments">
+                          <Link href="#" className="media-block__comments">
                             <ReactSVG src="/img/sprite/icon-comment.svg" />
                             <span>5 комментариев</span>
-                          </a>
+                          </Link>
                         </picture>
-                        <div className="media-controls media-block__controls">
-                          <div className="media-controls__wrapper">
-                            <div className="media-controls__group">
-                              <span className="media-controls__viewed">
-                                4 565 просмотров
-                              </span>
-                            </div>
-                            <div className="media-controls__group">
-                              <div className="media-controls__btns">
-                                <button className="btn-control btn-control--blue media-controls__btn">
-                                  <ReactSVG src="/img/sprite/icon-like-thumb-up.svg" />
-                                  <span>44</span>
-                                </button>
-                                <button className="btn-control media-controls__btn">
-                                  <ReactSVG src="/img/sprite/icon-reply.svg" />
-                                  <span>Поделиться</span>
-                                </button>
-                                <button className="btn-control media-controls__btn">
-                                  <ReactSVG src="/img/sprite/icon-bookmarks.svg" />
-                                  <span>В закладки</span>
-                                </button>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
+                        <MediaControls otherClassName="media-block__controls" />
                       </div>
                       <h5>
                         Для чего нужны изделия Neuralink и как они устроены
@@ -73,7 +52,7 @@ const New = () => {
                         технологии помочь многим людям», — заявили в компании,
                         добавив, что набор добровольцев для клинического
                         испытания еще не открыт.
-                        <br></br>
+                        <br/><br/>
                         Как пишет Reutres, с 2019 года Илон Маск несколько раз
                         анонсировал испытания чипов на людях, однако разрешение
                         FDA Neuralink запросила только в начале 2022 года. Тогда
@@ -82,7 +61,7 @@ const New = () => {
                         чипа, возможностью миграции проводов имплантата внутри
                         мозга и проблемой безопасного извлечения устройства без
                         повреждения человеческих тканей.
-                        <br></br>В декабре 2022 года Маск анонсировал, что
+                        <br/><br/>В декабре 2022 года Маск анонсировал, что
                         изучение продукции Neuralink на человеке может начаться
                         уже через полгода.
                       </p>
@@ -105,7 +84,7 @@ const New = () => {
                         технологии помочь многим людям», — заявили в компании,
                         добавив, что набор добровольцев для клинического
                         испытания еще не открыт.
-                        <br></br>
+                        <br/><br/>
                         Как пишет Reutres, с 2019 года Илон Маск несколько раз
                         анонсировал испытания чипов на людях, однако разрешение
                         FDA Neuralink запросила только в начале 2022 года. Тогда
@@ -146,7 +125,7 @@ const New = () => {
                         технологии помочь многим людям», — заявили в компании,
                         добавив, что набор добровольцев для клинического
                         испытания еще не открыт.
-                        <br></br>
+                        <br/><br/>
                         Как пишет Reutres, с 2019 года Илон Маск несколько раз
                         анонсировал испытания чипов на людях, однако разрешение
                         FDA Neuralink запросила только в начале 2022 года. Тогда
@@ -155,7 +134,7 @@ const New = () => {
                         чипа, возможностью миграции проводов имплантата внутри
                         мозга и проблемой безопасного извлечения устройства без
                         повреждения человеческих тканей.
-                        <br></br>В декабре 2022 года Маск анонсировал, что
+                        <br/><br/>В декабре 2022 года Маск анонсировал, что
                         изучение продукции Neuralink на человеке может начаться
                         уже через полгода.
                       </p>
@@ -177,7 +156,7 @@ const New = () => {
                         технологии помочь многим людям», — заявили в компании,
                         добавив, что набор добровольцев для клинического
                         испытания еще не открыт.
-                        <br></br>
+                        <br/><br/>
                         Как пишет Reutres, с 2019 года Илон Маск несколько раз
                         анонсировал испытания чипов на людях, однако разрешение
                         FDA Neuralink запросила только в начале 2022 года. Тогда
@@ -186,7 +165,7 @@ const New = () => {
                         чипа, возможностью миграции проводов имплантата внутри
                         мозга и проблемой безопасного извлечения устройства без
                         повреждения человеческих тканей.
-                        <br></br>В декабре 2022 года Маск анонсировал, что
+                        <br/><br/>В декабре 2022 года Маск анонсировал, что
                         изучение продукции Neuralink на человеке может начаться
                         уже через полгода.
                       </p>
@@ -226,32 +205,7 @@ const New = () => {
                     </article>
                   </div>
                 </div>
-                <div className="layout__sticky-block">
-                  <div className="content-widget layout__sticky">
-                    <div className="content-widget__wrapper">
-                      <div className="content-widget__body">
-                        <span className="content-widget__help">
-                          Консультация юриста
-                        </span>
-                        <h3 className="content-widget__title">
-                          Как получить материнский капитал
-                        </h3>
-                        <picture className="content-widget__img">
-                          <img
-                            src="/img/widget-consultation-01.jpg"
-                            alt="Image"
-                          />
-                        </picture>
-                        <a href="#" className="content-widget__circle-btn">
-                          Записаться
-                        </a>
-                      </div>
-                      <a href="#" className="content-widget__btn btn">
-                        Записаться
-                      </a>
-                    </div>
-                  </div>
-                </div>
+                <NewWidget />
               </div>
             </div>
           </div>

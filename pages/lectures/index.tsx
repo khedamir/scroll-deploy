@@ -1,8 +1,8 @@
 import React from "react";
-import LeftMenu from "../../components/sidebar/sidebar";
 import Footer from "../../components/footer";
 import Link from "next/link";
 import SecondSidebar from "../../components/sidebar/secondSidebar";
+import LectureItem from "../../components/pageLecture/lectureItem";
 
 const LecturesList = [
   {
@@ -64,28 +64,11 @@ const Lectures = () => {
                 <div className="lectures mobile-wide">
                   <div className="lectures__wrapper">
                     {LecturesList.map((lecture) => (
-                      <Link
+                      <LectureItem
                         key={lecture.id}
-                        href={`/lectures/${lecture.id}`}
-                        className="category-card category-card--sm lectures__item"
-                      >
-                        <picture className="category-card__img">
-                          <img src="img/lectures-01.jpg" alt="Image" />
-                        </picture>
-                        <div className="category-card__body">
-                          <span className="category-card__name">
-                            {lecture.name}
-                          </span>
-                          <div className="category-card__inner">
-                            <span className="category-card__author">
-                              {lecture.author}
-                            </span>
-                            <span className="category-card__help">
-                              {lecture.date}
-                            </span>
-                          </div>
-                        </div>
-                      </Link>
+                        lecture={lecture}
+                        otherClassName="lectures__item"
+                      />
                     ))}
                   </div>
                 </div>

@@ -1,5 +1,4 @@
 import React, { FC, useState } from "react";
-import "./header.scss";
 
 import SearchIcon from "../../public/img/sprite/icon-search.svg";
 import BookmarksIcon from "../../public/img/sprite/icon-bookmarks.svg";

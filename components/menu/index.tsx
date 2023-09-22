@@ -1,5 +1,4 @@
 import React, { FC } from "react";
-import "./menu.scss";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { useGetLeftMenuValues } from "../../hooks/useGetLeftMenuValues";
 import Link from "next/link";

@@ -1,8 +1,33 @@
 import React from "react";
 import Footer from "../../components/footer";
 import { ReactSVG } from "react-svg";
-import Link from "next/link";
 import SecondSidebar from "../../components/sidebar/secondSidebar";
+import PodcastItem from "../../components/pagePodcasts/podcastItem";
+import PodcastCard from "../../components/podcastCard";
+
+const PodcastsList = [
+  {
+    id: 1,
+    name: "Мойдодыр и нейросеть",
+    description:
+      "В этом выпуске мы обсудили реакцию мозга на стрессовые ситуации; как управлять своимсостоянием.",
+    author: "Александр Македонский",
+  },
+  {
+    id: 2,
+    name: "Мойдодыр и нейросеть",
+    description:
+      "В этом выпуске мы обсудили реакцию мозга на стрессовые ситуации; как управлять своимсостоянием.",
+    author: "Александр Македонский",
+  },
+  {
+    id: 3,
+    name: "Мойдодыр и нейросеть",
+    description:
+      "В этом выпуске мы обсудили реакцию мозга на стрессовые ситуации; как управлять своимсостоянием.",
+    author: "Александр Македонский",
+  },
+];
 
 const Podcast = () => {
   return (
@@ -63,46 +88,13 @@ const Podcast = () => {
                       <span className="podcast__help">12 выпусков</span>
                       <div className="podcasts podcast__podcasts">
                         <div className="podcasts__wrapper">
-                          <div className="podcasts__item">
-                            <div className="podcasts__main">
-                              <div className="podcasts__body">
-                                <span className="podcasts__help">2 выпуск</span>
-                                <Link
-                                  href="podcast.html"
-                                  className="podcasts__name mt8"
-                                >
-                                  Мойдодыр и нейросеть
-                                </Link>
-                                <span className="podcasts__description mt8">
-                                  В этом выпуске мы обсудили реакцию мозга на
-                                  стрессовые ситуации; как управлять своим
-                                  состоянием.
-                                </span>
-                              </div>
-                              <div className="podcasts__additional">
-                                <Link
-                                  href="#"
-                                  className="podcasts__play c-play"
-                                >
-                                  <ReactSVG
-                                    className="c-bookmark__icon c-bookmark__icon--filled"
-                                    src="/img/sprite/icon-play.svg"
-                                  />
-                                  <span>1 ч 20 мин</span>
-                                </Link>
-                                <button className="podcasts__favorites c-bookmark">
-                                  <ReactSVG
-                                    className="c-bookmark__icon c-bookmark__icon--default"
-                                    src="/img/sprite/icon-play.svg"
-                                  />
-                                  <ReactSVG
-                                    className="c-bookmark__icon c-bookmark__icon--filled"
-                                    src="/img/sprite/icon-play.svg"
-                                  />
-                                </button>
-                              </div>
-                            </div>
-                          </div>
+                          {PodcastsList.map((podcast) => (
+                            <PodcastItem
+                              key={podcast.id}
+                              podcast={podcast}
+                              maxVersion={false}
+                            />
+                          ))}
                         </div>
                       </div>
                     </div>
@@ -112,45 +104,9 @@ const Podcast = () => {
               <div className="layout__right">
                 <div className="content-card">
                   <div className="content-card__wrapper">
-                    <a href="#" className="content-card__item">
-                      <picture className="content-card__img">
-                        <img src="/img/audio-content-card-01.jpg" alt="Image" />
-                      </picture>
-                      <div className="content-card__body">
-                        <h3 className="content-card__title">
-                          Люди не готовы к ошибкам нейросетей
-                        </h3>
-                        <span className="content-card__help">
-                          Александр Македонский
-                        </span>
-                      </div>
-                    </a>
-                    <a href="#" className="content-card__item">
-                      <picture className="content-card__img content-card__img--circle">
-                        <img src="/img/audio-content-card-02.jpg" alt="Image" />
-                      </picture>
-                      <div className="content-card__body">
-                        <h3 className="content-card__title">
-                          Люди не готовы к ошибкам нейросетей
-                        </h3>
-                        <span className="content-card__help">
-                          Александр Македонский
-                        </span>
-                      </div>
-                    </a>
-                    <a href="#" className="content-card__item">
-                      <picture className="content-card__img">
-                        <img src="/img/audio-content-card-03.jpg" alt="Image" />
-                      </picture>
-                      <div className="content-card__body">
-                        <h3 className="content-card__title">
-                          Люди не готовы к ошибкам нейросетей
-                        </h3>
-                        <span className="content-card__help">
-                          Александр Македонский
-                        </span>
-                      </div>
-                    </a>
+                    {PodcastsList.map((podcast) => (
+                      <PodcastCard key={podcast.id} podcast={podcast} />
+                    ))}
                   </div>
                 </div>
               </div>
