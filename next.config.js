@@ -19,4 +19,7 @@ module.exports = {
     unoptimized: true,
   },
   reactStrictMode: false,
+  publicRuntimeConfig: {
+    API_HOST: process.env.API_HOST,
+  },
 };

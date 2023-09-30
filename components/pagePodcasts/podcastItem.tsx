@@ -16,14 +16,14 @@ const PodcastItem: FC<PodcastItemProps> = ({ podcast, maxVersion = true }) => {
   return (
     <div key={podcast.id} className="podcasts__item">
       {maxVersion && (
-        <Link href={`podcasts/${podcast.id}`} className="podcasts__img">
+        <Link href={`/podcasts/${podcast.id}`} className="podcasts__img">
           <img src="/img/podcasts-01.jpg" alt="Image" />
         </Link>
       )}
       <div className="podcasts__main">
         <div className="podcasts__body">
           <span className="podcasts__help">2 выпуск</span>
-          <Link href={`podcasts/${podcast.id}`} className="podcasts__name mt8">
+          <Link href={`/podcasts/${podcast.id}`} className="podcasts__name mt8">
             {podcast.name}
           </Link>
           <span className="podcasts__description mt8">
@@ -31,10 +31,10 @@ const PodcastItem: FC<PodcastItemProps> = ({ podcast, maxVersion = true }) => {
           </span>
           {maxVersion && (
             <div className="podcasts__inner">
-              <Link href={`podcasts/${podcast.id}`} className="podcasts__text">
+              <Link href={`/podcasts/${podcast.id}`} className="podcasts__text">
                 Название подкаста
               </Link>
-              <Link href={`podcasts/${podcast.id}`} className="podcasts__text">
+              <Link href={`/podcasts/${podcast.id}`} className="podcasts__text">
                 {podcast.author}
               </Link>
             </div>

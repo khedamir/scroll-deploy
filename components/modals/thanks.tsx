@@ -1,12 +1,19 @@
 import React, { FC } from "react";
 import { ReactSVG } from "react-svg";
 
-interface WebinarThanksProps {
+interface ThanksModalProps {
   active: boolean;
   setActive: (v: boolean) => void;
+  title: string;
+  description: string;
 }
 
-const WebinarThanks: FC<WebinarThanksProps> = ({ active, setActive }) => {
+const ThanksModal: FC<ThanksModalProps> = ({
+  active,
+  setActive,
+  title,
+  description,
+}) => {
   return (
     <div
       className={`modal ${active && "is--active"}`}
@@ -14,7 +21,10 @@ const WebinarThanks: FC<WebinarThanksProps> = ({ active, setActive }) => {
     >
       <div className="modal__wrap">
         <div className="modal__wrapper">
-          <button className="modal__close-btn modal__close-btn--mobile">
+          <button
+            onClick={() => setActive(false)}
+            className="modal__close-btn modal__close-btn--mobile"
+          >
             <ReactSVG src="/img/sprite/icon-close-thin.svg" />
           </button>
           <div className="modal__left modal__left--bg"></div>
@@ -26,12 +36,8 @@ const WebinarThanks: FC<WebinarThanksProps> = ({ active, setActive }) => {
               <ReactSVG src="/img/sprite/icon-close-thin.svg" />
             </button>
             <div className="modal__body">
-              <h3 className="modal__heading">
-                Благодарим за запись на вебинар!
-              </h3>
-              <p className="modal__description">
-                Мы отправили вам на почту всю необходимую информацию.
-              </p>
+              <h3 className="modal__heading">{title}</h3>
+              <p className="modal__description">{description}</p>
             </div>
           </div>
         </div>
@@ -40,4 +46,4 @@ const WebinarThanks: FC<WebinarThanksProps> = ({ active, setActive }) => {
   );
 };
 
-export default WebinarThanks;
+export default ThanksModal;

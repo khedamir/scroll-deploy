@@ -1,25 +1,16 @@
-import React, { FC, useState } from "react";
+import React, { FC } from "react";
 
 import SearchIcon from "../../public/img/sprite/icon-search.svg";
 import BookmarksIcon from "../../public/img/sprite/icon-bookmarks.svg";
 import NotificationIcon from "../../public/img/sprite/icon-notifications.svg";
 
-import ChatAi from "../chatAi";
 import Link from "next/link";
+import { useModalsContext } from "../../context/ModalsContext";
+import Hamburger from "../hamburger";
 
-interface HeaderProps {
-  chatAiActive: boolean;
-  setChatAiActive: (v: boolean) => void;
-  menuActive: boolean;
-  setMenuActive: (v: boolean) => void;
-}
+const Header = () => {
+  const { setAiChatActive, menuActive } = useModalsContext();
 
-const Header: FC<HeaderProps> = ({
-  menuActive,
-  setMenuActive,
-  chatAiActive,
-  setChatAiActive,
-}) => {
   return (
     <header className={`header ${menuActive && "is--active"}`} id="header">
       <div className="container">
@@ -39,11 +30,13 @@ const Header: FC<HeaderProps> = ({
                 />
               </div>
             </div>
-            <ChatAi
-              buttonClasses="header__ai"
-              active={chatAiActive}
-              setActive={setChatAiActive}
-            />
+            <button
+              onClick={() => setAiChatActive(true)}
+              className="ai-btn header__ai"
+            >
+              <span>Спросить у ИИ</span>
+              <img src="/img/ai-img.png" alt="AI" />
+            </button>
           </div>
           <div className="header__right">
             <div className="header__controls header__controls--first">
@@ -64,16 +57,7 @@ const Header: FC<HeaderProps> = ({
               <Link href="#" className="header__btn">
                 <span>Войти</span>
               </Link>
-              <div
-                className={`hamburger ${menuActive && "is--active"}`}
-                id="hamburger-toggle"
-                aria-label="Меню"
-                onClick={() => setMenuActive(!menuActive)}
-              >
-                <span className="hamburger__inner"></span>
-                <span className="hamburger__inner"></span>
-                <span className="hamburger__inner"></span>
-              </div>
+              <Hamburger />
             </div>
           </div>
         </div>

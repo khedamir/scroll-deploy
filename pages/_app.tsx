@@ -3,18 +3,23 @@ import "../styles/vendor.scss";
 import "../styles/app.scss";
 import { AppProps } from "next/app";
 import { Provider } from "react-redux";
-import { store } from "../store/store";
-import Head from "next/head";
+// import { store } from "../store/store";
+
 import Layout from "../components/layout";
+import { ModalsContextProvider } from "../context/ModalsContext";
+import { wrapper } from "../redux/store";
 
 type PageProps = AppProps;
 
-const MyApp: React.FC<PageProps> = ({ Component, pageProps }) => {
+const MyApp: React.FC<PageProps> = ({ Component, ...rest }) => {
+  const { store } = wrapper.useWrappedStore(rest);
   return (
     <Provider store={store}>
-      <Layout>
-        <Component {...pageProps} />
-      </Layout>
+      <ModalsContextProvider>
+        <Layout>
+          <Component {...rest.pageProps} />
+        </Layout>
+      </ModalsContextProvider>
     </Provider>
   );
 };

@@ -1,0 +1,375 @@
+.ai-chat {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 1100;
+  transform: translate3d(0, 0, 0);
+  overflow-x: hidden;
+  overflow-y: auto;
+  width: 100%;
+  height: 100%;
+  max-height: 100dvh;
+  background: rgba($back-complement-2-on-light-shift-down, 0.6);
+  backdrop-filter: blur(12px);
+  visibility: hidden;
+  opacity: 0;
+  pointer-events: none;
+  transition: all $transition-fast;
+  &.is--active {
+    visibility: visible;
+    opacity: 1;
+    pointer-events: all;
+    .ai-chat {
+      &__wrap {
+        transform: scale(1) translate(0, 0);
+        opacity: 1;
+      }
+    }
+  }
+  &__wrap {
+    position: relative;
+    z-index: 2;
+    transform: scale(0.9) translate(0, 10%);
+    transform-origin: center top;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 20px auto;
+    padding: 0 20px;
+    min-height: calc(100dvh - 40px);
+    max-width: 838px;
+    width: 100%;
+    opacity: 0;
+    transition: all $transition-fast;
+
+    @media screen and (max-width: 1023px) {
+      margin: 0;
+      padding: 0;
+      max-width: none;
+      max-height: 100dvh;
+      min-height: 100dvh;
+    }
+  }
+  &__wrapper {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    height: 100%;
+    color: $text-base-on-dark-shift-up;
+    background: $fancy-complement-on-light;
+    border-radius: 15px;
+
+    @media screen and (max-width: 1023px) {
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      overflow: hidden;
+      height: 100dvh;
+      border-radius: 0;
+    }
+  }
+  &__close {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    min-width: 60px;
+    width: 60px;
+    height: 60px;
+    background: $root-base-on-dark;
+    border: none;
+    border-radius: 50%;
+    transition: all $transition-default;
+    & svg {
+      min-width: 24px;
+      width: 24px;
+      height: 24px;
+      color: $root-complement-on-light;
+    }
+    &:focus {
+      outline: none;
+    }
+
+    @media screen and (max-width: 1023px) {
+      right: 10px;
+    }
+  }
+  &__assistant {
+    position: absolute;
+    top: -36px;
+    left: -120px;
+    z-index: 10;
+
+    @media screen and (min-width: 768px) and (max-width: 1023px) {
+      top: -12px;
+      left: -12px;
+    }
+    @media screen and (max-width: 767px) {
+      top: -6px;
+      left: -6px;
+    }
+  }
+  &__main {
+    position: relative;
+    z-index: 1;
+    margin-right: -30px;
+    padding: 48px 60px 60px;
+    overflow-x: hidden;
+    overflow-y: auto;
+    max-height: calc(100dvh - 40px - 18px - 72px);
+    height: 600px;
+    border-radius: 15px 15px 0 0;
+    clip-path: inset(0 30px 0 0);
+
+    @media screen and (max-width: 1023px) {
+      padding: 48px 42px 60px 12px;
+      max-height: calc(100dvh - 18px - 72px);
+    }
+  }
+  &__item {
+    display: block;
+    margin-left: auto;
+    padding: 16px 24px;
+    max-width: 355px;
+    width: fit-content;
+    border: 1px solid rgba($line-complement-on-light-shift-up, 0.85);
+    border-radius: 20px 20px 0 20px;
+    transition: all $transition-default;
+
+    &.is--open {
+      max-width: 484px;
+
+      @media screen and (max-width: 1023px) {
+        max-width: 384px;
+      }
+    }
+  }
+  &__item + &__item {
+    margin-top: 7px;
+  }
+  &__trigger {
+    width: 100%;
+    display: block;
+    padding: 0;
+    font-size: 16px;
+    font-weight: 500;
+    text-align: left;
+    color: $text-base-on-dark-shift-up;
+    background: transparent;
+    border: none;
+    border-radius: 0;
+  }
+  &__dropdown {
+    width: 100%;
+    max-height: 0;
+    max-width: 0;
+    overflow: hidden;
+    transition: max-width 0.5s ease-in-out, max-height $transition-default;
+
+    &.is--open {
+      transition: max-height $transition-default;
+      max-height: 400px;
+      max-width: 484px;
+
+      @media screen and (max-width: 1023px) {
+        max-width: 384px;
+      }
+    }
+  }
+  &__content {
+    min-width: 436px;
+
+    @media screen and (max-width: 1023px) {
+      min-width: 336px;
+    }
+
+    padding-top: 16px;
+    font-size: 16px;
+    font-weight: normal;
+    color: $text-base-on-dark-shift-up;
+
+    ul:not([class]) {
+      display: block;
+      li {
+        position: relative;
+        margin: 0;
+        padding-left: 14px;
+        &::before {
+          content: "";
+          position: absolute;
+          top: 7.5px;
+          left: 0;
+          display: block;
+          min-width: 4px;
+          width: 4px;
+          height: 4px;
+          background: $text-base-on-dark-shift-up;
+          border-radius: 50%;
+        }
+      }
+      li + li {
+        margin-top: 2px;
+      }
+    }
+  }
+  &__bottom {
+    position: relative;
+    z-index: 2;
+    padding: 0 30px 18px;
+    border-radius: 0 0 15px 15px;
+    &::before {
+      content: "";
+      position: absolute;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      z-index: -1;
+      display: block;
+      width: 100%;
+      height: 256px;
+      background: $fancy-ai;
+      border-radius: 0 0 15px 15px;
+      pointer-events: none;
+      transition: opacity $transition-default;
+    }
+
+    @media screen and (max-width: 1023px) {
+      padding: 0 24px 18px;
+    }
+  }
+}
+
+.ai-chat-assistant {
+  &__img {
+    display: block;
+    max-width: 304px;
+    min-width: 304px;
+    width: 100%;
+    img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+
+    @media screen and (min-width: 768px) and (max-width: 1023px) {
+      max-width: 211px;
+      min-width: 211px;
+    }
+    @media screen and (max-width: 767px) {
+      max-width: 107px;
+      min-width: 107px;
+    }
+  }
+  &__dropdown {
+    position: absolute;
+    bottom: -20px;
+    right: -19px;
+    z-index: 1;
+    transform: rotate(-6.226deg);
+    padding: 14px 21px;
+    color: $root-base-on-light;
+    background: $root-base-on-dark-shift-up;
+    border-radius: 20px;
+    &::before {
+      content: "";
+      position: absolute;
+      top: -11px;
+      left: 21px;
+      z-index: -1;
+      transform: rotate(6.226deg);
+      display: block;
+      width: 29px;
+      height: 29px;
+      background-image: url(/img/sprite/icon-dropdown-triangle.svg);
+      background-repeat: no-repeat;
+      background-size: contain;
+      background-position: center center;
+    }
+
+    @media screen and (min-width: 768px) and (max-width: 1023px) {
+      right: -47px;
+      bottom: -27px;
+    }
+    @media screen and (max-width: 767px) {
+      bottom: -49px;
+      right: -74px;
+    }
+  }
+  &__message {
+    display: block;
+    font-family: $secondary-font-family;
+    font-size: 16px;
+    font-weight: normal;
+    text-align: left;
+  }
+}
+
+.ai-chat-field {
+  &__label {
+    display: block;
+    margin: 0 0 12px 0;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 1.28572;
+    color: $text-base-on-dark-shift-up;
+  }
+  &__inner {
+    position: relative;
+    width: 100%;
+  }
+  &__input {
+    appearance: none;
+    display: block;
+    padding: 11px 18px;
+    width: 100%;
+    font-size: 16px;
+    font-weight: 500;
+    color: $text-base-on-light;
+    background: $root-complement-on-light-shift-up;
+    border: none;
+    border-radius: 8px;
+    transition: all $transition-default;
+    &::placeholder {
+      opacity: 0.3;
+      color: $text-base-on-light;
+    }
+    &:focus {
+      outline: none;
+    }
+  }
+  &__btn {
+    position: absolute;
+    top: 50%;
+    right: 8px;
+    z-index: 10;
+    transform: translate(0, -50%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    min-width: 28px;
+    width: 28px;
+    height: 28px;
+    font-size: 0;
+    background: $root-base-on-dark-shift-up;
+    border: none;
+    border-radius: 50%;
+    transition: all $transition-default;
+    & svg {
+      min-width: 10px;
+      width: 10px;
+      height: 10px;
+      color: $icon-faint-on-light-shift-up;
+    }
+    &:focus {
+      outline: none;
+    }
+  }
+}

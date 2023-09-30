@@ -4,18 +4,14 @@ import { useRouter } from "next/router";
 import ThirdyHeader from "../header/thirdyHeader";
 import SecondHeader from "../header/secondHeader";
 import Header from "../header/header";
+import ChatAi from "../aiChat";
 
 type layoutProps = {
   children: ReactNode;
 };
 
 const Layout: FC<layoutProps> = ({ children }) => {
-  const [menuActive, setMenuActive] = useState(false);
-  const [chatAiActive, setChatAiActive] = useState(false);
-
   const router = useRouter();
-
-  console.log(router.pathname);
 
   let headerComponent;
   if (router.pathname === "/webinar/[id]") {
@@ -28,29 +24,16 @@ const Layout: FC<layoutProps> = ({ children }) => {
     router.pathname === "/podcasts" ||
     router.pathname === "/lawyers-club"
   ) {
-    headerComponent = (
-      <SecondHeader menuActive={menuActive} setMenuActive={setMenuActive} />
-    );
+    headerComponent = <SecondHeader />;
   } else {
-    headerComponent = (
-      <Header
-        chatAiActive={chatAiActive}
-        setChatAiActive={setChatAiActive}
-        menuActive={menuActive}
-        setMenuActive={setMenuActive}
-      />
-    );
+    headerComponent = <Header />;
   }
 
   return (
     <div>
+      <ChatAi />
       {headerComponent}
-      <Menu
-        chatAiActive={chatAiActive}
-        setChatAiActive={setChatAiActive}
-        active={menuActive}
-        setActive={setMenuActive}
-      />
+      <Menu />
       {children}
     </div>
   );

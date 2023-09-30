@@ -205,10 +205,6 @@
       }
     }
 
-    &:not(:last-child) {
-      margin-right: 22px;
-    }
-
     @media screen and (hover: hover) {
       &:hover {
         color: $root-base-on-light-shift-up;
@@ -246,6 +242,9 @@
         display: none;
       }
     }
+  }
+  &__btn + &__btn {
+    margin-left: 22px;
   }
   &__user {
     @media screen and (min-width: 768px) and (max-width: 1199px) {

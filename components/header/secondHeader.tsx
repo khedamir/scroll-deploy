@@ -1,15 +1,17 @@
 import Link from "next/link";
-import React, { FC } from "react";
-import { ReactSVG } from "react-svg";
+import React from "react";
+import { useModalsContext } from "../../context/ModalsContext";
+import Hamburger from "../hamburger";
 
-interface HeaderProps {
-  menuActive: boolean;
-  setMenuActive: (v: boolean) => void;
-}
+import SearchIcon from "../../public/img/sprite/icon-search.svg";
+import BookmarksIcon from "../../public/img/sprite/icon-bookmarks.svg";
+import NotificationIcon from "../../public/img/sprite/icon-notifications.svg";
 
-const SecondHeader: FC<HeaderProps> = () => {
+const SecondHeader = () => {
+  const { menuActive } = useModalsContext();
+
   return (
-    <header className="header" id="header">
+    <header className={`header ${menuActive && "is--active"}`} id="header">
       <div className="container">
         <div className="header__wrapper">
           <div className="header__left">
@@ -24,28 +26,20 @@ const SecondHeader: FC<HeaderProps> = () => {
                 href="#"
                 className="header__btn header__btn--mobile search-btn"
               >
-                <ReactSVG src="/img/sprite/icon-search.svg" />
+                <SearchIcon />
               </Link>
               <Link href="#" className="header__btn header__btn--tablet-hidden">
-                <ReactSVG src="/img/sprite/icon-bookmarks.svg" />
+                <BookmarksIcon />
               </Link>
               <Link href="#" className="header__btn notifications-btn">
-                <ReactSVG src="/img/sprite/icon-notifications.svg" />
+                <NotificationIcon />
               </Link>
             </div>
             <div className="header__controls header__controls--second">
               <Link href="#" className="header__btn">
                 <span>Войти</span>
               </Link>
-              <div
-                className="hamburger"
-                id="hamburger-toggle"
-                aria-label="Меню"
-              >
-                <span className="hamburger__inner"></span>
-                <span className="hamburger__inner"></span>
-                <span className="hamburger__inner"></span>
-              </div>
+              <Hamburger />
             </div>
           </div>
         </div>

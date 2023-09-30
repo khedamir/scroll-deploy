@@ -301,7 +301,9 @@
   border: none;
   border-radius: 0;
   transition: all $transition-default;
-  & > svg {
+  position: relative;
+  z-index: 1;
+  & svg {
     min-width: 56px;
     width: 56px;
     height: 56px;
@@ -313,7 +315,7 @@
 
   @media screen and (hover: hover) {
     &:hover {
-      & > svg {
+      & svg {
         color: $text-accent-on-light-shift-up;
       }
     }

@@ -1,5 +1,5 @@
 import React, { FormEvent, useRef, useState } from "react";
-import WebinarThanks from "../modals/webinarThanks";
+import ThanksModal from "../modals/thanks";
 
 const RegisterBlock = () => {
   const [modalActive, setModalActive] = useState(false);
@@ -26,7 +26,12 @@ const RegisterBlock = () => {
           </form>
         </div>
       </div>
-      <WebinarThanks active={modalActive} setActive={setModalActive} />
+      <ThanksModal
+        active={modalActive}
+        setActive={setModalActive}
+        title="Благодарим за запись на вебинар!"
+        description="Мы отправили вам на почту всю необходимую информацию."
+      />
     </>
   );
 };

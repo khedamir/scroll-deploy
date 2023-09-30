@@ -12,6 +12,8 @@ import PopularVideos from "../components/pageHome/popularVideos";
 import AudioPodcasts from "../components/pageHome/audioPodcasts";
 import NewsList from "../components/pageHome/newsList";
 import ContentWidget from "../components/widgets/contentWidget";
+import { wrapper } from "../redux/store";
+import { fetchRubrics } from "../redux/rubrics/asyncAction";
 
 const Index: NextPage = () => {
   return (
@@ -59,5 +61,14 @@ const Index: NextPage = () => {
     </div>
   );
 };
+
+export const getServerSideProps = wrapper.getServerSideProps(
+  (store) => async () => {
+    await store.dispatch(fetchRubrics());
+    return {
+      props: {},
+    };
+  }
+);
 
 export default Index;

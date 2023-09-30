@@ -223,7 +223,7 @@
   color: $text-base-on-light;
   background: $root-base-on-dark-shift-down;
   border-radius: 60px;
-  & > svg {
+  & svg {
     min-width: 32px;
     width: 32px;
     height: 32px;
@@ -237,7 +237,7 @@
     &:hover {
       color: $white-color;
       background: $root-accent-on-light-shift-up;
-      & > svg {
+      & svg {
         color: $icon-accent-on-light;
       }
     }

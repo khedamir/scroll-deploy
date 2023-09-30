@@ -5,17 +5,21 @@ import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import Link from "next/link";
 import { setNameRubric } from "../../store/slices/leftMenuSlice";
 import { ReactSVG } from "react-svg";
+import { selectRubrics } from "../../redux/rubrics/slice";
+import { useSelector } from "react-redux";
 
 const Sidebar = () => {
-  const { values } = useAppSelector((state) => state.leftMenuReducer);
+  // const { values } = useAppSelector((state) => state.leftMenuReducer);
+  // useGetLeftMenuValues();
   const dispatch = useAppDispatch();
-  useGetLeftMenuValues();
+
+  const { rubrics } = useSelector(selectRubrics);
   const [itemsVisible, setItemsVisible] = useState(false);
 
   return (
     <nav className="nav layout__nav">
       <ul className={`nav__list ${itemsVisible && "is--open"}`}>
-        {values.map(
+        {rubrics.map(
           (value) =>
             (value.SHOW_IN_MAIN_MENU || itemsVisible) && (
               <li
@@ -23,10 +27,7 @@ const Sidebar = () => {
                 key={value.ID}
                 className="nav__item"
               >
-                <Link
-                  href={`/rubrics/${value.ID}`}
-                  className="nav__link"
-                >
+                <Link href={`/rubrics/${value.ID}`} className="nav__link">
                   <img src={`${server}${value.THEME_ICON_PATH}`} />
                   <span>{value.NAME}</span>
                 </Link>

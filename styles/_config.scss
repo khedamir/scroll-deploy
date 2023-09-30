@@ -1,5 +1,6 @@
 // variables
 $primary-font-family: "Inter", sans-serif; // body font-family
+$secondary-font-family: "Russo One", sans-serif;
 $primary-font-size: 16px; // body font-size
 $primary-line-height: 1.25; // body line-height
 
@@ -36,6 +37,7 @@ $root-critic-on-light: #fe687a;
 $back-base-on-light: #eeeeee;
 $back-accent-on-light: #262321;
 $back-complement-on-dark: #6d60d5;
+$back-complement-2-on-light-shift-down: #262321;
 $back-accent-on-light-blue: #336eff;
 
 $fancy-complement-on-dark: linear-gradient(180deg, #9389e0 0%, #5247a9 100%);
@@ -50,6 +52,17 @@ $fancy-accent: linear-gradient(
   #4649a6 46.88%,
   #4546a0 53.65%,
   #3e2e75 100%
+);
+$fancy-complement-on-light: linear-gradient(
+  66deg,
+  #fa8633 24.12%,
+  #e8712b 79.86%
+);
+$fancy-ai: linear-gradient(
+  0deg,
+  #e56d29 18.38%,
+  rgba(229, 109, 41, 0.91) 37.75%,
+  rgba(229, 109, 41, 0) 100%
 );
 
 $text-faint-on-light: #8f9093;
@@ -104,6 +117,7 @@ $line-faint-on-light-shift-up: #e4e5e8;
 $line-faint-on-light-shift-down: #d8d8d8;
 $line-accent-on-light: #336eff;
 $line-accent-on-light-shift-up: #7099ff;
+$line-complement-on-light-shift-up: #fea179;
 
 $container-width: 1384px;
 $container-padding: 20px;
