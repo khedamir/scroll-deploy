@@ -8,6 +8,8 @@ import AudioPodcasts from "../../components/pageHome/audioPodcasts";
 import PopularVideos from "../../components/pageHome/popularVideos";
 import SectionLayout from "../../components/pageHome/sectionLayout";
 import LecturesBlock from "../../components/pageHome/lecturesBlock";
+import { fetchRubrics } from "../../redux/rubrics/asyncAction";
+import { wrapper } from "../../redux/store";
 
 const data = {
   recomendations: [
@@ -138,5 +140,14 @@ const Rubrics = () => {
     </div>
   );
 };
+
+export const getServerSideProps = wrapper.getServerSideProps(
+  (store) => async () => {
+    await store.dispatch(fetchRubrics());
+    return {
+      props: {},
+    };
+  }
+);
 
 export default Rubrics;
