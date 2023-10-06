@@ -18,7 +18,7 @@ const NewsList: FC<NewsListProps> = ({ name, limit, largeNewIndex }) => {
         <div className="news-card__wrapper">
           {news.map((item, id) => (
             <Link
-              href={`/events/${item.ID}`}
+              href={`/news/${item.ID}`}
               key={item.ID}
               className="news-card__item"
             >

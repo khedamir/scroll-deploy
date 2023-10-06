@@ -7,11 +7,13 @@ import { setNameRubric } from "../../store/slices/leftMenuSlice";
 import { ReactSVG } from "react-svg";
 import { selectRubrics } from "../../redux/rubrics/slice";
 import { useSelector } from "react-redux";
+import { useRouter } from "next/router";
 
 const Sidebar = () => {
   // const { values } = useAppSelector((state) => state.leftMenuReducer);
   // useGetLeftMenuValues();
   const dispatch = useAppDispatch();
+  const router = useRouter();
 
   const { rubrics } = useSelector(selectRubrics);
   const [itemsVisible, setItemsVisible] = useState(false);
@@ -25,7 +27,9 @@ const Sidebar = () => {
               <li
                 onClick={() => dispatch(setNameRubric(value.NAME))}
                 key={value.ID}
-                className="nav__item"
+                className={`nav__item ${
+                  router.query.id === value.ID && "is--active"
+                }`}
               >
                 <Link href={`/rubrics/${value.ID}`} className="nav__link">
                   <img src={`${server}${value.THEME_ICON_PATH}`} />

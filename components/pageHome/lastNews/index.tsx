@@ -11,7 +11,7 @@ const LastNews = () => {
         <div className="news-card__grid">
           <div className="news-card__grid-left">
             <Link
-              href={`/news/1`}
+              href={`/news/${news[0].ID}`}
               className="tidings-card tidings-card--lg news-card__grid-card news-card__grid-card--full"
             >
               <div className="tidings-card__wrapper">
@@ -32,7 +32,7 @@ const LastNews = () => {
           </div>
           <div className="news-card__grid-right">
             <Link
-              href={`/articles/${news[1].ID}`}
+              href={`/news/${news[1].ID}`}
               className="tidings-card news-card__grid-card"
             >
               <div className="tidings-card__wrapper">
@@ -51,7 +51,7 @@ const LastNews = () => {
               </div>
             </Link>
             <Link
-              href={`/articles/${news[2].ID}`}
+              href={`/news/${news[2].ID}`}
               className="tidings-card news-card__grid-card"
             >
               <div className="tidings-card__wrapper">

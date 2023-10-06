@@ -25,21 +25,21 @@ const Menu = () => {
           <div className="menu__block">
             <nav className="nav menu__nav">
               <ul className="nav__list">
-                {/* {rubrics.map((value) => (
+                {rubrics.map((value) => (
                   <li
                     onClick={() => dispatch(setNameRubric(value.NAME))}
                     key={value.ID}
                     className="nav__item"
                   >
                     <Link
-                      href={`/rubrics/${value.CODE}/${value.ID}`}
+                      href={`/rubrics/${value.ID}`}
                       className="nav__link"
                     >
                       <img src={`${server}${value.THEME_ICON_PATH}`} />
                       <span>{value.NAME}</span>
                     </Link>
                   </li>
-                ))} */}
+                ))}
               </ul>
             </nav>
           </div>
