@@ -1,10 +1,10 @@
 import React, { useState } from "react";
-import { server } from "../../utils/serverUrl";
 import Link from "next/link";
 import { ReactSVG } from "react-svg";
 import { selectRubrics } from "../../redux/rubrics/slice";
 import { useSelector } from "react-redux";
 import { useRouter } from "next/router";
+import { baseURL } from "../../utils/server";
 
 const Sidebar = () => {
   const router = useRouter();
@@ -25,7 +25,7 @@ const Sidebar = () => {
                 }`}
               >
                 <Link href={`/rubrics/${value.ID}`} className="nav__link">
-                  <img src={`${server}${value.THEME_ICON_PATH}`} />
+                  <img src={`${baseURL}${value.THEME_ICON_PATH}`} />
                   <span>{value.NAME}</span>
                 </Link>
               </li>

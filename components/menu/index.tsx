@@ -1,11 +1,11 @@
 import React, { FC } from "react";
 import Link from "next/link";
-import { server } from "../../utils/serverUrl";
 import Footer from "../footer";
 import { ReactSVG } from "react-svg";
 import { useModalsContext } from "../../context/ModalsContext";
 import { useSelector } from "react-redux";
 import { selectRubrics } from "../../redux/rubrics/slice";
+import { baseURL } from "../../utils/server";
 
 const Menu = () => {
   const { rubrics } = useSelector(selectRubrics);
@@ -26,7 +26,7 @@ const Menu = () => {
                     className="nav__item"
                   >
                     <Link href={`/rubrics/${value.ID}`} className="nav__link">
-                      <img src={`${server}${value.THEME_ICON_PATH}`} />
+                      <img src={`${baseURL}${value.THEME_ICON_PATH}`} />
                       <span>{value.NAME}</span>
                     </Link>
                   </li>
