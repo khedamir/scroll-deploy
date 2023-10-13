@@ -1,8 +1,9 @@
 import React from "react";
-import LeftMenu from "../../components/sidebar/sidebar";
 import Footer from "../../components/footer";
 import Link from "next/link";
 import SecondSidebar from "../../components/sidebar/secondSidebar";
+import { wrapper } from "../../redux/store";
+import { useSelector } from "react-redux";
 
 const Videos = [
   {
@@ -50,6 +51,8 @@ const Videos = [
 ];
 
 const Viedos = () => {
+  // const { videos } = useSelector(selectPublications);
+
   return (
     <div className="layout layout--sticky-bottom">
       <div className="container">
@@ -71,6 +74,7 @@ const Viedos = () => {
                         className="category-card videos__item"
                       >
                         <picture className="category-card__img">
+                          {/* <img src={video.images[0]} alt="Image" /> */}
                           <img src="/img/videos-01.jpg" alt="Image" />
                         </picture>
                         <div className="category-card__body">
@@ -79,7 +83,7 @@ const Viedos = () => {
                           </span>
                           <div className="category-card__inner">
                             <span className="category-card__author">
-                              {video.author}
+                              Александр Македонский
                             </span>
                             <span className="category-card__help">
                               {video.date}
@@ -98,5 +102,14 @@ const Viedos = () => {
     </div>
   );
 };
+
+export const getServerSideProps = wrapper.getServerSideProps(
+  (store) => async () => {
+    // await store.dispatch(fetchPublications({ id: 15, limit: 15 }));
+    return {
+      props: {},
+    };
+  }
+);
 
 export default Viedos;

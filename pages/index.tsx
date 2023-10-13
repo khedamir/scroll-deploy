@@ -14,8 +14,13 @@ import NewsList from "../components/pageHome/newsList";
 import ContentWidget from "../components/widgets/contentWidget";
 import { wrapper } from "../redux/store";
 import { fetchRubrics } from "../redux/rubrics/asyncAction";
+import { fetchNews } from "../redux/news/asyncAction";
+import { useSelector } from "react-redux";
+import { selectNews } from "../redux/news/slice";
 
 const Index: NextPage = () => {
+  const { data } = useSelector(selectNews);
+
   return (
     <div className="layout">
       <div className="container">
@@ -41,8 +46,8 @@ const Index: NextPage = () => {
             <SectionLayout
               children1={
                 <>
-                  <NewsCard />
-                  <NewsList name="news" limit={3} largeNewIndex={2} />
+                  <NewsCard news={data.datas.slice(9, 14)} />
+                  <NewsList news={data.datas.slice(14, 17)} largeNewIndex={2} />
                 </>
               }
               children2={<ContentWidget />}
@@ -62,13 +67,12 @@ const Index: NextPage = () => {
   );
 };
 
-export const getServerSideProps = wrapper.getServerSideProps(
-  (store) => async () => {
-    await store.dispatch(fetchRubrics());
-    return {
-      props: {},
-    };
-  }
-);
+export const getStaticProps = wrapper.getStaticProps((store) => async () => {
+  await store.dispatch(fetchRubrics());
+  await store.dispatch(fetchNews({ limit: 17 }));
+  return {
+    props: {},
+  };
+});
 
 export default Index;

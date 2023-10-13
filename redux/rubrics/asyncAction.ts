@@ -9,6 +9,11 @@ export const fetchRubrics = createAsyncThunk<RubricType[]>(
       params,
     });
     const rubrics: RubricType[] = Object.values(data.message);
+
+    // const { data } = await server.get("/sw/v1/references/?iblockid=7", {
+    //   params,
+    // });
+
     return rubrics;
   }
 );

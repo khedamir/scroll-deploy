@@ -34,7 +34,7 @@ const SecondSidebar = () => {
               "is--active"
             }`}
           >
-            <Link href="#" className="nav-sections__link">
+            <Link href="/tranding-videos" className="nav-sections__link">
               Тренды
             </Link>
           </li>

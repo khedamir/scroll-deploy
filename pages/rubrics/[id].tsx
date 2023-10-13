@@ -1,4 +1,4 @@
-import React from "react";
+import React, { FC, useCallback, useEffect, useState } from "react";
 import Footer from "../../components/footer";
 import Link from "next/link";
 import { ReactSVG } from "react-svg";
@@ -8,10 +8,18 @@ import AudioPodcasts from "../../components/pageHome/audioPodcasts";
 import PopularVideos from "../../components/pageHome/popularVideos";
 import SectionLayout from "../../components/pageHome/sectionLayout";
 import LecturesBlock from "../../components/pageHome/lecturesBlock";
-import { fetchRubrics } from "../../redux/rubrics/asyncAction";
+import { fetchNews } from "../../redux/news/asyncAction";
 import { wrapper } from "../../redux/store";
+import { useSelector } from "react-redux";
+import { selectNews } from "../../redux/news/slice";
+import NewCard from "../../components/newCard";
+import { fetchRubrics } from "../../redux/rubrics/asyncAction";
+import { useRouter } from "next/router";
+import { baseURL, server } from "../../utils/server";
+import { NewType, NewsData } from "../../redux/news/types";
+import InfiniteScroll from "react-infinite-scroller";
 
-const data = {
+const Data = {
   recomendations: [
     {
       id: 1,
@@ -50,7 +58,78 @@ const data = {
   ],
 };
 
-const Rubrics = () => {
+interface RubricsProps {
+  recomendations: NewType[];
+}
+
+const Rubrics: FC<RubricsProps> = ({ recomendations }) => {
+  console.log(recomendations);
+  const { data } = useSelector(selectNews);
+  const { datas, pagination } = data;
+  // const [page, setPage] = useState(1);
+  const router = useRouter();
+
+  const [nextPublication, setNextPublications] = useState<NewType[]>([]);
+  const [hasMore, setHasMore] = useState(true);
+
+  // const handleScroll = useCallback(() => {
+  //   if (pagination && pagination.page < pagination.totalPages) {
+  //     const scrollY = window.scrollY;
+  //     const windowHeight = window.innerHeight;
+  //     const documentHeight = document.documentElement.scrollHeight;
+
+  //     if (scrollY + windowHeight >= documentHeight - 200) {
+  //       setPage(page + 1);
+  //     }
+  //   }
+  // }, [pagination]);
+
+  // useEffect(() => {
+  //   window.addEventListener("scroll", handleScroll);
+  //   return () => {
+  //     window.removeEventListener("scroll", handleScroll);
+  //   };
+  // }, [handleScroll]);
+
+  const fetchNextNews = async () => {
+    // const { data } = await server.get(
+    //   `/sw/v1/publications/?iblockid=9&sort=ASC`,
+    //   {
+    //     params: {
+    //       limit: 3,
+    //       rubric: Number(router.query.id),
+    //     },
+    //   }
+    // );
+    // if (data.pagintaion.page === data.pagination.totalPages) {
+    //   setHasMore(false);
+    // } else {
+    //   const newArr = [...nextPublication, data.datas];
+    //   setNextPublications(newArr);
+    // }
+  };
+
+  // useEffect(() => {
+  //   const fetchNextNews = async () => {
+  //     const result = await server.get(
+  //       `/sw/v1/publications/?iblockid=9&sort=ASC`,
+  //       {
+  //         params: {
+  //           page: page,
+  //           limit: 3,
+  //           rubric: Number(router.query.id),
+  //         },
+  //       }
+  //     );
+
+  //     const newArr = [...nextPublication, ...result.data.datas];
+  //     setNextPublications(newArr);
+  //   };
+  //   if (page > 1) {
+  //     fetchNextNews();
+  //   }
+  // }, [page]);
+
   return (
     <div className="layout">
       <div className="container">
@@ -68,54 +147,23 @@ const Rubrics = () => {
                   <h1 className="layout__head">Пособия</h1>
                   <div className="page-list">
                     <div className="page-list__wrapper">
-                      {data.recomendations.map((recomendation) => (
+                      {recomendations.map((recomendation) => (
                         <Link
                           key={recomendation.id}
                           href={`/news/${recomendation.id}`}
                           className="page-list__item"
                         >
-                          <img src="/img/page-list-02.png" alt="Icon" />
+                          <img
+                            src={`${baseURL}${recomendation.poperties.NEWS_LOGO}`}
+                            alt="Icon"
+                          />
                           <span>{recomendation.name}</span>
                         </Link>
                       ))}
                     </div>
                   </div>
-                  {data.news.map((newItem) => (
-                    <div
-                      key={newItem.id}
-                      className="big-news-card section-indent mobile-wide"
-                    >
-                      <div className="big-news-card__body">
-                        <div className="big-news-card__top">
-                          <div className="big-news-card__group">
-                            <span className="big-news-card__author">
-                              <img src="/img/user-02.jpg" alt="Image" />
-                              <span>{newItem.author}</span>
-                            </span>
-                            <span className="big-news-card__time">
-                              {newItem.date}
-                            </span>
-                          </div>
-                          <div className="big-news-card__group">
-                            <button className="big-news-card__control">
-                              <ReactSVG src="/img/sprite/icon-bookmarks.svg" />
-                            </button>
-                          </div>
-                        </div>
-                        <Link
-                          href={`/news/${newItem.id}`}
-                          className="big-news-card__title"
-                        >
-                          {newItem.name}
-                        </Link>
-                      </div>
-                      <Link
-                        href={`/news/${newItem.id}`}
-                        className="big-news-card__img"
-                      >
-                        <img src="/img/big-news-img.jpg" alt="Image" />
-                      </Link>
-                    </div>
+                  {data.datas.map((item) => (
+                    <NewCard key={item.id} newItem={item} />
                   ))}
                 </>
               }
@@ -134,6 +182,24 @@ const Rubrics = () => {
               children1={<LecturesBlock />}
               children2={<span className="layout__heading">лекции</span>}
             />
+            {nextPublication.length !== 0 && (
+              <SectionLayout
+                children1={
+                  <>
+                    <InfiniteScroll
+                      pageStart={1}
+                      loadMore={fetchNextNews}
+                      hasMore={hasMore}
+                    >
+                      {nextPublication.map((item) => (
+                        <NewCard key={item.id} newItem={item} />
+                      ))}
+                    </InfiniteScroll>
+                  </>
+                }
+                children2={<VideoWidget />}
+              />
+            )}
           </div>
         </div>
       </div>
@@ -142,10 +208,20 @@ const Rubrics = () => {
 };
 
 export const getServerSideProps = wrapper.getServerSideProps(
-  (store) => async () => {
+  (store) => async (context) => {
+    const { query } = context;
+
     await store.dispatch(fetchRubrics());
+    await store.dispatch(
+      fetchNews({ limit: 3, page: 1, rubric: Number(query.id) })
+    );
+    const { data } = await server.get(
+      `/sw/v1/publications/?iblockid=9&sort=ASC&limit=5`
+    );
     return {
-      props: {},
+      props: {
+        recomendations: data.datas,
+      },
     };
   }
 );

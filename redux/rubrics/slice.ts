@@ -4,6 +4,7 @@ import { RubricsSliceState } from "./types";
 import { fetchRubrics } from "./asyncAction";
 import { AppState } from "../store";
 import { HYDRATE } from "next-redux-wrapper";
+import { useSelector } from "react-redux";
 
 const initialState: RubricsSliceState = {
   rubrics: [],
@@ -39,5 +40,13 @@ export const rubricsSlice = createSlice({
 });
 
 export const selectRubrics = (state: AppState) => state.rubrics;
+
+export const getRubricById = (state: AppState, id: string) => {
+  return state.rubrics.rubrics.find((item) => item.ID === id);
+};
+
+export const rubricByIdSelector = (id: string) => {
+  return useSelector((state: AppState) => getRubricById(state, id));
+};
 
 export default rubricsSlice.reducer;

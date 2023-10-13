@@ -1,8 +1,15 @@
 import Link from "next/link";
-import React from "react";
+import React, { FC } from "react";
 import { ReactSVG } from "react-svg";
+import { NewType } from "../../redux/news/types";
+import { baseURL } from "../../utils/server";
+import { formatDateDifference } from "../../utils/formatDate";
 
-const NewCard = () => {
+interface NewCardProps {
+  newItem: NewType;
+}
+
+const NewCard: FC<NewCardProps> = ({ newItem }) => {
   return (
     <div className="big-news-card section-indent mobile-wide">
       <div className="big-news-card__body">
@@ -12,7 +19,9 @@ const NewCard = () => {
               <img src="/img/user-02.jpg" alt="Image" />
               <span>Александр Македонский</span>
             </span>
-            <span className="big-news-card__time">30 минут назад</span>
+            <span className="big-news-card__time">
+              {formatDateDifference(newItem.date)}
+            </span>
           </div>
           <div className="big-news-card__group">
             <button className="big-news-card__control">
@@ -20,13 +29,15 @@ const NewCard = () => {
             </button>
           </div>
         </div>
-        <Link href="#" className="big-news-card__title">
-          Внешнеторговый оборот Кабардино-Балкарии вырос в 1,2 раза в 2022 году
+        <Link href={`/news/${newItem.id}`} className="big-news-card__title">
+          {newItem.name}
         </Link>
       </div>
-      <Link href="#" className="big-news-card__img">
-        <img src="/img/big-news-img.jpg" alt="Image" />
-      </Link>
+      {newItem.images[1] && (
+        <Link href={`/news/${newItem.id}`} className="big-news-card__img">
+          <img src={`${baseURL}${newItem.images[1]}`} alt="Image" />
+        </Link>
+      )}
     </div>
   );
 };

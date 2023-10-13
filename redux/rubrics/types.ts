@@ -8,6 +8,15 @@ export type RubricType = {
   SHOW_IN_MAIN_MENU: boolean;
 };
 
+// export type RubricType = {
+//   id: string;
+//   name: string;
+//   show: boolean;
+//   poperties: {
+//     THEME_ICON: string;
+//   };
+// };
+
 export interface RubricsSliceState {
   rubrics: RubricType[];
   status: Status;

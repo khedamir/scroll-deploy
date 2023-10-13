@@ -8,7 +8,7 @@ const VideoWidget = () => {
       <div className="video-widget__body">
         <div className="video-widget__inner">
           <span className="video-widget__title">Какие-то видео</span>
-          <ReactSVG className="video-widget__icon" src="img/sprite/icon-arrow-next.svg" />
+          <ReactSVG className="video-widget__icon" src="/img/sprite/icon-arrow-next.svg" />
         </div>
         <span className="video-widget__help">35 новых видео</span>
       </div>

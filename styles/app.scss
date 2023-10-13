@@ -892,6 +892,9 @@
 .media-block {
   &__photo {
     position: relative;
+    img {
+      width: 100%;
+    }
   }
   &__comments {
     position: absolute;

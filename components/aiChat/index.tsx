@@ -1,4 +1,4 @@
-import React, { useEffect, useState, FC } from "react";
+import React, { useEffect, useState, FC, useRef } from "react";
 import { ReactSVG } from "react-svg";
 import { Answers } from "./answers";
 import { askGpt } from "../../utils/askGpt";
@@ -22,6 +22,14 @@ const ChatAi = () => {
   const [message, setMessage] = useState<string>("");
 
   const [activeItem, setActiveItem] = useState<number>();
+  const contentRefs = useRef<any>({});
+
+  const getHeight = (itemId: number) => {
+    if (contentRefs.current[itemId]) {
+      return contentRefs.current[itemId].getBoundingClientRect().height + "px";
+    }
+    return "0px";
+  };
 
   const toggleActiveItem = (id: number) => {
     if (activeItem === id) {
@@ -94,11 +102,20 @@ const ChatAi = () => {
                     {ans.title}
                   </button>
                   <div
+                    style={{
+                      height:
+                        ans.id === activeItem ? getHeight(ans.id) : "0px",
+                    }}
                     className={`ai-chat__dropdown ${
                       activeItem === ans.id && "is--open"
                     }`}
                   >
-                    <div className="ai-chat__content">{ans.description}</div>
+                    <div
+                      className="ai-chat__content"
+                      ref={(el) => (contentRefs.current[ans.id] = el)}
+                    >
+                      {ans.description}
+                    </div>
                   </div>
                 </div>
               ))}

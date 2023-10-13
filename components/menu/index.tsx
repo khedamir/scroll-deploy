@@ -1,9 +1,6 @@
 import React, { FC } from "react";
-import { useAppDispatch, useAppSelector } from "../../store/hooks";
-import { useGetLeftMenuValues } from "../../hooks/useGetLeftMenuValues";
 import Link from "next/link";
 import { server } from "../../utils/serverUrl";
-import { setNameRubric } from "../../store/slices/leftMenuSlice";
 import Footer from "../footer";
 import { ReactSVG } from "react-svg";
 import { useModalsContext } from "../../context/ModalsContext";
@@ -11,9 +8,6 @@ import { useSelector } from "react-redux";
 import { selectRubrics } from "../../redux/rubrics/slice";
 
 const Menu = () => {
-  // const { values } = useAppSelector((state) => state.leftMenuReducer);
-  // useGetLeftMenuValues();
-  const dispatch = useAppDispatch();
   const { rubrics } = useSelector(selectRubrics);
 
   const { setAiChatActive, menuActive, setMenuActive } = useModalsContext();
@@ -27,14 +21,11 @@ const Menu = () => {
               <ul className="nav__list">
                 {rubrics.map((value) => (
                   <li
-                    onClick={() => dispatch(setNameRubric(value.NAME))}
+                    onClick={() => setMenuActive(false)}
                     key={value.ID}
                     className="nav__item"
                   >
-                    <Link
-                      href={`/rubrics/${value.ID}`}
-                      className="nav__link"
-                    >
+                    <Link href={`/rubrics/${value.ID}`} className="nav__link">
                       <img src={`${server}${value.THEME_ICON_PATH}`} />
                       <span>{value.NAME}</span>
                     </Link>

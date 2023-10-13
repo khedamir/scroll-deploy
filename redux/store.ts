@@ -2,11 +2,13 @@ import { configureStore } from "@reduxjs/toolkit";
 import { useDispatch } from "react-redux";
 import { createWrapper } from "next-redux-wrapper";
 import rubricsReducer from "./rubrics/slice";
+import newsReducer from "./news/slice";
 
 const store = () =>
   configureStore({
     reducer: {
       rubrics: rubricsReducer,
+      news: newsReducer,
     },
   });
 
