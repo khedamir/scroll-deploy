@@ -1,11 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { Status } from "../types";
-import { fetchVideos } from "./asyncAction";
+import { fetchPodcasts } from "./asyncAction";
 import { AppState } from "../store";
 import { HYDRATE } from "next-redux-wrapper";
-import { NewsSliceState } from "./types";
+import { PodcastsSliceState } from "./types";
 
-const initialState: NewsSliceState = {
+const initialState: PodcastsSliceState = {
   data: {
     datas: [],
     pagination: null,
@@ -13,23 +13,23 @@ const initialState: NewsSliceState = {
   status: Status.LOADING,
 };
 
-export const videosSlice = createSlice({
-  name: "videos",
+export const podcastsSlice = createSlice({
+  name: "podcasts",
   initialState,
   reducers: {},
   extraReducers: (builder) => {
-    builder.addCase(fetchVideos.pending, (state) => {
+    builder.addCase(fetchPodcasts.pending, (state) => {
       state.status = Status.LOADING;
       state.data = {
         datas: [],
         pagination: null,
       };
     });
-    builder.addCase(fetchVideos.fulfilled, (state, action) => {
+    builder.addCase(fetchPodcasts.fulfilled, (state, action) => {
       state.status = Status.SUCCESS;
       state.data = action.payload;
     });
-    builder.addCase(fetchVideos.rejected, (state) => {
+    builder.addCase(fetchPodcasts.rejected, (state) => {
       state.status = Status.ERROR;
       state.data = {
         datas: [],
@@ -37,7 +37,7 @@ export const videosSlice = createSlice({
       };
     });
     builder.addCase(HYDRATE as any, (state, action) => {
-      const { data, status } = action.payload.videos;
+      const { data, status } = action.payload.podcasts;
       if (!data.datas) {
         return state;
       }
@@ -47,6 +47,6 @@ export const videosSlice = createSlice({
   },
 });
 
-export const selectVideos = (state: AppState) => state.videos;
+export const selectPodcasts = (state: AppState) => state.podcasts;
 
-export default videosSlice.reducer;
+export default podcastsSlice.reducer;

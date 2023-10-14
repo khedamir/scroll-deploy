@@ -3,8 +3,12 @@ import Footer from "../../components/footer";
 import SecondSidebar from "../../components/sidebar/secondSidebar";
 import WebinarCard from "../../components/pageLawyersClub/webinarCard";
 import WebinerItem from "../../components/pageLawyersClub/webinerItem";
+import { fetchWebinars } from "../../redux/webinars/asyncAction";
+import { wrapper } from "../../redux/store";
+import { selectWebinars } from "../../redux/webinars/slice";
+import { useSelector } from "react-redux";
 
-const data = {
+const items = {
   webinars: [
     {
       id: 1,
@@ -31,6 +35,8 @@ const data = {
 };
 
 const LawyersClub = () => {
+  const { data } = useSelector(selectWebinars);
+  console.log(data);
   return (
     <div className="layout">
       <div className="container">
@@ -42,12 +48,12 @@ const LawyersClub = () => {
           <div className="layout__main">
             <div className="layout__main-wrapper">
               <div className="layout__center">
-                {data.webinars.map((webinar) => (
+                {data.datas.map((webinar) => (
                   <WebinarCard key={webinar.id} webinar={webinar} />
                 ))}
                 <div className="webinar-grid section-indent section-indent--lg">
                   <h3 className="webinar-grid__head">Прошедшие встречи</h3>
-                  {data.pastWebinar.map((web) => (
+                  {items.pastWebinar.map((web) => (
                     <WebinerItem key={web.id} webinar={web} />
                   ))}
                 </div>
@@ -60,5 +66,14 @@ const LawyersClub = () => {
     </div>
   );
 };
+
+export const getServerSideProps = wrapper.getServerSideProps(
+  (store) => async () => {
+    await store.dispatch(fetchWebinars({ limit: 15 }));
+    return {
+      props: {},
+    };
+  }
+);
 
 export default LawyersClub;

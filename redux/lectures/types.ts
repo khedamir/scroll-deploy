@@ -6,7 +6,7 @@ export type FetchParams = {
   rubric?: number;
 };
 
-export type VideoType = {
+export type LectureType = {
   id: string;
   name: string;
   images: string[];
@@ -27,12 +27,12 @@ export type PaginationType = {
   totalPages: number;
 };
 
-export type VideosData = {
-  datas: VideoType[];
+export type LecturesData = {
+  datas: LectureType[];
   pagination: PaginationType | null;
 };
 
-export interface NewsSliceState {
-  data: VideosData;
+export interface LecturesSliceState {
+  data: LecturesData;
   status: Status;
 }

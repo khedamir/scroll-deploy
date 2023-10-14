@@ -1364,13 +1364,14 @@
     &.is--open {
       .faq-list {
         &__trigger {
-          & > svg {
+          & svg {
             transform: rotate(45deg);
             color: $icon-faint-on-light-shift-up;
           }
         }
         &__dropdown {
-          display: block;
+          max-height: 300px;
+          transition: all $transition-default;
         }
       }
     }
@@ -1394,7 +1395,7 @@
     border: none;
     border-radius: 0;
     transition: all $transition-default;
-    & > svg {
+    & svg {
       min-width: 16px;
       width: 16px;
       height: 16px;
@@ -1405,10 +1406,13 @@
     }
   }
   &__dropdown {
-    display: none;
-    margin-top: 16px;
+    // display: none;
+    max-height: 0;
+    overflow: hidden;
+    transition: all $transition-default;
   }
   &__description {
+    margin-top: 16px;
     font-size: 14px;
     font-weight: 500;
     color: $root-faint-on-light-shift-down;
@@ -1432,7 +1436,7 @@
     &.is--open {
       .vacancies {
         &__trigger {
-          & > svg {
+          & svg {
             transform: rotate(45deg);
           }
         }
@@ -1504,7 +1508,7 @@
     border: none;
     border-radius: 0;
     transition: all $transition-default;
-    & > svg {
+    & svg {
       min-width: 16px;
       width: 16px;
       height: 16px;
@@ -1519,7 +1523,7 @@
       min-width: 24px;
       width: 24px;
       height: 24px;
-      & > svg {
+      & svg {
         min-width: 24px;
         width: 24px;
         height: 24px;
@@ -1554,10 +1558,13 @@
     }
   }
   &__dropdown {
-    display: none;
-    margin-top: 40px;
+    // display: none;
+    height: 0;
+    overflow: hidden;
+    transition: all $transition-default;
   }
   &__content {
+    margin-top: 40px;
     max-width: 508px;
     width: 100%;
   }
@@ -1691,7 +1698,7 @@
     border: none;
     border-radius: 50%;
     transition: all $transition-default;
-    & > svg {
+    & svg {
       min-width: 24px;
       width: 24px;
       height: 24px;

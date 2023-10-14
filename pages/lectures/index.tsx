@@ -3,6 +3,10 @@ import Footer from "../../components/footer";
 import Link from "next/link";
 import SecondSidebar from "../../components/sidebar/secondSidebar";
 import LectureItem from "../../components/pageLecture/lectureItem";
+import { wrapper } from "../../redux/store";
+import { fetchLectures } from "../../redux/lectures/asyncAction";
+import { useSelector } from "react-redux";
+import { selectLectures } from "../../redux/lectures/slice";
 
 const LecturesList = [
   {
@@ -50,6 +54,9 @@ const LecturesList = [
 ];
 
 const Lectures = () => {
+  const { data } = useSelector(selectLectures);
+  console.log(data)
+
   return (
     <div className="layout">
       <div className="container">
@@ -63,7 +70,7 @@ const Lectures = () => {
               <div className="layout__center layout__center--wide">
                 <div className="lectures mobile-wide">
                   <div className="lectures__wrapper">
-                    {LecturesList.map((lecture) => (
+                    {data.datas.map((lecture) => (
                       <LectureItem
                         key={lecture.id}
                         lecture={lecture}
@@ -80,5 +87,14 @@ const Lectures = () => {
     </div>
   );
 };
+
+export const getServerSideProps = wrapper.getServerSideProps(
+  (store) => async () => {
+    await store.dispatch(fetchLectures({ limit: 15 }));
+    return {
+      props: {},
+    };
+  }
+);
 
 export default Lectures;

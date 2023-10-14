@@ -4,6 +4,11 @@ import Link from "next/link";
 import SecondSidebar from "../../components/sidebar/secondSidebar";
 import { wrapper } from "../../redux/store";
 import { useSelector } from "react-redux";
+import { selectNews } from "../../redux/news/slice";
+import { fetchVideos } from "../../redux/videos/asyncAction";
+import { selectVideos } from "../../redux/videos/slice";
+import { baseURL } from "../../utils/server";
+import { formatDateDifference } from "../../utils/formatDate";
 
 const Videos = [
   {
@@ -51,7 +56,8 @@ const Videos = [
 ];
 
 const Viedos = () => {
-  // const { videos } = useSelector(selectPublications);
+  const { data } = useSelector(selectVideos);
+  console.log(data);
 
   return (
     <div className="layout layout--sticky-bottom">
@@ -67,15 +73,17 @@ const Viedos = () => {
               <div className="layout__center layout__center--wide">
                 <div className="videos mobile-wide">
                   <div className="videos__wrapper">
-                    {Videos.map((video) => (
+                    {data.datas.map((video) => (
                       <Link
                         key={video.id}
                         href={`videos/${video.id}`}
                         className="category-card videos__item"
                       >
                         <picture className="category-card__img">
-                          {/* <img src={video.images[0]} alt="Image" /> */}
-                          <img src="/img/videos-01.jpg" alt="Image" />
+                          <img
+                            src={`${baseURL}${video.images[1]}`}
+                            alt="Image"
+                          />
                         </picture>
                         <div className="category-card__body">
                           <span className="category-card__name">
@@ -83,10 +91,10 @@ const Viedos = () => {
                           </span>
                           <div className="category-card__inner">
                             <span className="category-card__author">
-                              Александр Македонский
+                              {video.poperties.PUB_AUTOR}
                             </span>
                             <span className="category-card__help">
-                              {video.date}
+                              {formatDateDifference(video.date)}
                             </span>
                           </div>
                         </div>
@@ -105,7 +113,7 @@ const Viedos = () => {
 
 export const getServerSideProps = wrapper.getServerSideProps(
   (store) => async () => {
-    // await store.dispatch(fetchPublications({ id: 15, limit: 15 }));
+    await store.dispatch(fetchVideos({ limit: 15 }));
     return {
       props: {},
     };

@@ -1,6 +1,7 @@
 import Link from "next/link";
 import React, { FC } from "react";
 import { ReactSVG } from "react-svg";
+import { WebinarType } from "../../redux/webinars/types";
 
 interface WebinarItemProps {
   webinar: {

@@ -3,12 +3,16 @@ import VCRUIcon from "../../public/img/sprite/icon-vcru.svg";
 import TelegramIcon from "../../public/img/sprite/icon-telegram.svg";
 import VKIcon from "../../public/img/sprite/icon-vk.svg";
 import DzenIcon from "../../public/img/sprite/icon-dzen.svg";
+import Link from "next/link";
+import { useModalsContext } from "../../context/ModalsContext";
 
 interface FooterProps {
   otherClassName?: string;
 }
 
 const Footer: FC<FooterProps> = ({ otherClassName }) => {
+  const { setMenuActive } = useModalsContext();
+
   return (
     <footer className={`footer ${otherClassName}`} id="footer">
       <div className="footer-socmedia footer__socmedia">
@@ -31,36 +35,36 @@ const Footer: FC<FooterProps> = ({ otherClassName }) => {
         <div className="footer-nav__wrapper">
           <ul className="footer-nav__list">
             <li className="footer-nav__item">
-              <a href="#" className="footer-nav__link">
+              <Link href="#" className="footer-nav__link">
                 Заказать рекламу
-              </a>
+              </Link>
             </li>
             <li className="footer-nav__item">
-              <a href="#" className="footer-nav__link">
+              <Link href="#" className="footer-nav__link">
                 О проекте
-              </a>
+              </Link>
             </li>
             <li className="footer-nav__item">
-              <a href="#" className="footer-nav__link">
+              <Link href="#" className="footer-nav__link">
                 Конфиденциальность
-              </a>
+              </Link>
             </li>
           </ul>
           <ul className="footer-nav__list">
             <li className="footer-nav__item">
-              <a href="#" className="footer-nav__link">
+              <Link href="#" className="footer-nav__link">
                 Правила
-              </a>
+              </Link>
             </li>
             <li className="footer-nav__item">
-              <a href="#" className="footer-nav__link">
+              <Link href="/faq" className="footer-nav__link">
                 Помощь
-              </a>
+              </Link>
             </li>
             <li className="footer-nav__item">
-              <a href="#" className="footer-nav__link">
+              <Link href="/vacancies" className="footer-nav__link">
                 Вакансии
-              </a>
+              </Link>
             </li>
           </ul>
         </div>

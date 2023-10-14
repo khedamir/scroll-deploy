@@ -4,6 +4,10 @@ import { ReactSVG } from "react-svg";
 import SecondSidebar from "../../components/sidebar/secondSidebar";
 import PodcastItem from "../../components/pagePodcasts/podcastItem";
 import PodcastCard from "../../components/podcastCard";
+import { wrapper } from "../../redux/store";
+import { fetchPodcasts } from "../../redux/podcasts/asyncAction";
+import { useSelector } from "react-redux";
+import { selectPodcasts } from "../../redux/podcasts/slice";
 
 const PodcastsList = [
   {
@@ -30,6 +34,8 @@ const PodcastsList = [
 ];
 
 const Podcast = () => {
+  const { data } = useSelector(selectPodcasts);
+
   return (
     <div className="layout">
       <div className="container">
@@ -88,7 +94,7 @@ const Podcast = () => {
                       <span className="podcast__help">12 выпусков</span>
                       <div className="podcasts podcast__podcasts">
                         <div className="podcasts__wrapper">
-                          {PodcastsList.map((podcast) => (
+                          {data.datas.map((podcast) => (
                             <PodcastItem
                               key={podcast.id}
                               podcast={podcast}
@@ -104,7 +110,7 @@ const Podcast = () => {
               <div className="layout__right">
                 <div className="content-card">
                   <div className="content-card__wrapper">
-                    {PodcastsList.map((podcast) => (
+                    {data.datas.map((podcast) => (
                       <PodcastCard key={podcast.id} podcast={podcast} />
                     ))}
                   </div>
@@ -117,5 +123,14 @@ const Podcast = () => {
     </div>
   );
 };
+
+export const getServerSideProps = wrapper.getServerSideProps(
+  (store) => async () => {
+    await store.dispatch(fetchPodcasts({ limit: 15 }));
+    return {
+      props: {},
+    };
+  }
+);
 
 export default Podcast;

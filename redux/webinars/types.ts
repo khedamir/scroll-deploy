@@ -6,17 +6,18 @@ export type FetchParams = {
   rubric?: number;
 };
 
-export type VideoType = {
+export type WebinarType = {
   id: string;
   name: string;
   images: string[];
   date: string;
-  rubric: string;
-  author: string;
   poperties: {
-    LINK_VIDEO: string;
-    PUB_AUTOR: string;
-    PUB_TAG: [];
+    FIO_SPIKERS: string[];
+    FOTO_SPIKERS: string;
+    PRISE_EVENTS: "";
+    PRISE_SLOGAN: { TEXT: string };
+    PROF_SPIKERS: string[];
+    THEME_EVENTS: string[];
   };
 };
 
@@ -27,12 +28,12 @@ export type PaginationType = {
   totalPages: number;
 };
 
-export type VideosData = {
-  datas: VideoType[];
+export type WebinarsData = {
+  datas: WebinarType[];
   pagination: PaginationType | null;
 };
 
-export interface NewsSliceState {
-  data: VideosData;
+export interface WebinarsSliceState {
+  data: WebinarsData;
   status: Status;
 }

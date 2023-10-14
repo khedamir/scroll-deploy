@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { server } from "../../utils/serverUrl";
 import Link from "next/link";
 import { ReactSVG } from "react-svg";
 import { selectRubrics } from "../../redux/rubrics/slice";

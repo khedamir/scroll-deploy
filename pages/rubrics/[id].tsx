@@ -18,6 +18,9 @@ import { useRouter } from "next/router";
 import { baseURL, server } from "../../utils/server";
 import { NewType, NewsData } from "../../redux/news/types";
 import InfiniteScroll from "react-infinite-scroller";
+import { rubricByIdSelector, selectRubrics } from "../../redux/rubrics/slice";
+import { fetchLectures } from "../../redux/lectures/asyncAction";
+import { fetchPodcasts } from "../../redux/podcasts/asyncAction";
 
 const Data = {
   recomendations: [
@@ -65,6 +68,7 @@ interface RubricsProps {
 const Rubrics: FC<RubricsProps> = ({ recomendations }) => {
   console.log(recomendations);
   const { data } = useSelector(selectNews);
+
   const { datas, pagination } = data;
   // const [page, setPage] = useState(1);
   const router = useRouter();
@@ -144,7 +148,9 @@ const Rubrics: FC<RubricsProps> = ({ recomendations }) => {
               rightVisible={false}
               children1={
                 <>
-                  <h1 className="layout__head">Пособия</h1>
+                  <h1 className="layout__head">
+                    {rubricByIdSelector(String(router.query.id))?.NAME}
+                  </h1>
                   <div className="page-list">
                     <div className="page-list__wrapper">
                       {recomendations.map((recomendation) => (
@@ -212,6 +218,8 @@ export const getServerSideProps = wrapper.getServerSideProps(
     const { query } = context;
 
     await store.dispatch(fetchRubrics());
+    await store.dispatch(fetchPodcasts({ limit: 3 }));
+    await store.dispatch(fetchLectures({ limit: 3 }));
     await store.dispatch(
       fetchNews({ limit: 3, page: 1, rubric: Number(query.id) })
     );

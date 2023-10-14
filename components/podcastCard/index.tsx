@@ -1,12 +1,9 @@
 import Link from "next/link";
 import React, { FC } from "react";
+import { PodcastType } from "../../redux/podcasts/types";
 
 interface PodcastCardProps {
-  podcast: {
-    id: number;
-    name: string;
-    author: string;
-  };
+  podcast: PodcastType;
 }
 
 const PodcastCard: FC<PodcastCardProps> = ({ podcast }) => {
@@ -16,8 +13,8 @@ const PodcastCard: FC<PodcastCardProps> = ({ podcast }) => {
         <img src="/img/audio-content-card-01.jpg" alt="Image" />
       </picture>
       <div className="content-card__body">
-        <h3 className="content-card__title">{podcast.name}</h3>
-        <span className="content-card__help">{podcast.author}</span>
+        <h3 className="content-card__title">{podcast.poperties.PAGETITLE_PODCAST}</h3>
+        <span className="content-card__help">{podcast.poperties.PODCAST_AUTOR}</span>
       </div>
     </Link>
   );

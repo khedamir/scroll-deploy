@@ -15,7 +15,11 @@ const Layout: FC<layoutProps> = ({ children }) => {
 
   let headerComponent;
   if (router.pathname === "/webinar/[id]") {
-    headerComponent = <ThirdyHeader />;
+    headerComponent = <ThirdyHeader title="Вебинар" />;
+  } else if (router.pathname === "/faq") {
+    headerComponent = <ThirdyHeader title="Помощь" />;
+  } else if (router.pathname === "/vacancies") {
+    headerComponent = <ThirdyHeader title="Вакансии" />;
   } else if (
     router.pathname === "/videos" ||
     router.pathname === "/videos/[id]" ||

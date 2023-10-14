@@ -1,16 +1,13 @@
 import Link from "next/link";
 import React, { FC } from "react";
 import { ReactSVG } from "react-svg";
+import { WebinarType } from "../../redux/webinars/types";
 
-interface WebinarType {
-  webinar: {
-    title: string;
-    author: string;
-    date: string;
-  };
+interface WebinarProps {
+  webinar: WebinarType;
 }
 
-const WebinarCard: FC<WebinarType> = ({ webinar }) => {
+const WebinarCard: FC<WebinarProps> = ({ webinar }) => {
   return (
     <div className="webinar-card">
       <div className="webinar-card__wrapper">
@@ -22,18 +19,20 @@ const WebinarCard: FC<WebinarType> = ({ webinar }) => {
                 <ReactSVG src="/img/sprite/icon-notifications.svg" />
               </button>
             </div>
-            <span className="webinar-card__date">{webinar.date}</span>
+            <span className="webinar-card__date">{webinar.date.slice(0, -3)}</span>
           </div>
           <div className="webinar-card__main">
-            <Link href="/webinar/1" className="webinar-card__title">
-              {webinar.title}
+            <Link href={`/webinar/${webinar.id}`} className="webinar-card__title">
+              {webinar.name}
             </Link>
           </div>
           <div className="webinar-card__bottom">
-            <span className="webinar-card__author">{webinar.author}</span>
+            <span className="webinar-card__author">
+              {webinar.poperties.FIO_SPIKERS[0]}
+            </span>
           </div>
         </div>
-        <Link href="/webinar/1" className="webinar-card__img">
+        <Link href={`/webinar/${webinar.id}`} className="webinar-card__img">
           <img src="/img/webinar-card-img.jpg" alt="Image" />
         </Link>
       </div>

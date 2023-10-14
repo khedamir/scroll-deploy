@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import React, { useEffect } from "react";
 import Link from "next/link";
 import Footer from "../footer";
 import { ReactSVG } from "react-svg";
@@ -6,11 +6,17 @@ import { useModalsContext } from "../../context/ModalsContext";
 import { useSelector } from "react-redux";
 import { selectRubrics } from "../../redux/rubrics/slice";
 import { baseURL } from "../../utils/server";
+import { useRouter } from "next/router";
 
 const Menu = () => {
   const { rubrics } = useSelector(selectRubrics);
+  const router = useRouter();
 
   const { setAiChatActive, menuActive, setMenuActive } = useModalsContext();
+
+  useEffect(() => {
+    setMenuActive(false);
+  }, [router]);
 
   return (
     <div className={`menu ${menuActive && "is--active"}`}>
@@ -21,7 +27,7 @@ const Menu = () => {
               <ul className="nav__list">
                 {rubrics.map((value) => (
                   <li
-                    onClick={() => setMenuActive(false)}
+                    // onClick={() => setMenuActive(false)}
                     key={value.ID}
                     className="nav__item"
                   >

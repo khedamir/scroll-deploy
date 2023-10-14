@@ -239,34 +239,12 @@ const New: FC<NewProps> = ({ publication }) => {
   );
 };
 
-// export const getServerSideProps: GetServerSideProps<NewProps> = async (
-//   context
-// ) => {
-//   const { id } = context.params || {};
-//   try {
-//     const { data } = await server.get(`/sw/v1/publications/?id=${id}`);
-
-//     return {
-//       props: {
-//         publication: data,
-//       },
-//     };
-//   } catch (error) {
-//     return {
-//       redirect: {
-//         destination: "/server-error",
-//         permanent: false,
-//       },
-//     };
-//   }
-// };
-
 export const getServerSideProps = wrapper.getServerSideProps(
   (store) => async (context) => {
     const { id } = context.params || {};
     try {
       const { data } = await server.get(`/sw/v1/publications/?id=${id}`);
-      // await store.dispatch(fetchRubrics());
+      await store.dispatch(fetchRubrics());
 
       return {
         props: {

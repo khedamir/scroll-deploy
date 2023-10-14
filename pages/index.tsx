@@ -17,6 +17,8 @@ import { fetchRubrics } from "../redux/rubrics/asyncAction";
 import { fetchNews } from "../redux/news/asyncAction";
 import { useSelector } from "react-redux";
 import { selectNews } from "../redux/news/slice";
+import { fetchPodcasts } from "../redux/podcasts/asyncAction";
+import { fetchLectures } from "../redux/lectures/asyncAction";
 
 const Index: NextPage = () => {
   const { data } = useSelector(selectNews);
@@ -70,6 +72,8 @@ const Index: NextPage = () => {
 export const getStaticProps = wrapper.getStaticProps((store) => async () => {
   await store.dispatch(fetchRubrics());
   await store.dispatch(fetchNews({ limit: 17 }));
+  await store.dispatch(fetchPodcasts({ limit: 3 }));
+  await store.dispatch(fetchLectures({ limit: 3 }));
   return {
     props: {},
   };

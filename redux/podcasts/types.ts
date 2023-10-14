@@ -6,17 +6,16 @@ export type FetchParams = {
   rubric?: number;
 };
 
-export type VideoType = {
+export type PodcastType = {
   id: string;
   name: string;
   images: string[];
   date: string;
-  rubric: string;
-  author: string;
   poperties: {
-    LINK_VIDEO: string;
-    PUB_AUTOR: string;
-    PUB_TAG: [];
+    DESCRIPTION_PODCAST: { TEXT: string };
+    LINK_AUDIO_PODCAST: string;
+    PAGETITLE_PODCAST: string;
+    PODCAST_AUTOR: string;
   };
 };
 
@@ -27,12 +26,12 @@ export type PaginationType = {
   totalPages: number;
 };
 
-export type VideosData = {
-  datas: VideoType[];
+export type PodcastsData = {
+  datas: PodcastType[];
   pagination: PaginationType | null;
 };
 
-export interface NewsSliceState {
-  data: VideosData;
+export interface PodcastsSliceState {
+  data: PodcastsData;
   status: Status;
 }

@@ -14,7 +14,7 @@
   border: none;
   border-radius: 40px;
   transition: all $transition-default;
-  & > svg {
+  & svg {
     min-width: 24px;
     width: 24px;
     height: 24px;
@@ -23,12 +23,12 @@
   & > * + * {
     margin-left: 16px;
   }
-  & > .bg {
+  & .bg {
     padding: 0.5px 8.5px;
     width: fit-content;
     background: $white-color;
     border-radius: 16px;
-    & > svg {
+    & svg {
       min-width: 27px;
       width: 27px;
       height: 27px;
@@ -45,7 +45,7 @@
     padding: 11px 16px;
     min-height: 36px;
     font-size: 14px;
-    & > svg {
+    & svg {
       min-width: 14px;
       width: 14px;
       height: 14px;
@@ -55,7 +55,7 @@
     padding: 14px 16px;
     min-height: 44px;
     font-size: 14px;
-    & > svg {
+    & svg {
       min-width: 16px;
       width: 16px;
       height: 16px;
@@ -70,14 +70,14 @@
   &--white {
     color: $text-base-on-light;
     background: $white-color;
-    & > svg {
+    & svg {
       color: $icon-faint-on-light;
     }
   }
   &--white-blue {
     color: $text-accent-on-light;
     background: $white-color;
-    & > svg {
+    & svg {
       color: $icon-accent-on-light;
     }
   }
@@ -100,8 +100,8 @@
   @media screen and (hover: hover) {
     &:hover {
       background: $root-base-on-light;
-      & > .bg {
-        & > svg {
+      & .bg {
+        & svg {
           color: $icon-accent-on-light;
         }
       }
@@ -110,7 +110,7 @@
       &:hover {
         color: $text-complement-on-dark;
         background: $white-color;
-        & > svg {
+        & svg {
           color: $icon-complement-on-dark-shift-up;
         }
       }
@@ -119,7 +119,7 @@
       &:hover {
         color: $text-accent-on-light-shift-down;
         background: $white-color;
-        & > svg {
+        & svg {
           color: $icon-accent-on-light-shift-down;
         }
       }
@@ -161,7 +161,7 @@
   border: none;
   border-radius: 24px;
   transition: all $transition-default;
-  & > svg {
+  & svg {
     min-width: 24px;
     width: 24px;
     height: 24px;
@@ -187,7 +187,7 @@
     &--blue {
       &:hover {
         color: rgba($text-accent-on-light, 0.8);
-        & > svg {
+        & svg {
           color: $icon-accent-on-light;
         }
       }

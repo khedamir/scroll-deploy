@@ -6,17 +6,17 @@ export type FetchParams = {
   rubric?: number;
 };
 
-export type VideoType = {
+export type VacancyType = {
   id: string;
   name: string;
   images: string[];
   date: string;
-  rubric: string;
-  author: string;
   poperties: {
-    LINK_VIDEO: string;
-    PUB_AUTOR: string;
-    PUB_TAG: [];
+    GRAFIC_VACANCIES: string;
+    LINK_VACANCIES: string;
+    POSITION_VACANCIES: string;
+    SUMMA_ZP: string;
+    TYPE_VACANCIES: string;
   };
 };
 
@@ -27,12 +27,12 @@ export type PaginationType = {
   totalPages: number;
 };
 
-export type VideosData = {
-  datas: VideoType[];
+export type VacanciesData = {
+  datas: VacancyType[];
   pagination: PaginationType | null;
 };
 
-export interface NewsSliceState {
-  data: VideosData;
+export interface VacanciesSliceState {
+  data: VacanciesData;
   status: Status;
 }
