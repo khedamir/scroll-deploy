@@ -5,8 +5,12 @@ import Link from "next/link";
 import WebinerItem from "../../components/pageLawyersClub/webinerItem";
 import AuthorItem from "../../components/pageWebinar/authorItem";
 import RegisterBlock from "../../components/pageWebinar/registerBlock";
+import { wrapper } from "../../redux/store";
+import { fetchWebinars } from "../../redux/webinars/asyncAction";
+import { useSelector } from "react-redux";
+import { selectWebinars } from "../../redux/webinars/slice";
 
-const data = {
+const web = {
   webinar: {
     title:
       "Все о заработной плате: по закону согласно ст. 136 трудового кодекса",
@@ -54,6 +58,8 @@ const data = {
 };
 
 const Webinar = () => {
+  const { data } = useSelector(selectWebinars);
+
   return (
     <div className="layout">
       <div className="container">
@@ -69,7 +75,7 @@ const Webinar = () => {
                     <div className="webinar__top">
                       <div className="webinar__group">
                         <span className="webinar__time">
-                          {data.webinar.date}
+                          {data.datas[0].date}
                         </span>
                         <button className="webinar__notification">
                           <ReactSVG src="/img/sprite/icon-notifications.svg" />
@@ -82,15 +88,15 @@ const Webinar = () => {
                       </div>
                     </div>
                     <div className="webinar__body">
-                      <h1 className="webinar__heading">{data.webinar.title}</h1>
+                      <h1 className="webinar__heading">{web.webinar.title}</h1>
                       <p className="webinar__description">
-                        {data.webinar.description}
+                        {web.webinar.description}
                       </p>
                     </div>
                     <div className="webinar__block">
                       <h3 className="webinar__title">Спикеры</h3>
                       <div className="webinar__speakers">
-                        {data.webinar.authors.map((author) => (
+                        {web.webinar.authors.map((author) => (
                           <AuthorItem key={author.id} author={author} />
                         ))}
                       </div>
@@ -99,7 +105,7 @@ const Webinar = () => {
                       <div className="webinar__theme">
                         <h3 className="webinar__title">Основные темы</h3>
                         <ul className="webinar__list">
-                          {data.webinar.themes.map((theme, id) => (
+                          {web.webinar.themes.map((theme, id) => (
                             <li key={id} className="webinar__list-item">
                               <a href="#" className="webinar__link">
                                 {theme}
@@ -122,9 +128,16 @@ const Webinar = () => {
                 </div>
                 <div className="webinar-grid section-indent section-indent--lg">
                   <h3 className="webinar-grid__head">Прошедшие встречи</h3>
-                  {data.pastWebinar.map((web) => (
-                    <WebinerItem key={web.id} webinar={web} />
-                  ))}
+                  {data.datas.map(
+                    (web, id) =>
+                      id % 2 !== 0 &&
+                      id !== 0 && (
+                        <WebinerItem
+                          key={web.id}
+                          webinars={[web, data.datas[id - 1]]}
+                        />
+                      )
+                  )}
                 </div>
               </div>
               <div className="layout__right"></div>
@@ -135,5 +148,12 @@ const Webinar = () => {
     </div>
   );
 };
+
+export const getServerSideProps = wrapper.getServerSideProps((store) => async () => {
+  await store.dispatch(fetchWebinars({ limit: 4 }));
+  return {
+    props: {},
+  };
+});
 
 export default Webinar;
