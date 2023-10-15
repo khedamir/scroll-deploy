@@ -53,9 +53,16 @@ const LawyersClub = () => {
                 ))}
                 <div className="webinar-grid section-indent section-indent--lg">
                   <h3 className="webinar-grid__head">Прошедшие встречи</h3>
-                  {items.pastWebinar.map((web) => (
-                    <WebinerItem key={web.id} webinar={web} />
-                  ))}
+                  {data.datas.map(
+                    (web, id) =>
+                      id % 2 !== 0 &&
+                      id !== 0 && (
+                        <WebinerItem
+                          key={web.id}
+                          webinars={[web, data.datas[id - 1]]}
+                        />
+                      )
+                  )}
                 </div>
               </div>
               <div className="layout__right"></div>

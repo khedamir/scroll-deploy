@@ -83,7 +83,7 @@ const Lecture: FC<LectureProps> = ({ publication }) => {
                     <iframe
                       width="560"
                       height="315"
-                      src="https://www.youtube.com/embed/7LL0Xdql7nE?si=fTarpASRbe2ln_VL"
+                      src="https://www.youtube.com/embed/VfqNgiksygA?si=h-3qtY6phAMb3OlM"
                       title="YouTube video player"
                       frameBorder="0"
                       allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"

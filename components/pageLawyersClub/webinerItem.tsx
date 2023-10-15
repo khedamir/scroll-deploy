@@ -2,16 +2,13 @@ import Link from "next/link";
 import React, { FC } from "react";
 import { ReactSVG } from "react-svg";
 import { WebinarType } from "../../redux/webinars/types";
+import { baseURL } from "../../utils/server";
 
 interface WebinarItemProps {
-  webinar: {
-    title: string;
-    heading: string;
-    author: string;
-  };
+  webinars: WebinarType[];
 }
 
-const WebinerItem: FC<WebinarItemProps> = ({ webinar }) => {
+const WebinerItem: FC<WebinarItemProps> = ({ webinars }) => {
   return (
     <div className="webinar-grid__wrapper webinar-grid__wrapper--indent">
       <div className="webinar-grid__left">
@@ -26,15 +23,28 @@ const WebinerItem: FC<WebinarItemProps> = ({ webinar }) => {
               </div>
               <div className="meetings-card__bottom meetings-card__bottom--flex">
                 <div className="meetings-card__images">
-                  <Link href="#" className="meetings-card__preview">
-                    <img src="/img/meetings-card-01.jpg" alt="Image" />
+                  <Link
+                    href={`/webinars/${webinars[0].id}`}
+                    className="meetings-card__preview"
+                  >
+                    {/* <img src="/img/meetings-card-01.jpg" alt="Image" /> */}
+                    <img
+                      src={`${baseURL}${webinars[0].images[0]}`}
+                      alt="Image"
+                    />
                   </Link>
-                  <Link href="#" className="meetings-card__preview">
+                  <Link
+                    href={`/webinars/${webinars[0].id}`}
+                    className="meetings-card__preview"
+                  >
                     <img src="/img/meetings-card-02.jpg" alt="Image" />
                   </Link>
                 </div>
-                <Link href="/webinar/1" className="meetings-card__title">
-                  {webinar.title}
+                <Link
+                  href={`/webinars/${webinars[0].id}`}
+                  className="meetings-card__title"
+                >
+                  {webinars[0].name}
                 </Link>
               </div>
             </div>
@@ -54,14 +64,22 @@ const WebinerItem: FC<WebinarItemProps> = ({ webinar }) => {
                 </button>
               </div>
               <div className="meetings-card__bottom">
-                <Link href="/webinar/1" className="meetings-card__heading">
-                  {webinar.heading}
+                <Link
+                  href={`/webinars/${webinars[1].id}`}
+                  className="meetings-card__heading"
+                >
+                  {webinars[1].name}
                 </Link>
-                <span className="meetings-card__author">{webinar.author}</span>
+                <span className="meetings-card__author">
+                  {webinars[1].poperties.FIO_SPIKERS[0]}
+                </span>
               </div>
             </div>
-            <Link href="/webinar/1" className="meetings-card__img">
-              <img src="/img/webinar-card-img-02.jpg" alt="Image" />
+            <Link
+              href={`/webinars/${webinars[1].id}`}
+              className="meetings-card__img"
+            >
+              <img src={`${baseURL}${webinars[1].images[0]}`} alt="Image" />
             </Link>
           </div>
         </div>
