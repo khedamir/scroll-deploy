@@ -24,7 +24,7 @@ const WebinerItem: FC<WebinarItemProps> = ({ webinars }) => {
               <div className="meetings-card__bottom meetings-card__bottom--flex">
                 <div className="meetings-card__images">
                   <Link
-                    href={`/webinars/${webinars[0].id}`}
+                    href={`/webinar/${webinars[0].id}`}
                     className="meetings-card__preview"
                   >
                     {/* <img src="/img/meetings-card-01.jpg" alt="Image" /> */}
@@ -34,14 +34,14 @@ const WebinerItem: FC<WebinarItemProps> = ({ webinars }) => {
                     />
                   </Link>
                   <Link
-                    href={`/webinars/${webinars[0].id}`}
+                    href={`/webinar/${webinars[0].id}`}
                     className="meetings-card__preview"
                   >
                     <img src="/img/meetings-card-02.jpg" alt="Image" />
                   </Link>
                 </div>
                 <Link
-                  href={`/webinars/${webinars[0].id}`}
+                  href={`/webinar/${webinars[0].id}`}
                   className="meetings-card__title"
                 >
                   {webinars[0].name}
@@ -65,7 +65,7 @@ const WebinerItem: FC<WebinarItemProps> = ({ webinars }) => {
               </div>
               <div className="meetings-card__bottom">
                 <Link
-                  href={`/webinars/${webinars[1].id}`}
+                  href={`/webinar/${webinars[1].id}`}
                   className="meetings-card__heading"
                 >
                   {webinars[1].name}
@@ -76,7 +76,7 @@ const WebinerItem: FC<WebinarItemProps> = ({ webinars }) => {
               </div>
             </div>
             <Link
-              href={`/webinars/${webinars[1].id}`}
+              href={`/webinar/${webinars[1].id}`}
               className="meetings-card__img"
             >
               <img src={`${baseURL}${webinars[1].images[0]}`} alt="Image" />
