@@ -244,7 +244,7 @@
     border: none;
     border-radius: 0;
     transition: all $transition-default;
-    & > svg {
+    & svg {
       min-width: 24px;
       width: 24px;
       height: 24px;
@@ -1199,7 +1199,7 @@
         .lk-publications-card {
           &__arrow {
             &:not(:hover) {
-              & > svg {
+              & svg {
                 color: $icon-base-on-light-shift-up;
               }
             }
@@ -1256,7 +1256,7 @@
     border: none;
     border-radius: 0;
     transition: all $transition-default;
-    & > svg {
+    & svg {
       min-width: 16px;
       width: 16px;
       height: 16px;
@@ -1267,7 +1267,7 @@
     }
     &:focus {
       outline: none;
-      & > svg {
+      & svg {
         color: $icon-accent-on-light;
       }
     }
@@ -1275,13 +1275,13 @@
       color: $root-faint-on-light;
     }
     &:active {
-      & > svg {
+      & svg {
         color: $root-accent-on-light-shift-down;
       }
     }
     &--red {
       &:active {
-        & > svg {
+        & svg {
           color: $root-complement-2-on-light;
         }
       }
@@ -1291,7 +1291,7 @@
     }
     &.is--active {
       .lk-publications-card {
-        &__control-icon {
+        &__control-icon svg {
           color: $root-complement-2-on-light;
           &--default {
             opacity: 0;
@@ -1305,23 +1305,23 @@
 
     @media screen and (hover: hover) {
       &:hover {
-        & > svg {
+        & svg {
           color: $icon-accent-on-light;
         }
       }
       &:active {
-        & > svg {
+        & svg {
           color: $root-accent-on-light-shift-down;
         }
       }
       &--red {
         &:hover {
-          & > svg {
+          & svg {
             color: $root-complement-2-on-light;
           }
         }
         &:active {
-          & > svg {
+          & svg {
             color: $root-complement-2-on-light;
           }
         }
@@ -1377,26 +1377,26 @@
     min-width: 24px;
     width: 24px;
     height: 24px;
-    & > svg {
+    & svg {
       min-width: 24px;
       width: 24px;
       height: 24px;
       color: $icon-base-on-light;
     }
     &:active {
-      & > svg {
+      & svg {
         color: $icon-accent-on-light-shift-down;
       }
     }
 
     @media screen and (hover: hover) {
       &:hover {
-        & > svg {
+        & svg {
           color: $icon-accent-on-light;
         }
       }
       &:active {
-        & > svg {
+        & svg {
           color: $icon-accent-on-light-shift-down;
         }
       }

@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import React, { FC, useEffect } from "react";
 
 import SearchIcon from "../../public/img/sprite/icon-search.svg";
 import BookmarksIcon from "../../public/img/sprite/icon-bookmarks.svg";
@@ -7,9 +7,24 @@ import NotificationIcon from "../../public/img/sprite/icon-notifications.svg";
 import Link from "next/link";
 import { useModalsContext } from "../../context/ModalsContext";
 import Hamburger from "../hamburger";
+import { useSelector } from "react-redux";
+import { selectUser } from "../../redux/auth/slice";
 
 const Header = () => {
-  const { setAiChatActive, menuActive } = useModalsContext();
+  const {
+    setAiChatActive,
+    menuActive,
+    loginActive,
+    setLoginActive,
+    registerActive,
+    setRegisterActive,
+  } = useModalsContext();
+
+  const { user, status } = useSelector(selectUser);
+
+  const login = () => {
+    setLoginActive(true);
+  };
 
   return (
     <header className={`header ${menuActive && "is--active"}`} id="header">
@@ -54,9 +69,13 @@ const Header = () => {
               </Link>
             </div>
             <div className="header__controls header__controls--second">
-              <Link href="#" className="header__btn">
-                <span>Войти</span>
-              </Link>
+              {user ? (
+                <Link href="/lk">А</Link>
+              ) : (
+                <span onClick={login} className="header__btn">
+                  <span>Войти</span>
+                </span>
+              )}
               <Hamburger />
             </div>
           </div>

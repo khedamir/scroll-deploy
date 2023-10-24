@@ -1,10 +1,14 @@
-import React, { FC, ReactNode, useState } from "react";
+import React, { FC, ReactNode, useEffect, useState } from "react";
 import Menu from "../menu";
 import { useRouter } from "next/router";
 import ThirdyHeader from "../header/thirdyHeader";
 import SecondHeader from "../header/secondHeader";
 import Header from "../header/header";
 import ChatAi from "../aiChat";
+import { useAppDispatch } from "../../redux/store";
+import { fetchAuthMe } from "../../redux/auth/asyncAction";
+import Login from "../modals/login";
+import ChangePassword from "../modals/changePassword";
 
 type layoutProps = {
   children: ReactNode;
@@ -20,6 +24,8 @@ const Layout: FC<layoutProps> = ({ children }) => {
     headerComponent = <ThirdyHeader title="Помощь" />;
   } else if (router.pathname === "/vacancies") {
     headerComponent = <ThirdyHeader title="Вакансии" />;
+  } else if (router.pathname === "/lk" || router.pathname === "/lk-edit") {
+    headerComponent = <ThirdyHeader title="Личный кабинет" />;
   } else if (
     router.pathname === "/videos" ||
     router.pathname === "/videos/[id]" ||
@@ -33,9 +39,19 @@ const Layout: FC<layoutProps> = ({ children }) => {
     headerComponent = <Header />;
   }
 
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    if (localStorage.getItem("token")) {
+      dispatch(fetchAuthMe());
+    }
+  }, [dispatch]);
+
   return (
     <div>
       <ChatAi />
+      <Login />
+      <ChangePassword />
       {headerComponent}
       <Menu />
       {children}

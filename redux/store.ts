@@ -8,6 +8,7 @@ import lecturesReducer from "./lectures/slice";
 import podcastsReducer from "./podcasts/slice";
 import vacanciesReducer from "./vacancies/slice";
 import webinarsReducer from "./webinars/slice";
+import authReducer from "./auth/slice";
 
 const store = () =>
   configureStore({
@@ -19,6 +20,7 @@ const store = () =>
       podcasts: podcastsReducer,
       vacancies: vacanciesReducer,
       webinars: webinarsReducer,
+      auth: authReducer
     },
   });
 

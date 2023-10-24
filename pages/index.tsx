@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { NextPage } from "next";
 import Footer from "../components/footer";
 import VideoWidget from "../components/widgets/videoWidget";
@@ -20,6 +20,7 @@ import { selectNews } from "../redux/news/slice";
 import { fetchPodcasts } from "../redux/podcasts/asyncAction";
 import { fetchLectures } from "../redux/lectures/asyncAction";
 import { fetchWebinars } from "../redux/webinars/asyncAction";
+import { server } from "../utils/server";
 
 const Index: NextPage = () => {
   const { data } = useSelector(selectNews);

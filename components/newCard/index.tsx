@@ -16,8 +16,11 @@ const NewCard: FC<NewCardProps> = ({ newItem }) => {
         <div className="big-news-card__top">
           <div className="big-news-card__group">
             <span className="big-news-card__author">
-              <img src="/img/user-02.jpg" alt="Image" />
-              <span>Александр Македонский</span>
+              <img
+                src={`${baseURL}${newItem.poperties.PUB_SOURCE_LOGO}`}
+                alt="Image"
+              />
+              <span>{newItem.poperties.PUB_SOURCE}</span>
             </span>
             <span className="big-news-card__time">
               {formatDateDifference(newItem.date)}

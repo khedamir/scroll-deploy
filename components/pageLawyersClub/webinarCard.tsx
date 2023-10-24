@@ -20,15 +20,10 @@ const WebinarCard: FC<WebinarProps> = ({ webinar }) => {
                 <ReactSVG src="/img/sprite/icon-notifications.svg" />
               </button>
             </div>
-            <span className="webinar-card__date">
-              {webinar.date.slice(0, -3)}
-            </span>
+            <span className="webinar-card__date">{webinar.date.slice(0, -3)}</span>
           </div>
           <div className="webinar-card__main">
-            <Link
-              href={`/webinar/${webinar.id}`}
-              className="webinar-card__title"
-            >
+            <Link href={`/webinar/${webinar.id}`} className="webinar-card__title">
               {webinar.name}
             </Link>
           </div>

@@ -6,10 +6,18 @@ import Hamburger from "../hamburger";
 import SearchIcon from "../../public/img/sprite/icon-search.svg";
 import BookmarksIcon from "../../public/img/sprite/icon-bookmarks.svg";
 import NotificationIcon from "../../public/img/sprite/icon-notifications.svg";
+import { useRouter } from "next/router";
+import { useSelector } from "react-redux";
+import { selectUser } from "../../redux/auth/slice";
 
 const SecondHeader = () => {
-  const { menuActive } = useModalsContext();
+  const { menuActive, setLoginActive } = useModalsContext();
 
+  const { user, status } = useSelector(selectUser);
+
+  const login = () => {
+    setLoginActive(true);
+  };
   return (
     <header className={`header ${menuActive && "is--active"}`} id="header">
       <div className="container">
@@ -36,9 +44,13 @@ const SecondHeader = () => {
               </Link>
             </div>
             <div className="header__controls header__controls--second">
-              <Link href="#" className="header__btn">
-                <span>Войти</span>
-              </Link>
+              {user ? (
+                <Link href="/lk">А</Link>
+              ) : (
+                <span onClick={login} className="header__btn">
+                  <span>Войти</span>
+                </span>
+              )}
               <Hamburger />
             </div>
           </div>

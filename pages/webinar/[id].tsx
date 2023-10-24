@@ -149,11 +149,13 @@ const Webinar = () => {
   );
 };
 
-export const getServerSideProps = wrapper.getServerSideProps((store) => async () => {
-  await store.dispatch(fetchWebinars({ limit: 4 }));
-  return {
-    props: {},
-  };
-});
+export const getServerSideProps = wrapper.getServerSideProps(
+  (store) => async () => {
+    await store.dispatch(fetchWebinars({ limit: 4 }));
+    return {
+      props: {},
+    };
+  }
+);
 
 export default Webinar;

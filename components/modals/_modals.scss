@@ -127,7 +127,8 @@
   &__wrapper {
     display: flex;
     justify-content: space-between;
-    min-height: 75dvh;
+    height: 600px;
+    max-height: 75dvh;
     width: 100%;
 
     @media screen and (min-width: 768px) and (max-width: 1023px) {
@@ -417,6 +418,7 @@
     font-size: 14px;
     font-weight: 500;
     color: $root-accent-on-light;
+    cursor: pointer;
     &:hover {
       color: $root-accent-on-light;
     }
@@ -445,5 +447,40 @@
   }
   &__resource {
     margin-top: 24px;
+  }
+}
+
+.editor__content {
+  background-color: #fff;
+  width: 100%;
+  border-radius: 16px;
+  padding: 35px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+
+  h5 {
+    font-size: 16px;
+    font-weight: 600;
+  }
+
+  input {
+    width: 100%;
+    border: none;
+    font-size: 29px;
+    font-weight: 600;
+    outline: none;
+
+    &::-moz-placeholder {
+      color: $root-faint-on-light-shift-up;
+    }
+
+    &::-webkit-input-placeholder {
+      color: $root-faint-on-light-shift-up;
+    }
+  }
+
+  .ce-header {
+    padding: 0;
   }
 }

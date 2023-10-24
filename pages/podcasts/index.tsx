@@ -36,8 +36,7 @@ const PodcastsList = [
 
 const Podcasts = () => {
   const { data } = useSelector(selectPodcasts);
-  console.log(data)
-
+  console.log(data);
   return (
     <div className="layout">
       <div className="container">

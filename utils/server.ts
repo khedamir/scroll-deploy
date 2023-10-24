@@ -9,4 +9,13 @@ const server = axios.create({
   baseURL,
 });
 
-export { server };
+const serverWithJwt = axios.create({
+  baseURL,
+});
+
+serverWithJwt.interceptors.request.use((config) => {
+  config.headers.Authorization = window.localStorage.getItem("token");
+  return config;
+});
+
+export { server, serverWithJwt };

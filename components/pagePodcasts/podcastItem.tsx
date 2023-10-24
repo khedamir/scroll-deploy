@@ -3,6 +3,7 @@ import React, { FC } from "react";
 import { ReactSVG } from "react-svg";
 import { PodcastType } from "../../redux/podcasts/types";
 import RenderHTML from "../renderHTML";
+import { baseURL } from "../../utils/server";
 
 interface PodcastItemProps {
   podcast: PodcastType;
@@ -14,7 +15,7 @@ const PodcastItem: FC<PodcastItemProps> = ({ podcast, maxVersion = true }) => {
     <div key={podcast.id} className="podcasts__item">
       {maxVersion && (
         <Link href={`/podcasts/${podcast.id}`} className="podcasts__img">
-          <img src="/img/podcasts-01.jpg" alt="Image" />
+          <img src={`${baseURL}${podcast.images[0]}`} alt="Image" />
         </Link>
       )}
       <div className="podcasts__main">

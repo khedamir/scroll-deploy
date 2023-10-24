@@ -15,6 +15,8 @@ export type NewType = {
   author: string;
   poperties: {
     NEWS_LOGO: string;
+    PUB_SOURCE: "";
+    PUB_SOURCE_LOGO: "";
   };
 };
 
