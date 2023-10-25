@@ -1,61 +1,43 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Footer from "../../components/footer";
-import Link from "next/link";
 import SecondSidebar from "../../components/sidebar/secondSidebar";
 import LectureItem from "../../components/pageLecture/lectureItem";
 import { wrapper } from "../../redux/store";
 import { fetchLectures } from "../../redux/lectures/asyncAction";
 import { useSelector } from "react-redux";
 import { selectLectures } from "../../redux/lectures/slice";
-
-const LecturesList = [
-  {
-    id: 1,
-    name: "Люди не готовы к ошибкам нейросетей",
-    img: "/img/videos-01.jpg",
-    author: "Александр Македонский",
-    date: "1 день назад",
-  },
-  {
-    id: 2,
-    name: "Люди не готовы к ошибкам нейросетей",
-    img: "/img/videos-02.jpg",
-    author: "Александр Македонский",
-    date: "1 день назад",
-  },
-  {
-    id: 3,
-    name: "Люди не готовы к ошибкам нейросетей",
-    img: "/img/videos-03.jpg",
-    author: "Александр Македонский",
-    date: "1 день назад",
-  },
-  {
-    id: 4,
-    name: "Люди не готовы к ошибкам нейросетей",
-    img: "/img/videos-04.jpg",
-    author: "Александр Македонский",
-    date: "1 день назад",
-  },
-  {
-    id: 5,
-    name: "Люди не готовы к ошибкам нейросетей",
-    img: "/img/videos-03.jpg",
-    author: "Александр Македонский",
-    date: "1 день назад",
-  },
-  {
-    id: 6,
-    name: "Люди не готовы к ошибкам нейросетей",
-    img: "/img/videos-04.jpg",
-    author: "Александр Македонский",
-    date: "1 день назад",
-  },
-];
+import { LectureType } from "../../redux/lectures/types";
+import { server } from "../../utils/server";
 
 const Lectures = () => {
   const { data } = useSelector(selectLectures);
-  console.log(data)
+
+  const [nextPublication, setNextPublications] = useState<LectureType[]>([]);
+  const [page, setPage] = useState(2);
+  let totalPages = data.pagination?.totalPages;
+
+  const fetchNextNews = async () => {
+    const result = await server.get(
+      `/sw/v1/publications/?iblockid=26&sort=ASC`,
+      {
+        params: {
+          page: page,
+          limit: 8,
+        },
+      }
+    );
+    if (totalPages !== result.data.pagination.totalPages) {
+      totalPages = result.data.pagination.totalPages;
+    }
+    const newArr = [...nextPublication, ...result.data.datas];
+    setNextPublications(newArr);
+  };
+
+  useEffect(() => {
+    if (totalPages && page <= totalPages) {
+      fetchNextNews();
+    }
+  }, [page]);
 
   return (
     <div className="layout">
@@ -77,6 +59,16 @@ const Lectures = () => {
                         otherClassName="lectures__item"
                       />
                     ))}
+                    {nextPublication.map((lecture, index) => (
+                      <LectureItem
+                        key={lecture.id}
+                        lecture={lecture}
+                        otherClassName="lectures__item"
+                        isLast={index === nextPublication.length - 1}
+                        newLimit={() => setPage(page + 1)}
+                        end={page === totalPages}
+                      />
+                    ))}
                   </div>
                 </div>
               </div>
@@ -90,7 +82,7 @@ const Lectures = () => {
 
 export const getServerSideProps = wrapper.getServerSideProps(
   (store) => async () => {
-    await store.dispatch(fetchLectures({ limit: 15 }));
+    await store.dispatch(fetchLectures({ limit: 8 }));
     return {
       props: {},
     };

@@ -13,58 +13,12 @@ import { server } from "../../utils/server";
 import { FullPublicationType } from "../../redux/types";
 import { formatDateDifference } from "../../utils/formatDate";
 
-const LecturesList = [
-  {
-    id: 1,
-    name: "Люди не готовы к ошибкам нейросетей",
-    img: "/img/videos-01.jpg",
-    author: "Александр Македонский",
-    date: "1 день назад",
-  },
-  {
-    id: 2,
-    name: "Люди не готовы к ошибкам нейросетей",
-    img: "/img/videos-02.jpg",
-    author: "Александр Македонский",
-    date: "1 день назад",
-  },
-  {
-    id: 3,
-    name: "Люди не готовы к ошибкам нейросетей",
-    img: "/img/videos-03.jpg",
-    author: "Александр Македонский",
-    date: "1 день назад",
-  },
-  {
-    id: 4,
-    name: "Люди не готовы к ошибкам нейросетей",
-    img: "/img/videos-04.jpg",
-    author: "Александр Македонский",
-    date: "1 день назад",
-  },
-  {
-    id: 5,
-    name: "Люди не готовы к ошибкам нейросетей",
-    img: "/img/videos-03.jpg",
-    author: "Александр Македонский",
-    date: "1 день назад",
-  },
-  {
-    id: 6,
-    name: "Люди не готовы к ошибкам нейросетей",
-    img: "/img/videos-04.jpg",
-    author: "Александр Македонский",
-    date: "1 день назад",
-  },
-];
-
 interface LectureProps {
   publication: FullPublicationType;
 }
 
 const Lecture: FC<LectureProps> = ({ publication }) => {
   const { data } = useSelector(selectLectures);
-  console.log(publication);
 
   return (
     <div className="layout layout--sticky-bottom">

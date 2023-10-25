@@ -1,24 +1,17 @@
-import Link from "next/link";
 import React, { FC, RefObject, useEffect, useRef } from "react";
-import { LectureType } from "../../redux/lectures/types";
+import { VideoType } from "../../redux/videos/types";
+import Link from "next/link";
 import { baseURL } from "../../utils/server";
 import { formatDateDifference } from "../../utils/formatDate";
 
-interface LectureItemProps {
-  lecture: LectureType;
-  otherClassName?: string;
+interface VideoItemProps {
+  video: VideoType;
   isLast?: boolean;
   newLimit?: () => void;
   end?: boolean;
 }
 
-const LectureItem: FC<LectureItemProps> = ({
-  lecture,
-  otherClassName,
-  isLast,
-  newLimit,
-  end,
-}) => {
+const VideoItem: FC<VideoItemProps> = ({ video, isLast, newLimit, end }) => {
   const cardRef: RefObject<HTMLAnchorElement> = useRef(null);
 
   useEffect(() => {
@@ -37,21 +30,18 @@ const LectureItem: FC<LectureItemProps> = ({
   }, [isLast]);
   
   return (
-    <Link
-      href={`/lectures/${lecture.id}`}
-      className={`category-card category-card--sm ${otherClassName}`}
-    >
+    <Link  href={`videos/${video.id}`} className="category-card videos__item" ref={cardRef}>
       <picture className="category-card__img">
-        <img src={`${baseURL}${lecture?.images?.[1]}`} alt="Image" />
+        <img src={`${baseURL}${video.images[1]}`} alt="Image" />
       </picture>
       <div className="category-card__body">
-        <span className="category-card__name">{lecture.name}</span>
+        <span className="category-card__name">{video.name}</span>
         <div className="category-card__inner">
           <span className="category-card__author">
-            {lecture.poperties?.PUB_AUTOR}
+            {video.poperties.PUB_AUTOR}
           </span>
           <span className="category-card__help">
-            {formatDateDifference(lecture.date)}
+            {formatDateDifference(video.date)}
           </span>
         </div>
       </div>
@@ -59,4 +49,4 @@ const LectureItem: FC<LectureItemProps> = ({
   );
 };
 
-export default LectureItem;
+export default VideoItem;

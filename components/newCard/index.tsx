@@ -1,5 +1,5 @@
 import Link from "next/link";
-import React, { FC } from "react";
+import React, { FC, RefObject, useEffect, useRef } from "react";
 import { ReactSVG } from "react-svg";
 import { NewType } from "../../redux/news/types";
 import { baseURL } from "../../utils/server";
@@ -7,11 +7,31 @@ import { formatDateDifference } from "../../utils/formatDate";
 
 interface NewCardProps {
   newItem: NewType;
+  isLast?: boolean;
+  newLimit?: () => void;
+  end?: boolean;
 }
 
-const NewCard: FC<NewCardProps> = ({ newItem }) => {
+const NewCard: FC<NewCardProps> = ({ newItem, isLast, newLimit, end }) => {
+  const cardRef: RefObject<HTMLDivElement> = useRef(null);
+
+  useEffect(() => {
+    if (isLast && newLimit && !end) {
+      if (!cardRef?.current) return;
+
+      const observer = new IntersectionObserver(([entry]) => {
+        if (isLast && entry.isIntersecting) {
+          newLimit();
+          observer.unobserve(entry.target);
+        }
+      });
+
+      observer.observe(cardRef.current);
+    }
+  }, [isLast]);
+
   return (
-    <div className="big-news-card section-indent mobile-wide">
+    <div className="big-news-card section-indent mobile-wide" ref={cardRef}>
       <div className="big-news-card__body">
         <div className="big-news-card__top">
           <div className="big-news-card__group">

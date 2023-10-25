@@ -1,5 +1,5 @@
 import Link from "next/link";
-import React, { FC } from "react";
+import React, { FC, RefObject, useEffect, useRef } from "react";
 import { ReactSVG } from "react-svg";
 import { PodcastType } from "../../redux/podcasts/types";
 import RenderHTML from "../renderHTML";
@@ -8,9 +8,35 @@ import { baseURL } from "../../utils/server";
 interface PodcastItemProps {
   podcast: PodcastType;
   maxVersion?: boolean;
+  isLast?: boolean;
+  newLimit?: () => void;
+  end?: boolean;
 }
 
-const PodcastItem: FC<PodcastItemProps> = ({ podcast, maxVersion = true }) => {
+const PodcastItem: FC<PodcastItemProps> = ({
+  podcast,
+  maxVersion = true,
+  isLast,
+  newLimit,
+  end,
+}) => {
+  const cardRef: RefObject<HTMLAnchorElement> = useRef(null);
+
+  useEffect(() => {
+    if (isLast && newLimit && !end) {
+      if (!cardRef?.current) return;
+
+      const observer = new IntersectionObserver(([entry]) => {
+        if (isLast && entry.isIntersecting) {
+          newLimit();
+          observer.unobserve(entry.target);
+        }
+      });
+
+      observer.observe(cardRef.current);
+    }
+  }, [isLast]);
+  
   return (
     <div key={podcast.id} className="podcasts__item">
       {maxVersion && (

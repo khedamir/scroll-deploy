@@ -22,117 +22,39 @@ import { rubricByIdSelector, selectRubrics } from "../../redux/rubrics/slice";
 import { fetchLectures } from "../../redux/lectures/asyncAction";
 import { fetchPodcasts } from "../../redux/podcasts/asyncAction";
 
-const Data = {
-  recomendations: [
-    {
-      id: 1,
-      name: "В Берлине сообщили о решении выслать немецких служащих. В Берлине сообщили о решении выслать немецких служащих",
-    },
-    {
-      id: 2,
-      name: "Дагестан с начала 2023г. в 5 раз увеличил гарантийную поддержку бизнеса",
-    },
-    {
-      id: 3,
-      name: "Мнение: льготная ипотека на «вторичку» уравновесит цены на жилье в ЮФО",
-    },
-    {
-      id: 4,
-      name: "Шесть регионов СКФО стали аутсайдерами рейтинга благосостояния населения",
-    },
-    {
-      id: 5,
-      name: "Компании Маска Neuralink разрешили испытывать чипы на мозгах людей.",
-    },
-  ],
-  news: [
-    {
-      id: 1,
-      name: "Внешнеторговый оборот Кабардино-Балкарии вырос в 1,2 раза в 2022 году",
-      author: "Александр Македонский",
-      date: "30 минут назад",
-    },
-    {
-      id: 2,
-      name: "Внешнеторговый оборот Кабардино-Балкарии вырос в 1,2 раза в 2022 году",
-      author: "Александр Македонский",
-      date: "30 минут назад",
-    },
-  ],
-};
-
 interface RubricsProps {
   recomendations: NewType[];
 }
 
 const Rubrics: FC<RubricsProps> = ({ recomendations }) => {
-  console.log(recomendations);
   const { data } = useSelector(selectNews);
 
-  const { datas, pagination } = data;
-  // const [page, setPage] = useState(1);
+  const [nextPublication, setNextPublications] = useState<NewType[]>([]);
+  const [page, setPage] = useState(2);
+  let totalPages = data.pagination?.totalPages;
+
   const router = useRouter();
 
-  const [nextPublication, setNextPublications] = useState<NewType[]>([]);
-  const [hasMore, setHasMore] = useState(true);
-
-  // const handleScroll = useCallback(() => {
-  //   if (pagination && pagination.page < pagination.totalPages) {
-  //     const scrollY = window.scrollY;
-  //     const windowHeight = window.innerHeight;
-  //     const documentHeight = document.documentElement.scrollHeight;
-
-  //     if (scrollY + windowHeight >= documentHeight - 200) {
-  //       setPage(page + 1);
-  //     }
-  //   }
-  // }, [pagination]);
-
-  // useEffect(() => {
-  //   window.addEventListener("scroll", handleScroll);
-  //   return () => {
-  //     window.removeEventListener("scroll", handleScroll);
-  //   };
-  // }, [handleScroll]);
-
   const fetchNextNews = async () => {
-    // const { data } = await server.get(
-    //   `/sw/v1/publications/?iblockid=9&sort=ASC`,
-    //   {
-    //     params: {
-    //       limit: 3,
-    //       rubric: Number(router.query.id),
-    //     },
-    //   }
-    // );
-    // if (data.pagintaion.page === data.pagination.totalPages) {
-    //   setHasMore(false);
-    // } else {
-    //   const newArr = [...nextPublication, data.datas];
-    //   setNextPublications(newArr);
-    // }
+    const result = await server.get(
+      `/sw/v1/publications/?iblockid=9&sort=ASC`,
+      {
+        params: {
+          page: page,
+          limit: 2,
+          rubric: Number(router.query.id),
+        },
+      }
+    );
+    const newArr = [...nextPublication, ...result.data.datas];
+    setNextPublications(newArr);
   };
 
-  // useEffect(() => {
-  //   const fetchNextNews = async () => {
-  //     const result = await server.get(
-  //       `/sw/v1/publications/?iblockid=9&sort=ASC`,
-  //       {
-  //         params: {
-  //           page: page,
-  //           limit: 3,
-  //           rubric: Number(router.query.id),
-  //         },
-  //       }
-  //     );
-
-  //     const newArr = [...nextPublication, ...result.data.datas];
-  //     setNextPublications(newArr);
-  //   };
-  //   if (page > 1) {
-  //     fetchNextNews();
-  //   }
-  // }, [page]);
+  useEffect(() => {
+    if (totalPages && page <= totalPages) {
+      fetchNextNews();
+    }
+  }, [page]);
 
   return (
     <div className="layout">
@@ -192,18 +114,18 @@ const Rubrics: FC<RubricsProps> = ({ recomendations }) => {
               <SectionLayout
                 children1={
                   <>
-                    <InfiniteScroll
-                      pageStart={1}
-                      loadMore={fetchNextNews}
-                      hasMore={hasMore}
-                    >
-                      {nextPublication.map((item) => (
-                        <NewCard key={item.id} newItem={item} />
-                      ))}
-                    </InfiniteScroll>
+                    {nextPublication.map((item, index) => (
+                      <NewCard
+                        key={item.id}
+                        newItem={item}
+                        isLast={index === nextPublication.length - 1}
+                        newLimit={() => setPage(page + 1)}
+                        end={page === totalPages}
+                      />
+                    ))}
                   </>
                 }
-                children2={<VideoWidget />}
+                children2={<></>}
               />
             )}
           </div>
@@ -221,7 +143,7 @@ export const getServerSideProps = wrapper.getServerSideProps(
     await store.dispatch(fetchPodcasts({ limit: 3 }));
     await store.dispatch(fetchLectures({ limit: 3 }));
     await store.dispatch(
-      fetchNews({ limit: 3, page: 1, rubric: Number(query.id) })
+      fetchNews({ limit: 2, page: 1, rubric: Number(query.id) })
     );
     const { data } = await server.get(
       `/sw/v1/publications/?iblockid=9&sort=ASC&limit=5`
