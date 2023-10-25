@@ -21,9 +21,42 @@ import { fetchPodcasts } from "../redux/podcasts/asyncAction";
 import { fetchLectures } from "../redux/lectures/asyncAction";
 import { fetchWebinars } from "../redux/webinars/asyncAction";
 import { server } from "../utils/server";
+import { NewType, PaginationType } from "../redux/news/types";
+
+type PaginationDataType = {
+  pagination: PaginationType | null;
+  items: NewType[][];
+};
 
 const Index: NextPage = () => {
   const { data } = useSelector(selectNews);
+
+  const [nextPublication, setNextPublications] = useState<PaginationDataType>({
+    items: [],
+    pagination: null,
+  });
+
+  const [page, setPage] = useState(3);
+
+  const fetchNextNews = async () => {
+    const result = await server.get(
+      `/sw/v1/publications/?iblockid=9&sort=ASC`,
+      {
+        params: {
+          page: page,
+          limit: 8,
+        },
+      }
+    );
+
+    const newArr = [...nextPublication?.items, [...result.data.datas]];
+    console.log(page, newArr);
+    setNextPublications({ items: newArr, pagination: result.data.pagination });
+  };
+
+  useEffect(() => {
+    fetchNextNews();
+  }, [page]);
 
   return (
     <div className="layout">
@@ -64,6 +97,22 @@ const Index: NextPage = () => {
               children1={<ClubBlock />}
               children2={<span className="layout__heading">клуб юристов</span>}
             />
+            {nextPublication.items &&
+              nextPublication.items.map((items, index) => (
+                <SectionLayout
+                  key={index}
+                  children1={
+                    <>
+                      <NewsCard news={items.slice(0, 5)} />
+                      <NewsList news={items.slice(5, 8)} largeNewIndex={2} />
+                    </>
+                  }
+                  children2={<></>}
+                  isLast={index === nextPublication.items.length - 1}
+                  newLimit={() => setPage(page + 1)}
+                  end={page === nextPublication.pagination?.totalPages}
+                />
+              ))}
           </div>
         </div>
       </div>
