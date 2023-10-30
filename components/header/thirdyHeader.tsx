@@ -14,7 +14,7 @@ interface HeaderProps {
 }
 
 const ThirdyHeader: FC<HeaderProps> = ({ title }) => {
-  const { menuActive, setLoginActive } = useModalsContext();
+  const { menuActive, setLoginActive, setSearchActive } = useModalsContext();
 
   const { user, status } = useSelector(selectUser);
 
@@ -39,12 +39,12 @@ const ThirdyHeader: FC<HeaderProps> = ({ title }) => {
           </div>
           <div className="header__right">
             <div className="header__controls header__controls--first">
-              <Link
-                href="#"
+              <span
+                onClick={() => setSearchActive(true)}
                 className="header__btn header__btn--search search-btn"
               >
                 <SearchIcon />
-              </Link>
+              </span>
               <Link href="#" className="header__btn header__btn--tablet-hidden">
                 <BookmarksIcon />
               </Link>

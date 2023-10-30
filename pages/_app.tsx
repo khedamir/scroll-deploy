@@ -8,10 +8,9 @@ import { Provider } from "react-redux";
 import Layout from "../components/layout";
 import { ModalsContextProvider } from "../context/ModalsContext";
 import { wrapper } from "../redux/store";
+import { fetchRubrics } from "../redux/rubrics/asyncAction";
 
-type PageProps = AppProps;
-
-const MyApp: React.FC<PageProps> = ({ Component, ...rest }) => {
+function MyApp({ Component, ...rest }: AppProps) {
   const { store } = wrapper.useWrappedStore(rest);
   return (
     <Provider store={store}>
@@ -22,6 +21,17 @@ const MyApp: React.FC<PageProps> = ({ Component, ...rest }) => {
       </ModalsContextProvider>
     </Provider>
   );
-};
+}
+
+MyApp.getInitialProps = wrapper.getInitialAppProps(
+  (store) =>
+    async ({ Component, ctx }) => {
+      await store.dispatch(fetchRubrics());
+      const pageProps = Component.getInitialProps
+        ? await Component.getInitialProps({ ...ctx, store })
+        : {};
+      return { pageProps };
+    }
+);
 
 export default MyApp;

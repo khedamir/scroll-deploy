@@ -1,4 +1,4 @@
-import React from "react";
+import React, { FC } from "react";
 import Footer from "../../components/footer";
 import { ReactSVG } from "react-svg";
 import Link from "next/link";
@@ -9,6 +9,7 @@ import { wrapper } from "../../redux/store";
 import { fetchWebinars } from "../../redux/webinars/asyncAction";
 import { useSelector } from "react-redux";
 import { selectWebinars } from "../../redux/webinars/slice";
+import { server } from "../../utils/server";
 
 const web = {
   webinar: {
@@ -57,8 +58,13 @@ const web = {
   ],
 };
 
-const Webinar = () => {
+interface WebinarProps {
+  publication: any;
+}
+
+const Webinar: FC<WebinarProps> = ({ publication }) => {
   const { data } = useSelector(selectWebinars);
+  console.log(publication)
 
   return (
     <div className="layout">
@@ -150,11 +156,25 @@ const Webinar = () => {
 };
 
 export const getServerSideProps = wrapper.getServerSideProps(
-  (store) => async () => {
-    await store.dispatch(fetchWebinars({ limit: 4 }));
-    return {
-      props: {},
-    };
+  (store) => async (context) => {
+    const { id } = context.params || {};
+    try {
+      await store.dispatch(fetchWebinars({ limit: 15 }));
+      const { data } = await server.get(`/sw/v1/publications/?id=${id}`);
+
+      return {
+        props: {
+          publication: data.datas[Number(id)],
+        },
+      };
+    } catch (error) {
+      return {
+        redirect: {
+          destination: "/server-error",
+          permanent: false,
+        },
+      };
+    }
   }
 );
 

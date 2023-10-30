@@ -1,9 +1,11 @@
 import Link from "next/link";
-import React, { useState } from "react";
-import LegalAdvice from "../modals/legalAdvice";
+import React, { useState, FC } from "react";
 
-const NewWidget = () => {
-  const [modalActive, setModalActive] = useState(false);
+interface LegalAdviceProps {
+  setModalActive: (v: boolean) => void;
+}
+
+const LegalAdvice: FC<LegalAdviceProps> = ({ setModalActive }) => {
   return (
     <>
       <div className="layout__sticky-block">
@@ -30,9 +32,8 @@ const NewWidget = () => {
           </div>
         </div>
       </div>
-      <LegalAdvice active={modalActive} setActive={setModalActive} />
     </>
   );
 };
 
-export default NewWidget;
+export default LegalAdvice;

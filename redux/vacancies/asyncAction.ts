@@ -6,7 +6,7 @@ export const fetchVacancies = createAsyncThunk<VacanciesData, FetchParams>(
   "vacancies/fetchVacancies",
   async (params) => {
     const { data } = await server.get(
-      `/sw/v1/publications/?iblockid=30&sort=ASC`,
+      `/sw/v1/publications/?iblockid=30`,
       {
         params,
       }

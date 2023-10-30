@@ -18,7 +18,7 @@ const Viedos = () => {
 
   const fetchNextNews = async () => {
     const result = await server.get(
-      `/sw/v1/publications/?iblockid=15&sort=ASC`,
+      `/sw/v1/publications/?iblockid=15`,
       {
         params: {
           page: page,

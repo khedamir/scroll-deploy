@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Footer from "../../components/footer";
 import { ReactSVG } from "react-svg";
+import Support from "../../components/modals/support";
 
 const items = [
   {
@@ -162,6 +163,7 @@ const items = [
 
 const Faq = () => {
   const [activeItem, setActiveItem] = useState(["", ""]);
+  const [activeForm, setActiveForm] = useState(false);
   function toggleActiveItem(v1: string, v2: string) {
     if (activeItem[0] === v1 && activeItem[1] === v2) {
       setActiveItem(["", ""]);
@@ -171,6 +173,7 @@ const Faq = () => {
   }
   return (
     <div className="layout">
+      <Support active={activeForm} setActive={setActiveForm} />
       <div className="container">
         <div className="layout__wrap">
           <div className="layout__left">
@@ -247,7 +250,10 @@ const Faq = () => {
                 </div>
               </div>
               <div className="layout__right">
-                <div className="answer-widget layout__sticky">
+                <div
+                  onClick={() => setActiveForm(true)}
+                  className="answer-widget layout__sticky"
+                >
                   <p>Задайте свой вопрос...</p>
                 </div>
               </div>

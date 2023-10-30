@@ -3,8 +3,7 @@ import { ReactSVG } from "react-svg";
 import { useModalsContext } from "../../context/ModalsContext";
 
 const ChangePassword = () => {
-  const { changePasswordActive, setChangePasswordActive } =
-    useModalsContext();
+  const { changePasswordActive, setChangePasswordActive } = useModalsContext();
   const closeModal = () => {
     setChangePasswordActive(false);
   };
@@ -51,6 +50,7 @@ const ChangePassword = () => {
                       id="modal-change-password-1"
                       className="input-field__input"
                       placeholder=""
+                      autoComplete="current-password"
                     />
                   </div>
                   <span className="input-field__error">
@@ -72,6 +72,7 @@ const ChangePassword = () => {
                       id="modal-change-password-2"
                       className="input-field__input"
                       placeholder=""
+                      autoComplete="current-password"
                     />
                   </div>
                   <span className="input-field__error">

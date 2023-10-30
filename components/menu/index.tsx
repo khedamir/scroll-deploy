@@ -6,17 +6,15 @@ import { useModalsContext } from "../../context/ModalsContext";
 import { useSelector } from "react-redux";
 import { selectRubrics } from "../../redux/rubrics/slice";
 import { baseURL } from "../../utils/server";
-import { useRouter } from "next/router";
 
 const Menu = () => {
   const { rubrics } = useSelector(selectRubrics);
-  const router = useRouter();
 
   const { setAiChatActive, menuActive, setMenuActive } = useModalsContext();
 
   useEffect(() => {
-    setMenuActive(false);
-  }, [router]);
+    console.log(rubrics);
+  }, []);
 
   return (
     <div className={`menu ${menuActive && "is--active"}`}>

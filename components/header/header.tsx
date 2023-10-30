@@ -14,10 +14,9 @@ const Header = () => {
   const {
     setAiChatActive,
     menuActive,
-    loginActive,
     setLoginActive,
-    registerActive,
     setRegisterActive,
+    setSearchActive,
   } = useModalsContext();
 
   const { user, status } = useSelector(selectUser);
@@ -37,7 +36,10 @@ const Header = () => {
           </div>
           <div className="header__center">
             <div className="c-search header__search">
-              <div className="c-search__inner">
+              <div
+                onClick={() => setSearchActive(true)}
+                className="c-search__inner"
+              >
                 <input
                   type="text"
                   className="c-search__input"
@@ -55,12 +57,12 @@ const Header = () => {
           </div>
           <div className="header__right">
             <div className="header__controls header__controls--first">
-              <Link
-                href="#"
+              <span
+                onClick={() => setSearchActive(true)}
                 className="header__btn header__btn--mobile header__btn--desktop-hidden search-btn"
               >
                 <SearchIcon />
-              </Link>
+              </span>
               <Link href="#" className="header__btn header__btn--tablet-hidden">
                 <BookmarksIcon />
               </Link>

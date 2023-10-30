@@ -139,7 +139,6 @@ export const getServerSideProps = wrapper.getServerSideProps(
   (store) => async (context) => {
     const { query } = context;
 
-    await store.dispatch(fetchRubrics());
     await store.dispatch(fetchPodcasts({ limit: 3 }));
     await store.dispatch(fetchLectures({ limit: 3 }));
     await store.dispatch(

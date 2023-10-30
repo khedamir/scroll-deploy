@@ -1,29 +1,36 @@
-import React, { FC } from "react";
+import React, { FC, useState } from "react";
 import Footer from "../../components/footer";
+import { GetServerSideProps } from "next";
 import { ReactSVG } from "react-svg";
 import Comments from "../../components/comments";
 import Sidebar from "../../components/sidebar/sidebar";
-import NewWidget from "../../components/widgets/newWidget";
+import LegalAdviceWidget from "../../components/widgets/legalAdviceWidget";
 import MediaControls from "../../components/mediaControls";
 import Link from "next/link";
-import { baseURL, server } from "../../utils/server";
-import { GetServerSideProps } from "next";
-import { FullPublicationType } from "../../redux/types";
+import { baseURL, server, serverWithJwt } from "../../utils/server";
 import RenderHTML from "../../components/renderHTML";
-import Tags from "../../components/tags";
-import { wrapper } from "../../redux/store";
-import { fetchRubrics } from "../../redux/rubrics/asyncAction";
 import { formatDateDifference } from "../../utils/formatDate";
-import { rubricByIdSelector } from "../../redux/rubrics/slice";
+import LegalAdvice from "../../components/modals/legalAdvice";
+import { FullNewType } from "../../redux/types";
+import Tags from "../../components/tags";
+import NewAuthor from "../../components/pageNew/newAuthor";
+import RecomendationNew from "../../components/pageNew/recomendationNew";
 
 interface NewProps {
-  publication: FullPublicationType;
+  publication: FullNewType;
 }
 
 const New: FC<NewProps> = ({ publication }) => {
+  const [modalActive, setModalActive] = useState(false);
+
+  const anchor = '<a name="recomendation"></a>';
+  const anchorPosition = publication.content.indexOf(anchor);
+  const newStart = publication.content.slice(0, anchorPosition);
+  const newEnd = publication.content.slice(anchorPosition + anchor.length);
   console.log("hi", publication);
   return (
     <div className="layout layout--sticky-bottom">
+      <LegalAdvice active={modalActive} setActive={setModalActive} />
       <div className="container">
         <div className="layout__wrap layout__wrap--padding">
           <div className="layout__left">
@@ -36,23 +43,15 @@ const New: FC<NewProps> = ({ publication }) => {
                 <div className="big-news mobile-wide">
                   <div className="big-news__wrap">
                     <div className="big-news__content content">
-                      <h1>
-                        {publication.name}
-                        {/* Как получить материнский капитал и на что его можно
-                        использовать */}
-                      </h1>
+                      <h1>{publication.name}</h1>
                       <div className="description-block">
                         <div className="description-block__inner">
-                          <span>
-                            {/* {rubricByIdSelector(publication.rubric)?.name} */}
-                            Спорт
-                          </span>
+                          <span>{publication.props.PUB_RUBRIC.VALUE[0]}</span>
                           <span>{formatDateDifference(publication.date)}</span>
                         </div>
                       </div>
                       <div className="media-block">
                         <picture className="media-block__photo">
-                          {/* <img src="/img/big-news-img.jpg" alt="Image" /> */}
                           <img
                             src={`${baseURL}${publication.images[1]}`}
                             alt=""
@@ -62,153 +61,22 @@ const New: FC<NewProps> = ({ publication }) => {
                             <span>5 комментариев</span>
                           </Link>
                         </picture>
-                        <MediaControls otherClassName="media-block__controls" />
+                        <MediaControls
+                          likes={publication.likes}
+                          liked={publication.liked}
+                          views={publication.views}
+                          publication_id={publication.id}
+                          otherClassName="media-block__controls"
+                        />
                       </div>
-                      {/* <RenderHTML content={publication.DETAIL_TEXT} /> */}
-                      {/* <h5>
-                        Для чего нужны изделия Neuralink и как они устроены
-                      </h5> */}
-                      {/* <p>
-                        «Это результат невероятной работы команды Neuralink в
-                        тесном сотрудничестве с FDA, он представляет собой
-                        важный первый шаг, который однажды позволит нашей
-                        технологии помочь многим людям», — заявили в компании,
-                        добавив, что набор добровольцев для клинического
-                        испытания еще не открыт.
-                        <br />
-                        <br />
-                        Как пишет Reutres, с 2019 года Илон Маск несколько раз
-                        анонсировал испытания чипов на людях, однако разрешение
-                        FDA Neuralink запросила только в начале 2022 года. Тогда
-                        регулятор отклонил заявку. Основные проблемы, по словам
-                        сотрудников Neuralink, были связаны с литиевой батареей
-                        чипа, возможностью миграции проводов имплантата внутри
-                        мозга и проблемой безопасного извлечения устройства без
-                        повреждения человеческих тканей.
-                        <br />
-                        <br />В декабре 2022 года Маск анонсировал, что изучение
-                        продукции Neuralink на человеке может начаться уже через
-                        полгода.
-                      </p> */}
-                      {/* <div className="c-quote">
-                        <div className="c-quote__wrapper">
-                          <p className="c-quote__description">
-                            Ничего страшного, никакого пенальти не было. Просто
-                            немного накопилась усталость в мышцах, и я
-                            почувствовал боль, которую не хотелось усугублять.
-                          </p>
-                          <span className="c-quote__author">
-                            Александр Македонский
-                          </span>
-                        </div>
-                      </div> */}
-                      {/* <p>
-                        «Это результат невероятной работы команды Neuralink в
-                        тесном сотрудничестве с FDA, он представляет собой
-                        важный первый шаг, который однажды позволит нашей
-                        технологии помочь многим людям», — заявили в компании,
-                        добавив, что набор добровольцев для клинического
-                        испытания еще не открыт.
-                        <br />
-                        <br />
-                        Как пишет Reutres, с 2019 года Илон Маск несколько раз
-                        анонсировал испытания чипов на людях, однако разрешение
-                        FDA Neuralink запросила только в начале 2022 года. Тогда
-                        регулятор отклонил заявку. Основные проблемы, по словам
-                        сотрудников Neuralink, были связаны с литиевой батареей
-                        чипа, возможностью миграции проводов имплантата внутри
-                        мозга и проблемой безопасного извлечения устройства без
-                        повреждения человеческих тканей.
-                        <br></br>В декабре 2022 года Маск анонсировал, что
-                        изучение продукции Neuralink на человеке может начаться
-                        уже через полгода.
-                      </p> */}
-                      {/* <div className="big-news__block">
-                        <h5>
-                          В Берлине сообщили о решении выслать немецких служащих
-                        </h5>
-                        <div className="description-block">
-                          <div className="description-block__inner">
-                            <span>Спорт</span>
-                            <span>30 минут назад</span>
-                            <button className="c-bookmark">
-                              <ReactSVG
-                                className="c-bookmark__icon c-bookmark__icon--default"
-                                src="/img/sprite/icon-bookmarks.svg"
-                              />
-                              <ReactSVG
-                                className="c-bookmark__icon c-bookmark__icon--filled"
-                                src="/img/sprite/icon-bookmarks-filled.svg"
-                              />
-                            </button>
-                          </div>
-                        </div>
-                      </div> */}
-                      {/* <p>
-                        «Это результат невероятной работы команды Neuralink в
-                        тесном сотрудничестве с FDA, он представляет собой
-                        важный первый шаг, который однажды позволит нашей
-                        технологии помочь многим людям», — заявили в компании,
-                        добавив, что набор добровольцев для клинического
-                        испытания еще не открыт.
-                        <br />
-                        <br />
-                        Как пишет Reutres, с 2019 года Илон Маск несколько раз
-                        анонсировал испытания чипов на людях, однако разрешение
-                        FDA Neuralink запросила только в начале 2022 года. Тогда
-                        регулятор отклонил заявку. Основные проблемы, по словам
-                        сотрудников Neuralink, были связаны с литиевой батареей
-                        чипа, возможностью миграции проводов имплантата внутри
-                        мозга и проблемой безопасного извлечения устройства без
-                        повреждения человеческих тканей.
-                        <br />
-                        <br />В декабре 2022 года Маск анонсировал, что изучение
-                        продукции Neuralink на человеке может начаться уже через
-                        полгода.
-                      </p> */}
-                      {/* <picture>
-                        <img src="/img/big-news-img-02.jpg" alt="Image" />
-                        <span>
-                          Neuralink logo and Elon Musk photo are seen in this
-                          illustration taken, December 19, 2022. REUTERS/Dado
-                          Ruvic/Illustration/File Photo/File Photo
-                        </span>
-                      </picture> */}
-                      {/* <h5>
-                        Для чего нужны изделия Neuralink и как они устроены
-                      </h5> */}
-                      {/* <p>
-                        «Это результат невероятной работы команды Neuralink в
-                        тесном сотрудничестве с FDA, он представляет собой
-                        важный первый шаг, который однажды позволит нашей
-                        технологии помочь многим людям», — заявили в компании,
-                        добавив, что набор добровольцев для клинического
-                        испытания еще не открыт.
-                        <br />
-                        <br />
-                        Как пишет Reutres, с 2019 года Илон Маск несколько раз
-                        анонсировал испытания чипов на людях, однако разрешение
-                        FDA Neuralink запросила только в начале 2022 года. Тогда
-                        регулятор отклонил заявку. Основные проблемы, по словам
-                        сотрудников Neuralink, были связаны с литиевой батареей
-                        чипа, возможностью миграции проводов имплантата внутри
-                        мозга и проблемой безопасного извлечения устройства без
-                        повреждения человеческих тканей.
-                        <br />
-                        <br />В декабре 2022 года Маск анонсировал, что изучение
-                        продукции Neuralink на человеке может начаться уже через
-                        полгода.
-                      </p> */}
+                      <RenderHTML content={newStart} />
+                      <RecomendationNew />
+                      <RenderHTML content={newEnd} />
                       <p className="small-description">
-                        {/* Краткое резюме статьи: Основные проблемы, по словам
-                        сотрудников Neuralink, были связаны с литиевой батареей
-                        чипа, возможностью миграции проводов имплантата внутри
-                        мозга и проблемой безопасного извлечения устройства без
-                        повреждения человеческих тканей. */}
                         <span>Краткое резюме статьи: </span>
                         <RenderHTML content={publication.anons} />
                       </p>
-                      {/* <Tags value={publication.tags} /> */}
+                      <Tags tags={publication.props.PUB_TAG} />
                     </div>
                     <Comments />
                   </div>
@@ -216,20 +84,21 @@ const New: FC<NewProps> = ({ publication }) => {
               </div>
               <div className="layout__right">
                 <div className="layout__sticky-block">
-                  <div className="c-author layout__sticky">
-                    <article className="c-author__wrapper">
-                      <picture className="c-author__img">
-                        <img src="/img/user.jpg" alt="Image" />
-                      </picture>
-                      <div className="c-author__body">
-                        <h3 className="c-author__name">
-                          {/* {publication.CREATED_USER_NAME} */}
-                        </h3>
-                      </div>
-                    </article>
-                  </div>
+                  {publication.props.PUB_SOURCE ? (
+                    <NewAuthor
+                      PUB_SOURCE={publication.props.PUB_SOURCE}
+                      PUB_SOURCE_LOGO={publication.props.PUB_SOURCE_LOGO}
+                      SOURCE={publication.props.SOURCE}
+                    />
+                  ) : (
+                    <NewAuthor
+                      author_name={publication.author_name}
+                      author_surname={publication.author_surname}
+                      author_photo={publication.author_photo}
+                    />
+                  )}
                 </div>
-                <NewWidget />
+                <LegalAdviceWidget setModalActive={setModalActive} />
               </div>
             </div>
           </div>
@@ -239,27 +108,26 @@ const New: FC<NewProps> = ({ publication }) => {
   );
 };
 
-export const getServerSideProps = wrapper.getServerSideProps(
-  (store) => async (context) => {
-    const { id } = context.params || {};
-    try {
-      const { data } = await server.get(`/sw/v1/publications/?id=${id}`);
-      await store.dispatch(fetchRubrics());
+export const getServerSideProps: GetServerSideProps<NewProps> = async (
+  context
+) => {
+  const { id } = context.params || {};
+  try {
+    const { data } = await server.get(`/sw/v1/publications/?id=${id}`);
 
-      return {
-        props: {
-          publication: data.datas[0],
-        },
-      };
-    } catch (error) {
-      return {
-        redirect: {
-          destination: "/server-error",
-          permanent: false,
-        },
-      };
-    }
+    return {
+      props: {
+        publication: data.datas[Number(id)],
+      },
+    };
+  } catch (error) {
+    return {
+      redirect: {
+        destination: "/server-error",
+        permanent: false,
+      },
+    };
   }
-);
+};
 
 export default New;

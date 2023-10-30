@@ -81,7 +81,9 @@ const Login = () => {
                 className="modal-form modal__form"
               >
                 <div
-                  className={`input-field input-field--border modal-form__input ${errors.login && "is--error"}
+                  className={`input-field input-field--border modal-form__input ${
+                    errors.login && "is--error"
+                  }
                   `}
                 >
                   <div className="input-field__top">
@@ -104,6 +106,7 @@ const Login = () => {
                       id="modal-login-email"
                       className="input-field__input"
                       placeholder="Email"
+                      autoComplete="current-username"
                       {...register("login", { required: "", minLength: 2 })}
                     />
                   </div>
@@ -130,6 +133,7 @@ const Login = () => {
                       id="modal-login-password"
                       className="input-field__input"
                       placeholder="Пароль"
+                      autoComplete="current-password"
                       {...register("password", { required: "", minLength: 2 })}
                     />
                   </div>

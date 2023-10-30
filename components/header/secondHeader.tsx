@@ -11,7 +11,7 @@ import { useSelector } from "react-redux";
 import { selectUser } from "../../redux/auth/slice";
 
 const SecondHeader = () => {
-  const { menuActive, setLoginActive } = useModalsContext();
+  const { menuActive, setLoginActive, setSearchActive } = useModalsContext();
 
   const { user, status } = useSelector(selectUser);
 
@@ -30,12 +30,12 @@ const SecondHeader = () => {
           <div className="header__center"></div>
           <div className="header__right">
             <div className="header__controls header__controls--first">
-              <Link
-                href="#"
+              <span
+                onClick={() => setSearchActive(true)}
                 className="header__btn header__btn--mobile search-btn"
               >
                 <SearchIcon />
-              </Link>
+              </span>
               <Link href="#" className="header__btn header__btn--tablet-hidden">
                 <BookmarksIcon />
               </Link>

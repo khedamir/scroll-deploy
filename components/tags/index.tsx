@@ -1,20 +1,20 @@
 import React, { FC } from "react";
+import { PropType } from "../../redux/types";
 
 interface TagsProps {
-  value: string;
+  tags: PropType;
 }
 
-const Tags: FC<TagsProps> = ({ value }) => {
-  const tagsList = value ? value.split(", ") : [];
+const Tags: FC<TagsProps> = ({ tags }) => {
   return (
     <div className="description-tags">
-      {tagsList.length > 0 && (
+      {
         <div className="description-tags__inner">
-          {tagsList.map((tag, id) => (
+          {tags.VALUE.map((tag, id) => (
             <span key={id}>{tag}</span>
           ))}
         </div>
-      )}
+      }
     </div>
   );
 };

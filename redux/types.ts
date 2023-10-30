@@ -4,17 +4,40 @@ export enum Status {
   ERROR = "error",
 }
 
-export type FullPublicationType = {
+export type PropType = { VALUE: string[] };
+
+export type PublicationType = {
   id: string;
   name: string;
   images: string[];
+  content: string;
   anons: string;
-  istoc: string;
-  tags: string;
-  author: string;
   date: string;
-  rubric: string;
-  video: string;
+  liked: boolean;
+  likes: string;
+  views: string;
+};
+
+export type FullNewType = PublicationType & {
+  author_name: string;
+  author_surname: string;
+  author_photo: string;
+  props: {
+    NEWS_LOGO: PropType;
+    PUB_RUBRIC: PropType;
+    SOURCE: PropType;
+    PUB_SOURCE: PropType;
+    PUB_SOURCE_LOGO: PropType;
+    PUB_TAG: PropType;
+  };
+};
+
+export type FullVideoType = PublicationType & {
+  props: {
+    PUB_AUTOR: PropType;
+    PUB_TAG: PropType;
+    LINK_VIDEO: PropType;
+  };
 };
 
 // export type FullPublicationType = {

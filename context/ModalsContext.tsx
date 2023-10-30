@@ -12,6 +12,8 @@ const ModalsContext = createContext({
   setRegisterActive: (value: boolean) => {},
   changePasswordActive: false,
   setChangePasswordActive: (value: boolean) => {},
+  searchActive: false,
+  setSearchActive: (value: boolean) => {},
 });
 
 const ModalsContextProvider = (props: any) => {
@@ -20,11 +22,13 @@ const ModalsContextProvider = (props: any) => {
   const [loginActive, setLoginActive] = useState(false);
   const [registerActive, setRegisterActive] = useState(false);
   const [changePasswordActive, setChangePasswordActive] = useState(false);
+  const [searchActive, setSearchActive] = useState(false);
 
   useEffect(() => {
-    const disabled = aiChatActive || loginActive || registerActive;
+    const disabled =
+      aiChatActive || loginActive || registerActive || menuActive;
     handleScrollDisabled(disabled);
-  }, [aiChatActive, loginActive, registerActive]);
+  }, [aiChatActive, loginActive, registerActive, menuActive]);
 
   return (
     <ModalsContext.Provider
@@ -39,6 +43,8 @@ const ModalsContextProvider = (props: any) => {
         setRegisterActive,
         changePasswordActive,
         setChangePasswordActive,
+        searchActive,
+        setSearchActive,
       }}
       {...props}
     />

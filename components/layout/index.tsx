@@ -1,4 +1,4 @@
-import React, { FC, ReactNode, useEffect, useState } from "react";
+import React, { FC, ReactNode, useEffect } from "react";
 import Menu from "../menu";
 import { useRouter } from "next/router";
 import ThirdyHeader from "../header/thirdyHeader";
@@ -9,6 +9,7 @@ import { useAppDispatch } from "../../redux/store";
 import { fetchAuthMe } from "../../redux/auth/asyncAction";
 import Login from "../modals/login";
 import ChangePassword from "../modals/changePassword";
+import Search from "../search";
 
 type layoutProps = {
   children: ReactNode;
@@ -52,8 +53,9 @@ const Layout: FC<layoutProps> = ({ children }) => {
       <ChatAi />
       <Login />
       <ChangePassword />
-      {headerComponent}
+      <Search />
       <Menu />
+      {headerComponent}
       {children}
     </div>
   );

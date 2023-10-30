@@ -5,7 +5,9 @@ interface RenderHTMLProps {
 }
 
 const RenderHTML: FC<RenderHTMLProps> = ({ content }) => {
-  return <span dangerouslySetInnerHTML={{ __html: content }} />;
+  return (
+    <span className="html__render" dangerouslySetInnerHTML={{ __html: content }} ></span>
+  );
 };
 
 export default RenderHTML;

@@ -9,16 +9,18 @@ import { fetchLectures } from "../../redux/lectures/asyncAction";
 import { wrapper } from "../../redux/store";
 import { useSelector } from "react-redux";
 import { selectLectures } from "../../redux/lectures/slice";
-import { server } from "../../utils/server";
-import { FullPublicationType } from "../../redux/types";
+import { baseURL, server } from "../../utils/server";
 import { formatDateDifference } from "../../utils/formatDate";
+import { FullVideoType } from "../../redux/types";
+import { extractVideoId } from "../../utils/extractVideoId";
 
 interface LectureProps {
-  publication: FullPublicationType;
+  publication: FullVideoType;
 }
 
 const Lecture: FC<LectureProps> = ({ publication }) => {
   const { data } = useSelector(selectLectures);
+  console.log(publication);
 
   return (
     <div className="layout layout--sticky-bottom">
@@ -32,34 +34,42 @@ const Lecture: FC<LectureProps> = ({ publication }) => {
             <div className="layout__main-wrapper">
               <div className="layout__center">
                 <div className="video mobile-wide">
-                  <div className="video__media">
-                    {/* <img src="/img/media-plug.jpg" alt="Image" /> */}
-                    <iframe
-                      width="560"
-                      height="315"
-                      src="https://www.youtube.com/embed/VfqNgiksygA?si=h-3qtY6phAMb3OlM"
-                      title="YouTube video player"
-                      frameBorder="0"
-                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                      allowFullScreen
-                    ></iframe>
-                    ;
-                  </div>
+                  {publication.props.LINK_VIDEO && (
+                    <div className="video__media">
+                      <iframe
+                        width="560"
+                        height="315"
+                        src={`https://www.youtube.com/embed/${extractVideoId(
+                          publication.props.LINK_VIDEO.VALUE[0]
+                        )}`}
+                        title="YouTube Video"
+                        allowFullScreen
+                      />
+                    </div>
+                  )}
                   <div className="video__main">
                     <div className="video__body">
                       <h3 className="video__heading">{publication.name}</h3>
                       <div className="video__inner">
                         <a href="#" className="video__author">
-                          <img src="/img/user.jpg" alt="Image" />
-                          <span>Александр Македонский</span>
+                          <img
+                            src={`${baseURL}${publication.images[1]}`}
+                            alt="Image"
+                          />
+                          <span>{publication.props.PUB_AUTOR.VALUE[0]}</span>
                         </a>
                         <span className="video__time">
                           {formatDateDifference(publication.date)}
                         </span>
                       </div>
                     </div>
-                    <MediaControls otherClassName="video__bottom" />
-                    <MediaContent />
+                    <MediaControls
+                      likes={publication.likes}
+                      liked={publication.liked}
+                      views={publication.views}
+                      publication_id={publication.id}
+                    />
+                    <MediaContent content={publication.content} />
                   </div>
                   <Comments otherClassName="video__comments" />
                 </div>
@@ -94,7 +104,7 @@ export const getServerSideProps = wrapper.getServerSideProps(
 
       return {
         props: {
-          publication: data.datas[0],
+          publication: data.datas[Number(id)],
         },
       };
     } catch (error) {
@@ -109,5 +119,3 @@ export const getServerSideProps = wrapper.getServerSideProps(
 );
 
 export default Lecture;
-
-// https://youtu.be/7LL0Xdql7nE?si=E2dowmRXV9BKN9n7

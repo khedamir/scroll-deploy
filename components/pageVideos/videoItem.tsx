@@ -32,7 +32,7 @@ const VideoItem: FC<VideoItemProps> = ({ video, isLast, newLimit, end }) => {
   return (
     <Link  href={`videos/${video.id}`} className="category-card videos__item" ref={cardRef}>
       <picture className="category-card__img">
-        <img src={`${baseURL}${video.images[1]}`} alt="Image" />
+        <img src={`${baseURL}${video.images[0]}`} alt="Image" />
       </picture>
       <div className="category-card__body">
         <span className="category-card__name">{video.name}</span>

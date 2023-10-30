@@ -24,8 +24,8 @@ import { server } from "../utils/server";
 import { NewType, PaginationType } from "../redux/news/types";
 
 type PaginationDataType = {
-  pagination: PaginationType | null;
   items: NewType[][];
+  pagination: PaginationType | null;
 };
 
 const Index: NextPage = () => {
@@ -50,7 +50,6 @@ const Index: NextPage = () => {
     );
 
     const newArr = [...nextPublication?.items, [...result.data.datas]];
-    console.log(page, newArr);
     setNextPublications({ items: newArr, pagination: result.data.pagination });
   };
 
@@ -120,15 +119,16 @@ const Index: NextPage = () => {
   );
 };
 
-export const getStaticProps = wrapper.getStaticProps((store) => async () => {
-  await store.dispatch(fetchRubrics());
-  await store.dispatch(fetchNews({ limit: 17 }));
-  await store.dispatch(fetchPodcasts({ limit: 3 }));
-  await store.dispatch(fetchLectures({ limit: 3 }));
-  await store.dispatch(fetchWebinars({ limit: 2 }));
-  return {
-    props: {},
-  };
-});
+export const getServerSideProps = wrapper.getServerSideProps(
+  (store) => async () => {
+    await store.dispatch(fetchNews({ limit: 17 }));
+    await store.dispatch(fetchPodcasts({ limit: 3 }));
+    await store.dispatch(fetchLectures({ limit: 3 }));
+    await store.dispatch(fetchWebinars({ limit: 2 }));
+    return {
+      props: {},
+    };
+  }
+);
 
 export default Index;
