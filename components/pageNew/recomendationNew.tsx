@@ -1,14 +1,20 @@
-import React from "react";
+import React, { FC } from "react";
 import { ReactSVG } from "react-svg";
+import { FullNewType } from "../../redux/types";
+import { formatDateDifference } from "../../utils/formatDate";
 
-const RecomendationNew = () => {
+interface RecommendationNewsProps {
+  newItem: FullNewType;
+}
+
+const RecomendationNew: FC<RecommendationNewsProps> = ({ newItem }) => {
   return (
     <div className="big-news__block">
-      <h5>В Берлине сообщили о решении выслать немецких служащих</h5>
+      <h5>{newItem.name}</h5>
       <div className="description-block">
         <div className="description-block__inner">
-          <span>Спорт</span>
-          <span>30 минут назад</span>
+          <span>{newItem.props.PUB_RUBRIC.VALUE[0]}</span>
+          <span>{formatDateDifference(newItem.date)}</span>
           <button className="c-bookmark">
             <ReactSVG
               className="c-bookmark__icon c-bookmark__icon--default"

@@ -6,7 +6,6 @@ import Link from "next/link";
 interface NewAuthorProps {
   PUB_SOURCE?: PropType;
   PUB_SOURCE_LOGO?: PropType;
-  SOURCE?: PropType;
   author_name?: string;
   author_surname?: string;
   author_photo?: string;
@@ -15,7 +14,6 @@ interface NewAuthorProps {
 const NewAuthor: FC<NewAuthorProps> = ({
   PUB_SOURCE,
   PUB_SOURCE_LOGO,
-  SOURCE,
   author_name,
   author_surname,
   author_photo,
@@ -23,15 +21,13 @@ const NewAuthor: FC<NewAuthorProps> = ({
   return (
     <div className="c-author layout__sticky">
       <article className="c-author__wrapper">
-        {PUB_SOURCE && SOURCE ? (
+        {PUB_SOURCE ? (
           <>
             <picture className="c-author__img">
               <img src={`${baseURL}${PUB_SOURCE_LOGO?.VALUE[0]}`} alt="Image" />
             </picture>
             <div className="c-author__body">
-              <Link href={SOURCE?.VALUE[0]}>
-                <h3 className="c-author__name">{PUB_SOURCE.VALUE[0]}</h3>
-              </Link>
+              <h3 className="c-author__name">{PUB_SOURCE.VALUE[0]}</h3>
             </div>
           </>
         ) : (

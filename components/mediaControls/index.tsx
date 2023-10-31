@@ -18,13 +18,14 @@ const MediaControls: FC<MediaControlsProps> = ({
   publication_id,
 }) => {
   const addLike = async () => {
+    console.log(publication_id)
     if (liked) {
-      const result = await serverWithJwt.get(
+      const result = await server.get(
         `/sw/v1/likes/?newsId=${publication_id}&type=delete/`
       );
       // console.log(result);
     } else {
-      const result = await serverWithJwt.post(
+      const result = await server.get(
         `/sw/v1/likes/?newsId=${publication_id}&type=add/`
       );
       console.log(result);

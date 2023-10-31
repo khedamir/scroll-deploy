@@ -11,11 +11,6 @@ const Menu = () => {
   const { rubrics } = useSelector(selectRubrics);
 
   const { setAiChatActive, menuActive, setMenuActive } = useModalsContext();
-
-  useEffect(() => {
-    console.log(rubrics);
-  }, []);
-
   return (
     <div className={`menu ${menuActive && "is--active"}`}>
       <div className="menu__wrap">

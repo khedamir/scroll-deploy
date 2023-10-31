@@ -13,7 +13,6 @@ import AudioPodcasts from "../components/pageHome/audioPodcasts";
 import NewsList from "../components/pageHome/newsList";
 import ContentWidget from "../components/widgets/contentWidget";
 import { wrapper } from "../redux/store";
-import { fetchRubrics } from "../redux/rubrics/asyncAction";
 import { fetchNews } from "../redux/news/asyncAction";
 import { useSelector } from "react-redux";
 import { selectNews } from "../redux/news/slice";
@@ -39,17 +38,14 @@ const Index: NextPage = () => {
   const [page, setPage] = useState(3);
 
   const fetchNextNews = async () => {
-    const result = await server.get(
-      `/sw/v1/publications/?iblockid=9&sort=ASC`,
-      {
-        params: {
-          page: page,
-          limit: 8,
-        },
-      }
-    );
+    const result = await server.get(`/sw/v1/publications/?iblockid=9`, {
+      params: {
+        page: page,
+        limit: 8,
+      },
+    });
 
-    const newArr = [...nextPublication?.items, [...result.data.datas]];
+    const newArr = [...nextPublication.items, [...result.data.datas]];
     setNextPublications({ items: newArr, pagination: result.data.pagination });
   };
 
@@ -96,7 +92,8 @@ const Index: NextPage = () => {
               children1={<ClubBlock />}
               children2={<span className="layout__heading">клуб юристов</span>}
             />
-            {nextPublication.items &&
+            {nextPublication &&
+              nextPublication.items &&
               nextPublication.items.map((items, index) => (
                 <SectionLayout
                   key={index}

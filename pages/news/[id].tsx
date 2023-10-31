@@ -7,7 +7,7 @@ import Sidebar from "../../components/sidebar/sidebar";
 import LegalAdviceWidget from "../../components/widgets/legalAdviceWidget";
 import MediaControls from "../../components/mediaControls";
 import Link from "next/link";
-import { baseURL, server, serverWithJwt } from "../../utils/server";
+import { baseURL, server } from "../../utils/server";
 import RenderHTML from "../../components/renderHTML";
 import { formatDateDifference } from "../../utils/formatDate";
 import LegalAdvice from "../../components/modals/legalAdvice";
@@ -15,19 +15,18 @@ import { FullNewType } from "../../redux/types";
 import Tags from "../../components/tags";
 import NewAuthor from "../../components/pageNew/newAuthor";
 import RecomendationNew from "../../components/pageNew/recomendationNew";
+import { getAnchorsId } from "../../utils/getAnchorsId";
 
 interface NewProps {
   publication: FullNewType;
+  recommendationNews: FullNewType[];
 }
 
-const New: FC<NewProps> = ({ publication }) => {
+const New: FC<NewProps> = ({ publication, recommendationNews }) => {
   const [modalActive, setModalActive] = useState(false);
+  const anchorRegex = /<a name="\d+"><\/a>/;
+  const articleParts = publication.content.split(anchorRegex);
 
-  const anchor = '<a name="recomendation"></a>';
-  const anchorPosition = publication.content.indexOf(anchor);
-  const newStart = publication.content.slice(0, anchorPosition);
-  const newEnd = publication.content.slice(anchorPosition + anchor.length);
-  console.log("hi", publication);
   return (
     <div className="layout layout--sticky-bottom">
       <LegalAdvice active={modalActive} setActive={setModalActive} />
@@ -69,9 +68,16 @@ const New: FC<NewProps> = ({ publication }) => {
                           otherClassName="media-block__controls"
                         />
                       </div>
-                      <RenderHTML content={newStart} />
-                      <RecomendationNew />
-                      <RenderHTML content={newEnd} />
+                      {articleParts.map((part, index) => (
+                        <React.Fragment key={index}>
+                          {index > 0 && (
+                            <RecomendationNew
+                              newItem={recommendationNews[index - 1]}
+                            />
+                          )}
+                          <RenderHTML content={part} />
+                        </React.Fragment>
+                      ))}
                       <p className="small-description">
                         <span>Краткое резюме статьи: </span>
                         <RenderHTML content={publication.anons} />
@@ -88,7 +94,6 @@ const New: FC<NewProps> = ({ publication }) => {
                     <NewAuthor
                       PUB_SOURCE={publication.props.PUB_SOURCE}
                       PUB_SOURCE_LOGO={publication.props.PUB_SOURCE_LOGO}
-                      SOURCE={publication.props.SOURCE}
                     />
                   ) : (
                     <NewAuthor
@@ -113,11 +118,28 @@ export const getServerSideProps: GetServerSideProps<NewProps> = async (
 ) => {
   const { id } = context.params || {};
   try {
-    const { data } = await server.get(`/sw/v1/publications/?id=${id}`);
+    const fetchNews = async (itemId: string) => {
+      const { data } = await server.get(`/sw/v1/publications/?id=${itemId}`);
+      return data.datas[Number(itemId)];
+    };
+
+    const publication = await fetchNews(String(id));
+
+    const listId = getAnchorsId(publication.content);
+    const recommendationNews: FullNewType[] = [];
+
+    const fetchRecommendationPromises = listId.map((item) =>
+      fetchNews(String(item))
+    );
+
+    await Promise.all(fetchRecommendationPromises).then((recommendations) => {
+      recommendationNews.push(...recommendations);
+    });
 
     return {
       props: {
-        publication: data.datas[Number(id)],
+        publication: publication,
+        recommendationNews: recommendationNews,
       },
     };
   } catch (error) {
