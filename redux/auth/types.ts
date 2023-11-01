@@ -15,7 +15,6 @@ type FieldType = {
 };
 
 export type UserData = {
-  id: number;
   main: {
     VALUES: {
       EMAIL: FieldType;
@@ -33,6 +32,7 @@ export type UserData = {
 };
 
 export interface AuthSliceState {
+  id: string;
   user: UserData | null;
   status: Status;
 }

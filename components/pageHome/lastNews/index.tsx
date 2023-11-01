@@ -21,7 +21,7 @@ const LastNews = () => {
                 <div className="tidings-card__wrapper">
                   <picture className="tidings-card__bg">
                     <img
-                      src={`${baseURL}${data.datas[0].images[1]}`}
+                      src={`${data.datas[0].images[1]}`}
                       alt="Image"
                     />
                   </picture>
@@ -46,7 +46,7 @@ const LastNews = () => {
                 <div className="tidings-card__wrapper">
                   <picture className="tidings-card__bg">
                     <img
-                      src={`${baseURL}${data.datas[1].images[1]}`}
+                      src={`${data.datas[1].images[1]}`}
                       alt="Image"
                     />
                   </picture>

@@ -29,7 +29,7 @@ const WebinerItem: FC<WebinarItemProps> = ({ webinars }) => {
                   >
                     {/* <img src="/img/meetings-card-01.jpg" alt="Image" /> */}
                     <img
-                      src={`${baseURL}${webinars[0].images[0]}`}
+                      src={`${webinars[0].images[0]}`}
                       alt="Image"
                     />
                   </Link>
@@ -79,7 +79,7 @@ const WebinerItem: FC<WebinarItemProps> = ({ webinars }) => {
               href={`/webinar/${webinars[1].id}`}
               className="meetings-card__img"
             >
-              <img src={`${baseURL}${webinars[1].images[0]}`} alt="Image" />
+              <img src={`${webinars[1].images[0]}`} alt="Image" />
             </Link>
           </div>
         </div>

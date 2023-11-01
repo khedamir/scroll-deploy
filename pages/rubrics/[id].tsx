@@ -1,7 +1,6 @@
-import React, { FC, useCallback, useEffect, useState } from "react";
+import React, { FC, useEffect, useState } from "react";
 import Footer from "../../components/footer";
 import Link from "next/link";
-import { ReactSVG } from "react-svg";
 import VideoWidget from "../../components/widgets/videoWidget";
 import Sidebar from "../../components/sidebar/sidebar";
 import AudioPodcasts from "../../components/pageHome/audioPodcasts";
@@ -13,12 +12,10 @@ import { wrapper } from "../../redux/store";
 import { useSelector } from "react-redux";
 import { selectNews } from "../../redux/news/slice";
 import NewCard from "../../components/newCard";
-import { fetchRubrics } from "../../redux/rubrics/asyncAction";
 import { useRouter } from "next/router";
 import { baseURL, server } from "../../utils/server";
-import { NewType, NewsData } from "../../redux/news/types";
-import InfiniteScroll from "react-infinite-scroller";
-import { rubricByIdSelector, selectRubrics } from "../../redux/rubrics/slice";
+import { NewType } from "../../redux/news/types";
+import { rubricByIdSelector } from "../../redux/rubrics/slice";
 import { fetchLectures } from "../../redux/lectures/asyncAction";
 import { fetchPodcasts } from "../../redux/podcasts/asyncAction";
 
@@ -27,6 +24,7 @@ interface RubricsProps {
 }
 
 const Rubrics: FC<RubricsProps> = ({ recomendations }) => {
+  console.log(recomendations);
   const { data } = useSelector(selectNews);
 
   const [nextPublication, setNextPublications] = useState<NewType[]>([]);
@@ -36,17 +34,15 @@ const Rubrics: FC<RubricsProps> = ({ recomendations }) => {
   const router = useRouter();
 
   const fetchNextNews = async () => {
-    const result = await server.get(
-      `/sw/v1/publications/?iblockid=9&sort=ASC`,
-      {
-        params: {
-          page: page,
-          limit: 2,
-          rubric: Number(router.query.id),
-        },
-      }
-    );
+    const result = await server.get(`/sw/v1/publications/?iblockid=9`, {
+      params: {
+        page: page,
+        limit: 2,
+        rubric: Number(router.query.id),
+      },
+    });
     const newArr = [...nextPublication, ...result.data.datas];
+    console.log(newArr);
     setNextPublications(newArr);
   };
 
@@ -81,10 +77,17 @@ const Rubrics: FC<RubricsProps> = ({ recomendations }) => {
                           href={`/news/${recomendation.id}`}
                           className="page-list__item"
                         >
-                          <img
-                            src={`${baseURL}${recomendation.poperties.NEWS_LOGO}`}
-                            alt="Icon"
-                          />
+                          {recomendation.poperties.PUB_SOURCE ? (
+                            <img
+                              src={`${baseURL}${recomendation.poperties.PUB_SOURCE_LOGO}`}
+                              alt="Icon"
+                            />
+                          ) : (
+                            <img
+                              src={`${baseURL}${recomendation.author_photo}`}
+                              alt="Icon"
+                            />
+                          )}
                           <span>{recomendation.name}</span>
                         </Link>
                       ))}
@@ -145,7 +148,7 @@ export const getServerSideProps = wrapper.getServerSideProps(
       fetchNews({ limit: 2, page: 1, rubric: Number(query.id) })
     );
     const { data } = await server.get(
-      `/sw/v1/publications/?iblockid=9&sort=ASC&limit=5`
+      `/sw/v1/publications/?iblockid=9&limit=5`
     );
     return {
       props: {

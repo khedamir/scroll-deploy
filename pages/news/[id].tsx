@@ -1,4 +1,4 @@
-import React, { FC, useState } from "react";
+import React, { FC, useEffect, useState } from "react";
 import Footer from "../../components/footer";
 import { GetServerSideProps } from "next";
 import { ReactSVG } from "react-svg";
@@ -16,6 +16,7 @@ import Tags from "../../components/tags";
 import NewAuthor from "../../components/pageNew/newAuthor";
 import RecomendationNew from "../../components/pageNew/recomendationNew";
 import { getAnchorsId } from "../../utils/getAnchorsId";
+import { useRouter } from "next/router";
 
 interface NewProps {
   publication: FullNewType;
@@ -23,6 +24,7 @@ interface NewProps {
 }
 
 const New: FC<NewProps> = ({ publication, recommendationNews }) => {
+  console.log(publication);
   const [modalActive, setModalActive] = useState(false);
   const anchorRegex = /<a name="\d+"><\/a>/;
   const articleParts = publication.content.split(anchorRegex);
@@ -51,10 +53,7 @@ const New: FC<NewProps> = ({ publication, recommendationNews }) => {
                       </div>
                       <div className="media-block">
                         <picture className="media-block__photo">
-                          <img
-                            src={`${baseURL}${publication.images[1]}`}
-                            alt=""
-                          />
+                          <img src={`${publication.images[1]}`} alt="" />
                           <Link href="#" className="media-block__comments">
                             <ReactSVG src="/img/sprite/icon-comment.svg" />
                             <span>5 комментариев</span>

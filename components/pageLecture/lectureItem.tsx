@@ -42,7 +42,7 @@ const LectureItem: FC<LectureItemProps> = ({
       className={`category-card category-card--sm ${otherClassName}`}
     >
       <picture className="category-card__img">
-        <img src={`${baseURL}${lecture?.images?.[0]}`} alt="Image" />
+        <img src={`${lecture?.images?.[0]}`} alt="Image" />
       </picture>
       <div className="category-card__body">
         <span className="category-card__name">{lecture.name}</span>

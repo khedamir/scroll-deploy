@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { Status } from "../types";
 import { fetchNews } from "./asyncAction";
 import { AppState } from "../store";

@@ -20,7 +20,7 @@ const AudioPodcasts = () => {
               }`}
             >
               <picture className="content-card__img">
-                <img src={`${baseURL}${podcast.images[0]}`} alt="Image" />
+                <img src={`${podcast.images[0]}`} alt="Image" />
               </picture>
               <div className="content-card__body">
                 <h3 className="content-card__title">{podcast.name}</h3>

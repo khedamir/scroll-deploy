@@ -36,11 +36,22 @@ const NewCard: FC<NewCardProps> = ({ newItem, isLast, newLimit, end }) => {
         <div className="big-news-card__top">
           <div className="big-news-card__group">
             <span className="big-news-card__author">
-              <img
-                src={`${baseURL}${newItem.poperties.PUB_SOURCE_LOGO}`}
-                alt="Image"
-              />
-              <span>{newItem.poperties.PUB_SOURCE}</span>
+              {newItem.poperties.PUB_SOURCE ? (
+                <>
+                  <img
+                    src={`${baseURL}${newItem.poperties.PUB_SOURCE_LOGO}`}
+                    alt="Image"
+                  />
+                  <span>{newItem.poperties.PUB_SOURCE}</span>
+                </>
+              ) : (
+                <>
+                  <img src={`${newItem.author_photo}`} alt="Image" />
+                  <span>
+                    {newItem.author_name} {newItem.author_surname}
+                  </span>
+                </>
+              )}
             </span>
             <span className="big-news-card__time">
               {formatDateDifference(newItem.date)}
@@ -58,7 +69,7 @@ const NewCard: FC<NewCardProps> = ({ newItem, isLast, newLimit, end }) => {
       </div>
       {newItem.images[1] && (
         <Link href={`/news/${newItem.id}`} className="big-news-card__img">
-          <img src={`${baseURL}${newItem.images[1]}`} alt="Image" />
+          <img src={`${newItem.images[1]}`} alt="Image" />
         </Link>
       )}
     </div>

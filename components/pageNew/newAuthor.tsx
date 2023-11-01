@@ -33,7 +33,7 @@ const NewAuthor: FC<NewAuthorProps> = ({
         ) : (
           <>
             <picture className="c-author__img">
-              <img src={`${baseURL}${author_photo}`} alt="Image" />
+              <img src={`${author_photo}`} alt="Image" />
             </picture>
             <div className="c-author__body">
               <h3 className="c-author__name">

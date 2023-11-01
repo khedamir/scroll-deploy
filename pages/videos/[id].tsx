@@ -47,7 +47,7 @@ const Video: FC<VideoProps> = ({ publication }) => {
                       <div className="video__inner">
                         <a href="#" className="video__author">
                           <img
-                            src={`${baseURL}${publication.images[1]}`}
+                            src={`${publication.images[1]}`}
                             alt="Image"
                           />
                           <span>{publication.props.PUB_AUTOR.VALUE[0]}</span>

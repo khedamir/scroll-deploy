@@ -23,7 +23,7 @@ const NewsCard: FC<NewsCardProps> = ({ news }) => {
               >
                 <div className="tidings-card__wrapper">
                   <picture className="tidings-card__bg">
-                    <img src={`${baseURL}${news[0].images[1]}`} alt="Image" />
+                    <img src={`${news[0].images[1]}`} alt="Image" />
                   </picture>
                   <div className="tidings-card__body">
                     <span className="tidings-card__name">{news[0].name}</span>

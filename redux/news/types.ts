@@ -12,7 +12,9 @@ export type NewType = {
   images: string[];
   date: string;
   rubric: string;
-  author: string;
+  author_name: string;
+  author_surname: string;
+  author_photo: string;
   poperties: {
     NEWS_LOGO: string;
     PUB_SOURCE: "";

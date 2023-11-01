@@ -1,6 +1,9 @@
-import React, { FC } from "react";
+import React, { FC, useEffect, useState } from "react";
 import { ReactSVG } from "react-svg";
-import { server, serverWithJwt } from "../../utils/server";
+import { server } from "../../utils/server";
+import { useRouter } from "next/router";
+import { useSelector } from "react-redux";
+import { selectUser } from "../../redux/auth/slice";
 
 interface MediaControlsProps {
   otherClassName?: string;
@@ -17,20 +20,38 @@ const MediaControls: FC<MediaControlsProps> = ({
   views,
   publication_id,
 }) => {
+  const [isLiked, setIsLiked] = useState(false);
+  const [likesCount, setLikesCount] = useState(Number(likes));
+  const { id } = useSelector(selectUser);
+  const router = useRouter();
+
+  useEffect(() => {
+    const fetch = async () => {
+      const { data } = await server.get(
+        `/sw/v1/publications/?id=${router.query.id}&userId=9`
+      );
+      const pub = data.datas[Number(router.query.id)];
+      setIsLiked(pub.liked);
+    };
+    fetch();
+  }, [id]);
+
   const addLike = async () => {
-    console.log(publication_id)
-    if (liked) {
-      const result = await server.get(
-        `/sw/v1/likes/?newsId=${publication_id}&type=delete/`
+    if (isLiked) {
+      await server.get(
+        `/sw/v1/likes/?newsId=${publication_id}&type=delete&userId=9`
       );
-      // console.log(result);
+      setIsLiked(false);
+      setLikesCount(likesCount - 1);
     } else {
-      const result = await server.get(
-        `/sw/v1/likes/?newsId=${publication_id}&type=add/`
+      await server.post(
+        `/sw/v1/likes/?newsId=${publication_id}&type=add&userId=9`
       );
-      console.log(result);
+      setIsLiked(true);
+      setLikesCount(likesCount + 1);
     }
   };
+
   return (
     <div className={`media-controls ${otherClassName}`}>
       <div className="media-controls__wrapper">
@@ -44,7 +65,7 @@ const MediaControls: FC<MediaControlsProps> = ({
               className="btn-control btn-control--blue media-controls__btn"
             >
               <ReactSVG src="/img/sprite/icon-like-thumb-up.svg" />
-              <span>{likes}</span>
+              <span>{likesCount}</span>
             </button>
             <button className="btn-control media-controls__btn">
               <ReactSVG src="/img/sprite/icon-reply.svg" />

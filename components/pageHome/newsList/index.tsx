@@ -48,11 +48,13 @@ const NewsList: FC<NewsListProps> = ({ news, largeNewIndex }) => {
                   <ReactSVG src="/img/sprite/icon-bookmarks.svg" />
                 </button>
               </div>
-              {item.images[0] && largeNewIndex !== id && (
-                <picture className="news-card__img news-card__img--sm">
-                  <img src={`${baseURL}${item.images[0]}`} alt="Image" />
-                </picture>
-              )}
+              {item.images[0] &&
+                item.images[0] !== baseURL &&
+                largeNewIndex !== id && (
+                  <picture className="news-card__img news-card__img--sm">
+                    <img src={`${item.images[0]}`} alt="Image" />
+                  </picture>
+                )}
             </Link>
           ))}
         </div>
