@@ -1,9 +1,7 @@
 import Link from "next/link";
 import React, { FC } from "react";
-import { baseURL } from "../../../utils/server";
 import { NewType } from "../../../redux/news/types";
 import { formatDateDifference } from "../../../utils/formatDate";
-import { rubricByIdSelector } from "../../../redux/rubrics/slice";
 
 interface NewsCardProps {
   news: NewType[];
@@ -23,13 +21,13 @@ const NewsCard: FC<NewsCardProps> = ({ news }) => {
               >
                 <div className="tidings-card__wrapper">
                   <picture className="tidings-card__bg">
-                    <img src={`${news[0].images[1]}`} alt="Image" />
+                    <img src={`${news[0].images.detail}`} alt="Image" />
                   </picture>
                   <div className="tidings-card__body">
                     <span className="tidings-card__name">{news[0].name}</span>
                     <div className="tidings-card__inner">
                       <span className="tidings-card__help">
-                        {rubricByIdSelector(news[0].rubric)?.NAME}
+                        {news[0].rubric}
                       </span>
                       <span className="tidings-card__help">
                         {formatDateDifference(news[0].date)}
@@ -47,7 +45,7 @@ const NewsCard: FC<NewsCardProps> = ({ news }) => {
                     <span className="tidings-card__name">{news[1].name}</span>
                     <div className="tidings-card__inner">
                       <span className="tidings-card__help">
-                        {rubricByIdSelector(news[1].rubric)?.NAME}
+                        {news[1].rubric}
                       </span>
                       <span className="tidings-card__help">
                         {formatDateDifference(news[1].date)}
@@ -67,9 +65,7 @@ const NewsCard: FC<NewsCardProps> = ({ news }) => {
                 <div className="tidings-card__body">
                   <span className="tidings-card__name">{news[2].name}</span>
                   <div className="tidings-card__inner">
-                    <span className="tidings-card__help">
-                      {rubricByIdSelector(news[2].rubric)?.NAME}
-                    </span>
+                    <span className="tidings-card__help">{news[2].rubric}</span>
                     <span className="tidings-card__help">
                       {formatDateDifference(news[2].date)}
                     </span>
@@ -85,9 +81,7 @@ const NewsCard: FC<NewsCardProps> = ({ news }) => {
                 <div className="tidings-card__body">
                   <span className="tidings-card__name">{news[3].name}</span>
                   <div className="tidings-card__inner">
-                    <span className="tidings-card__help">
-                      {rubricByIdSelector(news[3].rubric)?.NAME}
-                    </span>
+                    <span className="tidings-card__help">{news[3].rubric}</span>
                     <span className="tidings-card__help">
                       {formatDateDifference(news[3].date)}
                     </span>

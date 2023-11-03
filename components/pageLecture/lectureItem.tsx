@@ -1,7 +1,6 @@
 import Link from "next/link";
 import React, { FC, RefObject, useEffect, useRef } from "react";
 import { LectureType } from "../../redux/lectures/types";
-import { baseURL } from "../../utils/server";
 import { formatDateDifference } from "../../utils/formatDate";
 
 interface LectureItemProps {
@@ -35,14 +34,14 @@ const LectureItem: FC<LectureItemProps> = ({
       observer.observe(cardRef.current);
     }
   }, [isLast]);
-  
+
   return (
     <Link
       href={`/lectures/${lecture.id}`}
       className={`category-card category-card--sm ${otherClassName}`}
     >
       <picture className="category-card__img">
-        <img src={`${lecture?.images?.[0]}`} alt="Image" />
+        <img src={lecture.images.preview} alt="Image" />
       </picture>
       <div className="category-card__body">
         <span className="category-card__name">{lecture.name}</span>

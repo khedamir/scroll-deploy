@@ -1,4 +1,4 @@
-import { Status } from "../types";
+import { PaginationType, Status } from "../types";
 
 export type FetchParams = {
   limit?: number;
@@ -9,22 +9,14 @@ export type FetchParams = {
 export type VacancyType = {
   id: string;
   name: string;
-  images: string[];
   date: string;
   poperties: {
-    GRAFIC_VACANCIES: string;
-    LINK_VACANCIES: string;
     POSITION_VACANCIES: string;
-    SUMMA_ZP: string;
     TYPE_VACANCIES: string;
+    GRAFIC_VACANCIES: string;
+    SUMMA_ZP: string;
+    LINK_VACANCIES: string;
   };
-};
-
-export type PaginationType = {
-  page: number;
-  perPage: number;
-  totalCount: string;
-  totalPages: number;
 };
 
 export type VacanciesData = {

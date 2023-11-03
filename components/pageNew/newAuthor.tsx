@@ -24,7 +24,7 @@ const NewAuthor: FC<NewAuthorProps> = ({
         {PUB_SOURCE ? (
           <>
             <picture className="c-author__img">
-              <img src={`${baseURL}${PUB_SOURCE_LOGO?.VALUE[0]}`} alt="Image" />
+              <img src={`${PUB_SOURCE_LOGO?.VALUE[0]}`} alt="Image" />
             </picture>
             <div className="c-author__body">
               <h3 className="c-author__name">{PUB_SOURCE.VALUE[0]}</h3>

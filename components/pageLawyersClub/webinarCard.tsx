@@ -2,7 +2,6 @@ import Link from "next/link";
 import React, { FC } from "react";
 import { ReactSVG } from "react-svg";
 import { WebinarType } from "../../redux/webinars/types";
-import { baseURL } from "../../utils/server";
 
 interface WebinarProps {
   webinar: WebinarType;
@@ -20,10 +19,15 @@ const WebinarCard: FC<WebinarProps> = ({ webinar }) => {
                 <ReactSVG src="/img/sprite/icon-notifications.svg" />
               </button>
             </div>
-            <span className="webinar-card__date">{webinar.date.slice(0, -3)}</span>
+            <span className="webinar-card__date">
+              {webinar.date.slice(0, -3)}
+            </span>
           </div>
           <div className="webinar-card__main">
-            <Link href={`/webinar/${webinar.id}`} className="webinar-card__title">
+            <Link
+              href={`/webinar/${webinar.id}`}
+              className="webinar-card__title"
+            >
               {webinar.name}
             </Link>
           </div>
@@ -34,7 +38,7 @@ const WebinarCard: FC<WebinarProps> = ({ webinar }) => {
           </div>
         </div>
         <Link href={`/webinar/${webinar.id}`} className="webinar-card__img">
-          <img src={`${webinar.images[0]}`} alt="Image" />
+          <img src={`${webinar.images.preview}`} alt="Image" />
         </Link>
       </div>
     </div>

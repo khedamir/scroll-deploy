@@ -1,4 +1,4 @@
-import { Status } from "../types";
+import { ImageType, PaginationType, Status } from "../types";
 
 export type FetchParams = {
   limit?: number;
@@ -9,23 +9,16 @@ export type FetchParams = {
 export type WebinarType = {
   id: string;
   name: string;
-  images: string[];
+  images: ImageType;
   date: string;
   poperties: {
     FIO_SPIKERS: string[];
     FOTO_SPIKERS: string;
-    PRISE_EVENTS: "";
+    PRISE_EVENTS: string;
     PRISE_SLOGAN: { TEXT: string };
     PROF_SPIKERS: string[];
     THEME_EVENTS: string[];
   };
-};
-
-export type PaginationType = {
-  page: number;
-  perPage: number;
-  totalCount: string;
-  totalPages: number;
 };
 
 export type WebinarsData = {

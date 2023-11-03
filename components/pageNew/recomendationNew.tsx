@@ -2,6 +2,7 @@ import React, { FC } from "react";
 import { ReactSVG } from "react-svg";
 import { FullNewType } from "../../redux/types";
 import { formatDateDifference } from "../../utils/formatDate";
+import Link from "next/link";
 
 interface RecommendationNewsProps {
   newItem: FullNewType;
@@ -9,7 +10,7 @@ interface RecommendationNewsProps {
 
 const RecomendationNew: FC<RecommendationNewsProps> = ({ newItem }) => {
   return (
-    <div className="big-news__block">
+    <Link className="big-news__block" href={`/news/${newItem.id}`}>
       <h5>{newItem.name}</h5>
       <div className="description-block">
         <div className="description-block__inner">
@@ -27,7 +28,7 @@ const RecomendationNew: FC<RecommendationNewsProps> = ({ newItem }) => {
           </button>
         </div>
       </div>
-    </div>
+    </Link>
   );
 };
 

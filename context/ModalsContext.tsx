@@ -14,6 +14,8 @@ const ModalsContext = createContext({
   setChangePasswordActive: (value: boolean) => {},
   searchActive: false,
   setSearchActive: (value: boolean) => {},
+  notification: false,
+  setNotification: (value: boolean) => {},
 });
 
 const ModalsContextProvider = (props: any) => {
@@ -23,6 +25,7 @@ const ModalsContextProvider = (props: any) => {
   const [registerActive, setRegisterActive] = useState(false);
   const [changePasswordActive, setChangePasswordActive] = useState(false);
   const [searchActive, setSearchActive] = useState(false);
+  const [notification, setNotification] = useState(false);
 
   useEffect(() => {
     const disabled =
@@ -45,6 +48,8 @@ const ModalsContextProvider = (props: any) => {
         setChangePasswordActive,
         searchActive,
         setSearchActive,
+        notification,
+        setNotification,
       }}
       {...props}
     />

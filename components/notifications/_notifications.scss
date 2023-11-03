@@ -1,0 +1,360 @@
+.notifications {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 1010;
+    display: block;
+    width: 100%;
+    height: 100%;
+    transform: translateY(-0.7em);
+    overflow: hidden;
+    visibility: hidden;
+    opacity: 0;
+    transform-origin: top;
+    transition-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+    transition-duration: 500ms;
+    transition-property: opacity, transform;
+    pointer-events: none;
+    will-change: opacity, transform;
+    &.is--active {
+        visibility: visible;
+        opacity: 1;
+        transform: translateY(0);
+        pointer-events: all;
+    }
+    &__wrap {
+        position: absolute;
+        top: 56px;
+        right: 48px;
+        display: block;
+        overflow: hidden;
+        padding: 32px 24px;
+        max-width: 566px;
+        width: 100%;
+        background: $white-color;
+        border-radius: 16px;
+
+        @media screen and (max-width: 1199px) {
+            top: 0;
+            right: 0;
+            height: 100dvh;
+            border-radius: 0;
+        }
+        @media screen and (min-width: 768px) and (max-width: 1199px) {
+            padding: 16px 24px;
+            max-width: 496px;
+        }
+        @media screen and (max-width: 767px) {
+            padding: 16px;
+            max-width: none;
+        }
+    }
+    &__top {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 9px;
+        padding-bottom: 9px;
+        border-bottom: 1px solid $line-base-on-dark-shift-down;
+
+        @media screen and (max-width: 1199px) {
+            margin-bottom: 16px;
+            padding-bottom: 16px;
+        }
+    }
+    &__heading {
+        font-size: 18px;
+        font-weight: 500;
+        color: $text-base-on-light-shift-down;
+    }
+    &__close {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0;
+        min-width: 48px;
+        width: 48px;
+        height: 48px;
+        font-size: 0;
+        background: $root-base-on-dark;
+        border: none;
+        border-radius: 50%;
+        transition: all $transition-default;
+        & > svg {
+            min-width: 20px;
+            width: 20px;
+            height: 20px;
+            color: $root-base-on-light;
+        }
+        &:focus {
+            outline: none;
+        }
+    }
+    &__main {
+        overflow-x: hidden;
+        overflow-y: auto;
+        max-height: calc(100dvh - 56px - 64px - 58px - 9px);
+
+        @media screen and (max-width: 1199px) {
+            max-height: calc(100dvh - 65px - 16px - 32px);
+        }
+    }
+    &__link {
+        display: block;
+        margin-left: auto;
+        width: fit-content;
+        font-size: 14px;
+        font-weight: 500;
+        color: $text-accent-on-light;
+        &:hover {
+            color: $text-accent-on-light;
+        }
+    }
+    &__item {
+        width: 100%;
+        &--divider {
+            padding: 24px 0;
+            &:last-child {
+                padding: 24px 0 0;
+            }
+        }
+    }
+    &__item + &__item--divider {
+        border-top: 1px solid $line-base-on-dark-shift-down;
+    }
+    &__card {
+        margin: -8px 0;
+
+        @media screen and (max-width: 767px) {
+            margin: 0;
+        }
+    }
+    &__overlay {
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        z-index: -1;
+        display: block;
+        width: 100%;
+        height: 100%;
+        background: rgba($black-color, 0.1);
+
+        @media screen and (min-width: 768px) and (max-width: 1199px) {
+            background: rgba($back-accent-on-light, 0.6);
+        }
+        @media screen and (max-width: 767px) {
+            opacity: 0;
+            visibility: hidden;
+        }
+    }
+}
+
+.notifications-card {
+    padding: 8px 16px;
+    width: 100%;
+    transition: all $transition-default;
+
+    @media screen and (hover: hover) {
+        &:hover {
+            background: $root-base-on-dark;
+        }
+    }
+    @media screen and (max-width: 767px) {
+        padding: 0;
+    }
+
+    &__wrapper {
+        display: flex;
+    }
+    &__img {
+        display: block;
+        margin-right: 16px;
+        overflow: hidden;
+        min-width: 34px;
+        width: 34px;
+        height: 34px;
+        border-radius: 50%;
+        img {
+            display: block;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+    }
+    &__body {
+        max-width: 386px;
+        width: 100%;
+    }
+    &__description {
+        display: block;
+        font-size: 14px;
+        font-weight: 500;
+        color: $text-base-on-light-shift-up;
+    }
+    &__subtitle {
+        display: block;
+        margin-top: 16px;
+        font-size: 16px;
+        font-weight: 500;
+        color: $text-base-on-light-shift-down;
+
+        @media screen and (max-width: 767px) {
+            margin-top: 8px;
+        }
+    }
+    &__text {
+        display: block;
+        margin-top: 16px;
+        width: fit-content;
+        font-size: 14px;
+        font-weight: 500;
+        a {
+            color: $text-accent-on-light;
+            &:hover {
+                color: $text-accent-on-light;
+            }
+        }
+
+        @media screen and (max-width: 767px) {
+            margin-top: 8px;
+        }
+    }
+    &__time {
+        display: block;
+        margin-top: 12px;
+        font-size: 14px;
+        font-weight: normal;
+        color: $text-base-on-light-shift-up;
+
+        @media screen and (max-width: 767px) {
+            margin-top: 8px;
+        }
+    }
+}
+
+.notifications-subscribe {
+    &__wrapper {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 32px 40px;
+        width: 100%;
+        background: rgba($back-complement-on-dark, 0.12);
+        border-radius: 8px;
+
+        @media screen and (max-width: 1199px) {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+        @media screen and (max-width: 1199px) {
+            padding: 24px 52px;
+        }
+    }
+    &__description {
+        display: block;
+        font-size: 14px;
+        font-weight: 500;
+        line-height: 1.28;
+    }
+    &__btn {
+        margin-left: 38px;
+        padding-right: 24px;
+        padding-left: 24px;
+
+        @media screen and (max-width: 1199px) {
+            margin-top: 16px;
+            margin-left: 0;
+        }
+    }
+}
+
+.notifications-webinar {
+    &__wrapper {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+
+        @media screen and (max-width: 767px) {
+            flex-direction: column;
+        }
+    }
+    &__inner {
+        display: flex;
+        align-items: flex-start;
+    }
+    &__img {
+        display: block;
+        overflow: hidden;
+        margin-right: 16px;
+        min-width: 36px;
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        img {
+            display: block;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+    }
+    &__body {
+        max-width: 316px;
+        width: 100%;
+    }
+    &__description {
+        display: block;
+        font-size: 14px;
+        font-weight: 500;
+        color: $text-base-on-light-shift-down;
+    }
+    &__btn {
+        min-width: 174px;
+        
+        @media screen and (max-width: 767px) {
+            padding-left: 52px;
+        }
+    }
+    &__status {
+        display: block;
+        margin-left: 40px;
+        padding: 19px 10px;
+        min-width: max-content;
+        width: fit-content;
+        text-align: center;
+        border: 1px solid rgba($line-base-on-light-shift-up, 0.85);
+        border-radius: 8px;
+
+        @media screen and (max-width: 767px) {
+            display: flex;
+            align-items: center;
+            margin-top: 16px;
+            margin-left: 52px;
+            padding: 7.25px 16px;
+        }
+    }
+    &__date {
+        display: block;
+        font-size: 12px;
+        font-weight: 500;
+        text-transform: uppercase;
+        color: $text-base-on-light-shift-up;
+    }
+    &__time {
+        display: block;
+        margin-top: 5px;
+        font-size: 20px;
+        font-weight: 600;
+        white-space: nowrap;
+        color: $text-base-on-light;
+
+        @media screen and (max-width: 767px) {
+            margin-top: 0;
+            margin-left: 12px;
+            font-size: 22px;
+        }
+    }
+}

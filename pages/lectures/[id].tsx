@@ -9,7 +9,7 @@ import { fetchLectures } from "../../redux/lectures/asyncAction";
 import { wrapper } from "../../redux/store";
 import { useSelector } from "react-redux";
 import { selectLectures } from "../../redux/lectures/slice";
-import { baseURL, server } from "../../utils/server";
+import { server } from "../../utils/server";
 import { formatDateDifference } from "../../utils/formatDate";
 import { FullVideoType } from "../../redux/types";
 import { extractVideoId } from "../../utils/extractVideoId";

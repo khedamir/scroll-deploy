@@ -1,4 +1,4 @@
-import { Status } from "../types";
+import { ImageType, PaginationType, Status } from "../types";
 
 export type FetchParams = {
   limit: number;
@@ -9,24 +9,16 @@ export type FetchParams = {
 export type NewType = {
   id: string;
   name: string;
-  images: string[];
+  images: ImageType;
   date: string;
   rubric: string;
   author_name: string;
   author_surname: string;
   author_photo: string;
   poperties: {
-    NEWS_LOGO: string;
-    PUB_SOURCE: "";
-    PUB_SOURCE_LOGO: "";
+    PUB_SOURCE_LOGO: string;
+    SOURCE: string;
   };
-};
-
-export type PaginationType = {
-  page: number;
-  perPage: number;
-  totalCount: string;
-  totalPages: number;
 };
 
 export type NewsData = {

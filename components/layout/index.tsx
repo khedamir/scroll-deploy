@@ -1,4 +1,4 @@
-import React, { FC, ReactNode, useEffect } from "react";
+import React, { ReactNode, useEffect } from "react";
 import Menu from "../menu";
 import { useRouter } from "next/router";
 import ThirdyHeader from "../header/thirdyHeader";
@@ -10,35 +10,25 @@ import { fetchAuthMe } from "../../redux/auth/asyncAction";
 import Login from "../modals/login";
 import ChangePassword from "../modals/changePassword";
 import Search from "../search";
+import Notification from "../notifications";
 
-type layoutProps = {
-  children: ReactNode;
-};
+const Layout = ({ children }: { children: ReactNode }) => {
+  const headerComponents: any = {
+    "/webinar/[id]": <ThirdyHeader title="Вебинар" />,
+    "/faq": <ThirdyHeader title="Помощь" />,
+    "/vacancies": <ThirdyHeader title="Вакансии" />,
+    "/lk": <ThirdyHeader title="Личный кабинет" />,
+    "/lk-edit": <ThirdyHeader title="Личный кабинет" />,
+    "/videos": <SecondHeader />,
+    "/videos/[id]": <SecondHeader />,
+    "/lectures": <SecondHeader />,
+    "/lectures/[id]": <SecondHeader />,
+    "/podcasts": <SecondHeader />,
+    "/lawyers-club": <SecondHeader />,
+  };
 
-const Layout: FC<layoutProps> = ({ children }) => {
   const router = useRouter();
-
-  let headerComponent;
-  if (router.pathname === "/webinar/[id]") {
-    headerComponent = <ThirdyHeader title="Вебинар" />;
-  } else if (router.pathname === "/faq") {
-    headerComponent = <ThirdyHeader title="Помощь" />;
-  } else if (router.pathname === "/vacancies") {
-    headerComponent = <ThirdyHeader title="Вакансии" />;
-  } else if (router.pathname === "/lk" || router.pathname === "/lk-edit") {
-    headerComponent = <ThirdyHeader title="Личный кабинет" />;
-  } else if (
-    router.pathname === "/videos" ||
-    router.pathname === "/videos/[id]" ||
-    router.pathname === "/lectures" ||
-    router.pathname === "/lectures/[id]" ||
-    router.pathname === "/podcasts" ||
-    router.pathname === "/lawyers-club"
-  ) {
-    headerComponent = <SecondHeader />;
-  } else {
-    headerComponent = <Header />;
-  }
+  const currentHeader = headerComponents[router.pathname] || <Header />;
 
   const dispatch = useAppDispatch();
 
@@ -55,7 +45,8 @@ const Layout: FC<layoutProps> = ({ children }) => {
       <ChangePassword />
       <Search />
       <Menu />
-      {headerComponent}
+      <Notification />
+      {currentHeader}
       {children}
     </div>
   );

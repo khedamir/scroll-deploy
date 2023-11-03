@@ -6,7 +6,7 @@ import { Status } from "../types";
 import { AuthSliceState } from "./types";
 
 const initialState: AuthSliceState = {
-  id: "",
+  id: "9",
   user: null,
   status: Status.LOADING,
 };

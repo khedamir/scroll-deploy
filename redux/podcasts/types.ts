@@ -1,4 +1,4 @@
-import { Status } from "../types";
+import { ImageType, PaginationType, Status } from "../types";
 
 export type FetchParams = {
   limit?: number;
@@ -9,21 +9,14 @@ export type FetchParams = {
 export type PodcastType = {
   id: string;
   name: string;
-  images: string[];
+  images: ImageType;
   date: string;
   poperties: {
-    DESCRIPTION_PODCAST: { TEXT: string };
+    PODCAST_AUTOR: string;
     LINK_AUDIO_PODCAST: string;
     PAGETITLE_PODCAST: string;
-    PODCAST_AUTOR: string;
+    DESCRIPTION_PODCAST: { TEXT: string };
   };
-};
-
-export type PaginationType = {
-  page: number;
-  perPage: number;
-  totalCount: string;
-  totalPages: number;
 };
 
 export type PodcastsData = {

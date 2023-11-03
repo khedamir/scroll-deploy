@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from "react";
 import EditorJS, { EditorConfig, OutputData } from "@editorjs/editorjs";
-import { EDITOR_TOOLS } from "./EditorTools";
+import { EDITOR_TOOLS, message } from "./EditorTools";
 
 interface EditorProps {
   data: OutputData;
@@ -12,6 +12,7 @@ export default function Editor({ data, onChange, holder }: EditorProps) {
   // Добавляем ссылку на редактор
   const ref = useRef<EditorJS | null>(null);
 
+
   // Инициализируем Editor.js
   useEffect(() => {
     // Инициализируем редактор, если у нас нет ссылки
@@ -21,8 +22,13 @@ export default function Editor({ data, onChange, holder }: EditorProps) {
         autofocus: true,
         tools: EDITOR_TOOLS,
         data,
+        placeholder: 'Давайте напишем классную историю!...',
+        i18n: {
+          messages: message
+        },
         onChange: async (api, event) => {
           const savedData = await api.saver.save();
+          console.log(savedData)
           onChange(savedData);
         },
       };

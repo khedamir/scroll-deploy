@@ -4,9 +4,21 @@ export enum Status {
   ERROR = "error",
 }
 
+export type PaginationType = {
+  page: number;
+  perPage: number;
+  totalCount: string;
+  totalPages: number;
+};
+
+export type ImageType = {
+  preview: string;
+  detail: string;
+};
+
 export type PropType = { VALUE: string[] };
 
-export type PublicationType = {
+export type FullPublicationType = {
   id: string;
   name: string;
   images: string[];
@@ -18,35 +30,22 @@ export type PublicationType = {
   views: string;
 };
 
-export type FullNewType = PublicationType & {
+export type FullNewType = FullPublicationType & {
   author_name: string;
   author_surname: string;
   author_photo: string;
   props: {
-    NEWS_LOGO: PropType;
     PUB_RUBRIC: PropType;
     SOURCE: PropType;
-    PUB_SOURCE: PropType;
     PUB_SOURCE_LOGO: PropType;
     PUB_TAG: PropType;
   };
 };
 
-export type FullVideoType = PublicationType & {
+export type FullVideoType = FullPublicationType & {
   props: {
+    LINK_VIDEO: PropType;
     PUB_AUTOR: PropType;
     PUB_TAG: PropType;
-    LINK_VIDEO: PropType;
   };
 };
-
-// export type FullPublicationType = {
-//   CREATED_USER_NAME: string;
-//   CREATED_DATE: string;
-//   DETAIL_PAGE_URL: string;
-//   DETAIL_PICTURE: string;
-//   DETAIL_TEXT: string;
-//   NAME: string;
-//   PREVIEW_TEXT: string;
-//   TAGS: string;
-// };

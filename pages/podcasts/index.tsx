@@ -17,7 +17,7 @@ const Podcasts = () => {
 
   const fetchNextNews = async () => {
     const result = await server.get(
-      `/sw/v1/publications/?iblockid=27&sort=ASC`,
+      `/sw/v1/publications/?iblockid=27`,
       {
         params: {
           page: page,

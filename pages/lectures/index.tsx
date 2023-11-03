@@ -17,15 +17,12 @@ const Lectures = () => {
   let totalPages = data.pagination?.totalPages;
 
   const fetchNextNews = async () => {
-    const result = await server.get(
-      `/sw/v1/publications/?iblockid=26&sort=ASC`,
-      {
-        params: {
-          page: page,
-          limit: 8,
-        },
-      }
-    );
+    const result = await server.get(`/sw/v1/publications/?iblockid=26`, {
+      params: {
+        page: page,
+        limit: 8,
+      },
+    });
     if (totalPages !== result.data.pagination.totalPages) {
       totalPages = result.data.pagination.totalPages;
     }

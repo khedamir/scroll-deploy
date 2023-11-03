@@ -77,14 +77,14 @@ const Rubrics: FC<RubricsProps> = ({ recomendations }) => {
                           href={`/news/${recomendation.id}`}
                           className="page-list__item"
                         >
-                          {recomendation.poperties.PUB_SOURCE ? (
+                          {recomendation.poperties.PUB_SOURCE_LOGO ? (
                             <img
-                              src={`${baseURL}${recomendation.poperties.PUB_SOURCE_LOGO}`}
+                              src={`${recomendation.poperties.PUB_SOURCE_LOGO}`}
                               alt="Icon"
                             />
                           ) : (
                             <img
-                              src={`${baseURL}${recomendation.author_photo}`}
+                              src={`${recomendation.author_photo}`}
                               alt="Icon"
                             />
                           )}

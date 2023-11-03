@@ -20,7 +20,8 @@ import { fetchPodcasts } from "../redux/podcasts/asyncAction";
 import { fetchLectures } from "../redux/lectures/asyncAction";
 import { fetchWebinars } from "../redux/webinars/asyncAction";
 import { server } from "../utils/server";
-import { NewType, PaginationType } from "../redux/news/types";
+import { PaginationType } from "../redux/types";
+import { NewType } from "../redux/news/types";
 
 type PaginationDataType = {
   items: NewType[][];
@@ -100,7 +101,7 @@ const Index: NextPage = () => {
                   children1={
                     <>
                       <NewsCard news={items.slice(0, 5)} />
-                      <NewsList news={items.slice(5, 8)} largeNewIndex={2} />
+                      <NewsList news={items.slice(5, 8)} largeNewIndex={0} />
                     </>
                   }
                   children2={<></>}

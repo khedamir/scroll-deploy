@@ -4,6 +4,7 @@ import { server } from "../../utils/server";
 import { useRouter } from "next/router";
 import { useSelector } from "react-redux";
 import { selectUser } from "../../redux/auth/slice";
+import { useModalsContext } from "../../context/ModalsContext";
 
 interface MediaControlsProps {
   otherClassName?: string;
@@ -22,8 +23,9 @@ const MediaControls: FC<MediaControlsProps> = ({
 }) => {
   const [isLiked, setIsLiked] = useState(false);
   const [likesCount, setLikesCount] = useState(Number(likes));
-  const { id } = useSelector(selectUser);
+  const { id, user } = useSelector(selectUser);
   const router = useRouter();
+  const { setLoginActive } = useModalsContext();
 
   useEffect(() => {
     const fetch = async () => {
@@ -37,18 +39,27 @@ const MediaControls: FC<MediaControlsProps> = ({
   }, [id]);
 
   const addLike = async () => {
-    if (isLiked) {
-      await server.get(
-        `/sw/v1/likes/?newsId=${publication_id}&type=delete&userId=9`
-      );
-      setIsLiked(false);
-      setLikesCount(likesCount - 1);
-    } else {
-      await server.post(
-        `/sw/v1/likes/?newsId=${publication_id}&type=add&userId=9`
-      );
-      setIsLiked(true);
-      setLikesCount(likesCount + 1);
+    if (!user) {
+      setLoginActive(true);
+      return;
+    }
+
+    try {
+      await server.get(`/sw/v1/likes`, {
+        params: {
+          newsId: publication_id,
+          type: isLiked ? "delete" : "add",
+          userId: id,
+        },
+      });
+      if (isLiked) {
+        setLikesCount(likesCount - 1);
+      } else {
+        setLikesCount(likesCount + 1);
+      }
+      setIsLiked(!isLiked);
+    } catch (error) {
+      console.error("Произошла ошибка при обработке лайка:", error);
     }
   };
 

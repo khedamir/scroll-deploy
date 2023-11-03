@@ -8,32 +8,6 @@ import { wrapper } from "../../redux/store";
 import { selectWebinars } from "../../redux/webinars/slice";
 import { useSelector } from "react-redux";
 
-const items = {
-  webinars: [
-    {
-      id: 1,
-      title:
-        "Все о заработной плате: по закону согласно ст. 136 трудового кодекса",
-      author: "Юрий Алексеев",
-      date: "29 июля 14:00",
-    },
-  ],
-  pastWebinar: [
-    {
-      id: 1,
-      title: "Мосбиржа переведет акции и облигации на режим торгов T+1",
-      heading: "Что будет с рублем в этом году",
-      author: "Юрий Алексеев",
-    },
-    {
-      id: 2,
-      title: "Мосбиржа переведет акции и облигации на режим торгов T+1",
-      heading: "Что будет с рублем в этом году",
-      author: "Юрий Алексеев",
-    },
-  ],
-};
-
 const LawyersClub = () => {
   const { data } = useSelector(selectWebinars);
   console.log(data);

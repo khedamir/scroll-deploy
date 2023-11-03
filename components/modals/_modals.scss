@@ -128,7 +128,7 @@
     display: flex;
     justify-content: space-between;
     height: 600px;
-    max-height: 75dvh;
+    // min-height: 75dvh;
     width: 100%;
 
     @media screen and (min-width: 768px) and (max-width: 1023px) {
@@ -453,12 +453,52 @@
 .editor__content {
   background-color: #fff;
   width: 100%;
+  height: 100%;
   border-radius: 16px;
   padding: 35px 24px;
   display: flex;
   flex-direction: column;
   gap: 20px;
 
+  .codex-editor__redactor {
+    padding-bottom: 0 !important;
+  }
+
+  .editor-scroll {
+    height: 100%;
+    overflow: auto;
+
+    scrollbar-width: thin;
+    scrollbar-color: #888 #f1f1f1;
+
+    /* Стилизация вертикального скроллбара */
+    &::-webkit-scrollbar {
+      width: 6px; /* Ширина скроллбара */
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background-color: #888; /* Цвет ползунка скроллбара */
+    }
+
+    &::-webkit-scrollbar-track {
+      background-color: #f1f1f1; /* Цвет фона скроллбара */
+    }
+  }
+  .modal-header {
+    display: flex;
+    justify-content: space-between;
+
+    & .modal-header__config {
+      display: flex;
+      column-gap: 2px;
+
+      & button {
+        background-color: transparent;
+        border: 0;
+        padding: 0;
+      }
+    }
+  }
   h5 {
     font-size: 16px;
     font-weight: 600;
@@ -482,5 +522,47 @@
 
   .ce-header {
     padding: 0;
+  }
+  & .buttons {
+    display: flex;
+    column-gap: 16px;
+
+    .button {
+      height: 52px;
+      border-radius: 40px;
+      border-color: transparent;
+      display: flex;
+      align-items: center;
+      justify-content: space-evenly;
+    }
+    & .button_moderation {
+      width: 294px;
+      background-color: #3b68d9;
+      color: #fff;
+    }
+    & .button_view {
+      width: 169px;
+      background-color: #ececec;
+    }
+  }
+}
+
+.modal.is--active .frame-btn_activ {
+  margin: 0;
+  padding: 0;
+  max-width: none;
+  .modal {
+    &__wrap {
+      margin: 0;
+      max-width: none;
+    }
+    &__wrapper {
+      width: 100vw;
+      height: 100vh;
+      top: 0;
+    }
+  }
+  .editor__content {
+    border-radius: 0;
   }
 }

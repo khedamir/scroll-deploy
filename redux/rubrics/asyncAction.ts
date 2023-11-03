@@ -4,16 +4,13 @@ import { server } from "../../utils/server";
 
 export const fetchRubrics = createAsyncThunk<RubricType[]>(
   "rubrics/fetchRubrics",
-  async (params) => {
-    const { data } = await server.get("/api/v1/navigation/main", {
-      params,
-    });
+  async () => {
+    const { data } = await server.get("/api/v1/navigation/main");
     const rubrics: RubricType[] = Object.values(data.message);
 
     // const { data } = await server.get("/sw/v1/references/?iblockid=7", {
     //   params,
     // });
-
     return rubrics;
   }
 );

@@ -35,7 +35,7 @@ const Login = () => {
 
       if (fetchAuth.fulfilled.match(resultAction)) {
         await dispatch(fetchAuthMe());
-        navigate.push("/lk");
+        setLoginActive(false);
       } else if (fetchAuth.rejected.match(resultAction)) {
         alert("error");
       }
@@ -45,8 +45,7 @@ const Login = () => {
   };
 
   const changePassword = () => {
-    // setLoginActive(false);
-    // setChangePasswordActive(true);
+    setLoginActive(false);
   };
 
   return (

@@ -1,7 +1,9 @@
 import Link from "next/link";
-import React, { FC, useState } from "react";
+import React, { FC, useEffect, useState } from "react";
 import { ReactSVG } from "react-svg";
 import MyEditor from "../modals/myEditor";
+import { fetchRubrics } from "../../redux/rubrics/asyncAction";
+import { useAppDispatch } from "../../redux/store";
 
 interface PublicationsProps {
   active: boolean;
@@ -12,6 +14,11 @@ type ActiveBlockValue = "published" | "drafts";
 const Publications: FC<PublicationsProps> = ({ active }) => {
   const [activeBlock, setActiveBlock] = useState<ActiveBlockValue>("published");
   const [formActive, setFormActive] = useState(false);
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(fetchRubrics())
+  }, [dispatch]);
 
   return (
     <div className={`lk-tabs__wrapper ${active && "is--active"}`}>

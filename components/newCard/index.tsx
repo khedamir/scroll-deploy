@@ -2,7 +2,6 @@ import Link from "next/link";
 import React, { FC, RefObject, useEffect, useRef } from "react";
 import { ReactSVG } from "react-svg";
 import { NewType } from "../../redux/news/types";
-import { baseURL } from "../../utils/server";
 import { formatDateDifference } from "../../utils/formatDate";
 
 interface NewCardProps {
@@ -36,13 +35,13 @@ const NewCard: FC<NewCardProps> = ({ newItem, isLast, newLimit, end }) => {
         <div className="big-news-card__top">
           <div className="big-news-card__group">
             <span className="big-news-card__author">
-              {newItem.poperties.PUB_SOURCE ? (
+              {newItem.poperties.PUB_SOURCE_LOGO ? (
                 <>
                   <img
-                    src={`${baseURL}${newItem.poperties.PUB_SOURCE_LOGO}`}
+                    src={`${newItem.poperties.PUB_SOURCE_LOGO}`}
                     alt="Image"
                   />
-                  <span>{newItem.poperties.PUB_SOURCE}</span>
+                  <span>{newItem.poperties.SOURCE}</span>
                 </>
               ) : (
                 <>
@@ -67,9 +66,9 @@ const NewCard: FC<NewCardProps> = ({ newItem, isLast, newLimit, end }) => {
           {newItem.name}
         </Link>
       </div>
-      {newItem.images[1] && (
+      {newItem.images.detail && (
         <Link href={`/news/${newItem.id}`} className="big-news-card__img">
-          <img src={`${newItem.images[1]}`} alt="Image" />
+          <img src={`${newItem.images.detail}`} alt="Image" />
         </Link>
       )}
     </div>

@@ -41,7 +41,7 @@ const PodcastItem: FC<PodcastItemProps> = ({
     <div key={podcast.id} className="podcasts__item">
       {maxVersion && (
         <Link href={`/podcasts/${podcast.id}`} className="podcasts__img">
-          <img src={`${podcast.images[0]}`} alt="Image" />
+          <img src={`${podcast.images.preview}`} alt="Image" />
         </Link>
       )}
       <div className="podcasts__main">

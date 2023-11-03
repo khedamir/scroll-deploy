@@ -16,6 +16,7 @@ const Header = () => {
     menuActive,
     setLoginActive,
     setRegisterActive,
+    setNotification,
     setSearchActive,
   } = useModalsContext();
 
@@ -66,9 +67,12 @@ const Header = () => {
               <Link href="#" className="header__btn header__btn--tablet-hidden">
                 <BookmarksIcon />
               </Link>
-              <Link href="#" className="header__btn notifications-btn">
+              <span
+                onClick={() => setNotification(true)}
+                className="header__btn notifications-btn"
+              >
                 <NotificationIcon />
-              </Link>
+              </span>
             </div>
             <div className="header__controls header__controls--second">
               {user ? (

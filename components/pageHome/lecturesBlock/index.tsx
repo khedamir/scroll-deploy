@@ -17,7 +17,7 @@ const LecturesBlock = () => {
               className="content-card__item"
             >
               <picture className="content-card__img">
-                <img src={`${lecture.images[1]}`} alt="Image" />
+                <img src={`${lecture.images.preview}`} alt="Image" />
               </picture>
               <div className="content-card__body">
                 <h3 className="content-card__title">{lecture.name}</h3>

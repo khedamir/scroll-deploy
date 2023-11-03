@@ -249,8 +249,7 @@
   &__wrapper {
     position: relative;
     z-index: 1;
-    margin-right: auto;
-    margin-left: auto;
+    margin: 24px auto;
     max-width: 484px;
     width: 100%;
     &::before {

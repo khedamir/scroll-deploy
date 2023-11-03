@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useState } from "react";
+import React, { FC, useState } from "react";
 import Footer from "../../components/footer";
 import { GetServerSideProps } from "next";
 import { ReactSVG } from "react-svg";
@@ -7,7 +7,7 @@ import Sidebar from "../../components/sidebar/sidebar";
 import LegalAdviceWidget from "../../components/widgets/legalAdviceWidget";
 import MediaControls from "../../components/mediaControls";
 import Link from "next/link";
-import { baseURL, server } from "../../utils/server";
+import { server } from "../../utils/server";
 import RenderHTML from "../../components/renderHTML";
 import { formatDateDifference } from "../../utils/formatDate";
 import LegalAdvice from "../../components/modals/legalAdvice";
@@ -16,7 +16,7 @@ import Tags from "../../components/tags";
 import NewAuthor from "../../components/pageNew/newAuthor";
 import RecomendationNew from "../../components/pageNew/recomendationNew";
 import { getAnchorsId } from "../../utils/getAnchorsId";
-import { useRouter } from "next/router";
+import NewFragment from "../../components/pageNew/newFragment";
 
 interface NewProps {
   publication: FullNewType;
@@ -74,7 +74,7 @@ const New: FC<NewProps> = ({ publication, recommendationNews }) => {
                               newItem={recommendationNews[index - 1]}
                             />
                           )}
-                          <RenderHTML content={part} />
+                          <NewFragment fragment={part} />
                         </React.Fragment>
                       ))}
                       <p className="small-description">
@@ -89,9 +89,9 @@ const New: FC<NewProps> = ({ publication, recommendationNews }) => {
               </div>
               <div className="layout__right">
                 <div className="layout__sticky-block">
-                  {publication.props.PUB_SOURCE ? (
+                  {publication.props.SOURCE ? (
                     <NewAuthor
-                      PUB_SOURCE={publication.props.PUB_SOURCE}
+                      PUB_SOURCE={publication.props.SOURCE}
                       PUB_SOURCE_LOGO={publication.props.PUB_SOURCE_LOGO}
                     />
                   ) : (

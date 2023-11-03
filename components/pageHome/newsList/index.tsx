@@ -1,16 +1,8 @@
 import React, { FC } from "react";
 import Link from "next/link";
 import { ReactSVG } from "react-svg";
-import { useSelector } from "react-redux";
-import { baseURL } from "../../../utils/server";
 import { NewType } from "../../../redux/news/types";
-import {
-  getRubricById,
-  rubricByIdSelector,
-  selectRubrics,
-} from "../../../redux/rubrics/slice";
 import { formatDateDifference } from "../../../utils/formatDate";
-import { AppState } from "../../../redux/store";
 
 interface NewsListProps {
   news: NewType[];
@@ -37,9 +29,7 @@ const NewsList: FC<NewsListProps> = ({ news, largeNewIndex }) => {
                   {item.name}
                 </span>
                 <div className="news-card__inner">
-                  <span className="news-card__help">
-                    {rubricByIdSelector(item.rubric)?.NAME}
-                  </span>
+                  <span className="news-card__help">{item.rubric}</span>
                   <span className="news-card__help">
                     {formatDateDifference(item.date)}
                   </span>
@@ -48,13 +38,11 @@ const NewsList: FC<NewsListProps> = ({ news, largeNewIndex }) => {
                   <ReactSVG src="/img/sprite/icon-bookmarks.svg" />
                 </button>
               </div>
-              {item.images[0] &&
-                item.images[0] !== baseURL &&
-                largeNewIndex !== id && (
-                  <picture className="news-card__img news-card__img--sm">
-                    <img src={`${item.images[0]}`} alt="Image" />
-                  </picture>
-                )}
+              {item.images.detail && largeNewIndex !== id && (
+                <picture className="news-card__img news-card__img--sm">
+                  <img src={`${item.images.detail}`} alt="Image" />
+                </picture>
+              )}
             </Link>
           ))}
         </div>
