@@ -8,6 +8,7 @@ import { fetchPodcasts } from "../../redux/podcasts/asyncAction";
 import { wrapper } from "../../redux/store";
 import { PodcastType } from "../../redux/podcasts/types";
 import { server } from "../../utils/server";
+import FullPodcastItem from "../../components/pagePodcasts/fullPodcasrItem";
 
 const Podcasts = () => {
   const { data } = useSelector(selectPodcasts);
@@ -16,15 +17,12 @@ const Podcasts = () => {
   let totalPages = data.pagination?.totalPages;
 
   const fetchNextNews = async () => {
-    const result = await server.get(
-      `/sw/v1/publications/?iblockid=27`,
-      {
-        params: {
-          page: page,
-          limit: 3,
-        },
-      }
-    );
+    const result = await server.get(`/sw/v1/podcasts/?iblockid=34`, {
+      params: {
+        page: page,
+        limit: 10,
+      },
+    });
     if (totalPages !== result.data.pagination.totalPages) {
       totalPages = result.data.pagination.totalPages;
     }
@@ -53,10 +51,10 @@ const Podcasts = () => {
                 <div className="podcasts">
                   <div className="podcasts__wrapper">
                     {data.datas.map((podcast) => (
-                      <PodcastItem key={podcast.id} podcast={podcast} />
+                      <FullPodcastItem key={podcast.id} podcast={podcast} />
                     ))}
                     {nextPublication.map((podcast, index) => (
-                      <PodcastItem
+                      <FullPodcastItem
                         key={podcast.id}
                         podcast={podcast}
                         isLast={index === nextPublication.length - 1}
@@ -78,7 +76,7 @@ const Podcasts = () => {
 
 export const getServerSideProps = wrapper.getServerSideProps(
   (store) => async () => {
-    await store.dispatch(fetchPodcasts({ limit: 3 }));
+    await store.dispatch(fetchPodcasts({ limit: 10 }));
     return {
       props: {},
     };

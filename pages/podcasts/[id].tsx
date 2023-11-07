@@ -1,4 +1,4 @@
-import React from "react";
+import React, { FC } from "react";
 import Footer from "../../components/footer";
 import { ReactSVG } from "react-svg";
 import SecondSidebar from "../../components/sidebar/secondSidebar";
@@ -8,34 +8,16 @@ import { wrapper } from "../../redux/store";
 import { fetchPodcasts } from "../../redux/podcasts/asyncAction";
 import { useSelector } from "react-redux";
 import { selectPodcasts } from "../../redux/podcasts/slice";
+import { server } from "../../utils/server";
+import { FullPodcastType } from "../../redux/types";
+import RenderHTML from "../../components/renderHTML";
 
-const PodcastsList = [
-  {
-    id: 1,
-    name: "Мойдодыр и нейросеть",
-    description:
-      "В этом выпуске мы обсудили реакцию мозга на стрессовые ситуации; как управлять своимсостоянием.",
-    author: "Александр Македонский",
-  },
-  {
-    id: 2,
-    name: "Мойдодыр и нейросеть",
-    description:
-      "В этом выпуске мы обсудили реакцию мозга на стрессовые ситуации; как управлять своимсостоянием.",
-    author: "Александр Македонский",
-  },
-  {
-    id: 3,
-    name: "Мойдодыр и нейросеть",
-    description:
-      "В этом выпуске мы обсудили реакцию мозга на стрессовые ситуации; как управлять своимсостоянием.",
-    author: "Александр Македонский",
-  },
-];
+interface PodcastProps {
+  podcast: FullPodcastType;
+}
 
-const Podcast = () => {
+const Podcast: FC<PodcastProps> = ({ podcast }) => {
   const { data } = useSelector(selectPodcasts);
-
   return (
     <div className="layout">
       <div className="container">
@@ -52,17 +34,15 @@ const Podcast = () => {
                     <div className="podcast__wrapper-inner">
                       <div className="podcast__left">
                         <picture className="podcast__img">
-                          <img src="/img/podcasts-01.jpg" alt="Image" />
+                          <img src={podcast.images.preview} alt="Image" />
                         </picture>
                       </div>
                       <div className="podcast__right">
                         <div className="podcast__main">
                           <div className="podcast__body">
-                            <h1 className="podcast__heading">
-                              Название подкаста
-                            </h1>
+                            <h1 className="podcast__heading">{podcast.name}</h1>
                             <span className="podcast__text">
-                              Александр Македонский
+                              {podcast.props.AUTHOR_PODCAST.VALUE}
                             </span>
                           </div>
                           <div className="podcast__additional">
@@ -81,12 +61,7 @@ const Podcast = () => {
                       </div>
                     </div>
                     <p className="podcast__description">
-                      Яше 12 лет, и он все время узнает что-то новое — на
-                      уроках, из книг и фильмов, на прогулках и в путешествиях.
-                      В этом детском подкасте Яша обсуждает свои открытия с
-                      папой Митей, а когда Митя не может ответить на Яшины
-                      вопросы, они звонят ученым и выясняют, как все устроено на
-                      самом деле
+                      <RenderHTML content={podcast.content} />
                     </p>
                   </div>
                   <div className="podcast__wrapper">
@@ -94,12 +69,8 @@ const Podcast = () => {
                       <span className="podcast__help">12 выпусков</span>
                       <div className="podcasts podcast__podcasts">
                         <div className="podcasts__wrapper">
-                          {data.datas.map((podcast) => (
-                            <PodcastItem
-                              key={podcast.id}
-                              podcast={podcast}
-                              maxVersion={false}
-                            />
+                          {podcast.editions.map((podcast, id) => (
+                            <PodcastItem key={id} podcast={podcast} />
                           ))}
                         </div>
                       </div>
@@ -125,12 +96,15 @@ const Podcast = () => {
 };
 
 export const getServerSideProps = wrapper.getServerSideProps(
-  (store) => async () => {
-    await store.dispatch(fetchPodcasts({ limit: 15 }));
+  (store) => async (context) => {
+    const { id } = context.params || {};
+    await store.dispatch(fetchPodcasts({ limit: 5 }));
+    const { data } = await server.get(`/sw/v1/podcasts/?id=${id}`);
     return {
-      props: {},
+      props: {
+        podcast: data.datas[Number(id)],
+      },
     };
   }
 );
-
 export default Podcast;

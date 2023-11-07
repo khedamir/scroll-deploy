@@ -9,14 +9,18 @@ export type FetchParams = {
 export type PodcastType = {
   id: string;
   name: string;
+  anons: string;
   images: ImageType;
   date: string;
   poperties: {
-    PODCAST_AUTOR: string;
-    LINK_AUDIO_PODCAST: string;
-    PAGETITLE_PODCAST: string;
-    DESCRIPTION_PODCAST: { TEXT: string };
+    EDITION: string;
+    DURATION: string;
+    LINK_AUDIO: string;
   };
+  podcastId: string;
+  podcastName: string;
+  podcastAuthor: string;
+  podcastPhoto: string;
 };
 
 export type PodcastsData = {

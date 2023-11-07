@@ -22,6 +22,7 @@ import { fetchWebinars } from "../redux/webinars/asyncAction";
 import { server } from "../utils/server";
 import { PaginationType } from "../redux/types";
 import { NewType } from "../redux/news/types";
+import Link from "next/link";
 
 type PaginationDataType = {
   items: NewType[][];
@@ -70,11 +71,19 @@ const Index: NextPage = () => {
             />
             <SectionLayout
               children1={<PopularVideos />}
-              children2={<span className="layout__heading">тренды</span>}
+              children2={
+                <Link href={"/tranding-videos"} className="layout__heading">
+                  тренды
+                </Link>
+              }
             />
             <SectionLayout
               children1={<AudioPodcasts />}
-              children2={<span className="layout__heading">аудиоподкасты</span>}
+              children2={
+                <Link href={"/podcasts"} className="layout__heading">
+                  аудиоподкасты
+                </Link>
+              }
             />
             <SectionLayout
               children1={
@@ -87,11 +96,19 @@ const Index: NextPage = () => {
             />
             <SectionLayout
               children1={<LecturesBlock />}
-              children2={<span className="layout__heading">лекции</span>}
+              children2={
+                <Link href={"/lectures"} className="layout__heading">
+                  лекции
+                </Link>
+              }
             />
             <SectionLayout
               children1={<ClubBlock />}
-              children2={<span className="layout__heading">клуб юристов</span>}
+              children2={
+                <Link href={"/lawyers-club"} className="layout__heading">
+                  клуб юристов
+                </Link>
+              }
             />
             {nextPublication &&
               nextPublication.items &&
@@ -122,7 +139,7 @@ export const getServerSideProps = wrapper.getServerSideProps(
     await store.dispatch(fetchNews({ limit: 17 }));
     await store.dispatch(fetchPodcasts({ limit: 3 }));
     await store.dispatch(fetchLectures({ limit: 3 }));
-    await store.dispatch(fetchWebinars({ limit: 2 }));
+    await store.dispatch(fetchWebinars({ limit: 2, webinar: "actual" }));
     return {
       props: {},
     };

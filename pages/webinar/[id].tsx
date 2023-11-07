@@ -2,7 +2,6 @@ import React, { FC } from "react";
 import Footer from "../../components/footer";
 import { ReactSVG } from "react-svg";
 import Link from "next/link";
-import WebinerItem from "../../components/pageLawyersClub/webinerItem";
 import AuthorItem from "../../components/pageWebinar/authorItem";
 import RegisterBlock from "../../components/pageWebinar/registerBlock";
 import { wrapper } from "../../redux/store";
@@ -10,61 +9,21 @@ import { fetchWebinars } from "../../redux/webinars/asyncAction";
 import { useSelector } from "react-redux";
 import { selectWebinars } from "../../redux/webinars/slice";
 import { server } from "../../utils/server";
-
-const web = {
-  webinar: {
-    title:
-      "Все о заработной плате: по закону согласно ст. 136 трудового кодекса",
-    description:
-      "В вебинаре эксперт расскажет о том, какие бывают формы и системы оплаты труда, когда какая из них подойдет для разных видов бизнеса и что такое МРОТ.",
-    authors: [
-      {
-        id: 1,
-        name: "Юрий Алексеев",
-        position: "Эксперт по кадровому делопроизводству",
-      },
-      {
-        id: 2,
-        name: "Юрий Алексеев",
-        position: "Эксперт по кадровому делопроизводству",
-      },
-      {
-        id: 3,
-        name: "Юрий Алексеев",
-        position: "Эксперт по кадровому делопроизводству",
-      },
-    ],
-    themes: [
-      "Какие бывают формы оплаты труда",
-      "Какие бывают системы оплаты труда",
-      "Что такое МРОТ и зачем государство его устанавливает",
-      "Удержания из заработной платы",
-    ],
-    date: "29 июля 14:00",
-  },
-  pastWebinar: [
-    {
-      id: 1,
-      title: "Мосбиржа переведет акции и облигации на режим торгов T+1",
-      heading: "Что будет с рублем в этом году",
-      author: "Юрий Алексеев",
-    },
-    {
-      id: 2,
-      title: "Мосбиржа переведет акции и облигации на режим торгов T+1",
-      heading: "Что будет с рублем в этом году",
-      author: "Юрий Алексеев",
-    },
-  ],
-};
+import { WebinarType } from "../../redux/webinars/types";
+import OldWebinerItem from "../../components/pageLawyersClub/oldWebinarItem";
+import { FullWebinarType } from "../../redux/types";
+import RenderHTML from "../../components/renderHTML";
+import { useRouter } from "next/router";
 
 interface WebinarProps {
-  publication: any;
+  publication: FullWebinarType;
+  oldWebinars: WebinarType[];
 }
 
-const Webinar: FC<WebinarProps> = ({ publication }) => {
+const Webinar: FC<WebinarProps> = ({ publication, oldWebinars }) => {
   const { data } = useSelector(selectWebinars);
-  console.log(publication)
+  const router = useRouter();
+  console.log(publication);
 
   return (
     <div className="layout">
@@ -81,11 +40,13 @@ const Webinar: FC<WebinarProps> = ({ publication }) => {
                     <div className="webinar__top">
                       <div className="webinar__group">
                         <span className="webinar__time">
-                          {data.datas[0].date}
+                          {data.datas[0].poperties.DATE_WEBINAR.slice(0, -3)}
                         </span>
-                        <button className="webinar__notification">
-                          <ReactSVG src="/img/sprite/icon-notifications.svg" />
-                        </button>
+                        {router.query.webinar !== "old" && (
+                          <button className="webinar__notification">
+                            <ReactSVG src="/img/sprite/icon-notifications.svg" />
+                          </button>
+                        )}
                       </div>
                       <div className="webinar__group">
                         <Link href="/lawyers-club" className="webinar__close">
@@ -94,53 +55,79 @@ const Webinar: FC<WebinarProps> = ({ publication }) => {
                       </div>
                     </div>
                     <div className="webinar__body">
-                      <h1 className="webinar__heading">{web.webinar.title}</h1>
+                      <h1 className="webinar__heading">{publication.name}</h1>
                       <p className="webinar__description">
-                        {web.webinar.description}
+                        <RenderHTML content={publication.content} />
                       </p>
                     </div>
                     <div className="webinar__block">
                       <h3 className="webinar__title">Спикеры</h3>
                       <div className="webinar__speakers">
-                        {web.webinar.authors.map((author) => (
-                          <AuthorItem key={author.id} author={author} />
-                        ))}
+                        {publication.props.FIO_SPIKERS?.VALUE.map(
+                          (author, id) => (
+                            <AuthorItem
+                              key={id}
+                              fio={author}
+                              photo={publication.props.FOTO_SPIKERS?.VALUE[id]}
+                              position={
+                                publication.props.PROF_SPIKERS?.VALUE[id]
+                              }
+                            />
+                          )
+                        )}
                       </div>
                     </div>
                     <div className="webinar__themes">
                       <div className="webinar__theme">
                         <h3 className="webinar__title">Основные темы</h3>
                         <ul className="webinar__list">
-                          {web.webinar.themes.map((theme, id) => (
-                            <li key={id} className="webinar__list-item">
-                              <a href="#" className="webinar__link">
-                                {theme}
-                              </a>
+                          {publication.props.THEME_EVENTS?.VALUE.map(
+                            (theme, id) => (
+                              <li key={id} className="webinar__list-item">
+                                <a href="#" className="webinar__link">
+                                  {theme}
+                                </a>
+                              </li>
+                            )
+                          )}
+                        </ul>
+                      </div>
+                      {router.query.webinar !== "old" && (
+                        <div className="webinar__theme">
+                          <h3 className="webinar__title">Стоимость</h3>
+                          <ul className="webinar__list">
+                            <li className="webinar__list-item">
+                              <span className="webinar__text">
+                                {publication.props.PRISE_EVENTS?.VALUE}
+                              </span>
                             </li>
-                          ))}
-                        </ul>
-                      </div>
-                      <div className="webinar__theme">
-                        <h3 className="webinar__title">Стоимость</h3>
-                        <ul className="webinar__list">
-                          <li className="webinar__list-item">
-                            <span className="webinar__text">Бесплатно</span>
-                          </li>
-                        </ul>
-                      </div>
+                          </ul>
+                        </div>
+                      )}
                     </div>
-                    <RegisterBlock />
+                    {router.query.webinar === "old" ? (
+                      publication.props.VIDEO && (
+                        <div className="webinar__block">
+                          <p>Запись вебинара</p>
+                        </div>
+                      )
+                    ) : (
+                      <RegisterBlock
+                        description={publication.props.PRISE_SLOGAN?.VALUE}
+                      />
+                    )}
                   </div>
                 </div>
                 <div className="webinar-grid section-indent section-indent--lg">
                   <h3 className="webinar-grid__head">Прошедшие встречи</h3>
-                  {data.datas.map(
+                  {oldWebinars.map(
                     (web, id) =>
                       id % 2 !== 0 &&
-                      id !== 0 && (
-                        <WebinerItem
+                      id !== 0 &&
+                      oldWebinars[id - 1] && (
+                        <OldWebinerItem
                           key={web.id}
-                          webinars={[web, data.datas[id - 1]]}
+                          webinars={[web, oldWebinars[id - 1]]}
                         />
                       )
                   )}
@@ -161,10 +148,14 @@ export const getServerSideProps = wrapper.getServerSideProps(
     try {
       await store.dispatch(fetchWebinars({ limit: 15 }));
       const { data } = await server.get(`/sw/v1/publications/?id=${id}`);
+      const oldWebinars = await server.get(
+        "/sw/v1/publications/?iblockid=11&webinar=old&limit=10"
+      );
 
       return {
         props: {
           publication: data.datas[Number(id)],
+          oldWebinars: oldWebinars.data.datas,
         },
       };
     } catch (error) {

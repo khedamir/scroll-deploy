@@ -8,7 +8,7 @@ interface WebinarItemProps {
   webinars: WebinarType[];
 }
 
-const WebinerItem: FC<WebinarItemProps> = ({ webinars }) => {
+const OldWebinerItem: FC<WebinarItemProps> = ({ webinars }) => {
   return (
     <div className="webinar-grid__wrapper webinar-grid__wrapper--indent">
       <div className="webinar-grid__left">
@@ -17,27 +17,24 @@ const WebinerItem: FC<WebinarItemProps> = ({ webinars }) => {
             <div className="meetings-card__body">
               <div className="meetings-card__top">
                 <span className="meetings-card__subtitle">Вебинар</span>
-                <button className="meetings-card__control">
-                  <ReactSVG src="/img/sprite/icon-notifications.svg" />
-                </button>
               </div>
               <div className="meetings-card__bottom meetings-card__bottom--flex">
                 <div className="meetings-card__images">
                   <Link
-                    href={`/webinar/${webinars[0].id}`}
+                    href={`/webinar/${webinars[0].id}?webinar=old`}
                     className="meetings-card__preview"
                   >
                     <img src={`${webinars[0].images.preview}`} alt="Image" />
                   </Link>
                   <Link
-                    href={`/webinar/${webinars[0].id}`}
+                    href={`/webinar/${webinars[0].id}?webinar=old`}
                     className="meetings-card__preview"
                   >
                     <img src="/img/meetings-card-02.jpg" alt="Image" />
                   </Link>
                 </div>
                 <Link
-                  href={`/webinar/${webinars[0].id}`}
+                  href={`/webinar/${webinars[0].id}?webinar=old`}
                   className="meetings-card__title"
                 >
                   {webinars[0].name}
@@ -52,16 +49,16 @@ const WebinerItem: FC<WebinarItemProps> = ({ webinars }) => {
           <div className="meetings-card__wrapper">
             <div className="meetings-card__body">
               <div className="meetings-card__top">
-                <button className="meetings-card__play">
+                <Link
+                  href={`/webinar/${webinars[1].id}?webinar=old`}
+                  className="meetings-card__play"
+                >
                   <ReactSVG src="/img/sprite/icon-play.svg" />
-                </button>
-                <button className="meetings-card__control">
-                  <ReactSVG src="/img/sprite/icon-notifications.svg" />
-                </button>
+                </Link>
               </div>
               <div className="meetings-card__bottom">
                 <Link
-                  href={`/webinar/${webinars[1].id}`}
+                  href={`/webinar/${webinars[1].id}?webinar=old`}
                   className="meetings-card__heading"
                 >
                   {webinars[1].name}
@@ -72,7 +69,7 @@ const WebinerItem: FC<WebinarItemProps> = ({ webinars }) => {
               </div>
             </div>
             <Link
-              href={`/webinar/${webinars[1].id}`}
+              href={`/webinar/${webinars[1].id}?webinar=old`}
               className="meetings-card__img"
             >
               <img src={`${webinars[1].images.preview}`} alt="Image" />
@@ -84,4 +81,4 @@ const WebinerItem: FC<WebinarItemProps> = ({ webinars }) => {
   );
 };
 
-export default WebinerItem;
+export default OldWebinerItem;

@@ -14,18 +14,18 @@ const AudioPodcasts = () => {
           {data.datas.map((podcast, id) => (
             <Link
               key={podcast.id}
-              href={`/podcasts/${podcast.id}`}
+              href={`/podcasts/${podcast.podcastId}`}
               className={`content-card__item ${
                 id === 1 && "content-card__item--center"
               }`}
             >
               <picture className="content-card__img">
-                <img src={`${podcast.images.preview}`} alt="Image" />
+                <img src={`${podcast.podcastPhoto}`} alt="Image" />
               </picture>
               <div className="content-card__body">
                 <h3 className="content-card__title">{podcast.name}</h3>
                 <span className="content-card__help">
-                  {podcast.poperties.PODCAST_AUTOR}
+                  {podcast.podcastAuthor}
                 </span>
               </div>
             </Link>

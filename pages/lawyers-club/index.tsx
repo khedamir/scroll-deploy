@@ -1,4 +1,4 @@
-import React from "react";
+import React, { FC } from "react";
 import Footer from "../../components/footer";
 import SecondSidebar from "../../components/sidebar/secondSidebar";
 import WebinarCard from "../../components/pageLawyersClub/webinarCard";
@@ -7,10 +7,17 @@ import { fetchWebinars } from "../../redux/webinars/asyncAction";
 import { wrapper } from "../../redux/store";
 import { selectWebinars } from "../../redux/webinars/slice";
 import { useSelector } from "react-redux";
+import { WebinarType } from "../../redux/webinars/types";
+import { server } from "../../utils/server";
+import OldWebinerItem from "../../components/pageLawyersClub/oldWebinarItem";
 
-const LawyersClub = () => {
+interface LawyersClubProps {
+  oldWebinars: WebinarType[];
+}
+
+const LawyersClub: FC<LawyersClubProps> = ({ oldWebinars }) => {
   const { data } = useSelector(selectWebinars);
-  console.log(data);
+  console.log(oldWebinars);
   return (
     <div className="layout">
       <div className="container">
@@ -27,13 +34,14 @@ const LawyersClub = () => {
                 ))}
                 <div className="webinar-grid section-indent section-indent--lg">
                   <h3 className="webinar-grid__head">Прошедшие встречи</h3>
-                  {data.datas.map(
+                  {oldWebinars.map(
                     (web, id) =>
                       id % 2 !== 0 &&
-                      id !== 0 && (
-                        <WebinerItem
+                      id !== 0 &&
+                      oldWebinars[id - 1] && (
+                        <OldWebinerItem
                           key={web.id}
-                          webinars={[web, data.datas[id - 1]]}
+                          webinars={[web, oldWebinars[id - 1]]}
                         />
                       )
                   )}
@@ -50,9 +58,14 @@ const LawyersClub = () => {
 
 export const getServerSideProps = wrapper.getServerSideProps(
   (store) => async () => {
-    await store.dispatch(fetchWebinars({ limit: 15 }));
+    await store.dispatch(fetchWebinars({ limit: 15, webinar: "actual" }));
+    const { data } = await server.get(
+      "/sw/v1/publications/?iblockid=11&webinar=old&limit=10"
+    );
     return {
-      props: {},
+      props: {
+        oldWebinars: data.datas,
+      },
     };
   }
 );

@@ -49,3 +49,44 @@ export type FullVideoType = FullPublicationType & {
     PUB_TAG: PropType;
   };
 };
+
+export type FullPodcastType = {
+  id: string;
+  name: string;
+  content: string;
+  date: string;
+  images: ImageType;
+  props: {
+    AUTHOR_PODCAST: PropType;
+  };
+  editions: EditionType[];
+};
+
+export type EditionType = {
+  anons: string;
+  name: string;
+  props: {
+    AUDIO_FILE: PropType;
+    DURATION: PropType;
+    EDITION: PropType;
+    LINK_AUDIO: PropType;
+  };
+};
+
+export type FullWebinarType = {
+  id: string;
+  name: string;
+  content: string;
+  images: string[];
+  date: string;
+  props: {
+    DATE_WEBINAR: { VALUE: string };
+    FIO_SPIKERS: PropType;
+    FOTO_SPIKERS: PropType;
+    PROF_SPIKERS: PropType;
+    PRISE_EVENTS: PropType;
+    THEME_EVENTS: PropType;
+    PRISE_SLOGAN: { VALUE: string };
+    VIDEO: { VALUE: string };
+  };
+};

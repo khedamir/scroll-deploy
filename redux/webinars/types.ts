@@ -3,7 +3,7 @@ import { ImageType, PaginationType, Status } from "../types";
 export type FetchParams = {
   limit?: number;
   page?: number;
-  rubric?: number;
+  webinar?: "actual" | "old";
 };
 
 export type WebinarType = {
@@ -13,11 +13,7 @@ export type WebinarType = {
   date: string;
   poperties: {
     FIO_SPIKERS: string[];
-    FOTO_SPIKERS: string;
-    PRISE_EVENTS: string;
-    PRISE_SLOGAN: { TEXT: string };
-    PROF_SPIKERS: string[];
-    THEME_EVENTS: string[];
+    DATE_WEBINAR: string;
   };
 };
 

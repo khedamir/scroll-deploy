@@ -1,7 +1,11 @@
-import React, { FormEvent, useRef, useState } from "react";
+import React, { FC, FormEvent, useRef, useState } from "react";
 import ThanksModal from "../modals/thanks";
 
-const RegisterBlock = () => {
+interface RegisterBlockProps {
+  description: string;
+}
+
+const RegisterBlock: FC<RegisterBlockProps> = ({ description }) => {
   const [modalActive, setModalActive] = useState(false);
 
   const onSubmit = (event: FormEvent) => {
@@ -12,9 +16,7 @@ const RegisterBlock = () => {
   return (
     <>
       <div className="webinar__block">
-        <h3 className="webinar__title">
-          Запишитесь на вебинар, чтобы не пропустить
-        </h3>
+        <h3 className="webinar__title">{description}</h3>
         <div className="webinar-subscribe webinar__subscribe">
           <form onSubmit={onSubmit} className="webinar-subscribe__wrapper">
             <input

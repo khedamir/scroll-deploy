@@ -24,7 +24,7 @@ interface NewProps {
 }
 
 const New: FC<NewProps> = ({ publication, recommendationNews }) => {
-  console.log(publication);
+  // console.log(publication);
   const [modalActive, setModalActive] = useState(false);
   const anchorRegex = /<a name="\d+"><\/a>/;
   const articleParts = publication.content.split(anchorRegex);

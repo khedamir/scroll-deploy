@@ -5,6 +5,7 @@ import { useRouter } from "next/router";
 import { useSelector } from "react-redux";
 import { selectUser } from "../../redux/auth/slice";
 import { useModalsContext } from "../../context/ModalsContext";
+import Cookies from "js-cookie";
 
 interface MediaControlsProps {
   otherClassName?: string;
@@ -28,9 +29,26 @@ const MediaControls: FC<MediaControlsProps> = ({
   const { setLoginActive } = useModalsContext();
 
   useEffect(() => {
+    console.log(Cookies.get("userAddView"));
+    if (!Cookies.get("userAddView")) {
+      server
+        .post(`/sw/v1/addView/?id=${router.query.id}`)
+        .then(() => {
+          Cookies.set("userAddView", "Y", {
+            expires: 7,
+            path: `/news/${router.query.id}`,
+          });
+        })
+        .catch((error) => {
+          console.error("Ошибка при запросе:", error);
+        });
+    }
+  }, []);
+
+  useEffect(() => {
     const fetch = async () => {
       const { data } = await server.get(
-        `/sw/v1/publications/?id=${router.query.id}&userId=9`
+        `/sw/v1/publications/?id=${router.query.id}&userId=${id}`
       );
       const pub = data.datas[Number(router.query.id)];
       setIsLiked(pub.liked);
