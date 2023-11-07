@@ -14,6 +14,7 @@ import OldWebinerItem from "../../components/pageLawyersClub/oldWebinarItem";
 import { FullWebinarType } from "../../redux/types";
 import RenderHTML from "../../components/renderHTML";
 import { useRouter } from "next/router";
+import { extractVideoId } from "../../utils/extractVideoId";
 
 interface WebinarProps {
   publication: FullWebinarType;
@@ -106,9 +107,21 @@ const Webinar: FC<WebinarProps> = ({ publication, oldWebinars }) => {
                       )}
                     </div>
                     {router.query.webinar === "old" ? (
-                      publication.props.VIDEO && (
+                      publication.props.VIDEO_WEBINAR && (
                         <div className="webinar__block">
                           <p>Запись вебинара</p>
+                          <br />
+                          <div className="video__media">
+                            <iframe
+                              width="560"
+                              height="315"
+                              src={`https://www.youtube.com/embed/${extractVideoId(
+                                publication.props.VIDEO_WEBINAR.VALUE[0]
+                              )}`}
+                              title="YouTube Video"
+                              allowFullScreen
+                            />
+                          </div>
                         </div>
                       )
                     ) : (
