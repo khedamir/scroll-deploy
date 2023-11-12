@@ -29,12 +29,12 @@ const SecondSidebar = () => {
           </li>
           <li
             className={`nav-sections__item ${
-              (router.pathname === "/tranding-videos" ||
-                router.pathname === "/tranding-videos/[id]") &&
+              (router.pathname === "/trends" ||
+                router.pathname === "/trends/[id]") &&
               "is--active"
             }`}
           >
-            <Link href="/tranding-videos" className="nav-sections__link">
+            <Link href="/trends" className="nav-sections__link">
               Тренды
             </Link>
           </li>

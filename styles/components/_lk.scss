@@ -612,24 +612,27 @@
 
 .lk-articles {
   &__wrapper {
-    display: flex;
-    justify-content: space-between;
+    // display: flex;
+    // justify-content: space-between;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
 
     @media screen and (max-width: 767px) {
-      flex-direction: column;
+      // flex-direction: column;
+      grid-template-columns: 1fr;
     }
   }
-  &__column {
-    @media screen and (min-width: 768px) {
-      width: calc(50% - 8px);
-      &:nth-child(2n) {
-        margin-left: 16px;
-      }
-    }
-    @media screen and (max-width: 767px) {
-      width: 100%;
-    }
-  }
+  // &__column {
+  //   @media screen and (min-width: 768px) {
+  //     width: calc(50% - 8px);
+  //     &:nth-child(2n) {
+  //       margin-left: 16px;
+  //     }
+  //   }
+  //   @media screen and (max-width: 767px) {
+  //     width: 100%;
+  //   }
+  // }
   &__item {
     position: relative;
     z-index: 1;

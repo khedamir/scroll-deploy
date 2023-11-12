@@ -87,6 +87,6 @@ export type FullWebinarType = {
     PRISE_EVENTS: PropType;
     THEME_EVENTS: PropType;
     PRISE_SLOGAN: { VALUE: string };
-    VIDEO_WEBINAR: PropType;
+    VIDEO: { VALUE: string };
   };
 };

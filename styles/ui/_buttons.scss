@@ -52,13 +52,16 @@
     }
   }
   &--md {
-    padding: 14px 16px;
+    padding: 12px 16px;
     min-height: 44px;
     font-size: 14px;
     & svg {
-      min-width: 16px;
-      width: 16px;
-      height: 16px;
+      min-width: 20px;
+      width: 20px;
+      height: 20px;
+    }
+    & > * + * {
+      margin-left: 10px;
     }
   }
   &--md-bold {
@@ -66,6 +69,13 @@
     min-height: 44px;
     font-size: 16px;
     font-weight: bold;
+  }
+  &--transparent {
+    color: $text-base-on-light;
+    background: transparent;
+    & > svg {
+      color: $icon-faint-on-light;
+    }
   }
   &--white {
     color: $text-base-on-light;
@@ -79,6 +89,13 @@
     background: $white-color;
     & svg {
       color: $icon-accent-on-light;
+    }
+  }
+  &--grey {
+    color: $text-base-on-light;
+    background: $root-faint-on-dark;
+    & > svg {
+      color: $icon-base-on-light;
     }
   }
   &--red {
@@ -106,6 +123,15 @@
         }
       }
     }
+    &--transparent {
+      &:hover {
+        color: $text-base-on-light;
+        background: transparent;
+        & > svg {
+          color: $icon-accent-on-light;
+        }
+      }
+    }
     &--white {
       &:hover {
         color: $text-complement-on-dark;
@@ -121,6 +147,15 @@
         background: $white-color;
         & svg {
           color: $icon-accent-on-light-shift-down;
+        }
+      }
+    }
+    &--grey {
+      &:hover {
+        color: $text-base-on-light;
+        background: $root-faint-on-dark-shift-down;
+        & > svg {
+          color: $icon-accent-on-light;
         }
       }
     }

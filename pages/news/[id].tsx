@@ -1,4 +1,4 @@
-import React, { FC, useState } from "react";
+import React, { FC, useEffect, useState } from "react";
 import Footer from "../../components/footer";
 import { GetServerSideProps } from "next";
 import { ReactSVG } from "react-svg";
@@ -17,6 +17,8 @@ import NewAuthor from "../../components/pageNew/newAuthor";
 import RecomendationNew from "../../components/pageNew/recomendationNew";
 import { getAnchorsId } from "../../utils/getAnchorsId";
 import NewFragment from "../../components/pageNew/newFragment";
+import Cookies from "js-cookie";
+import { useRouter } from "next/router";
 
 interface NewProps {
   publication: FullNewType;
@@ -28,6 +30,23 @@ const New: FC<NewProps> = ({ publication, recommendationNews }) => {
   const [modalActive, setModalActive] = useState(false);
   const anchorRegex = /<a name="\d+"><\/a>/;
   const articleParts = publication.content.split(anchorRegex);
+  const router = useRouter();
+
+  useEffect(() => {
+    if (!Cookies.get("userAddView")) {
+      server
+        .post(`/sw/v1/addView/?id=${router.query.id}`)
+        .then(() => {
+          Cookies.set("userAddView", "Y", {
+            expires: 30,
+            path: `/news/${router.query.id}`,
+          });
+        })
+        .catch((error) => {
+          console.error("Ошибка при запросе:", error);
+        });
+    }
+  }, []);
 
   return (
     <div className="layout layout--sticky-bottom">
@@ -89,18 +108,7 @@ const New: FC<NewProps> = ({ publication, recommendationNews }) => {
               </div>
               <div className="layout__right">
                 <div className="layout__sticky-block">
-                  {publication.props.SOURCE ? (
-                    <NewAuthor
-                      PUB_SOURCE={publication.props.SOURCE}
-                      PUB_SOURCE_LOGO={publication.props.PUB_SOURCE_LOGO}
-                    />
-                  ) : (
-                    <NewAuthor
-                      author_name={publication.author_name}
-                      author_surname={publication.author_surname}
-                      author_photo={publication.author_photo}
-                    />
-                  )}
+                  <NewAuthor newItem={publication} />
                 </div>
                 <LegalAdviceWidget setModalActive={setModalActive} />
               </div>

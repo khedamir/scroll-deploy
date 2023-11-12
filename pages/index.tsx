@@ -23,6 +23,7 @@ import { server } from "../utils/server";
 import { PaginationType } from "../redux/types";
 import { NewType } from "../redux/news/types";
 import Link from "next/link";
+import { fetchTrends } from "../redux/trends/asyncAction";
 
 type PaginationDataType = {
   items: NewType[][];
@@ -72,7 +73,7 @@ const Index: NextPage = () => {
             <SectionLayout
               children1={<PopularVideos />}
               children2={
-                <Link href={"/tranding-videos"} className="layout__heading">
+                <Link href={"/trends"} className="layout__heading">
                   тренды
                 </Link>
               }
@@ -137,6 +138,7 @@ const Index: NextPage = () => {
 export const getServerSideProps = wrapper.getServerSideProps(
   (store) => async () => {
     await store.dispatch(fetchNews({ limit: 17 }));
+    await store.dispatch(fetchTrends({ limit: 10 }));
     await store.dispatch(fetchPodcasts({ limit: 3 }));
     await store.dispatch(fetchLectures({ limit: 3 }));
     await store.dispatch(fetchWebinars({ limit: 2, webinar: "actual" }));

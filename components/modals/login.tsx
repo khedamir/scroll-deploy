@@ -23,8 +23,8 @@ const Login = () => {
     formState: { errors },
   } = useForm<FormType>({
     defaultValues: {
-      login: "kheda",
-      password: "DHa-76jf-nxiLiY",
+      login: "ui@ui.ru",
+      password: "Hbm1ep72SEOSegF",
     },
     mode: "onBlur",
   });

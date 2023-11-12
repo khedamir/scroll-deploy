@@ -13,6 +13,8 @@ import { useAppDispatch } from "../../redux/store";
 import { useRouter } from "next/router";
 import { Status } from "../../redux/types";
 import { useModalsContext } from "../../context/ModalsContext";
+import { server } from "../../utils/server";
+import { fetchFavorites } from "../../redux/favorites/asyncAction";
 
 type ActiveBlockValue =
   | "publications"
@@ -24,11 +26,10 @@ type ActiveBlockValue =
 const Lk = () => {
   const [activeBlock, setActiveBlock] =
     useState<ActiveBlockValue>("publications");
-
   const { setLoginActive } = useModalsContext();
-
-  const { user, status } = useSelector(selectUser);
+  const { id, user, status } = useSelector(selectUser);
   const navigate = useRouter();
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     if (!localStorage.getItem("token")) {
@@ -37,6 +38,7 @@ const Lk = () => {
     if (status === Status.ERROR) {
       navigate.push("/");
     }
+    dispatch(fetchFavorites({ userId: id, type: "get" }));
   }, [user, status]);
 
   useEffect(() => {

@@ -18,6 +18,7 @@ import { NewType } from "../../redux/news/types";
 import { rubricByIdSelector } from "../../redux/rubrics/slice";
 import { fetchLectures } from "../../redux/lectures/asyncAction";
 import { fetchPodcasts } from "../../redux/podcasts/asyncAction";
+import { fetchTrends } from "../../redux/trends/asyncAction";
 
 interface RubricsProps {
   recomendations: NewType[];
@@ -143,6 +144,7 @@ export const getServerSideProps = wrapper.getServerSideProps(
     const { query } = context;
 
     await store.dispatch(fetchPodcasts({ limit: 3 }));
+    await store.dispatch(fetchTrends({ limit: 10 }));
     await store.dispatch(fetchLectures({ limit: 3 }));
     await store.dispatch(
       fetchNews({ limit: 2, page: 1, rubric: Number(query.id) })

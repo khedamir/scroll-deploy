@@ -5,7 +5,7 @@ import { useRouter } from "next/router";
 import { useSelector } from "react-redux";
 import { selectUser } from "../../redux/auth/slice";
 import { useModalsContext } from "../../context/ModalsContext";
-import Cookies from "js-cookie";
+import { changeFavoriteItem, changeItemLike } from "../../utils/controls";
 
 interface MediaControlsProps {
   otherClassName?: string;
@@ -23,27 +23,11 @@ const MediaControls: FC<MediaControlsProps> = ({
   publication_id,
 }) => {
   const [isLiked, setIsLiked] = useState(false);
+  const [isFavorited, setIsFavorited] = useState(false);
   const [likesCount, setLikesCount] = useState(Number(likes));
-  const { id, user } = useSelector(selectUser);
   const router = useRouter();
+  const { id, user } = useSelector(selectUser);
   const { setLoginActive } = useModalsContext();
-
-  useEffect(() => {
-    console.log(Cookies.get("userAddView"));
-    if (!Cookies.get("userAddView")) {
-      server
-        .post(`/sw/v1/addView/?id=${router.query.id}`)
-        .then(() => {
-          Cookies.set("userAddView", "Y", {
-            expires: 7,
-            path: `/news/${router.query.id}`,
-          });
-        })
-        .catch((error) => {
-          console.error("Ошибка при запросе:", error);
-        });
-    }
-  }, []);
 
   useEffect(() => {
     const fetch = async () => {
@@ -56,29 +40,39 @@ const MediaControls: FC<MediaControlsProps> = ({
     fetch();
   }, [id]);
 
-  const addLike = async () => {
+  const addLike = () => {
     if (!user) {
       setLoginActive(true);
       return;
     }
 
-    try {
-      await server.get(`/sw/v1/likes`, {
-        params: {
-          newsId: publication_id,
-          type: isLiked ? "delete" : "add",
-          userId: id,
-        },
-      });
+    changeItemLike({
+      newsId: publication_id,
+      type: isLiked ? "delete" : "add",
+      userId: id,
+    }).then(() => {
       if (isLiked) {
         setLikesCount(likesCount - 1);
       } else {
         setLikesCount(likesCount + 1);
       }
       setIsLiked(!isLiked);
-    } catch (error) {
-      console.error("Произошла ошибка при обработке лайка:", error);
+    });
+  };
+
+  const addFavorite = () => {
+    if (!user) {
+      setLoginActive(true);
+      return;
     }
+
+    changeFavoriteItem({
+      id: publication_id,
+      type: isFavorited ? "delete" : "add",
+      userId: id,
+    }).then(() => {
+      setIsFavorited(true);
+    });
   };
 
   return (
@@ -100,7 +94,10 @@ const MediaControls: FC<MediaControlsProps> = ({
               <ReactSVG src="/img/sprite/icon-reply.svg" />
               <span>Поделиться</span>
             </button>
-            <button className="btn-control media-controls__btn">
+            <button
+              onClick={addFavorite}
+              className="btn-control media-controls__btn"
+            >
               <ReactSVG src="/img/sprite/icon-bookmarks.svg" />
               <span>В закладки</span>
             </button>

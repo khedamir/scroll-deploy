@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import React, { FC, useState } from "react";
 import Footer from "../../components/footer";
 import { ReactSVG } from "react-svg";
 import SecondSidebar from "../../components/sidebar/secondSidebar";
@@ -11,6 +11,9 @@ import { selectPodcasts } from "../../redux/podcasts/slice";
 import { server } from "../../utils/server";
 import { FullPodcastType } from "../../redux/types";
 import RenderHTML from "../../components/renderHTML";
+import { selectUser } from "../../redux/auth/slice";
+import { useModalsContext } from "../../context/ModalsContext";
+import { changeFavoriteItem } from "../../utils/controls";
 
 interface PodcastProps {
   podcast: FullPodcastType;
@@ -18,6 +21,26 @@ interface PodcastProps {
 
 const Podcast: FC<PodcastProps> = ({ podcast }) => {
   const { data } = useSelector(selectPodcasts);
+  const { user, id } = useSelector(selectUser);
+  const { setLoginActive } = useModalsContext();
+  const [isFavorited, setIsFavorited] = useState(false);
+  console.log(podcast);
+
+  const addFavorite = () => {
+    if (!user) {
+      setLoginActive(true);
+      return;
+    }
+
+    changeFavoriteItem({
+      id: podcast.id,
+      type: isFavorited ? "delete" : "add",
+      userId: id,
+    }).then(() => {
+      setIsFavorited(true);
+    });
+  };
+
   return (
     <div className="layout">
       <div className="container">

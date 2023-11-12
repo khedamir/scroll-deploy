@@ -6,9 +6,11 @@ import newsReducer from "./news/slice";
 import videosReducer from "./videos/slice";
 import lecturesReducer from "./lectures/slice";
 import podcastsReducer from "./podcasts/slice";
+import trandsReducer from "./trends/slice";
 import vacanciesReducer from "./vacancies/slice";
 import webinarsReducer from "./webinars/slice";
 import authReducer from "./auth/slice";
+import favoritesReducer from "./favorites/slice";
 
 const store = () =>
   configureStore({
@@ -18,9 +20,11 @@ const store = () =>
       videos: videosReducer,
       lectures: lecturesReducer,
       podcasts: podcastsReducer,
+      trands: trandsReducer,
       vacancies: vacanciesReducer,
       webinars: webinarsReducer,
-      auth: authReducer
+      auth: authReducer,
+      favorites: favoritesReducer,
     },
   });
 

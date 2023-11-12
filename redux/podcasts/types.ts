@@ -16,6 +16,7 @@ export type PodcastType = {
     EDITION: string;
     DURATION: string;
     LINK_AUDIO: string;
+    AUDIO_FILE: string;
   };
   podcastId: string;
   podcastName: string;

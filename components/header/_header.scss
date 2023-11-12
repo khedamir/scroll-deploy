@@ -135,6 +135,10 @@
     margin-left: 20px;
     max-width: 797px;
     width: 100%;
+
+    @media screen and (min-width: 1200px) {
+      margin: 0 auto;
+    }
   }
   &__search {
     max-width: 523px;
@@ -262,6 +266,7 @@
   z-index: 1;
   display: block;
   padding: 0;
+  margin-left: 16px;
   min-width: 32px;
   width: 32px;
   height: 32px;
