@@ -64,7 +64,7 @@ const Header = () => {
               >
                 <SearchIcon />
               </span>
-              <Link href="#" className="header__btn header__btn--tablet-hidden">
+              <Link href="/lk?block=bookmarks" className="header__btn header__btn--tablet-hidden">
                 <BookmarksIcon />
               </Link>
               <span

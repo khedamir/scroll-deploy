@@ -43,6 +43,9 @@ const Lk = () => {
 
   useEffect(() => {
     setLoginActive(false);
+    if (navigate.query.block) {
+      setActiveBlock(navigate.query.block as ActiveBlockValue);
+    }
   }, []);
 
   return (

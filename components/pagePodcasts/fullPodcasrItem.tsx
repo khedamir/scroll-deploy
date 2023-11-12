@@ -64,11 +64,11 @@ const FullPodcastItem: FC<PodcastItemProps> = ({
       </Link>
       <div className="podcasts__main">
         <div className="podcasts__body">
-          {podcast.poperties.AUDIO_FILE ? (
+          {/* {podcast.poperties.AUDIO_FILE ? (
             <AudioPlayer audioUrl={podcast.poperties.AUDIO_FILE} />
           ) : (
             <AudioPlayer audioUrl={podcast.poperties.LINK_AUDIO} />
-          )}
+          )} */}
 
           <span className="podcasts__help">
             {podcast.poperties.EDITION} выпуск

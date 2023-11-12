@@ -24,6 +24,7 @@ const Layout = ({ children }: { children: ReactNode }) => {
     "/lectures": <SecondHeader />,
     "/lectures/[id]": <SecondHeader />,
     "/podcasts": <SecondHeader />,
+    "/podcasts/[id]": <SecondHeader />,
     "/lawyers-club": <SecondHeader />,
   };
 
