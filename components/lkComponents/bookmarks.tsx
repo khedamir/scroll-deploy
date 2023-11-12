@@ -55,7 +55,7 @@ const Bookmarks: FC<BookmarksProps> = ({ active }) => {
                 <div className="lk-articles lk-bookmarks__section">
                   <div className="lk-articles__wrapper">
                     {data[9]?.items?.map((item) => (
-                      <div className="lk-articles__column">
+                      <div key={item.id} className="lk-articles__column">
                         <article className="lk-articles__item">
                           <Link
                             href={`/news/${item.id}`}
@@ -220,7 +220,7 @@ const Bookmarks: FC<BookmarksProps> = ({ active }) => {
                 <div className="lk-podcasts lk-bookmarks__section">
                   <div className="lk-podcasts__wrapper">
                     {data[34]?.items?.map((item) => (
-                      <div className="lk-podcasts__item">
+                      <div key={item.id} className="lk-podcasts__item">
                         <picture className="lk-podcasts__img">
                           <img src={item.data.podcastPhoto} alt="Image" />
                         </picture>

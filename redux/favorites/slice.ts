@@ -18,6 +18,14 @@ const initialState: FavoritesSliceState = {
       NAME: "Лекции",
       items: [],
     },
+    "28": {
+      NAME: "Тренды",
+      items: [],
+    },
+    "34": {
+      NAME: "Выпуски (Подкасты)",
+      items: [],
+    },
   },
   status: Status.LOADING,
 };
