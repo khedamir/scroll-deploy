@@ -1,15 +1,69 @@
-import React, { FC } from "react";
+import React, { useEffect, useState } from "react";
 import { ReactSVG } from "react-svg";
+import { useModalsContext } from "../../context/ModalsContext";
+import { useForm } from "react-hook-form";
+import ContactInput from "../ContactInput";
+import { RegisterParamsType, registerSubmit } from "../../utils/register";
 
-interface RegisterProps {
-  active: boolean;
-  setActive: (v: boolean) => void;
+interface FormType {
+  name: string;
+  contact: string;
+  password: string;
 }
 
-const Register: FC<RegisterProps> = ({ active, setActive }) => {
+export type ContactInputType = "email" | "phone";
+
+const Register = () => {
+  const { registerActive, setRegisterActive, setLoginActive } =
+    useModalsContext();
+  const [contactType, setContactType] = useState<ContactInputType>("email");
+
+  const {
+    register,
+    handleSubmit,
+    control,
+    setValue,
+    formState: { errors },
+  } = useForm<FormType>({
+    defaultValues: {
+      name: "kheda",
+      contact: "kheda_amirova@mail.ru",
+      password: "Hbm1ep72SEOSegF",
+    },
+    mode: "onBlur",
+  });
+
+  useEffect(() => {
+    setValue("contact", "kheda_amirova@mail.ru");
+
+  }, [contactType]);
+
+  const loginButtonClick = () => {
+    setLoginActive(true);
+    setRegisterActive(false);
+  };
+
+  const onSubmit = async (values: FormType) => {
+    console.log(values);
+    const params: RegisterParamsType = {
+      name: values.name,
+      password: values.password,
+    };
+
+    if (contactType === "email") {
+      params.email = values.contact;
+    }
+
+    if (contactType === "phone") {
+      params.phone = values.contact;
+    }
+
+    registerSubmit(params);
+  };
+
   return (
     <div
-      className={`modal modal--wide ${active && "is--active"}`}
+      className={`modal modal--wide ${registerActive && "is--active"}`}
       id="modal-register"
     >
       <div className="modal__wrap">
@@ -19,7 +73,7 @@ const Register: FC<RegisterProps> = ({ active, setActive }) => {
               <img src="img/logotype.svg" alt="SCROLL" />
             </picture>
             <button
-              onClick={() => setActive(false)}
+              onClick={() => setRegisterActive(false)}
               className="modal__close-btn modal__close-btn--mobile"
             >
               <ReactSVG src="/img/sprite/icon-close-thin.svg" />
@@ -27,14 +81,17 @@ const Register: FC<RegisterProps> = ({ active, setActive }) => {
           </div>
           <div className="modal__right">
             <button
-              onClick={() => setActive(false)}
+              onClick={() => setRegisterActive(false)}
               className="modal__close-btn modal__close-btn--desktop"
             >
               <ReactSVG src="/img/sprite/icon-close-thin.svg" />
             </button>
             <div className="modal__content">
               <h3 className="modal__heading">Регистрация</h3>
-              <form action="#" className="modal-form modal__form">
+              <form
+                onSubmit={handleSubmit(onSubmit)}
+                className="modal-form modal__form"
+              >
                 <div className="input-field input-field--border modal-form__input">
                   <div className="input-field__top">
                     <label
@@ -50,13 +107,20 @@ const Register: FC<RegisterProps> = ({ active, setActive }) => {
                       id="modal-register-name"
                       className="input-field__input"
                       placeholder="Имя"
+                      {...register("name", { required: "", minLength: 2 })}
                     />
                   </div>
                   <span className="input-field__error">
                     Это обязательное поле
                   </span>
                 </div>
-                <div className="input-field input-field--border modal-form__input">
+                <ContactInput
+                  contactType={contactType}
+                  setContactType={setContactType}
+                  control={control}
+                  register={register}
+                />
+                {/* <div className="input-field input-field--border modal-form__input">
                   <div className="input-field__top">
                     <label
                       htmlFor="modal-register-email"
@@ -82,7 +146,7 @@ const Register: FC<RegisterProps> = ({ active, setActive }) => {
                   <span className="input-field__error">
                     Это обязательное поле
                   </span>
-                </div>
+                </div> */}
                 <div className="input-field input-field--border modal-form__input">
                   <div className="input-field__top">
                     <label
@@ -98,6 +162,7 @@ const Register: FC<RegisterProps> = ({ active, setActive }) => {
                       id="modal-register-password"
                       className="input-field__input"
                       placeholder="Пароль"
+                      {...register("password", { required: "", minLength: 2 })}
                     />
                   </div>
                   <span className="input-field__error">
@@ -109,7 +174,7 @@ const Register: FC<RegisterProps> = ({ active, setActive }) => {
                 </button>
                 <div className="modal-form__links">
                   <p className="modal-form__help">
-                    Есть аккаунт? <a href="#">Войти</a>
+                    Есть аккаунт? <span onClick={loginButtonClick}>Войти</span>
                   </p>
                 </div>
                 <div className="resource-auth modal-form__resource">

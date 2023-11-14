@@ -12,6 +12,7 @@ import ChangePassword from "../modals/changePassword";
 import Search from "../search";
 import Notification from "../notifications";
 import { fetchFavorites } from "../../redux/favorites/asyncAction";
+import Register from "../modals/register";
 
 const Layout = ({ children }: { children: ReactNode }) => {
   const headerComponents: any = {
@@ -50,6 +51,7 @@ const Layout = ({ children }: { children: ReactNode }) => {
     <div>
       <ChatAi />
       <Login />
+      <Register />
       <ChangePassword />
       <Search />
       <Menu />

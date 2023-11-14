@@ -29,7 +29,7 @@ const ContactInput: FC<ContactInputProps> = ({
         >
           Email
         </label>
-        <label
+        {/* <label
           htmlFor="modal-legal-advice-email"
           className={`input-field__tab ${
             contactType === "phone" && "is--active"
@@ -37,13 +37,13 @@ const ContactInput: FC<ContactInputProps> = ({
           onClick={() => setContactType("phone")}
         >
           Телефон
-        </label>
+        </label> */}
       </div>
       <div className="input-field__inner">
         {contactType === "email" ? (
           <input
             type="text"
-            id="modal-legal-advice-email"
+            // id="modal-legal-advice-email"
             className="input-field__input"
             placeholder="Email"
             {...register("contact", contactsSchemes.email)}
@@ -59,7 +59,7 @@ const ContactInput: FC<ContactInputProps> = ({
                 {(inputProps) => (
                   <input
                     type="text"
-                    id="modal-legal-advice-email"
+                    // id="modal-legal-advice-email"
                     className="input-field__input"
                     placeholder="+7 (999) 999-99-99"
                     {...inputProps}

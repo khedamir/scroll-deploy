@@ -438,8 +438,9 @@
     font-size: 14px;
     font-weight: 500;
     color: $root-base-on-light-shift-down;
-    a {
+    span {
       color: $root-accent-on-light;
+      cursor: pointer;
       &:hover {
         color: $root-accent-on-light;
       }

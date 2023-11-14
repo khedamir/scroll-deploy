@@ -1,38 +1,48 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { ReactSVG } from "react-svg";
 import { useModalsContext } from "../../context/ModalsContext";
 import { useAppDispatch } from "../../redux/store";
 import { fetchAuth, fetchAuthMe } from "../../redux/auth/asyncAction";
-import { useRouter } from "next/router";
 import { useForm } from "react-hook-form";
+import ContactInput from "../ContactInput";
 
 interface FormType {
-  login: string;
+  contact: string;
   password: string;
 }
 
+export type ContactInputType = "email" | "phone";
+
 const Login = () => {
-  const { loginActive, setLoginActive } = useModalsContext();
+  const { loginActive, setLoginActive, setRegisterActive } = useModalsContext();
+  const [contactType, setContactType] = useState<ContactInputType>("email");
+
   const dispatch = useAppDispatch();
-  const navigate = useRouter();
-  
 
   const {
     register,
     handleSubmit,
+    control,
+    setValue,
     formState: { errors },
   } = useForm<FormType>({
     defaultValues: {
-      login: "ui@ui.ru",
+      contact: "ui@ui.ru",
       password: "Hbm1ep72SEOSegF",
     },
     mode: "onBlur",
   });
 
+  useEffect(() => {
+    setValue("contact", "ui@ui.ru");
+  }, [contactType]);
+
   const onSubmit = async (values: FormType) => {
     console.log(values);
     try {
-      const resultAction = await dispatch(fetchAuth(values));
+      const resultAction = await dispatch(
+        fetchAuth({ login: values.contact, password: values.password })
+      );
 
       if (fetchAuth.fulfilled.match(resultAction)) {
         await dispatch(fetchAuthMe());
@@ -46,6 +56,11 @@ const Login = () => {
   };
 
   const changePassword = () => {
+    setLoginActive(false);
+  };
+
+  const registerButtonClick = () => {
+    setRegisterActive(true);
     setLoginActive(false);
   };
 
@@ -80,7 +95,7 @@ const Login = () => {
                 onSubmit={handleSubmit(onSubmit)}
                 className="modal-form modal__form"
               >
-                <div
+                {/* <div
                   className={`input-field input-field--border modal-form__input ${
                     errors.login && "is--error"
                   }
@@ -113,7 +128,13 @@ const Login = () => {
                   <span className="input-field__error">
                     Это обязательное поле
                   </span>
-                </div>
+                </div> */}
+                <ContactInput
+                  contactType={contactType}
+                  setContactType={setContactType}
+                  control={control}
+                  register={register}
+                />
                 <div
                   className={`input-field input-field--border modal-form__input ${
                     errors.password && "is--error"
@@ -151,9 +172,12 @@ const Login = () => {
                   >
                     Забыли пароль?
                   </span>
-                  <a href="#" className="modal-form__link">
+                  <div
+                    onClick={registerButtonClick}
+                    className="modal-form__link"
+                  >
                     Регистрация
-                  </a>
+                  </div>
                 </div>
                 <div className="resource-auth modal-form__resource">
                   <div className="resource-auth__or">
