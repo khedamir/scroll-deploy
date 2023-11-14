@@ -26,15 +26,15 @@ const Register = () => {
     formState: { errors },
   } = useForm<FormType>({
     defaultValues: {
-      name: "kheda",
-      contact: "kheda_amirova@mail.ru",
-      password: "Hbm1ep72SEOSegF",
+      name: "",
+      contact: "",
+      password: "",
     },
     mode: "onBlur",
   });
 
   useEffect(() => {
-    setValue("contact", "kheda_amirova@mail.ru");
+    setValue("contact", "");
 
   }, [contactType]);
 
