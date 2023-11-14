@@ -7,6 +7,14 @@ import { useSelector } from "react-redux";
 import { useModalsContext } from "../../context/ModalsContext";
 import { selectUser } from "../../redux/auth/slice";
 import { changeFavoriteItem } from "../../utils/controls";
+import {
+  addToFavorites,
+  isElementInFavorites,
+  removeFromFavorites,
+} from "../../redux/favorites/slice";
+import { AppState, useAppDispatch } from "../../redux/store";
+import { FavoriteNew } from "../../redux/favorites/types";
+import { useFavoriteContext } from "../../context/FavoritesContext";
 
 interface NewCardProps {
   newItem: NewType;
@@ -17,10 +25,12 @@ interface NewCardProps {
 
 const NewCard: FC<NewCardProps> = ({ newItem, isLast, newLimit, end }) => {
   const cardRef: RefObject<HTMLDivElement> = useRef(null);
-  const { id, user } = useSelector(selectUser);
+  const { user } = useSelector(selectUser);
   const { setLoginActive } = useModalsContext();
-  const [isFavorited, setIsFavorited] = useState(false);
-
+  const isFavorite = useSelector((state: AppState) =>
+    isElementInFavorites(state, "9", newItem.id)
+  );
+  const { addFavorite, deleteFavorite } = useFavoriteContext();
   useEffect(() => {
     if (isLast && newLimit && !end) {
       if (!cardRef?.current) return;
@@ -36,19 +46,34 @@ const NewCard: FC<NewCardProps> = ({ newItem, isLast, newLimit, end }) => {
     }
   }, [isLast]);
 
-  const addFavorite = () => {
+  const changeFavorite = () => {
     if (!user) {
       setLoginActive(true);
       return;
     }
 
-    changeFavoriteItem({
-      id: newItem.id,
-      type: isFavorited ? "delete" : "add",
-      userId: id,
-    }).then(() => {
-      setIsFavorited(true);
-    });
+    if (isFavorite) {
+      deleteFavorite({ itemId: newItem.id, sectionId: "9" });
+    }
+
+    if (!isFavorite) {
+      const favoriteItem: FavoriteNew = {
+        id: newItem.id,
+        data: {
+          NAME: newItem.name,
+          props: {
+            PUB_TAG: {
+              VALUE: newItem.poperties.PUB_TAG,
+            },
+          },
+        },
+      };
+      addFavorite({
+        itemId: newItem.id,
+        sectionId: "9",
+        newItem: favoriteItem,
+      });
+    }
   };
 
   return (
@@ -84,7 +109,10 @@ const NewCard: FC<NewCardProps> = ({ newItem, isLast, newLimit, end }) => {
             </span>
           </div>
           <div className="big-news-card__group">
-            <button onClick={addFavorite} className="big-news-card__control">
+            <button
+              onClick={changeFavorite}
+              className={`big-news-card__control ${isFavorite && "is--active"}`}
+            >
               <ReactSVG src="/img/sprite/icon-bookmarks.svg" />
             </button>
           </div>

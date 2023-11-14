@@ -18,6 +18,7 @@ export type NewType = {
   poperties: {
     PUB_SOURCE_LOGO: string;
     SOURCE: string;
+    PUB_TAG: string[];
   };
 };
 

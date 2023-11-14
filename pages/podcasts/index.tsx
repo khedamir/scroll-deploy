@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Footer from "../../components/footer";
 import SecondSidebar from "../../components/sidebar/secondSidebar";
-import PodcastItem from "../../components/pagePodcasts/podcastItem";
 import { selectPodcasts } from "../../redux/podcasts/slice";
 import { useSelector } from "react-redux";
 import { fetchPodcasts } from "../../redux/podcasts/asyncAction";

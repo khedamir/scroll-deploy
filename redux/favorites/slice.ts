@@ -1,29 +1,24 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { Status } from "../types";
 import { fetchFavorites } from "./asyncAction";
 import { AppState } from "../store";
-import { FavoritesSliceState } from "./types";
+import { FavoriteSections, FavoritesSliceState } from "./types";
 
 const initialState: FavoritesSliceState = {
   data: {
     "9": {
-      NAME: "Новости",
       items: [],
     },
     "15": {
-      NAME: "Видео",
       items: [],
     },
     "26": {
-      NAME: "Лекции",
       items: [],
     },
     "28": {
-      NAME: "Тренды",
       items: [],
     },
     "34": {
-      NAME: "Выпуски (Подкасты)",
       items: [],
     },
   },
@@ -33,7 +28,41 @@ const initialState: FavoritesSliceState = {
 export const favoritesSlice = createSlice({
   name: "favorites",
   initialState,
-  reducers: {},
+  reducers: {
+    addToFavorites: (
+      state,
+      action: PayloadAction<{ sectionId: FavoriteSections; element: any }>
+    ) => {
+      const { sectionId, element } = action.payload;
+      if (state.data[sectionId]) {
+        state.data[sectionId].items.push(element);
+      } else {
+        state.data[sectionId] = {
+          items: [element],
+        };
+      }
+    },
+    removeFromFavorites: (
+      state,
+      action: PayloadAction<{ sectionId: FavoriteSections; elementId: string }>
+    ) => {
+      const { sectionId, elementId } = action.payload;
+      const itemitems = state.data[sectionId].items.filter(
+        (item) => item.id !== elementId
+      );
+      // @ts-ignore
+      state.data[sectionId].items = itemitems;
+    },
+    removeFromFavoritesBlock: (
+      state,
+      action: PayloadAction<{ sectionId: FavoriteSections }>
+    ) => {
+      const { sectionId } = action.payload;
+      state.data[sectionId] = {
+        items: [],
+      };
+    },
+  },
   extraReducers: (builder) => {
     builder.addCase(fetchFavorites.pending, (state) => {
       state.status = Status.LOADING;
@@ -51,5 +80,23 @@ export const favoritesSlice = createSlice({
 });
 
 export const selectFavorites = (state: AppState) => state.favorites;
+
+export const isElementInFavorites = (
+  state: AppState,
+  sectionId: FavoriteSections,
+  elementId: string
+): boolean => {
+  const favorites: FavoritesSliceState = state.favorites; // Замените на реальное поле в вашем стейте
+
+  if (favorites.data[sectionId] && favorites.data[sectionId].items) {
+    const sectionItems = favorites.data[sectionId].items;
+    return sectionItems.some((item) => item.id === elementId);
+  }
+
+  return false;
+};
+
+export const { removeFromFavorites, addToFavorites, removeFromFavoritesBlock } =
+  favoritesSlice.actions;
 
 export default favoritesSlice.reducer;

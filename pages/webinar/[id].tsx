@@ -6,8 +6,6 @@ import AuthorItem from "../../components/pageWebinar/authorItem";
 import RegisterBlock from "../../components/pageWebinar/registerBlock";
 import { wrapper } from "../../redux/store";
 import { fetchWebinars } from "../../redux/webinars/asyncAction";
-import { useSelector } from "react-redux";
-import { selectWebinars } from "../../redux/webinars/slice";
 import { server } from "../../utils/server";
 import { WebinarType } from "../../redux/webinars/types";
 import OldWebinerItem from "../../components/pageLawyersClub/oldWebinarItem";
@@ -21,7 +19,6 @@ interface WebinarProps {
 }
 
 const Webinar: FC<WebinarProps> = ({ publication, oldWebinars }) => {
-  const { data } = useSelector(selectWebinars);
   const router = useRouter();
   console.log(publication);
 
@@ -40,7 +37,7 @@ const Webinar: FC<WebinarProps> = ({ publication, oldWebinars }) => {
                     <div className="webinar__top">
                       <div className="webinar__group">
                         <span className="webinar__time">
-                          {data.datas[0].poperties.DATE_WEBINAR.slice(0, -3)}
+                          {publication.props.DATE_WEBINAR.VALUE.slice(0, -3)}
                         </span>
                         {router.query.webinar !== "old" && (
                           <button className="webinar__notification">

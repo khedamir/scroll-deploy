@@ -6,29 +6,48 @@ import { useSelector } from "react-redux";
 import { useModalsContext } from "../../context/ModalsContext";
 import { selectUser } from "../../redux/auth/slice";
 import { changeFavoriteItem } from "../../utils/controls";
+import { useFavoriteContext } from "../../context/FavoritesContext";
+import { isElementInFavorites } from "../../redux/favorites/slice";
+import { FavoriteVideo } from "../../redux/favorites/types";
+import { AppState } from "../../redux/store";
 
 interface TrendItemProps {
   trend: TrendType;
 }
 
 const TrendItem: FC<TrendItemProps> = ({ trend }) => {
-  const { id, user } = useSelector(selectUser);
+  const { user } = useSelector(selectUser);
   const { setLoginActive } = useModalsContext();
-  const [isFavorited, setIsFavorited] = useState(false);
-  const addFavorite = () => {
+  const { addFavorite, deleteFavorite } = useFavoriteContext();
+  const isFavorite = useSelector((state: AppState) =>
+    isElementInFavorites(state, "28", trend.id)
+  );
+
+  const changeFavorite = () => {
     if (!user) {
       setLoginActive(true);
       return;
     }
 
-    changeFavoriteItem({
-      id: trend.id,
-      type: isFavorited ? "delete" : "add",
-      userId: id,
-    }).then(() => {
-      setIsFavorited(true);
-    });
+    if (isFavorite) {
+      deleteFavorite({ itemId: trend.id, sectionId: "28" });
+    }
+
+    if (!isFavorite) {
+      const favoriteItem: FavoriteVideo = {
+        id: trend.id,
+        data: {
+          images: trend.images,
+        },
+      };
+      addFavorite({
+        itemId: trend.id,
+        sectionId: "28",
+        videoItem: favoriteItem,
+      });
+    }
   };
+
   return (
     <div key={trend.id} className="swiper-slide">
       <div className="trands__slide">
@@ -61,8 +80,10 @@ const TrendItem: FC<TrendItemProps> = ({ trend }) => {
               <span>44</span>
             </button>
             <button
-              onClick={addFavorite}
-              className="trands__control c-bookmark"
+              onClick={changeFavorite}
+              className={`trands__control c-bookmark ${
+                isFavorite && "is-active"
+              }`}
             >
               <ReactSVG
                 className="c-bookmark__icon c-bookmark__icon--default"

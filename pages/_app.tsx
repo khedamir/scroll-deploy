@@ -7,6 +7,7 @@ import Layout from "../components/layout";
 import { ModalsContextProvider } from "../context/ModalsContext";
 import { wrapper } from "../redux/store";
 import { fetchRubrics } from "../redux/rubrics/asyncAction";
+import { FavoritesContextProvider } from "../context/FavoritesContext";
 
 function MyApp({ Component, ...rest }: AppProps) {
   const { store } = wrapper.useWrappedStore(rest);
@@ -14,9 +15,11 @@ function MyApp({ Component, ...rest }: AppProps) {
   return (
     <Provider store={store}>
       <ModalsContextProvider>
-        <Layout>
-          <Component {...rest.pageProps} />
-        </Layout>
+        <FavoritesContextProvider>
+          <Layout>
+            <Component {...rest.pageProps} />
+          </Layout>
+        </FavoritesContextProvider>
       </ModalsContextProvider>
     </Provider>
   );

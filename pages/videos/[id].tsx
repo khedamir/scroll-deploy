@@ -9,13 +9,54 @@ import { formatDateDifference } from "../../utils/formatDate";
 import { FullVideoType } from "../../redux/types";
 import { GetServerSideProps } from "next";
 import { extractVideoId } from "../../utils/extractVideoId";
+import { useSelector } from "react-redux";
+import { isElementInFavorites } from "../../redux/favorites/slice";
+import { AppState } from "../../redux/store";
+import { selectUser } from "../../redux/auth/slice";
+import { useFavoriteContext } from "../../context/FavoritesContext";
+import { useModalsContext } from "../../context/ModalsContext";
+import { FavoriteVideo } from "../../redux/favorites/types";
 
 interface VideoProps {
   publication: FullVideoType;
 }
 
 const Video: FC<VideoProps> = ({ publication }) => {
-  console.log(publication);
+  const { user } = useSelector(selectUser);
+  const { setLoginActive } = useModalsContext();
+  const { addFavorite, deleteFavorite } = useFavoriteContext();
+  const isFavorite = useSelector((state: AppState) =>
+    isElementInFavorites(state, "15", publication.id)
+  );
+
+  const changeFavorite = () => {
+    if (!user) {
+      setLoginActive(true);
+      return;
+    }
+
+    if (isFavorite) {
+      deleteFavorite({ itemId: publication.id, sectionId: "15" });
+    }
+
+    if (!isFavorite) {
+      const favoriteItem: FavoriteVideo = {
+        id: publication.id,
+        data: {
+          images: {
+            detail: "",
+            preview: publication.images[0],
+          },
+        },
+      };
+      addFavorite({
+        itemId: publication.id,
+        sectionId: "15",
+        videoItem: favoriteItem,
+      });
+    }
+  };
+
   return (
     <div className="layout">
       <div className="container">
@@ -46,10 +87,7 @@ const Video: FC<VideoProps> = ({ publication }) => {
                       <h3 className="video__heading">{publication.name}</h3>
                       <div className="video__inner">
                         <a href="#" className="video__author">
-                          <img
-                            src={`${publication.images[1]}`}
-                            alt="Image"
-                          />
+                          <img src={`${publication.images[1]}`} alt="Image" />
                           <span>{publication.props.PUB_AUTOR.VALUE[0]}</span>
                         </a>
                         <span className="video__time">
@@ -62,6 +100,8 @@ const Video: FC<VideoProps> = ({ publication }) => {
                       liked={publication.liked}
                       views={publication.views}
                       publication_id={publication.id}
+                      favorited={isFavorite}
+                      changeFavorite={changeFavorite}
                     />
                     <MediaContent content={publication.content} />
                   </div>

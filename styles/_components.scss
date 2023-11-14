@@ -202,6 +202,8 @@
   &.is--active {
     .c-bookmark {
       &__icon {
+        // color: $back-accent-on-light-blue;
+
         &--default {
           opacity: 0;
           visibility: hidden;

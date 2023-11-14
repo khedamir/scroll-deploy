@@ -11,6 +11,7 @@ import Login from "../modals/login";
 import ChangePassword from "../modals/changePassword";
 import Search from "../search";
 import Notification from "../notifications";
+import { fetchFavorites } from "../../redux/favorites/asyncAction";
 
 const Layout = ({ children }: { children: ReactNode }) => {
   const headerComponents: any = {
@@ -34,8 +35,14 @@ const Layout = ({ children }: { children: ReactNode }) => {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    if (localStorage.getItem("token")) {
+    if (localStorage.getItem("token") && localStorage.getItem("id")) {
       dispatch(fetchAuthMe());
+      dispatch(
+        fetchFavorites({
+          userId: String(localStorage.getItem("id")),
+          type: "get",
+        })
+      );
     }
   }, [dispatch]);
 

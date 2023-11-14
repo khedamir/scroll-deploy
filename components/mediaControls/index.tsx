@@ -6,6 +6,8 @@ import { useSelector } from "react-redux";
 import { selectUser } from "../../redux/auth/slice";
 import { useModalsContext } from "../../context/ModalsContext";
 import { changeFavoriteItem, changeItemLike } from "../../utils/controls";
+import { AppState } from "../../redux/store";
+import { isElementInFavorites } from "../../redux/favorites/slice";
 
 interface MediaControlsProps {
   otherClassName?: string;
@@ -13,6 +15,8 @@ interface MediaControlsProps {
   liked: boolean;
   views: string;
   publication_id: string;
+  favorited: boolean;
+  changeFavorite: () => void;
 }
 
 const MediaControls: FC<MediaControlsProps> = ({
@@ -21,9 +25,10 @@ const MediaControls: FC<MediaControlsProps> = ({
   liked,
   views,
   publication_id,
+  favorited,
+  changeFavorite,
 }) => {
   const [isLiked, setIsLiked] = useState(false);
-  const [isFavorited, setIsFavorited] = useState(false);
   const [likesCount, setLikesCount] = useState(Number(likes));
   const router = useRouter();
   const { id, user } = useSelector(selectUser);
@@ -60,21 +65,6 @@ const MediaControls: FC<MediaControlsProps> = ({
     });
   };
 
-  const addFavorite = () => {
-    if (!user) {
-      setLoginActive(true);
-      return;
-    }
-
-    changeFavoriteItem({
-      id: publication_id,
-      type: isFavorited ? "delete" : "add",
-      userId: id,
-    }).then(() => {
-      setIsFavorited(true);
-    });
-  };
-
   return (
     <div className={`media-controls ${otherClassName}`}>
       <div className="media-controls__wrapper">
@@ -90,13 +80,15 @@ const MediaControls: FC<MediaControlsProps> = ({
               <ReactSVG src="/img/sprite/icon-like-thumb-up.svg" />
               <span>{likesCount}</span>
             </button>
-            <button className="btn-control media-controls__btn">
+            <button className="btn-control btn-control--blue media-controls__btn">
               <ReactSVG src="/img/sprite/icon-reply.svg" />
               <span>Поделиться</span>
             </button>
             <button
-              onClick={addFavorite}
-              className="btn-control media-controls__btn"
+              onClick={changeFavorite}
+              className={`btn-control btn-control--blue media-controls__btn ${
+                favorited && "is--active"
+              }`}
             >
               <ReactSVG src="/img/sprite/icon-bookmarks.svg" />
               <span>В закладки</span>

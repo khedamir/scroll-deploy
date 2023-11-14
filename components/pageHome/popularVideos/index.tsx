@@ -31,7 +31,9 @@ const PopularVideos = () => {
               </picture>
               <div className="video-card__body">
                 <div className="video-card__top">
-                  <span className="video-card__category">Политика</span>
+                  <span className="video-card__category">
+                    {item.poperties?.PUB_TAG?.[0]}
+                  </span>
                 </div>
                 <div className="video-card__bottom">
                   <span className="video-card__description">

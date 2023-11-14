@@ -19,6 +19,13 @@ import { getAnchorsId } from "../../utils/getAnchorsId";
 import NewFragment from "../../components/pageNew/newFragment";
 import Cookies from "js-cookie";
 import { useRouter } from "next/router";
+import { useSelector } from "react-redux";
+import { selectUser } from "../../redux/auth/slice";
+import { FavoriteNew } from "../../redux/favorites/types";
+import { useModalsContext } from "../../context/ModalsContext";
+import { useFavoriteContext } from "../../context/FavoritesContext";
+import { isElementInFavorites } from "../../redux/favorites/slice";
+import { AppState } from "../../redux/store";
 
 interface NewProps {
   publication: FullNewType;
@@ -26,11 +33,17 @@ interface NewProps {
 }
 
 const New: FC<NewProps> = ({ publication, recommendationNews }) => {
-  // console.log(publication);
+  console.log(publication)
   const [modalActive, setModalActive] = useState(false);
   const anchorRegex = /<a name="\d+"><\/a>/;
   const articleParts = publication.content.split(anchorRegex);
   const router = useRouter();
+  const { user } = useSelector(selectUser);
+  const { setLoginActive } = useModalsContext();
+  const { addFavorite, deleteFavorite } = useFavoriteContext();
+  const isFavorite = useSelector((state: AppState) =>
+    isElementInFavorites(state, "9", publication.id)
+  );
 
   useEffect(() => {
     if (!Cookies.get("userAddView")) {
@@ -47,6 +60,36 @@ const New: FC<NewProps> = ({ publication, recommendationNews }) => {
         });
     }
   }, []);
+
+  const changeFavorite = () => {
+    if (!user) {
+      setLoginActive(true);
+      return;
+    }
+
+    if (isFavorite) {
+      deleteFavorite({ itemId: publication.id, sectionId: "9" });
+    }
+
+    if (!isFavorite) {
+      const favoriteItem: FavoriteNew = {
+        id: publication.id,
+        data: {
+          NAME: publication.name,
+          props: {
+            PUB_TAG: {
+              VALUE: publication.props.PUB_TAG.VALUE,
+            },
+          },
+        },
+      };
+      addFavorite({
+        itemId: publication.id,
+        sectionId: "9",
+        newItem: favoriteItem,
+      });
+    }
+  };
 
   return (
     <div className="layout layout--sticky-bottom">
@@ -83,6 +126,8 @@ const New: FC<NewProps> = ({ publication, recommendationNews }) => {
                           liked={publication.liked}
                           views={publication.views}
                           publication_id={publication.id}
+                          favorited={isFavorite}
+                          changeFavorite={changeFavorite}
                           otherClassName="media-block__controls"
                         />
                       </div>

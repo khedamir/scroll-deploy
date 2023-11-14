@@ -4,7 +4,7 @@ import { ReactSVG } from "react-svg";
 import SecondSidebar from "../../components/sidebar/secondSidebar";
 import PodcastItem from "../../components/pagePodcasts/podcastItem";
 import PodcastCard from "../../components/podcastCard";
-import { wrapper } from "../../redux/store";
+import { AppState, wrapper } from "../../redux/store";
 import { fetchPodcasts } from "../../redux/podcasts/asyncAction";
 import { useSelector } from "react-redux";
 import { selectPodcasts } from "../../redux/podcasts/slice";
@@ -14,6 +14,9 @@ import RenderHTML from "../../components/renderHTML";
 import { selectUser } from "../../redux/auth/slice";
 import { useModalsContext } from "../../context/ModalsContext";
 import { changeFavoriteItem } from "../../utils/controls";
+import { useFavoriteContext } from "../../context/FavoritesContext";
+import { isElementInFavorites } from "../../redux/favorites/slice";
+import { FavoritePodcast } from "../../redux/favorites/types";
 
 interface PodcastProps {
   podcast: FullPodcastType;
@@ -21,26 +24,6 @@ interface PodcastProps {
 
 const Podcast: FC<PodcastProps> = ({ podcast }) => {
   const { data } = useSelector(selectPodcasts);
-  const { user, id } = useSelector(selectUser);
-  const { setLoginActive } = useModalsContext();
-  const [isFavorited, setIsFavorited] = useState(false);
-  console.log(podcast);
-
-  const addFavorite = () => {
-    if (!user) {
-      setLoginActive(true);
-      return;
-    }
-
-    changeFavoriteItem({
-      id: podcast.id,
-      type: isFavorited ? "delete" : "add",
-      userId: id,
-    }).then(() => {
-      setIsFavorited(true);
-    });
-  };
-
   return (
     <div className="layout">
       <div className="container">
@@ -92,8 +75,16 @@ const Podcast: FC<PodcastProps> = ({ podcast }) => {
                       <span className="podcast__help">12 выпусков</span>
                       <div className="podcasts podcast__podcasts">
                         <div className="podcasts__wrapper">
-                          {podcast.editions.map((podcast, id) => (
-                            <PodcastItem key={id} podcast={podcast} />
+                          {podcast.editions.map((edition, id) => (
+                            <PodcastItem
+                              key={id}
+                              podcast={edition}
+                              podcastId={podcast.id}
+                              podcastAuthor={
+                                podcast.props.AUTHOR_PODCAST.VALUE[0]
+                              }
+                              podcastPhoto={podcast.images.preview}
+                            />
                           ))}
                         </div>
                       </div>

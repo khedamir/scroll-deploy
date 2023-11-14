@@ -20,7 +20,7 @@ const WebinarCard: FC<WebinarProps> = ({ webinar }) => {
               </button>
             </div>
             <span className="webinar-card__date">
-              {webinar.poperties.DATE_WEBINAR.slice(0, -3)}
+              {webinar.poperties.DATE_WEBINAR?.slice(0, -3)}
             </span>
           </div>
           <div className="webinar-card__main">

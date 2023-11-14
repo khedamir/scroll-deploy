@@ -220,7 +220,8 @@
       background: $root-faint-on-dark-shift-down;
     }
     &--blue {
-      &:hover {
+      &:hover,
+      &.is--active {
         color: rgba($text-accent-on-light, 0.8);
         & svg {
           color: $icon-accent-on-light;

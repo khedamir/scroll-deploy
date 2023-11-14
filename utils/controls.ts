@@ -1,8 +1,14 @@
+import { FavoriteSections } from "../redux/favorites/types";
 import { server } from "./server";
 
 type favoritesParamsType = {
   id: string;
   type: "delete" | "add";
+  userId: string;
+};
+
+type favoritesBlockParamsType = {
+  iblockId: FavoriteSections;
   userId: string;
 };
 
@@ -34,7 +40,32 @@ export const changeFavoriteItem = async ({
   }
 };
 
-export const changeItemLike = async ({ newsId, type, userId }: likesParamsType) => {
+export const deleteFavoritesBlock = async ({
+  iblockId,
+  userId,
+}: favoritesBlockParamsType) => {
+  try {
+    const params = {
+      userId,
+      type: "deleteAll",
+      iblockId,
+    };
+
+    await server.post(`/sw/v1/favorites.php`, params, {
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
+    });
+  } catch (error) {
+    console.error("Произошла ошибка", error);
+  }
+};
+
+export const changeItemLike = async ({
+  newsId,
+  type,
+  userId,
+}: likesParamsType) => {
   try {
     await server.get(`/sw/v1/likes`, {
       params: {

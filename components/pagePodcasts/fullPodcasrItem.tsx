@@ -8,6 +8,10 @@ import { useSelector } from "react-redux";
 import { selectUser } from "../../redux/auth/slice";
 import { useModalsContext } from "../../context/ModalsContext";
 import { changeFavoriteItem } from "../../utils/controls";
+import { useFavoriteContext } from "../../context/FavoritesContext";
+import { isElementInFavorites } from "../../redux/favorites/slice";
+import { FavoritePodcast, FavoriteVideo } from "../../redux/favorites/types";
+import { AppState } from "../../redux/store";
 
 interface PodcastItemProps {
   podcast: PodcastType;
@@ -23,9 +27,12 @@ const FullPodcastItem: FC<PodcastItemProps> = ({
   end,
 }) => {
   const cardRef: RefObject<HTMLAnchorElement> = useRef(null);
-  const { user, id } = useSelector(selectUser);
+  const { user } = useSelector(selectUser);
   const { setLoginActive } = useModalsContext();
-  const [isFavorited, setIsFavorited] = useState(false);
+  const { addFavorite, deleteFavorite } = useFavoriteContext();
+  const isFavorite = useSelector((state: AppState) =>
+    isElementInFavorites(state, "34", podcast.id)
+  );
 
   useEffect(() => {
     if (isLast && newLimit && !end) {
@@ -42,19 +49,35 @@ const FullPodcastItem: FC<PodcastItemProps> = ({
     }
   }, [isLast]);
 
-  const addFavorite = () => {
+  const changeFavorite = () => {
     if (!user) {
       setLoginActive(true);
       return;
     }
 
-    changeFavoriteItem({
-      id: podcast.id,
-      type: isFavorited ? "delete" : "add",
-      userId: id,
-    }).then(() => {
-      setIsFavorited(true);
-    });
+    if (isFavorite) {
+      deleteFavorite({ itemId: podcast.id, sectionId: "34" });
+    }
+
+    if (!isFavorite) {
+      const favoriteItem: FavoritePodcast = {
+        id: podcast.id,
+        data: {
+          NAME: podcast.name,
+          podcastId: podcast.podcastId,
+          podcastAuthor: podcast.podcastAuthor,
+          podcastPhoto: podcast.podcastPhoto,
+          props: {
+            EDITION: { VALUE: [podcast.poperties.EDITION] },
+          },
+        },
+      };
+      addFavorite({
+        itemId: podcast.id,
+        sectionId: "34",
+        podcastItem: favoriteItem,
+      });
+    }
   };
 
   return (
@@ -106,8 +129,8 @@ const FullPodcastItem: FC<PodcastItemProps> = ({
             <span>{podcast.poperties.DURATION}</span>
           </Link>
           <button
-            onClick={addFavorite}
-            className="podcasts__favorites c-bookmark"
+            onClick={changeFavorite}
+            className={`podcasts__favorites c-bookmark ${isFavorite && 'is--active'}`}
           >
             <ReactSVG
               className="c-bookmark__icon c-bookmark__icon--default"

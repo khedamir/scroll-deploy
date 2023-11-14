@@ -250,6 +250,14 @@
       height: 24px;
       color: $icon-faint-on-light-shift-up;
     }
+
+    &.is--active,
+    &:hover {
+      svg {
+        color: $back-accent-on-light-blue;
+      }
+    }
+
     &:focus {
       outline: none;
     }

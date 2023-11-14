@@ -376,6 +376,7 @@
       .c-bookmark {
         &__icon {
           color: $icon-faint-on-light-shift-up;
+          // color: $icon-faint-on-light-shift-up;
         }
         &:active {
           .c-bookmark__icon {
@@ -2043,6 +2044,11 @@
       width: 24px;
       height: 24px;
       color: $icon-base-on-light;
+    }
+    &.is-active {
+      div svg {
+        color: $back-accent-on-light-blue;
+      }
     }
     & > * + * {
       margin-top: 2px;

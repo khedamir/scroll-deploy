@@ -63,6 +63,7 @@ export type FullPodcastType = {
 };
 
 export type EditionType = {
+  id: string;
   anons: string;
   name: string;
   props: {

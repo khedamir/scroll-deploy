@@ -6,13 +6,18 @@ import LectureItem from "../../components/pageLecture/lectureItem";
 import MediaControls from "../../components/mediaControls";
 import MediaContent from "../../components/mediaContent";
 import { fetchLectures } from "../../redux/lectures/asyncAction";
-import { wrapper } from "../../redux/store";
+import { AppState, wrapper } from "../../redux/store";
 import { useSelector } from "react-redux";
 import { selectLectures } from "../../redux/lectures/slice";
 import { server } from "../../utils/server";
 import { formatDateDifference } from "../../utils/formatDate";
 import { FullVideoType } from "../../redux/types";
 import { extractVideoId } from "../../utils/extractVideoId";
+import { useFavoriteContext } from "../../context/FavoritesContext";
+import { useModalsContext } from "../../context/ModalsContext";
+import { selectUser } from "../../redux/auth/slice";
+import { isElementInFavorites } from "../../redux/favorites/slice";
+import { FavoriteVideo } from "../../redux/favorites/types";
 
 interface LectureProps {
   publication: FullVideoType;
@@ -20,7 +25,40 @@ interface LectureProps {
 
 const Lecture: FC<LectureProps> = ({ publication }) => {
   const { data } = useSelector(selectLectures);
-  console.log(publication);
+  const { user } = useSelector(selectUser);
+  const { setLoginActive } = useModalsContext();
+  const { addFavorite, deleteFavorite } = useFavoriteContext();
+  const isFavorite = useSelector((state: AppState) =>
+    isElementInFavorites(state, "26", publication.id)
+  );
+
+  const changeFavorite = () => {
+    if (!user) {
+      setLoginActive(true);
+      return;
+    }
+
+    if (isFavorite) {
+      deleteFavorite({ itemId: publication.id, sectionId: "26" });
+    }
+
+    if (!isFavorite) {
+      const favoriteItem: FavoriteVideo = {
+        id: publication.id,
+        data: {
+          images: {
+            detail: "",
+            preview: publication.images[0],
+          },
+        },
+      };
+      addFavorite({
+        itemId: publication.id,
+        sectionId: "26",
+        videoItem: favoriteItem,
+      });
+    }
+  };
 
   return (
     <div className="layout layout--sticky-bottom">
@@ -52,10 +90,7 @@ const Lecture: FC<LectureProps> = ({ publication }) => {
                       <h3 className="video__heading">{publication.name}</h3>
                       <div className="video__inner">
                         <a href="#" className="video__author">
-                          <img
-                            src={`${publication.images[1]}`}
-                            alt="Image"
-                          />
+                          <img src={`${publication.images[1]}`} alt="Image" />
                           <span>{publication.props.PUB_AUTOR.VALUE[0]}</span>
                         </a>
                         <span className="video__time">
@@ -68,6 +103,8 @@ const Lecture: FC<LectureProps> = ({ publication }) => {
                       liked={publication.liked}
                       views={publication.views}
                       publication_id={publication.id}
+                      favorited={isFavorite}
+                      changeFavorite={changeFavorite}
                     />
                     <MediaContent content={publication.content} />
                   </div>

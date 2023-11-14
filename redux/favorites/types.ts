@@ -5,7 +5,7 @@ export type FetchParams = {
   type: string;
 };
 
-export type New = {
+export type FavoriteNew = {
   id: string;
   data: {
     NAME: string;
@@ -15,18 +15,16 @@ export type New = {
   };
 };
 
-export type Video = {
+export type FavoriteVideo = {
   id: string;
   data: {
     images: ImageType;
   };
 };
 
-
-export type Podcast = {
+export type FavoritePodcast = {
   id: string;
   data: {
-    images: ImageType;
     NAME: string;
     podcastId: string;
     podcastAuthor: string;
@@ -39,26 +37,28 @@ export type Podcast = {
 
 export type FavoritesType = {
   "9": {
-    NAME: "Новости";
-    items: New[];
+    // NAME: "Новости";
+    items: FavoriteNew[];
   };
   "15": {
-    NAME: "Видео";
-    items: Video[];
+    // NAME: "Видео";
+    items: FavoriteVideo[];
   };
   "26": {
-    NAME: "Лекции";
-    items: Video[];
+    // NAME: "Лекции";
+    items: FavoriteVideo[];
   };
   "28": {
-    NAME: "Тренды";
-    items: Video[];
+    // NAME: "Тренды";
+    items: FavoriteVideo[];
   };
   "34": {
-    NAME: "Выпуски (Подкасты)";
-    items: Podcast[];
+    // NAME: "Выпуски (Подкасты)";
+    items: FavoritePodcast[];
   };
 };
+
+export type FavoriteSections = "9" | "15" | "26" | "28" | "34";
 
 export interface FavoritesSliceState {
   data: FavoritesType;
