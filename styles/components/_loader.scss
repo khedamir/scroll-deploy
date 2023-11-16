@@ -1,0 +1,30 @@
+.loader {
+  display: flex;
+  margin: 120px 0;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+  &__wrapper {
+    width: 48px;
+    height: 48px;
+    border: 5px solid $back-accent-on-light-blue;
+    border-bottom-color: transparent;
+    border-radius: 50%;
+    display: inline-block;
+    box-sizing: border-box;
+    animation: rotation 1s linear infinite;
+  }
+
+  .title {
+    margin-bottom: 28px;
+  }
+}
+
+@keyframes rotation {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}

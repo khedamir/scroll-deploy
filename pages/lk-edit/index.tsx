@@ -7,6 +7,7 @@ import { useSelector } from "react-redux";
 import { logout, selectUser } from "../../redux/auth/slice";
 import { Status } from "../../redux/types";
 import { useAppDispatch } from "../../redux/store";
+import Loader from "../../components/loader";
 
 const LkEdit = () => {
   const { user, status } = useSelector(selectUser);
@@ -41,6 +42,16 @@ const LkEdit = () => {
     dispatch(logout());
     navigate.push("/");
   };
+
+  if (!user) {
+    return (
+      <div className="layout layout--sticky-bottom">
+        <div className="container">
+          <Loader text="Проверка авторизации" />
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="layout layout--sticky-bottom">

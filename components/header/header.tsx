@@ -9,6 +9,7 @@ import { useModalsContext } from "../../context/ModalsContext";
 import Hamburger from "../hamburger";
 import { useSelector } from "react-redux";
 import { selectUser } from "../../redux/auth/slice";
+import { useRouter } from "next/router";
 
 const Header = () => {
   const {
@@ -21,9 +22,18 @@ const Header = () => {
   } = useModalsContext();
 
   const { user, status } = useSelector(selectUser);
+  const router = useRouter();
 
   const login = () => {
     setLoginActive(true);
+  };
+
+  const bookmarks = () => {
+    if (user) {
+      router.push("/lk?block=bookmarks");
+    } else {
+      setLoginActive(true);
+    }
   };
 
   return (
@@ -64,9 +74,12 @@ const Header = () => {
               >
                 <SearchIcon />
               </span>
-              <Link href="/lk?block=bookmarks" className="header__btn header__btn--tablet-hidden">
+              <span
+                onClick={bookmarks}
+                className="header__btn header__btn--tablet-hidden"
+              >
                 <BookmarksIcon />
-              </Link>
+              </span>
               <span
                 onClick={() => setNotification(true)}
                 className="header__btn notifications-btn"

@@ -33,6 +33,8 @@ const FullPodcastItem: FC<PodcastItemProps> = ({
   const isFavorite = useSelector((state: AppState) =>
     isElementInFavorites(state, "34", podcast.id)
   );
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [playerVisible, setPlayerVisible] = useState(false);
 
   useEffect(() => {
     if (isLast && newLimit && !end) {
@@ -80,19 +82,33 @@ const FullPodcastItem: FC<PodcastItemProps> = ({
     }
   };
 
+  const playClick = () => {
+    setIsPlaying(true);
+    setPlayerVisible(true);
+  };
+
   return (
     <div className="podcasts__item">
+      {/* {podcast.poperties.AUDIO_FILE ? (
+        <AudioPlayer
+          audioUrl={podcast.poperties.AUDIO_FILE}
+          isPlaying={isPlaying}
+          setIsPlaying={setIsPlaying}
+          active={playerVisible}
+        />
+      ) : (
+        <AudioPlayer
+          audioUrl={podcast.poperties.LINK_AUDIO}
+          isPlaying={isPlaying}
+          setIsPlaying={setIsPlaying}
+          active={playerVisible}
+        />
+      )} */}
       <Link href={`/podcasts/${podcast.id}`} className="podcasts__img">
         <img src={`${podcast.podcastPhoto}`} alt="Image" />
       </Link>
       <div className="podcasts__main">
         <div className="podcasts__body">
-          {/* {podcast.poperties.AUDIO_FILE ? (
-            <AudioPlayer audioUrl={podcast.poperties.AUDIO_FILE} />
-          ) : (
-            <AudioPlayer audioUrl={podcast.poperties.LINK_AUDIO} />
-          )} */}
-
           <span className="podcasts__help">
             {podcast.poperties.EDITION} выпуск
           </span>
@@ -121,16 +137,15 @@ const FullPodcastItem: FC<PodcastItemProps> = ({
           </div>
         </div>
         <div className="podcasts__additional">
-          <Link
-            href={`/podcasts/${podcast.podcastId}`}
-            className="podcasts__play c-play"
-          >
+          <span className="podcasts__play c-play" onClick={playClick}>
             <ReactSVG src="/img/sprite/icon-play.svg" />
             <span>{podcast.poperties.DURATION}</span>
-          </Link>
+          </span>
           <button
             onClick={changeFavorite}
-            className={`podcasts__favorites c-bookmark ${isFavorite && 'is--active'}`}
+            className={`podcasts__favorites c-bookmark ${
+              isFavorite && "is--active"
+            }`}
           >
             <ReactSVG
               className="c-bookmark__icon c-bookmark__icon--default"

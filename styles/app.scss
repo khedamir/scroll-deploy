@@ -10,6 +10,8 @@
 @import "components/cards";
 @import "components/widgets";
 @import "components/lk";
+@import "components/loader";
+@import "components/player";
 
 @import "../components/header/header";
 @import "../components/aiChat/ai-chat";
@@ -2166,6 +2168,17 @@
         padding: 24px 16px;
       }
     }
+  }
+}
+
+.confirm {
+  text-align: center;
+  margin: 60px 0;
+  width: 100%;
+
+  h1 {
+    text-align: center;
+    width: 100%;
   }
 }
 

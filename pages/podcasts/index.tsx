@@ -8,6 +8,8 @@ import { wrapper } from "../../redux/store";
 import { PodcastType } from "../../redux/podcasts/types";
 import { server } from "../../utils/server";
 import FullPodcastItem from "../../components/pagePodcasts/fullPodcasrItem";
+import Players from "../../components/players/player";
+import YoutubeAudioPlayer from "../../components/players/youtube";
 
 const Podcasts = () => {
   const { data } = useSelector(selectPodcasts);
@@ -66,6 +68,8 @@ const Podcasts = () => {
               </div>
               <div className="layout__right"></div>
             </div>
+            {/* <Players /> */}
+            {/* <YoutubeAudioPlayer /> */}
           </div>
         </div>
       </div>

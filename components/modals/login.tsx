@@ -95,40 +95,6 @@ const Login = () => {
                 onSubmit={handleSubmit(onSubmit)}
                 className="modal-form modal__form"
               >
-                {/* <div
-                  className={`input-field input-field--border modal-form__input ${
-                    errors.login && "is--error"
-                  }
-                  `}
-                >
-                  <div className="input-field__top">
-                    <label
-                      htmlFor="modal-login-email"
-                      className="input-field__tab is--active"
-                    >
-                      Email
-                    </label>
-                    <label
-                      htmlFor="modal-login-email"
-                      className="input-field__tab"
-                    >
-                      Телефон
-                    </label>
-                  </div>
-                  <div className="input-field__inner">
-                    <input
-                      type="text"
-                      id="modal-login-email"
-                      className="input-field__input"
-                      placeholder="Email"
-                      autoComplete="current-username"
-                      {...register("login", { required: "", minLength: 2 })}
-                    />
-                  </div>
-                  <span className="input-field__error">
-                    Это обязательное поле
-                  </span>
-                </div> */}
                 <ContactInput
                   contactType={contactType}
                   setContactType={setContactType}

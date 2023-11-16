@@ -1,3 +1,4 @@
+"use client";
 import React, { useEffect, useState } from "react";
 import Publications from "../../components/lkComponents/publications";
 import Bookmarks from "../../components/lkComponents/bookmarks";
@@ -15,6 +16,7 @@ import { Status } from "../../redux/types";
 import { useModalsContext } from "../../context/ModalsContext";
 import { server } from "../../utils/server";
 import { fetchFavorites } from "../../redux/favorites/asyncAction";
+import Loader from "../../components/loader";
 
 type ActiveBlockValue =
   | "publications"
@@ -32,21 +34,31 @@ const Lk = () => {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
+    dispatch(fetchFavorites({ userId: id, type: "get" }));
+  }, [user, status]);
+
+  useEffect(() => {
     if (!localStorage.getItem("token")) {
       navigate.push("/");
     }
     if (status === Status.ERROR) {
       navigate.push("/");
     }
-    dispatch(fetchFavorites({ userId: id, type: "get" }));
-  }, [user, status]);
-
-  useEffect(() => {
     setLoginActive(false);
     if (navigate.query.block) {
       setActiveBlock(navigate.query.block as ActiveBlockValue);
     }
   }, []);
+
+  if (!user) {
+    return (
+      <div className="layout layout--sticky-bottom">
+        <div className="container">
+          <Loader text="Проверка авторизации" />
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="layout layout--sticky-bottom">
@@ -63,7 +75,7 @@ const Lk = () => {
                     <div className="lk__wrapper">
                       <div className="lk__top">
                         <div className="lk__controls">
-                          <Link href="index.html" className="back-btn lk__back">
+                          <Link href="/" className="back-btn lk__back">
                             <ReactSVG src="/img/sprite/icon-back.svg" />
                           </Link>
                         </div>

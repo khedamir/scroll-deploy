@@ -13,6 +13,7 @@ import Search from "../search";
 import Notification from "../notifications";
 import { fetchFavorites } from "../../redux/favorites/asyncAction";
 import Register from "../modals/register";
+import ConfirmRegistration from "../modals/confirmRegistration";
 
 const Layout = ({ children }: { children: ReactNode }) => {
   const headerComponents: any = {
@@ -56,6 +57,7 @@ const Layout = ({ children }: { children: ReactNode }) => {
       <Search />
       <Menu />
       <Notification />
+      <ConfirmRegistration />
       {currentHeader}
       {children}
     </div>

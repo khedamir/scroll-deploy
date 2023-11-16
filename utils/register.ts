@@ -7,6 +7,11 @@ export type RegisterParamsType = {
   password: string;
 };
 
+export type ConfirmParamsType = {
+  userId: string;
+  confirm_code: string;
+};
+
 export const registerSubmit = async ({
   name,
   email,
@@ -31,6 +36,26 @@ export const registerSubmit = async ({
         "Content-Type": "application/x-www-form-urlencoded",
       },
     });
+    console.log(result);
+  } catch (error) {
+    console.error("Произошла ошибка", error);
+  }
+};
+
+export const registerConfirm = async ({
+  userId,
+  confirm_code,
+}: ConfirmParamsType) => {
+  try {
+    const result = await server.post(
+      `/sw/v1/register_confirm`,
+      { userId, confirm_code },
+      {
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+      }
+    );
     console.log(result);
   } catch (error) {
     console.error("Произошла ошибка", error);
