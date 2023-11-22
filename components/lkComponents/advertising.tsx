@@ -1,6 +1,7 @@
-import React, { FC, useEffect, useState } from "react";
+import React, { FC, FormEvent, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { selectUser } from "../../redux/auth/slice";
+import { advertisingFetch } from "../../utils/formFetchs";
 
 interface AdvertisingProps {
   active: boolean;
@@ -20,6 +21,16 @@ const Advertising: FC<AdvertisingProps> = ({ active }) => {
     }
   }, [user]);
 
+  const onSubmit = (event: FormEvent) => {
+    event.preventDefault();
+    const params = {
+      name,
+      phone,
+      email,
+    };
+    advertisingFetch(params);
+  };
+
   return (
     <div className={`lk-tabs__wrapper ${active && "is--active"}`}>
       <div className="lk-order-ads">
@@ -30,7 +41,7 @@ const Advertising: FC<AdvertisingProps> = ({ active }) => {
               Покажем все кейсы и подберем формат под любую задачу
             </p>
           </div>
-          <form action="#" className="lk-order-ads__form">
+          <form onSubmit={onSubmit} className="lk-order-ads__form">
             <div className="input-field lk-order-ads__input">
               <div className="input-field__top">
                 <label htmlFor="lk-edit-name" className="input-field__label">

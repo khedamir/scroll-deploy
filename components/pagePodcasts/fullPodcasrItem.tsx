@@ -3,7 +3,6 @@ import React, { FC, RefObject, useEffect, useRef, useState } from "react";
 import { ReactSVG } from "react-svg";
 import { PodcastType } from "../../redux/podcasts/types";
 import RenderHTML from "../renderHTML";
-import AudioPlayer from "../audioPlayer";
 import { useSelector } from "react-redux";
 import { selectUser } from "../../redux/auth/slice";
 import { useModalsContext } from "../../context/ModalsContext";
@@ -12,6 +11,7 @@ import { useFavoriteContext } from "../../context/FavoritesContext";
 import { isElementInFavorites } from "../../redux/favorites/slice";
 import { FavoritePodcast, FavoriteVideo } from "../../redux/favorites/types";
 import { AppState } from "../../redux/store";
+import { useAudioContext } from "../../context/audioContext";
 
 interface PodcastItemProps {
   podcast: PodcastType;
@@ -33,8 +33,15 @@ const FullPodcastItem: FC<PodcastItemProps> = ({
   const isFavorite = useSelector((state: AppState) =>
     isElementInFavorites(state, "34", podcast.id)
   );
-  const [isPlaying, setIsPlaying] = useState(false);
-  const [playerVisible, setPlayerVisible] = useState(false);
+  const {
+    setPlayerActive,
+    setAudioLink,
+    setIsPlaying,
+    setPodcastId,
+    setPodcastName,
+    isPlaying,
+    podcastId,
+  } = useAudioContext();
 
   useEffect(() => {
     if (isLast && newLimit && !end) {
@@ -82,29 +89,26 @@ const FullPodcastItem: FC<PodcastItemProps> = ({
     }
   };
 
-  const playClick = () => {
-    setIsPlaying(true);
-    setPlayerVisible(true);
+  const PlayClick = () => {
+    if (isPlaying) {
+      setIsPlaying(false);
+      setPlayerActive(false);
+    } else {
+      setPlayerActive(true);
+      if (podcast.poperties.LINK_AUDIO) {
+        setAudioLink(podcast.poperties.LINK_AUDIO);
+      } else {
+        setAudioLink(podcast.poperties.AUDIO_FILE);
+      }
+      setIsPlaying(true);
+      setPodcastId(podcast.id);
+      setPodcastName(podcast.name);
+    }
   };
 
   return (
     <div className="podcasts__item">
-      {/* {podcast.poperties.AUDIO_FILE ? (
-        <AudioPlayer
-          audioUrl={podcast.poperties.AUDIO_FILE}
-          isPlaying={isPlaying}
-          setIsPlaying={setIsPlaying}
-          active={playerVisible}
-        />
-      ) : (
-        <AudioPlayer
-          audioUrl={podcast.poperties.LINK_AUDIO}
-          isPlaying={isPlaying}
-          setIsPlaying={setIsPlaying}
-          active={playerVisible}
-        />
-      )} */}
-      <Link href={`/podcasts/${podcast.id}`} className="podcasts__img">
+      <Link href={`/podcasts/${podcast.podcastId}`} className="podcasts__img">
         <img src={`${podcast.podcastPhoto}`} alt="Image" />
       </Link>
       <div className="podcasts__main">
@@ -137,8 +141,12 @@ const FullPodcastItem: FC<PodcastItemProps> = ({
           </div>
         </div>
         <div className="podcasts__additional">
-          <span className="podcasts__play c-play" onClick={playClick}>
-            <ReactSVG src="/img/sprite/icon-play.svg" />
+          <span className="podcasts__play c-play" onClick={PlayClick}>
+            {isPlaying && podcastId === podcast.id ? (
+              <ReactSVG src="/img/sprite/icon-pause.svg" />
+            ) : (
+              <ReactSVG src="/img/sprite/icon-play.svg" />
+            )}
             <span>{podcast.poperties.DURATION}</span>
           </span>
           <button

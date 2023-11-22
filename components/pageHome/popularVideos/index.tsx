@@ -8,7 +8,6 @@ const PopularVideos = () => {
   const { data } = useSelector(selectTrands);
   const trends1 = data.datas.slice(0, 4);
   const trends2 = data.datas.slice(4, 9);
-  console.log(trends1, trends2);
   return (
     <div className="popular-videos">
       <div className="popular-videos__wrapper">
@@ -21,13 +20,6 @@ const PopularVideos = () => {
             >
               <picture className="video-card__img">
                 <img src={item.images.preview} alt="Image" />
-                {/* <iframe
-                  width="560"
-                  height="315"
-                  src={`https://www.youtube.com/embed/${extractVideoId(
-                    item.poperties.LINK_VIDEO
-                  )}?autoplay=1`}
-                /> */}
               </picture>
               <div className="video-card__body">
                 <div className="video-card__top">

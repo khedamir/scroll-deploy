@@ -86,11 +86,28 @@ export const isElementInFavorites = (
   sectionId: FavoriteSections,
   elementId: string
 ): boolean => {
-  const favorites: FavoritesSliceState = state.favorites; // Замените на реальное поле в вашем стейте
+  const favorites: FavoritesSliceState = state.favorites;
 
   if (favorites.data[sectionId] && favorites.data[sectionId].items) {
     const sectionItems = favorites.data[sectionId].items;
     return sectionItems.some((item) => item.id === elementId);
+  }
+
+  return false;
+};
+
+export const areAllElementsInFavorites = (
+  state: AppState,
+  sectionId: FavoriteSections,
+  elementsId: string[]
+): boolean => {
+  const favorites: FavoritesSliceState = state.favorites;
+
+  if (favorites.data[sectionId] && favorites.data[sectionId].items) {
+    const sectionItems = favorites.data[sectionId].items;
+    return elementsId.every((elementId) =>
+      sectionItems.some((item) => item.id === elementId)
+    );
   }
 
   return false;

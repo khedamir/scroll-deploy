@@ -1,54 +1,54 @@
 import React, { FC, useState } from "react";
 import { ReactSVG } from "react-svg";
-import ContactInput, { ContactInputType } from "../ContactInput";
+import { feadbackFetch } from "../../utils/formFetchs";
 import { useForm } from "react-hook-form";
-import { supportScheme } from "./validationSchemes";
-import InputWrapper from "../InputWrapper";
 import ThanksModal from "./thanks";
+import InputWrapper from "../InputWrapper";
+import { feadbackSchemes } from "./validationSchemes";
 
-interface SupportProps {
+interface FeadbackProps {
   active: boolean;
   setActive: (v: boolean) => void;
 }
 
-export type FormValuesType = {
-  contact: string;
-  answer: string;
+type FormValuesType = {
+  value: string;
 };
 
-const Support: FC<SupportProps> = ({ active, setActive }) => {
+const Feadback: FC<FeadbackProps> = ({ active, setActive }) => {
   const [thanksModalActive, setThanksModalActive] = useState(false);
-  const [contactType, setContactType] = useState<ContactInputType>("email");
 
   const {
     register,
     handleSubmit,
-    control,
+    reset,
     formState: { errors },
   } = useForm<FormValuesType>({ mode: "onBlur" });
 
-  const onSubmit = (values: FormValuesType) => {
-    console.log(values);
+  const onSubmit = ({ value }: FormValuesType) => {
+    feadbackFetch({ value }).then(() => {
+      setThanksModalActive(true);
+      setActive(false);
+      reset();
+    });
   };
+
   return (
     <>
       <div
         className={`modal modal--wide ${active && "is--active"}`}
-        id="modal-support"
+        id="modal-impression"
       >
         <div className="modal__wrap">
           <div className="modal__wrapper">
-            <div className="modal__left modal__left--orange">
+            <div className="modal__left modal__left--red">
               <div className="modal__circles">
                 <div className="modal__circle modal__circle--sm"></div>
                 <div className="modal__circle modal__circle--md"></div>
                 <div className="modal__circle modal__circle--lg"></div>
                 <div className="modal__circle modal__circle--xl"></div>
               </div>
-              <button
-                onClick={() => setActive(false)}
-                className="modal__close-btn modal__close-btn--mobile"
-              >
+              <button className="modal__close-btn modal__close-btn--mobile">
                 <ReactSVG src="/img/sprite/icon-close-thin.svg" />
               </button>
             </div>
@@ -60,37 +60,26 @@ const Support: FC<SupportProps> = ({ active, setActive }) => {
                 <ReactSVG src="/img/sprite/icon-close-thin.svg" />
               </button>
               <div className="modal__content">
-                <h3 className="modal__heading">Вопрос в техподдержку</h3>
+                <h3 className="modal__heading">Впечатления о платформе</h3>
                 <p className="modal__description">
-                  Постарайтесь подробно описать возникшую проблему или вопрос.
-                  Это позволит нам быстрее решить проблему.
+                  Что вам понравилось, а что хотелось бы улучшить?
                 </p>
                 <form
                   onSubmit={handleSubmit(onSubmit)}
-                  action="#"
                   className="modal-form modal__form"
                 >
-                  <ContactInput
-                    contactType={contactType}
-                    setContactType={setContactType}
-                    control={control}
-                    register={register}
-                    errors={errors}
-                  />
                   <InputWrapper
-                    labelValue="Задайте вопрос"
-                    error={errors.answer}
-                    errorMessage={errors.answer?.message}
-                    htmlForValue="modal-support-text"
+                    error={errors.value}
+                    errorMessage={errors.value?.message}
                   >
                     <div className="input-field__textarea-wrap">
                       <textarea
-                        id="modal-support-text"
+                        id="modal-impression"
                         className="input-field__textarea input-field__textarea--high"
-                        placeholder="Ваш вопрос..."
-                        {...register("answer", supportScheme.answer)}
+                        placeholder="Ваши пожелания, предложения"
+                        {...register("value", feadbackSchemes.value)}
                       ></textarea>
-                      <button className="input-field__textarea-btn btn btn--sm btn--orange">
+                      <button className="input-field__textarea-btn btn btn--sm btn--red">
                         <ReactSVG src="/img/sprite/icon-arrow-next.svg" />
                       </button>
                     </div>
@@ -104,11 +93,11 @@ const Support: FC<SupportProps> = ({ active, setActive }) => {
       <ThanksModal
         active={thanksModalActive}
         setActive={setThanksModalActive}
-        title="Спасибо за ваш вопрос!"
-        description="Служба техподдержки уже рассматривает ваш вопрос. Ответ поступит в уведомления."
+        title="Благодарим за обратную связь!"
+        description="Это поможет нам сделать платформу еще полезнее и интереснее."
       />
     </>
   );
 };
 
-export default Support;
+export default Feadback;

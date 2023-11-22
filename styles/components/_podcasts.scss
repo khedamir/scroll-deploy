@@ -297,6 +297,12 @@
   }
   &__favorites {
     margin-left: auto;
+
+    &.is--active {
+      .c-bookmark__icon {
+        color: $back-accent-on-light-blue !important;
+      }
+    }
   }
   &__podcasts {
     margin-top: 16px;

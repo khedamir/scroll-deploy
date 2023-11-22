@@ -10,6 +10,7 @@ import { useFavoriteContext } from "../../context/FavoritesContext";
 import { isElementInFavorites } from "../../redux/favorites/slice";
 import { FavoriteVideo } from "../../redux/favorites/types";
 import { AppState } from "../../redux/store";
+import YouTube from "react-youtube";
 
 interface TrendItemProps {
   trend: TrendType;
@@ -53,12 +54,17 @@ const TrendItem: FC<TrendItemProps> = ({ trend }) => {
       <div className="trands__slide">
         <div className="trands__left">
           <div className="trands__media">
-            <iframe
-              width="560"
-              height="315"
-              src={`https://www.youtube.com/embed/${extractVideoId(
-                trend.poperties.LINK_VIDEO
-              )}?autoplay=1`}
+            <YouTube
+              opts={{
+                width: "100%",
+                heigth: "100%",
+                playerVars: {
+                  controls: 0,
+                  showinfo: 0,
+                  loop: 1,
+                },
+              }}
+              videoId={extractVideoId(trend.poperties.LINK_VIDEO)}
             />
           </div>
           <div className="trands__controls">

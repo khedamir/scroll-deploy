@@ -2,16 +2,17 @@ import React, { useEffect, useState } from "react";
 import { ReactSVG } from "react-svg";
 import { useModalsContext } from "../../context/ModalsContext";
 import { useForm } from "react-hook-form";
-import ContactInput from "../ContactInput";
-import { RegisterParamsType, registerSubmit } from "../../utils/register";
+import ContactInput, { ContactInputType } from "../ContactInput";
+import { RegisterParamsType, registerSubmit } from "../../utils/formFetchs";
+import InputWrapper from "../InputWrapper";
+import { registerSchemes } from "./validationSchemes";
+import LoginWidthGoogle from "../loginWidthGoogle";
 
-interface FormType {
+type FormValuesType = {
   name: string;
   contact: string;
   password: string;
-}
-
-export type ContactInputType = "email" | "phone";
+};
 
 const Register = () => {
   const { registerActive, setRegisterActive, setLoginActive } =
@@ -24,7 +25,7 @@ const Register = () => {
     control,
     setValue,
     formState: { errors },
-  } = useForm<FormType>({
+  } = useForm<FormValuesType>({
     defaultValues: {
       name: "",
       contact: "",
@@ -35,7 +36,6 @@ const Register = () => {
 
   useEffect(() => {
     setValue("contact", "");
-
   }, [contactType]);
 
   const loginButtonClick = () => {
@@ -43,8 +43,7 @@ const Register = () => {
     setRegisterActive(false);
   };
 
-  const onSubmit = async (values: FormType) => {
-    console.log(values);
+  const onSubmit = async (values: FormValuesType) => {
     const params: RegisterParamsType = {
       name: values.name,
       password: values.password,
@@ -70,7 +69,7 @@ const Register = () => {
         <div className="modal__wrapper">
           <div className="modal__left">
             <picture className="modal__logotype">
-              <img src="img/logotype.svg" alt="SCROLL" />
+              <img src="/img/logotype.svg" alt="SCROLL" />
             </picture>
             <button
               onClick={() => setRegisterActive(false)}
@@ -92,83 +91,42 @@ const Register = () => {
                 onSubmit={handleSubmit(onSubmit)}
                 className="modal-form modal__form"
               >
-                <div className="input-field input-field--border modal-form__input">
-                  <div className="input-field__top">
-                    <label
-                      htmlFor="modal-register-name"
-                      className="input-field__label"
-                    >
-                      Имя Фамилия
-                    </label>
-                  </div>
-                  <div className="input-field__inner">
-                    <input
-                      type="text"
-                      id="modal-register-name"
-                      className="input-field__input"
-                      placeholder="Имя"
-                      {...register("name", { required: "", minLength: 2 })}
-                    />
-                  </div>
-                  <span className="input-field__error">
-                    Это обязательное поле
-                  </span>
-                </div>
+                <InputWrapper
+                  labelValue="Имя Фамилия"
+                  error={errors.name}
+                  errorMessage={errors.name?.message}
+                  htmlForValue="modal-register-name"
+                >
+                  <input
+                    type="text"
+                    id="modal-register-name"
+                    className="input-field__input"
+                    placeholder="Имя"
+                    {...register("name", registerSchemes.name)}
+                  />
+                </InputWrapper>
                 <ContactInput
                   contactType={contactType}
                   setContactType={setContactType}
                   control={control}
                   register={register}
+                  errors={errors}
                 />
-                {/* <div className="input-field input-field--border modal-form__input">
-                  <div className="input-field__top">
-                    <label
-                      htmlFor="modal-register-email"
-                      className="input-field__tab is--active"
-                    >
-                      Email
-                    </label>
-                    <label
-                      htmlFor="modal-register-email"
-                      className="input-field__tab"
-                    >
-                      Телефон
-                    </label>
-                  </div>
-                  <div className="input-field__inner">
-                    <input
-                      type="text"
-                      id="modal-register-email"
-                      className="input-field__input"
-                      placeholder="Email"
-                    />
-                  </div>
-                  <span className="input-field__error">
-                    Это обязательное поле
-                  </span>
-                </div> */}
-                <div className="input-field input-field--border modal-form__input">
-                  <div className="input-field__top">
-                    <label
-                      htmlFor="modal-register-password"
-                      className="input-field__label"
-                    >
-                      Пароль
-                    </label>
-                  </div>
-                  <div className="input-field__inner">
-                    <input
-                      type="password"
-                      id="modal-register-password"
-                      className="input-field__input"
-                      placeholder="Пароль"
-                      {...register("password", { required: "", minLength: 2 })}
-                    />
-                  </div>
-                  <span className="input-field__error">
-                    Это обязательное поле
-                  </span>
-                </div>
+                <InputWrapper
+                  labelValue="Пароль"
+                  error={errors.password}
+                  errorMessage={errors.password?.message}
+                  htmlForValue="modal-register-password"
+                >
+                  <input
+                    type="password"
+                    id="modal-register-password"
+                    className="input-field__input"
+                    placeholder="Пароль"
+                    autoComplete="current-password"
+                    {...register("password", registerSchemes.password)}
+                  />
+                </InputWrapper>
                 <button className="modal-form__btn btn btn--blue">
                   Зарегистрироваться
                 </button>
@@ -177,19 +135,7 @@ const Register = () => {
                     Есть аккаунт? <span onClick={loginButtonClick}>Войти</span>
                   </p>
                 </div>
-                <div className="resource-auth modal-form__resource">
-                  <div className="resource-auth__or">
-                    <span className="resource-auth__delimiter"></span>
-                    <span className="resource-auth__help">или</span>
-                    <span className="resource-auth__delimiter"></span>
-                  </div>
-                  <div className="resource-auth__buttons">
-                    <button className="resource-auth__btn">
-                      <ReactSVG src="/img/sprite/icon-google-color.svg" />
-                      <span>Войти через Google account</span>
-                    </button>
-                  </div>
-                </div>
+                <LoginWidthGoogle />
               </form>
             </div>
           </div>

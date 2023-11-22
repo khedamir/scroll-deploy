@@ -9,7 +9,7 @@ import { PodcastType } from "../../redux/podcasts/types";
 import { server } from "../../utils/server";
 import FullPodcastItem from "../../components/pagePodcasts/fullPodcasrItem";
 import Players from "../../components/players/player";
-import YoutubeAudioPlayer from "../../components/players/youtube";
+import { AudioContextProvider } from "../../context/audioContext";
 
 const Podcasts = () => {
   const { data } = useSelector(selectPodcasts);
@@ -39,41 +39,45 @@ const Podcasts = () => {
   }, [page]);
 
   return (
-    <div className="layout">
-      <div className="container">
-        <div className="layout__wrap">
-          <div className="layout__left layout__left--visible">
-            <SecondSidebar />
-            <Footer otherClassName="layout__footer" />
-          </div>
-          <div className="layout__main">
-            <div className="layout__main-wrapper">
-              <div className="layout__center">
-                <div className="podcasts">
-                  <div className="podcasts__wrapper">
-                    {data.datas.map((podcast) => (
-                      <FullPodcastItem key={podcast.id} podcast={podcast} />
-                    ))}
-                    {nextPublication.map((podcast, index) => (
-                      <FullPodcastItem
-                        key={podcast.id}
-                        podcast={podcast}
-                        isLast={index === nextPublication.length - 1}
-                        newLimit={() => setPage(page + 1)}
-                        end={page === totalPages}
-                      />
-                    ))}
-                  </div>
-                </div>
-              </div>
-              <div className="layout__right"></div>
+    <AudioContextProvider>
+      <div className="layout">
+        <div className="container">
+          <div className="layout__wrap">
+            <div className="layout__left layout__left--visible">
+              <SecondSidebar />
+              <Footer otherClassName="layout__footer" />
             </div>
-            {/* <Players /> */}
-            {/* <YoutubeAudioPlayer /> */}
+            <div className="layout__main">
+              <div className="layout__main-wrapper">
+                <div
+                  className="layout__center"
+                  style={{ position: "relative" }}
+                >
+                  <div className="podcasts">
+                    <div className="podcasts__wrapper">
+                      {data.datas.map((podcast) => (
+                        <FullPodcastItem key={podcast.id} podcast={podcast} />
+                      ))}
+                      {nextPublication.map((podcast, index) => (
+                        <FullPodcastItem
+                          key={podcast.id}
+                          podcast={podcast}
+                          isLast={index === nextPublication.length - 1}
+                          newLimit={() => setPage(page + 1)}
+                          end={page === totalPages}
+                        />
+                      ))}
+                    </div>
+                  </div>
+                  <Players />
+                </div>
+                <div className="layout__right"></div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    </AudioContextProvider>
   );
 };
 

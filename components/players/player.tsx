@@ -1,14 +1,32 @@
-import React, { useState, useRef } from "react";
-import ReactPlayer from "react-player";
+import React, { useState, useRef, useEffect } from "react";
+import { ReactSVG } from "react-svg";
+import SpeedChanger from "./speedChanger";
+import dynamic from "next/dynamic";
+import { useAudioContext } from "../../context/audioContext";
+const ReactPlayer = dynamic(() => import("react-player"), { ssr: false });
 
 const AudioPlayer = () => {
-  const [isPlaying, setIsPlaying] = useState(false);
   const [played, setPlayed] = useState(0);
   const [duration, setDuration] = useState(0);
   const [volume, setVolume] = useState(0.8);
+  const [speedValue, setSpeedValue] = useState(1);
   const [playbackRate, setPlaybackRate] = useState(1.0);
-
   const playerRef = useRef(null);
+
+  const {
+    audioLink,
+    playerActive,
+    isPlaying,
+    setIsPlaying,
+    podcastId,
+    podcastName,
+  } = useAudioContext();
+
+  useEffect(() => {
+    console.log(podcastId, audioLink);
+    setPlayed(0);
+    setDuration(0);
+  }, [podcastId]);
 
   const handlePlayPause = () => {
     setIsPlaying(!isPlaying);
@@ -24,56 +42,106 @@ const AudioPlayer = () => {
     setDuration(duration);
   };
 
+  const toggleVolumeChange = () => {
+    if (volume !== 0) {
+      setVolume(parseFloat("0"));
+    } else {
+      setVolume(parseFloat("1"));
+    }
+  };
+
   const handleVolumeChange = (e: { target: { value: string } }) => {
     setVolume(parseFloat(e.target.value));
   };
 
-  const handlePlaybackRateChange = (e: { target: { value: string } }) => {
-    setPlaybackRate(parseFloat(e.target.value));
+  const handlePlaybackRateChange = (value: string) => {
+    setPlaybackRate(parseFloat(value));
   };
 
   return (
-    <div>
-      <ReactPlayer
-        ref={playerRef}
-        url="https://rehornubay.beget.app/upload/iblock/faf/ermzn9ce8lfb100kg2cyadzvg9ywkxt5.mp3" // Замените на ваш URL
-        playing={isPlaying}
-        volume={volume}
-        playbackRate={playbackRate}
-        onProgress={handleProgress}
-        onDuration={handleDuration}
-      />
-
-      <button onClick={handlePlayPause}>{isPlaying ? "Pause" : "Play"}</button>
-
-      <input
-        type="range"
-        min={0}
-        max={1}
-        step="any"
-        value={played}
-        onChange={(e) => setPlayed(parseFloat(e.target.value))}
-      />
-
-      <div>
-        {formatTime(played * duration)} / {formatTime(duration)}
+    <div className={`player ${playerActive && "is--active"}`}>
+      <div className="player__wrap">
+        <ReactPlayer
+          ref={playerRef}
+          url={audioLink}
+          playing={isPlaying}
+          volume={volume}
+          playbackRate={playbackRate}
+          onProgress={handleProgress}
+          onDuration={handleDuration}
+        />
       </div>
 
-      <input
-        type="range"
-        min={0}
-        max={1}
-        step="any"
-        value={volume}
-        onChange={handleVolumeChange}
-      />
-
-      <select value={playbackRate} onChange={handlePlaybackRateChange}>
-        <option value={0.5}>0.5x</option>
-        <option value={1.0}>1x</option>
-        <option value={1.5}>1.5x</option>
-        <option value={2.0}>2x</option>
-      </select>
+      <div className="player__wrapper">
+        <div className="player__block">
+          <span className="play__button" onClick={handlePlayPause}>
+            {isPlaying ? (
+              <ReactSVG src="/img/sprite/icon-pause.svg" />
+            ) : (
+              <ReactSVG src="/img/sprite/icon-play.svg" />
+            )}
+          </span>
+          <div className="slider__wrapper">
+            <span className="time">{formatTime(played * duration)}</span>
+            <input
+              className="rangeInput"
+              type="range"
+              min={0}
+              max={1}
+              step="any"
+              value={played}
+              onChange={(e) => setPlayed(parseFloat(e.target.value))}
+              aria-valuetext={`Progress: ${played * 100}%`}
+            />
+            <span className="time">{formatTime(duration)}</span>
+          </div>
+          <div className="times__mobile">
+            <span className="time">{formatTime(played * duration)}</span>
+            <span className="time">{formatTime(duration)}</span>
+          </div>
+          <SpeedChanger
+            value={speedValue}
+            setValue={setSpeedValue}
+            HandlePlaybackRateChange={(v: string) =>
+              handlePlaybackRateChange(v)
+            }
+          />
+        </div>
+        <div className="player__bottom">
+          <span className="audio__name">{podcastName}</span>
+          <span className="play__button" onClick={handlePlayPause}>
+            {isPlaying ? (
+              <ReactSVG src="/img/sprite/icon-pause.svg" />
+            ) : (
+              <ReactSVG src="/img/sprite/icon-play.svg" />
+            )}
+          </span>
+          <div className="right__panel">
+            <SpeedChanger
+              value={speedValue}
+              setValue={setSpeedValue}
+              HandlePlaybackRateChange={(v: string) =>
+                handlePlaybackRateChange(v)
+              }
+            />
+            <div className="volume__changer">
+              <span onClick={toggleVolumeChange}>
+                <ReactSVG src="/img/sprite/icon-volume.svg" />
+              </span>
+              <input
+                className="rangeInput"
+                type="range"
+                min={0}
+                max={1}
+                step="any"
+                value={volume}
+                onChange={handleVolumeChange}
+                aria-valuetext={`Progress: ${volume * 100}%`}
+              />
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };

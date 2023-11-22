@@ -10,6 +10,7 @@ export type VacancyType = {
   id: string;
   name: string;
   date: string;
+  content: string;
   poperties: {
     POSITION_VACANCIES: string;
     TYPE_VACANCIES: string;

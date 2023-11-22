@@ -26,8 +26,8 @@ const Search = () => {
 
   const search = async (value: string) => {
     const result = await server.post(`/sw/v1/search/?text=${value}`);
-    setResult(result.data.search_results || []);
-    console.log(result.data.search_results);
+    setResult(result.data || []);
+    console.log(result.data);
   };
 
   const debouncedSearch = React.useRef(
@@ -91,15 +91,15 @@ const Search = () => {
                   </p>
                 </div>
               )}
-              <div>
+              {/* <div>
                 {result &&
                   result.map((item, index) => (
                     <div key={index + item.title}>
-                      {/* <div className="search__content">
+                      <div className="search__content">
                         <div className="search__block">
                           <h3 className="search__subtitle">23 июня, 2023</h3>
                         </div>
-                      </div> */}
+                      </div>
                       <div className="news-card mobile-wide section-indent">
                         <div className="news-card__wrapper">
                           <Link
@@ -113,11 +113,11 @@ const Search = () => {
                               </span>
                               <div className="news-card__inner">
                                 <span className="news-card__help">
-                                  {/* {rubricByIdSelector(item.rubric)?.NAME} */}
+                                  {rubricByIdSelector(item.rubric)?.NAME}
                                   Спорт
                                 </span>
                                 <span className="news-card__help">
-                                  {/* {formatDateDifference(item.date)} */}
+                                  {formatDateDifference(item.date)}
                                   30 минут назад
                                 </span>
                               </div>
@@ -127,7 +127,7 @@ const Search = () => {
                             </div>
                             <picture className="news-card__img news-card__img--sm">
                               <img
-                                // src={`${baseURL}${item.images[0]}`}
+                                src={`${baseURL}${item.images[0]}`}
                                 src={"/img/news-card-03.jpg"}
                                 alt="Image"
                               />
@@ -137,7 +137,7 @@ const Search = () => {
                       </div>
                     </div>
                   ))}
-              </div>
+              </div> */}
             </div>
           </div>
         </div>

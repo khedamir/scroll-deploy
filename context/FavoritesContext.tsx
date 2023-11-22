@@ -1,7 +1,11 @@
 import { createContext, useContext } from "react";
 import { useSelector } from "react-redux";
 import { selectUser } from "../redux/auth/slice";
-import { changeFavoriteItem, deleteFavoritesBlock } from "../utils/controls";
+import {
+  FavoriteFetcthType,
+  changeFavoriteItem,
+  deleteFavoritesBlock,
+} from "../utils/controls";
 import {
   FavoriteNew,
   FavoritePodcast,
@@ -34,10 +38,16 @@ type removeFavoriteBlockPropsType = {
   sectionId: FavoriteSections;
 };
 
+type changeFavoritePodcastType = {
+  podcastId: string;
+  type: FavoriteFetcthType;
+};
+
 const FavoritesContext = createContext({
   addFavorite: (props: addFavoritePropsType) => {},
   deleteFavorite: (props: removeFavoritePropsType) => {},
   deleteFavoriteBlock: (props: removeFavoriteBlockPropsType) => {},
+  changeEditionsPodcast: (props: changeFavoritePodcastType) => {},
 });
 
 const FavoritesContextProvider = (props: any) => {
@@ -95,12 +105,28 @@ const FavoritesContextProvider = (props: any) => {
     });
   };
 
+  const changeEditionsPodcast = async ({
+    podcastId,
+    type,
+  }: changeFavoritePodcastType) => {
+    try {
+      await changeFavoriteItem({
+        id: podcastId,
+        type: type,
+        userId: id,
+      });
+    } catch (error) {
+      console.error("Произошла ошибка", error);
+    }
+  };
+
   return (
     <FavoritesContext.Provider
       value={{
         addFavorite,
         deleteFavorite,
         deleteFavoriteBlock,
+        changeEditionsPodcast,
       }}
       {...props}
     />

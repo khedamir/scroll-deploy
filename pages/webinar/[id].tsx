@@ -110,6 +110,7 @@ const Webinar: FC<WebinarProps> = ({ publication, oldWebinars }) => {
                       )
                     ) : (
                       <RegisterBlock
+                        event_name={publication.name}
                         description={publication.props.PRISE_SLOGAN?.VALUE}
                       />
                     )}

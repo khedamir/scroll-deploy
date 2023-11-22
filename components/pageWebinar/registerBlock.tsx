@@ -1,16 +1,34 @@
 import React, { FC, FormEvent, useRef, useState } from "react";
 import ThanksModal from "../modals/thanks";
+import { eventFetch } from "../../utils/formFetchs";
 
 interface RegisterBlockProps {
+  event_name: string;
   description: string;
 }
 
-const RegisterBlock: FC<RegisterBlockProps> = ({ description }) => {
+const RegisterBlock: FC<RegisterBlockProps> = ({ event_name, description }) => {
   const [modalActive, setModalActive] = useState(false);
+  const [email, setEmail] = useState("");
+  const [error, setError] = useState(false);
+
+  const validateEmail = () => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    setError(!emailRegex.test(email));
+  };
 
   const onSubmit = (event: FormEvent) => {
     event.preventDefault();
-    setModalActive(true);
+    if (!error) {
+      eventFetch({
+        event_name,
+        email,
+      }).then(() => {
+        setModalActive(true);
+      });
+    } else {
+      alert(error);
+    }
   };
 
   return (
@@ -23,6 +41,9 @@ const RegisterBlock: FC<RegisterBlockProps> = ({ description }) => {
               type="text"
               className="webinar-subscribe__input"
               placeholder="Email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              onBlur={validateEmail}
             />
             <button className="webinar-subscribe__btn btn">Записаться</button>
           </form>

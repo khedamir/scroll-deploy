@@ -1,8 +1,39 @@
 .player {
   display: none;
-  position: absolute;
+  position: fixed;
   width: 100%;
-  height: 110px;
+  max-width: 560px;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+  padding: 0 18px;
+  bottom: 44px;
+  z-index: 100;
+
+  /* Пример стилей для rangeInput */
+  .rangeInput {
+    width: 100%;
+    height: 10px;
+    -webkit-appearance: none;
+    margin: 5px 0;
+    border-radius: 5px;
+    background: $root-faint-on-light-shift-up;
+    outline: none;
+  }
+
+  .rangeInput::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: $root-base-on-dark;
+    cursor: pointer;
+  }
+
+  .player__wrap div:first-child {
+    display: none;
+  }
   &.is--active {
     display: block;
   }
@@ -11,9 +42,21 @@
     visibility: hidden;
   }
 
+  .speed {
+    font-family: "Inter";
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 20px;
+    color: $root-base-on-dark;
+    width: 45px;
+    cursor: pointer;
+    text-align: right;
+  }
+
   &__wrapper {
     width: 100%;
-    height: 110px;
+    height: 100%;
     background-color: #21212180;
     border-radius: 16px;
     padding: 16px;
@@ -23,7 +66,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    gap: 24px;
+    gap: 14px;
     .play__button div {
       & svg {
         width: 42px;
@@ -37,15 +80,11 @@
       font-weight: 500;
       line-height: 18px;
       color: $root-base-on-dark;
+      width: 60px;
     }
 
-    .speed {
-      font-family: "Inter";
-      font-size: 16px;
-      font-style: normal;
-      font-weight: 700;
-      line-height: 20px;
-      color: $root-base-on-dark;
+    .times__mobile {
+      display: none;
     }
 
     .slider__wrapper {
@@ -54,21 +93,100 @@
       justify-content: space-between;
       align-items: center;
       gap: 8px;
+    }
+  }
 
-      .slider {
+  &__bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 16px;
+
+    .play__button {
+      display: none;
+    }
+
+    .speed {
+      display: none;
+    }
+
+    .audio__name {
+      color: $text-faint-on-light-shift-up;
+      font-family: "Inter";
+      font-size: 16px;
+      font-weight: 500;
+      line-height: 20px;
+    }
+
+    .volume__changer {
+      width: 18px;
+      display: flex;
+      overflow: hidden;
+      gap: 8px;
+      transition: width 0.3s ease;
+
+      &:hover {
+        width: 108px;
+      }
+
+      .rangeInput {
+        width: 80px;
+      }
+    }
+  }
+
+  @media (max-width: 560px) {
+    &__block {
+      display: flex;
+      flex-direction: column;
+      .play__button {
+        display: none;
+      }
+
+      .speed {
+        display: none;
+      }
+
+      .time {
+        display: none;
+      }
+
+      .times__mobile {
         width: 100%;
-        height: 9px;
-        border-radius: 15px;
-        background-color: $root-faint-on-light-shift-up;
-        position: relative;
+        display: flex;
+        justify-content: space-between;
 
-        .progress {
-          position: absolute;
-          height: 100%;
-          width: 30%;
-          border-radius: 15px;
-          background-color: $root-base-on-dark;
+        .time {
+          display: block;
         }
+      }
+    }
+
+    &__bottom {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      .audio__name {
+        font-size: 14px;
+      }
+      .play__button {
+        display: block;
+        flex: 1;
+        display: flex;
+        justify-content: center;
+        svg {
+          width: 42px;
+          height: 42px;
+        }
+      }
+
+      .speed {
+        display: block;
+      }
+
+      .right__panel {
+        display: flex;
+        gap: 6px;
+        justify-content: right;
       }
     }
   }

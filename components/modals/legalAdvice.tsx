@@ -1,58 +1,55 @@
-import React, { FC, FormEvent, useEffect, useState } from "react";
+import React, { FC, useEffect, useState } from "react";
 import { ReactSVG } from "react-svg";
 import ThanksModal from "./thanks";
 import { useForm } from "react-hook-form";
-import ContactInput from "../ContactInput";
-import { legalAdviceScheme } from "./validationSchemes";
-import { server, serverWithJwt } from "../../utils/server";
-import axios from "axios";
+import ContactInput, { ContactInputType } from "../ContactInput";
+import { legalAdviceSchemes } from "./validationSchemes";
+import { legalAdviceFetch } from "../../utils/formFetchs";
+import InputWrapper from "../InputWrapper";
 
 interface LegalAdviceProps {
   active: boolean;
   setActive: (v: boolean) => void;
 }
 
-export type FormValues = {
+type FormValuesType = {
   name: string;
   contact: string;
   answer: string;
 };
 
-export type ContactInputType = "email" | "phone";
-
 const LegalAdvice: FC<LegalAdviceProps> = ({ active, setActive }) => {
   const [thanksModalActive, setThanksModalActive] = useState(false);
-
   const [contactType, setContactType] = useState<ContactInputType>("email");
 
-  const { register, handleSubmit, control, setValue } = useForm<FormValues>({
+  const {
+    register,
+    handleSubmit,
+    control,
+    reset,
+    formState: { errors },
+  } = useForm<FormValuesType>({
     defaultValues: {
       name: "",
       contact: "",
       answer: "",
     },
+    mode: "onBlur",
   });
 
-  useEffect(() => {
-    setValue("contact", "");
-  }, [contactType]);
-
-  const fetch = async (values: FormValues) => {
+  const onSubmit = (values: FormValuesType) => {
     const params = {
-      form_text_3: values.name,
-      form_text_5: values.contact,
-      form_textarea_6: values.answer,
+      name: values.name,
+      phone: contactType === "phone" ? values.contact : "",
+      email: contactType === "email" ? values.contact : "",
+      answer: values.answer,
     };
-    console.log(params);
-    const result = await server.post("/sw/v1//webform/?id=2", params);
-    console.log(result);
-  };
 
-  const onSubmit = (values: FormValues) => {
-    console.log(values);
-    fetch(values);
-    // setThanksModalActive(true);
-    // setActive(false);
+    legalAdviceFetch(params).then(() => {
+      setThanksModalActive(true);
+      setActive(false);
+      reset();
+    });
   };
 
   return (
@@ -92,63 +89,47 @@ const LegalAdvice: FC<LegalAdviceProps> = ({ active, setActive }) => {
                 </p>
                 <form
                   onSubmit={handleSubmit(onSubmit)}
-                  action="#"
                   className="modal-form modal__form"
                 >
-                  <div className="input-field input-field--border modal-form__input">
-                    <div className="input-field__top">
-                      <label
-                        htmlFor="modal-legal-advice-name"
-                        className="input-field__label"
-                      >
-                        Имя
-                      </label>
-                    </div>
-                    <div className="input-field__inner">
-                      <input
-                        type="text"
-                        id="modal-legal-advice-name"
-                        className="input-field__input"
-                        placeholder="Имя"
-                        {...register("name")}
-                      />
-                    </div>
-                    <span className="input-field__error">
-                      Это обязательное поле
-                    </span>
-                  </div>
+                  <InputWrapper
+                    labelValue="Имя"
+                    error={errors.name}
+                    errorMessage={errors.name?.message}
+                    htmlForValue="modal-legal-advice-name"
+                  >
+                    <input
+                      type="text"
+                      id="modal-legal-advice-name"
+                      className="input-field__input"
+                      placeholder="Имя"
+                      {...register("name", legalAdviceSchemes.name)}
+                    />
+                  </InputWrapper>
                   <ContactInput
                     contactType={contactType}
                     setContactType={setContactType}
                     control={control}
                     register={register}
+                    errors={errors}
                   />
-                  <div className="input-field input-field--border modal-form__input">
-                    <div className="input-field__top">
-                      <label
-                        htmlFor="modal-legal-advice-text"
-                        className="input-field__label"
-                      >
-                        Задайте вопрос
-                      </label>
+                  <InputWrapper
+                    labelValue="Задайте вопрос"
+                    error={errors.answer}
+                    errorMessage={errors.answer?.message}
+                    htmlForValue="modal-legal-advice-text"
+                  >
+                    <div className="input-field__textarea-wrap">
+                      <textarea
+                        id="modal-legal-advice-text"
+                        className="input-field__textarea"
+                        placeholder="Ваш вопрос..."
+                        {...register("answer", legalAdviceSchemes.answer)}
+                      ></textarea>
+                      <button className="input-field__textarea-btn btn btn--sm btn--blue">
+                        <ReactSVG src="/img/sprite/icon-arrow-next.svg" />
+                      </button>
                     </div>
-                    <div className="input-field__inner">
-                      <div className="input-field__textarea-wrap">
-                        <textarea
-                          id="modal-legal-advice-text"
-                          className="input-field__textarea"
-                          placeholder="Ваш вопрос..."
-                          {...register("answer", legalAdviceScheme.answer)}
-                        ></textarea>
-                        <button className="input-field__textarea-btn btn btn--sm btn--blue">
-                          <ReactSVG src="/img/sprite/icon-arrow-next.svg" />
-                        </button>
-                      </div>
-                    </div>
-                    <span className="input-field__error">
-                      Это обязательное поле
-                    </span>
-                  </div>
+                  </InputWrapper>
                 </form>
               </div>
             </div>

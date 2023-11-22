@@ -1,9 +1,15 @@
 import { FavoriteSections } from "../redux/favorites/types";
 import { server } from "./server";
 
+export type FavoriteFetcthType =
+  | "delete"
+  | "add"
+  | "addEditionsPodcast"
+  | "deleteEditionsPodcast";
+
 type favoritesParamsType = {
   id: string;
-  type: "delete" | "add";
+  type: FavoriteFetcthType;
   userId: string;
 };
 

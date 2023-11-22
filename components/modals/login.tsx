@@ -4,14 +4,15 @@ import { useModalsContext } from "../../context/ModalsContext";
 import { useAppDispatch } from "../../redux/store";
 import { fetchAuth, fetchAuthMe } from "../../redux/auth/asyncAction";
 import { useForm } from "react-hook-form";
-import ContactInput from "../ContactInput";
+import ContactInput, { ContactInputType } from "../ContactInput";
+import { loginSchemes } from "./validationSchemes";
+import LoginWidthGoogle from "../loginWidthGoogle";
+import InputWrapper from "../InputWrapper";
 
-interface FormType {
+type FormValuesType = {
   contact: string;
   password: string;
-}
-
-export type ContactInputType = "email" | "phone";
+};
 
 const Login = () => {
   const { loginActive, setLoginActive, setRegisterActive } = useModalsContext();
@@ -25,7 +26,7 @@ const Login = () => {
     control,
     setValue,
     formState: { errors },
-  } = useForm<FormType>({
+  } = useForm<FormValuesType>({
     defaultValues: {
       contact: "ui@ui.ru",
       password: "Hbm1ep72SEOSegF",
@@ -37,8 +38,7 @@ const Login = () => {
     setValue("contact", "ui@ui.ru");
   }, [contactType]);
 
-  const onSubmit = async (values: FormType) => {
-    console.log(values);
+  const onSubmit = async (values: FormValuesType) => {
     try {
       const resultAction = await dispatch(
         fetchAuth({ login: values.contact, password: values.password })
@@ -100,34 +100,23 @@ const Login = () => {
                   setContactType={setContactType}
                   control={control}
                   register={register}
+                  errors={errors}
                 />
-                <div
-                  className={`input-field input-field--border modal-form__input ${
-                    errors.password && "is--error"
-                  }`}
+                <InputWrapper
+                  labelValue="Пароль"
+                  error={errors.password}
+                  errorMessage={errors.password?.message}
+                  htmlForValue="modal-login-password"
                 >
-                  <div className="input-field__top">
-                    <label
-                      htmlFor="modal-login-password"
-                      className="input-field__label"
-                    >
-                      Пароль
-                    </label>
-                  </div>
-                  <div className="input-field__inner">
-                    <input
-                      type="password"
-                      id="modal-login-password"
-                      className="input-field__input"
-                      placeholder="Пароль"
-                      autoComplete="current-password"
-                      {...register("password", { required: "", minLength: 2 })}
-                    />
-                  </div>
-                  <span className="input-field__error">
-                    Это обязательное поле
-                  </span>
-                </div>
+                  <input
+                    type="password"
+                    id="modal-login-password"
+                    className="input-field__input"
+                    placeholder="Пароль"
+                    autoComplete="current-password"
+                    {...register("password", loginSchemes.password)}
+                  />
+                </InputWrapper>
                 <button type="submit" className="modal-form__btn btn btn--blue">
                   Войти
                 </button>
@@ -145,19 +134,7 @@ const Login = () => {
                     Регистрация
                   </div>
                 </div>
-                <div className="resource-auth modal-form__resource">
-                  <div className="resource-auth__or">
-                    <span className="resource-auth__delimiter"></span>
-                    <span className="resource-auth__help">или</span>
-                    <span className="resource-auth__delimiter"></span>
-                  </div>
-                  <div className="resource-auth__buttons">
-                    <button className="resource-auth__btn">
-                      <ReactSVG src="/img/sprite/icon-google-color.svg" />
-                      <span>Войти через Google account</span>
-                    </button>
-                  </div>
-                </div>
+                <LoginWidthGoogle />
               </form>
             </div>
           </div>

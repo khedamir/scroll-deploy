@@ -10,7 +10,6 @@ export const fetchFavorites = createAsyncThunk<FavoritesType, FetchParams>(
         "Content-Type": "application/x-www-form-urlencoded",
       },
     });
-    console.log(params, data);
     return data.datas;
   }
 );

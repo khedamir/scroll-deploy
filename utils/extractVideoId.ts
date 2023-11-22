@@ -6,6 +6,6 @@ export function extractVideoId(url: string) {
   if (match && match[1]) {
     return match[1];
   } else {
-    return null; // Идентификатор видео не найден
+    return undefined; // Идентификатор видео не найден
   }
 }

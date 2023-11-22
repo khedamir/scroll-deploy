@@ -9,17 +9,18 @@ import { selectUser } from "../../redux/auth/slice";
 import { isElementInFavorites } from "../../redux/favorites/slice";
 import { FavoritePodcast } from "../../redux/favorites/types";
 import { AppState } from "../../redux/store";
+import { useAudioContext } from "../../context/audioContext";
 
 interface PodcastItemProps {
   podcast: EditionType;
-  podcastId: string;
+  podcastID: string;
   podcastAuthor: string;
   podcastPhoto: string;
 }
 
 const PodcastItem: FC<PodcastItemProps> = ({
   podcast,
-  podcastId,
+  podcastID,
   podcastAuthor,
   podcastPhoto,
 }) => {
@@ -29,6 +30,15 @@ const PodcastItem: FC<PodcastItemProps> = ({
     isElementInFavorites(state, "34", podcast.id)
   );
   const { addFavorite, deleteFavorite } = useFavoriteContext();
+  const {
+    setPlayerActive,
+    setAudioLink,
+    setIsPlaying,
+    setPodcastId,
+    setPodcastName,
+    isPlaying,
+    podcastId,
+  } = useAudioContext();
 
   const changeFavorite = () => {
     if (!user) {
@@ -60,6 +70,24 @@ const PodcastItem: FC<PodcastItemProps> = ({
       });
     }
   };
+
+  const PlayClick = () => {
+    if (isPlaying) {
+      setIsPlaying(false);
+      setPlayerActive(false);
+    } else {
+      setPlayerActive(true);
+      if (podcast.props.LINK_AUDIO.VALUE[0]) {
+        setAudioLink(podcast.props.LINK_AUDIO.VALUE[0]);
+      } else {
+        setAudioLink(podcast.props.AUDIO_FILE.VALUE[0]);
+      }
+      setIsPlaying(true);
+      setPodcastId(podcast.id);
+      setPodcastName(podcast.name);
+    }
+  };
+
   return (
     <div className="podcasts__item">
       <div className="podcasts__main">
@@ -73,8 +101,12 @@ const PodcastItem: FC<PodcastItemProps> = ({
           </span>
         </div>
         <div className="podcasts__additional">
-          <span className="podcasts__play c-play">
-            <ReactSVG src="/img/sprite/icon-play.svg" />
+          <span className="podcasts__play c-play" onClick={PlayClick}>
+            {isPlaying && podcastId === podcast.id ? (
+              <ReactSVG src="/img/sprite/icon-pause.svg" />
+            ) : (
+              <ReactSVG src="/img/sprite/icon-play.svg" />
+            )}
             <span>{podcast.props.DURATION.VALUE}</span>
           </span>
           <button
