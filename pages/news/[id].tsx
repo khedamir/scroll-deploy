@@ -26,6 +26,7 @@ import { useModalsContext } from "../../context/ModalsContext";
 import { useFavoriteContext } from "../../context/FavoritesContext";
 import { isElementInFavorites } from "../../redux/favorites/slice";
 import { AppState } from "../../redux/store";
+import MoreNews from "../../components/pageNew/moreNews";
 
 interface NewProps {
   publication: FullNewType;
@@ -33,7 +34,7 @@ interface NewProps {
 }
 
 const New: FC<NewProps> = ({ publication, recommendationNews }) => {
-  console.log(publication)
+  console.log(publication);
   const [modalActive, setModalActive] = useState(false);
   const anchorRegex = /<a name="\d+"><\/a>/;
   const articleParts = publication.content.split(anchorRegex);
@@ -92,76 +93,81 @@ const New: FC<NewProps> = ({ publication, recommendationNews }) => {
   };
 
   return (
-    <div className="layout layout--sticky-bottom">
-      <LegalAdvice active={modalActive} setActive={setModalActive} />
-      <div className="container">
-        <div className="layout__wrap layout__wrap--padding">
-          <div className="layout__left">
-            <Sidebar />
-            <Footer />
-          </div>
-          <div className="layout__main">
-            <div className="layout__main-wrapper">
-              <div className="layout__center">
-                <div className="big-news mobile-wide">
-                  <div className="big-news__wrap">
-                    <div className="big-news__content content">
-                      <h1>{publication.name}</h1>
-                      <div className="description-block">
-                        <div className="description-block__inner">
-                          <span>{publication.props.PUB_RUBRIC.VALUE[0]}</span>
-                          <span>{formatDateDifference(publication.date)}</span>
+    <>
+      <div className="layout layout--sticky-bottom">
+        <LegalAdvice active={modalActive} setActive={setModalActive} />
+        <div className="container">
+          <div className="layout__wrap layout__wrap--padding">
+            <div className="layout__left">
+              <Sidebar />
+              <Footer />
+            </div>
+            <div className="layout__main">
+              <div className="layout__main-wrapper">
+                <div className="layout__center">
+                  <div className="big-news mobile-wide">
+                    <div className="big-news__wrap">
+                      <div className="big-news__content content">
+                        <h1>{publication.name}</h1>
+                        <div className="description-block">
+                          <div className="description-block__inner">
+                            <span>{publication.props.PUB_RUBRIC.VALUE[0]}</span>
+                            <span>
+                              {formatDateDifference(publication.date)}
+                            </span>
+                          </div>
                         </div>
+                        <div className="media-block">
+                          <picture className="media-block__photo">
+                            <img src={`${publication.images[1]}`} alt="" />
+                            <Link href="#" className="media-block__comments">
+                              <ReactSVG src="/img/sprite/icon-comment.svg" />
+                              <span>5 комментариев</span>
+                            </Link>
+                          </picture>
+                          <MediaControls
+                            likes={publication.likes}
+                            liked={publication.liked}
+                            views={publication.views}
+                            publication_id={publication.id}
+                            favorited={isFavorite}
+                            changeFavorite={changeFavorite}
+                            otherClassName="media-block__controls"
+                          />
+                        </div>
+                        {articleParts.map((part, index) => (
+                          <React.Fragment key={index}>
+                            {index > 0 && (
+                              <RecomendationNew
+                                newItem={recommendationNews[index - 1]}
+                              />
+                            )}
+                            <NewFragment fragment={part} />
+                          </React.Fragment>
+                        ))}
+                        <p className="small-description">
+                          <span>Краткое резюме статьи: </span>
+                          <RenderHTML content={publication.anons} />
+                        </p>
+                        <Tags tags={publication.props.PUB_TAG} />
                       </div>
-                      <div className="media-block">
-                        <picture className="media-block__photo">
-                          <img src={`${publication.images[1]}`} alt="" />
-                          <Link href="#" className="media-block__comments">
-                            <ReactSVG src="/img/sprite/icon-comment.svg" />
-                            <span>5 комментариев</span>
-                          </Link>
-                        </picture>
-                        <MediaControls
-                          likes={publication.likes}
-                          liked={publication.liked}
-                          views={publication.views}
-                          publication_id={publication.id}
-                          favorited={isFavorite}
-                          changeFavorite={changeFavorite}
-                          otherClassName="media-block__controls"
-                        />
-                      </div>
-                      {articleParts.map((part, index) => (
-                        <React.Fragment key={index}>
-                          {index > 0 && (
-                            <RecomendationNew
-                              newItem={recommendationNews[index - 1]}
-                            />
-                          )}
-                          <NewFragment fragment={part} />
-                        </React.Fragment>
-                      ))}
-                      <p className="small-description">
-                        <span>Краткое резюме статьи: </span>
-                        <RenderHTML content={publication.anons} />
-                      </p>
-                      <Tags tags={publication.props.PUB_TAG} />
+                      <Comments />
                     </div>
-                    <Comments />
                   </div>
                 </div>
-              </div>
-              <div className="layout__right">
-                <div className="layout__sticky-block">
-                  <NewAuthor newItem={publication} />
+                <div className="layout__right">
+                  <div className="layout__sticky-block">
+                    <NewAuthor newItem={publication} />
+                  </div>
+                  <LegalAdviceWidget setModalActive={setModalActive} />
                 </div>
-                <LegalAdviceWidget setModalActive={setModalActive} />
               </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
+      <MoreNews />
+    </>
   );
 };
 

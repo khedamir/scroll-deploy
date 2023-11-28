@@ -52,7 +52,7 @@ const ChangePassword = () => {
                 <ReactSVG src="/img/sprite/icon-close-thin.svg" />
               </button>
               <div className="modal__content">
-                <h3 className="modal__heading">Изменение пароля</h3>
+                <h3 className="modal__heading">Смена пароля</h3>
                 <form
                   onSubmit={handleSubmit(onSubmit)}
                   className="modal-form modal__form"
@@ -91,7 +91,7 @@ const ChangePassword = () => {
                     />
                   </InputWrapper>
                   <button className="modal-form__btn btn btn--blue">
-                    Сохранить
+                    Сменить пароль
                   </button>
                 </form>
               </div>

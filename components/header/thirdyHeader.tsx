@@ -23,7 +23,10 @@ const ThirdyHeader: FC<HeaderProps> = ({ title }) => {
   };
 
   return (
-    <header className={`header ${menuActive && "is--active"}`} id="header">
+    <header
+      className={`header header--center ${menuActive && "is--active"}`}
+      id="header"
+    >
       <div className="container">
         <div className="header__wrapper header__wrapper--inner">
           <div className="header__left">
@@ -45,7 +48,10 @@ const ThirdyHeader: FC<HeaderProps> = ({ title }) => {
               >
                 <SearchIcon />
               </span>
-              <Link href="/lk?block=bookmarks" className="header__btn header__btn--tablet-hidden">
+              <Link
+                href="/lk?block=bookmarks"
+                className="header__btn header__btn--tablet-hidden"
+              >
                 <BookmarksIcon />
               </Link>
               <Link href="#" className="header__btn notifications-btn">

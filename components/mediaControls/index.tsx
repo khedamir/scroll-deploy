@@ -80,13 +80,13 @@ const MediaControls: FC<MediaControlsProps> = ({
               <ReactSVG src="/img/sprite/icon-like-thumb-up.svg" />
               <span>{likesCount}</span>
             </button>
-            <button className="btn-control btn-control--blue media-controls__btn">
+            <button className="btn-control media-controls__btn">
               <ReactSVG src="/img/sprite/icon-reply.svg" />
               <span>Поделиться</span>
             </button>
             <button
               onClick={changeFavorite}
-              className={`btn-control btn-control--blue media-controls__btn ${
+              className={`btn-control media-controls__btn ${
                 favorited && "is--active"
               }`}
             >

@@ -1,4 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, {
+  LegacyRef,
+  MutableRefObject,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import { NextPage } from "next";
 import Footer from "../components/footer";
 import VideoWidget from "../components/widgets/videoWidget";

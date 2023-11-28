@@ -28,15 +28,24 @@ const NewsList: FC<NewsListProps> = ({ news, largeNewIndex }) => {
                 >
                   {item.name}
                 </span>
-                <div className="news-card__inner">
-                  <span className="news-card__help">{item.rubric}</span>
-                  <span className="news-card__help">
-                    {formatDateDifference(item.date)}
-                  </span>
+                <div className="news-card__inner-wrap">
+                  <div className="news-card__inner">
+                    <span className="news-card__help">{item.rubric}</span>
+                    <span className="news-card__help">
+                      {formatDateDifference(item.date)}
+                    </span>
+                  </div>
+                  <button className="c-bookmark news-card__bookmark">
+                    <ReactSVG
+                      className="c-bookmark__icon c-bookmark__icon--default"
+                      src="/img/sprite/icon-bookmarks.svg"
+                    />
+                    <ReactSVG
+                      className="c-bookmark__icon c-bookmark__icon--filled"
+                      src="/img/sprite/icon-bookmarks-filled.svg"
+                    />
+                  </button>
                 </div>
-                <button className="c-icon-btn news-card__favorite">
-                  <ReactSVG src="/img/sprite/icon-bookmarks.svg" />
-                </button>
               </div>
               {item.images.detail && largeNewIndex !== id && (
                 <picture className="news-card__img news-card__img--sm">

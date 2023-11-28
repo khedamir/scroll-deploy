@@ -60,6 +60,11 @@
 }
 
 .content-widget {
+  @media screen and (min-width: 1200px) {
+    &--mobile {
+      display: none;
+    }
+  }
   &__body {
     position: relative;
     z-index: 1;

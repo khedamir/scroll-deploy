@@ -28,7 +28,7 @@ const ThanksModal: FC<ThanksModalProps> = ({
             <ReactSVG src="/img/sprite/icon-close-thin.svg" />
           </button>
           <div className="modal__left modal__left--bg"></div>
-          <div className="modal__right">
+          <div className="modal__right modal__right--center">
             <button
               onClick={() => setActive(false)}
               className="modal__close-btn modal__close-btn--desktop"

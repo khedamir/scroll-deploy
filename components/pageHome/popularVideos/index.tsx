@@ -28,9 +28,7 @@ const PopularVideos = () => {
                   </span>
                 </div>
                 <div className="video-card__bottom">
-                  <span className="video-card__description">
-                    Как работает новая вакцина от&nbsp;рака
-                  </span>
+                  <span className="video-card__description">{item.name}</span>
                   <div className="video-card__author">
                     <img src={item.poperties.AUTHOR_LOGO} alt="Image" />
                     <span>{item.poperties.PUB_AUTOR}</span>
@@ -49,13 +47,6 @@ const PopularVideos = () => {
             >
               <picture className="stories-card__img">
                 <img src={item.images.preview} alt="Image" />
-                {/* <iframe
-                  width="560"
-                  height="315"
-                  src={`https://www.youtube.com/embed/${extractVideoId(
-                    item.poperties.LINK_VIDEO
-                  )}?autoplay=1`}
-                /> */}
               </picture>
               <span className="stories-card__name">
                 {item.poperties.PUB_AUTOR}

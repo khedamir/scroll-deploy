@@ -2,6 +2,7 @@ import Link from "next/link";
 import React, { FC } from "react";
 import { NewType } from "../../../redux/news/types";
 import { formatDateDifference } from "../../../utils/formatDate";
+import { ReactSVG } from "react-svg";
 
 interface NewsCardProps {
   news: NewType[];
@@ -25,13 +26,25 @@ const NewsCard: FC<NewsCardProps> = ({ news }) => {
                   </picture>
                   <div className="tidings-card__body">
                     <span className="tidings-card__name">{news[0].name}</span>
-                    <div className="tidings-card__inner">
-                      <span className="tidings-card__help">
-                        {news[0].rubric}
-                      </span>
-                      <span className="tidings-card__help">
-                        {formatDateDifference(news[0].date)}
-                      </span>
+                    <div className="tidings-card__inner-wrap">
+                      <div className="tidings-card__inner">
+                        <span className="tidings-card__help">
+                          {news[0].rubric}
+                        </span>
+                        <span className="tidings-card__help">
+                          {formatDateDifference(news[0].date)}
+                        </span>
+                      </div>
+                      <button className="c-bookmark tidings-card__bookmark">
+                        <ReactSVG
+                          className="c-bookmark__icon c-bookmark__icon--default"
+                          src="/img/sprite/icon-bookmarks.svg"
+                        />
+                        <ReactSVG
+                          className="c-bookmark__icon c-bookmark__icon--filled"
+                          src="/img/sprite/icon-bookmarks-filled.svg"
+                        />
+                      </button>
                     </div>
                   </div>
                 </div>
@@ -43,13 +56,25 @@ const NewsCard: FC<NewsCardProps> = ({ news }) => {
                 <div className="tidings-card__wrapper">
                   <div className="tidings-card__body">
                     <span className="tidings-card__name">{news[1].name}</span>
-                    <div className="tidings-card__inner">
-                      <span className="tidings-card__help">
-                        {news[1].rubric}
-                      </span>
-                      <span className="tidings-card__help">
-                        {formatDateDifference(news[1].date)}
-                      </span>
+                    <div className="tidings-card__inner-wrap">
+                      <div className="tidings-card__inner">
+                        <span className="tidings-card__help">
+                          {news[1].rubric}
+                        </span>
+                        <span className="tidings-card__help">
+                          {formatDateDifference(news[1].date)}
+                        </span>
+                      </div>
+                      <button className="c-bookmark tidings-card__bookmark">
+                        <ReactSVG
+                          className="c-bookmark__icon c-bookmark__icon--default"
+                          src="/img/sprite/icon-bookmarks.svg"
+                        />
+                        <ReactSVG
+                          className="c-bookmark__icon c-bookmark__icon--filled"
+                          src="/img/sprite/icon-bookmarks-filled.svg"
+                        />
+                      </button>
                     </div>
                   </div>
                 </div>
@@ -63,12 +88,28 @@ const NewsCard: FC<NewsCardProps> = ({ news }) => {
             >
               <div className="tidings-card__wrapper">
                 <div className="tidings-card__body">
-                  <span className="tidings-card__name">{news[2].name}</span>
-                  <div className="tidings-card__inner">
-                    <span className="tidings-card__help">{news[2].rubric}</span>
-                    <span className="tidings-card__help">
-                      {formatDateDifference(news[2].date)}
-                    </span>
+                  <span className="tidings-card__name text__wrapping">
+                    {news[2].name}
+                  </span>
+                  <div className="tidings-card__inner-wrap">
+                    <div className="tidings-card__inner">
+                      <span className="tidings-card__help">
+                        {news[2].rubric}
+                      </span>
+                      <span className="tidings-card__help">
+                        {formatDateDifference(news[2].date)}
+                      </span>
+                    </div>
+                    <button className="c-bookmark tidings-card__bookmark">
+                      <ReactSVG
+                        className="c-bookmark__icon c-bookmark__icon--default"
+                        src="/img/sprite/icon-bookmarks.svg"
+                      />
+                      <ReactSVG
+                        className="c-bookmark__icon c-bookmark__icon--filled"
+                        src="/img/sprite/icon-bookmarks-filled.svg"
+                      />
+                    </button>
                   </div>
                 </div>
               </div>
@@ -79,12 +120,28 @@ const NewsCard: FC<NewsCardProps> = ({ news }) => {
             >
               <div className="tidings-card__wrapper">
                 <div className="tidings-card__body">
-                  <span className="tidings-card__name">{news[3].name}</span>
-                  <div className="tidings-card__inner">
-                    <span className="tidings-card__help">{news[3].rubric}</span>
-                    <span className="tidings-card__help">
-                      {formatDateDifference(news[3].date)}
-                    </span>
+                  <span className="tidings-card__name text__wrapping">
+                    {news[3].name}
+                  </span>
+                  <div className="tidings-card__inner-wrap">
+                    <div className="tidings-card__inner">
+                      <span className="tidings-card__help">
+                        {news[3].rubric}
+                      </span>
+                      <span className="tidings-card__help">
+                        {formatDateDifference(news[3].date)}
+                      </span>
+                    </div>
+                    <button className="c-bookmark tidings-card__bookmark">
+                      <ReactSVG
+                        className="c-bookmark__icon c-bookmark__icon--default"
+                        src="/img/sprite/icon-bookmarks.svg"
+                      />
+                      <ReactSVG
+                        className="c-bookmark__icon c-bookmark__icon--filled"
+                        src="/img/sprite/icon-bookmarks-filled.svg"
+                      />
+                    </button>
                   </div>
                 </div>
               </div>
@@ -95,12 +152,28 @@ const NewsCard: FC<NewsCardProps> = ({ news }) => {
             >
               <div className="tidings-card__wrapper">
                 <div className="tidings-card__body">
-                  <span className="tidings-card__name">{news[4].name}</span>
-                  <div className="tidings-card__inner">
-                    <span className="tidings-card__help">Спорт</span>
-                    <span className="tidings-card__help">
-                      {formatDateDifference(news[4].date)}
-                    </span>
+                  <span className="tidings-card__name text__wrapping">
+                    {news[4].name}
+                  </span>
+                  <div className="tidings-card__inner-wrap">
+                    <div className="tidings-card__inner">
+                      <span className="tidings-card__help">
+                        {news[4].rubric}
+                      </span>
+                      <span className="tidings-card__help">
+                        {formatDateDifference(news[4].date)}
+                      </span>
+                    </div>
+                    <button className="c-bookmark tidings-card__bookmark">
+                      <ReactSVG
+                        className="c-bookmark__icon c-bookmark__icon--default"
+                        src="/img/sprite/icon-bookmarks.svg"
+                      />
+                      <ReactSVG
+                        className="c-bookmark__icon c-bookmark__icon--filled"
+                        src="/img/sprite/icon-bookmarks-filled.svg"
+                      />
+                    </button>
                   </div>
                 </div>
               </div>

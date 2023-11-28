@@ -4,6 +4,7 @@ import { useSelector } from "react-redux";
 import { selectNews } from "../../../redux/news/slice";
 import { baseURL } from "../../../utils/server";
 import { formatDateDifference } from "../../../utils/formatDate";
+import { ReactSVG } from "react-svg";
 
 const LastNews = () => {
   const { data } = useSelector(selectNews);
@@ -26,10 +27,22 @@ const LastNews = () => {
                     <span className="tidings-card__name">
                       {data.datas[0].name}
                     </span>
-                    <div className="tidings-card__inner">
-                      <span className="tidings-card__help">
-                        {formatDateDifference(data.datas[0].date)}
-                      </span>
+                    <div className="tidings-card__inner-wrap">
+                      <div className="tidings-card__inner">
+                        <span className="tidings-card__help">
+                          {formatDateDifference(data.datas[0].date)}
+                        </span>
+                      </div>
+                      <button className="c-bookmark tidings-card__bookmark">
+                        <ReactSVG
+                          className="c-bookmark__icon c-bookmark__icon--default"
+                          src="/img/sprite/icon-bookmarks.svg"
+                        />
+                        <ReactSVG
+                          className="c-bookmark__icon c-bookmark__icon--filled"
+                          src="/img/sprite/icon-bookmarks-filled.svg"
+                        />
+                      </button>
                     </div>
                   </div>
                 </div>
@@ -48,10 +61,22 @@ const LastNews = () => {
                     <span className="tidings-card__name">
                       {data.datas[1].name}
                     </span>
-                    <div className="tidings-card__inner">
-                      <span className="tidings-card__help">
-                        {formatDateDifference(data.datas[1].date)}
-                      </span>
+                    <div className="tidings-card__inner-wrap">
+                      <div className="tidings-card__inner">
+                        <span className="tidings-card__help">
+                          {formatDateDifference(data.datas[1].date)}
+                        </span>
+                      </div>
+                      <button className="c-bookmark tidings-card__bookmark">
+                        <ReactSVG
+                          className="c-bookmark__icon c-bookmark__icon--default"
+                          src="/img/sprite/icon-bookmarks.svg"
+                        />
+                        <ReactSVG
+                          className="c-bookmark__icon c-bookmark__icon--filled"
+                          src="/img/sprite/icon-bookmarks-filled.svg"
+                        />
+                      </button>
                     </div>
                   </div>
                 </div>
@@ -65,10 +90,22 @@ const LastNews = () => {
                     <span className="tidings-card__name">
                       {data.datas[2].name}
                     </span>
-                    <div className="tidings-card__inner">
-                      <span className="tidings-card__help">
-                        {formatDateDifference(data.datas[2].date)}
-                      </span>
+                    <div className="tidings-card__inner-wrap">
+                      <div className="tidings-card__inner">
+                        <span className="tidings-card__help">
+                          {formatDateDifference(data.datas[2].date)}
+                        </span>
+                      </div>
+                      <button className="c-bookmark tidings-card__bookmark">
+                        <ReactSVG
+                          className="c-bookmark__icon c-bookmark__icon--default"
+                          src="/img/sprite/icon-bookmarks.svg"
+                        />
+                        <ReactSVG
+                          className="c-bookmark__icon c-bookmark__icon--filled"
+                          src="/img/sprite/icon-bookmarks-filled.svg"
+                        />
+                      </button>
                     </div>
                   </div>
                 </div>

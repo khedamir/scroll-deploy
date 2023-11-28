@@ -65,14 +65,3 @@ export const getServerSideProps = wrapper.getServerSideProps(
 );
 
 export default Trends;
-function setLoginActive(arg0: boolean) {
-  throw new Error("Function not implemented.");
-}
-
-function changeFavoriteItem(arg0: { id: any; type: string; userId: any }) {
-  throw new Error("Function not implemented.");
-}
-
-function setIsFavorited(arg0: boolean) {
-  throw new Error("Function not implemented.");
-}

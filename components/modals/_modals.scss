@@ -127,7 +127,7 @@
   &__wrapper {
     display: flex;
     justify-content: space-between;
-    // height: 600px;
+    min-height: 600px;
     // min-height: 75dvh;
     width: 100%;
 
@@ -219,6 +219,9 @@
     width: 100%;
     background: $white-color;
     border-radius: 32px;
+    &--center {
+      justify-content: center;
+    }
 
     @media screen and (max-width: 767px) {
       max-width: none;
@@ -363,6 +366,7 @@
   }
   &__body {
     margin: 0 auto;
+    padding: 0 20px;
     text-align: center;
     .modal {
       &__description {
@@ -375,6 +379,42 @@
 
     @media screen and (max-width: 767px) {
       padding: 57px 0;
+    }
+  }
+  &__back {
+    display: flex;
+    align-items: center;
+    margin-bottom: 24px;
+    padding: 0;
+    width: fit-content;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 1.28571;
+    color: $text-faint-on-light;
+    background: transparent;
+    border: none;
+    border-radius: 0;
+    transition: all $transition-default;
+    & > svg {
+      min-width: 16px;
+      width: 16px;
+      height: 16px;
+      color: $icon-base-on-light-shift-up;
+    }
+    & > * + * {
+      margin-left: 8px;
+    }
+    &:hover {
+      color: $text-faint-on-light;
+    }
+
+    @media screen and (hover: hover) {
+      &:hover {
+        color: $text-accent-on-light-shift-up;
+        & > svg {
+          color: $icon-accent-on-light-shift-up;
+        }
+      }
     }
   }
   &__heading {
@@ -393,6 +433,27 @@
     line-height: 1.28;
     color: $text-faint-on-light;
   }
+  &__icon-status {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 40px auto 0;
+    min-width: 120px;
+    width: 120px;
+    height: 120px;
+    background: rgba(#34a853, 0.05);
+    border-radius: 50%;
+    & > svg {
+      min-width: 100px;
+      width: 100px;
+      height: 100px;
+      color: $icon-success-on-light-shift-down;
+    }
+
+    @media screen and (max-width: 767px) {
+      margin: 32px auto 0;
+    }
+  }
   &__form {
     margin-top: 32px;
   }
@@ -408,6 +469,9 @@
   &__btn {
     margin-top: 24px;
     width: 100%;
+    &--indent-lg {
+      margin-top: 56px;
+    }
   }
   &__links {
     margin-top: 16px;

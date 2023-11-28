@@ -11,7 +11,11 @@ import { useSelector } from "react-redux";
 import { selectUser } from "../../redux/auth/slice";
 import { useRouter } from "next/router";
 
-const Header = () => {
+interface HeaderProps {
+  isScrolling: boolean;
+}
+
+const Header: FC<HeaderProps> = ({ isScrolling }) => {
   const {
     setAiChatActive,
     menuActive,
@@ -37,7 +41,12 @@ const Header = () => {
   };
 
   return (
-    <header className={`header ${menuActive && "is--active"}`} id="header">
+    <header
+      className={`header header--center ${menuActive && "is--active"} ${
+        isScrolling && "is--scrolling"
+      }`}
+      id="header"
+    >
       <div className="container">
         <div className="header__wrapper">
           <div className="header__left">

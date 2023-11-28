@@ -26,6 +26,14 @@
 .layout {
   padding: 80px 0 40px;
 
+  .text__wrapping {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    -webkit-line-clamp: 2;
+  }
+
   @media screen and (max-width: 767px) {
     padding: 64px 0 40px;
     &--sticky-bottom {
@@ -2184,6 +2192,227 @@
   h1 {
     text-align: center;
     width: 100%;
+  }
+}
+
+.more-topic {
+  background: $root-base-on-dark-shift-down;
+
+  @media screen and (min-width: 768px) {
+    padding-bottom: 32px;
+  }
+
+  &__top {
+    padding: 30px 0;
+  }
+  &__heading {
+    display: block;
+    width: fit-content;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 1.25;
+    text-transform: uppercase;
+    color: $text-base-on-light-shift-up;
+  }
+  &__slider {
+    position: relative;
+    z-index: 1;
+  }
+  &__slider-wrapper {
+    overflow-x: clip;
+
+    .swiper {
+      overflow: visible;
+      max-width: 1344px;
+    }
+    .swiper-wrapper {
+      align-items: stretch;
+    }
+    .swiper-slide {
+      height: auto !important;
+    }
+
+    @media screen and (min-width: 1385px) {
+      margin: 0 calc(50% - 50vw);
+    }
+    @media screen and (min-width: 768px) and (max-width: 1384px) {
+      margin: 0 -20px;
+      padding: 0 20px;
+    }
+    @media screen and (min-width: 768px) {
+      .swiper-slide {
+        width: fit-content;
+      }
+      .more-topic {
+        &__item {
+          max-width: 253px;
+          min-width: 253px;
+          height: 100%;
+        }
+      }
+    }
+    @media screen and (max-width: 767px) {
+      margin: 0 -16px;
+      padding-bottom: 38px;
+      background: $white-color;
+      .swiper-wrapper {
+        flex-direction: column;
+      }
+      .swiper-slide {
+        width: 100%;
+      }
+    }
+  }
+  &__item {
+    @media screen and (hover: hover) {
+      &:hover {
+        .more-topic {
+          &__title {
+            color: $text-base-on-light-shift-up;
+          }
+          &__elem {
+            color: $root-faint-on-light;
+          }
+          &__bookmark {
+            opacity: 1;
+          }
+        }
+      }
+    }
+  }
+  &__img-wrap {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 300px;
+
+    @media screen and (max-width: 767px) {
+      height: auto;
+    }
+  }
+  &__img {
+    position: relative;
+    z-index: 1;
+    display: block;
+    overflow: hidden;
+    width: 100%;
+    height: 100%;
+    img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    &--circle {
+      height: auto;
+      border-radius: 50%;
+      &::before {
+        content: "";
+        display: block;
+        padding-top: 100%;
+      }
+      img {
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        z-index: 1;
+      }
+    }
+
+    @media screen and (max-width: 767px) {
+      height: auto;
+      &::before {
+        content: "";
+        display: block;
+        padding-top: 45%;
+      }
+      img {
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        z-index: 1;
+      }
+      &--circle {
+        max-width: 275px;
+        min-width: 275px;
+        &::before {
+          padding-top: 100%;
+        }
+      }
+    }
+  }
+  &__img-wrap + &__body {
+    margin-top: 24px;
+
+    @media screen and (max-width: 767px) {
+      margin-top: 0;
+    }
+  }
+  &__body {
+    @media screen and (max-width: 767px) {
+      padding: 12px 16px 24px;
+    }
+  }
+  &__title {
+    display: block;
+    width: fit-content;
+    font-size: 20px;
+    font-weight: 600;
+    line-height: 1.1;
+    color: $root-base-on-light;
+    opacity: 0.8;
+    &:hover {
+      color: $root-base-on-light;
+    }
+  }
+  &__inner {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-top: 8px;
+  }
+  &__elems {
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: 3px;
+    margin-right: -32px;
+    margin-bottom: -16px;
+  }
+  &__elem {
+    display: block;
+    margin-right: 32px;
+    margin-bottom: 16px;
+    width: fit-content;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 1.28571;
+    color: $text-faint-on-light-shift-up;
+    transition: color $transition-default;
+  }
+  &__bookmark {
+    margin-left: 20px;
+
+    @media screen and (hover: hover) {
+      opacity: 0;
+    }
+  }
+  &__tidings {
+    .tidings-card {
+      &:first-child {
+        padding-bottom: 8px;
+      }
+      &:nth-child(n + 2) {
+        padding-top: 8px;
+      }
+      &:nth-child(n + 2):not(:last-child) {
+        padding-bottom: 8px;
+      }
+    }
   }
 }
 
