@@ -105,7 +105,11 @@ const Video: FC<VideoProps> = ({ publication }) => {
                     />
                     <MediaContent content={publication.content} />
                   </div>
-                  <Comments otherClassName="video__comments" />
+                  <Comments
+                    id_publication={publication.id}
+                    iblockId={"15"}
+                    otherClassName="video__comments"
+                  />
                 </div>
               </div>
               <div className="layout__right"></div>

@@ -108,7 +108,11 @@ const Lecture: FC<LectureProps> = ({ publication }) => {
                     />
                     <MediaContent content={publication.content} />
                   </div>
-                  <Comments otherClassName="video__comments" />
+                  <Comments
+                    id_publication={publication.id}
+                    iblockId={"26"}
+                    otherClassName="video__comments"
+                  />
                 </div>
               </div>
               <div className="layout__right">

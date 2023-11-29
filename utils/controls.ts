@@ -1,3 +1,4 @@
+import { CommentsFetchType } from "../redux/comments/types";
 import { FavoriteSections } from "../redux/favorites/types";
 import { server } from "./server";
 
@@ -22,6 +23,12 @@ type likesParamsType = {
   userId: string;
   type: string;
   newsId: string;
+};
+
+type commentLikeParamsType = {
+  id: string;
+  type: CommentsFetchType;
+  userId: string;
 };
 
 export const changeFavoriteItem = async ({
@@ -78,6 +85,23 @@ export const changeItemLike = async ({
         newsId,
         type,
         userId,
+      },
+    });
+  } catch (error) {
+    console.error("Произошла ошибка при обработке лайка:", error);
+  }
+};
+
+export const changeCommentLike = async ({
+  id,
+  type,
+  userId,
+}: commentLikeParamsType) => {
+  const params = { id, type, userId };
+  try {
+    await server.post("/sw/v1/comments.php", params, {
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
       },
     });
   } catch (error) {

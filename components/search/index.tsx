@@ -1,18 +1,12 @@
-import React, { RefObject, useRef, useState } from "react";
+import React, { RefObject, useEffect, useRef, useState } from "react";
 import { ReactSVG } from "react-svg";
 import { useModalsContext } from "../../context/ModalsContext";
 import debounce from "lodash.debounce";
-import { server } from "../../utils/server";
-import RenderHTML from "../renderHTML";
-import Link from "next/link";
-
-type SearchItemType = {
-  title: string;
-};
+import { SearchItem, searchFetch } from "../../utils/search";
 
 const Search = () => {
   const { searchActive, setSearchActive } = useModalsContext();
-  const [result, setResult] = useState<SearchItemType[]>([]);
+  const [result, setResult] = useState<SearchItem[]>([]);
 
   const searchInput: RefObject<HTMLInputElement> = useRef(null);
   const [inputWidth, setInputWidth] = useState("auto");
@@ -25,9 +19,10 @@ const Search = () => {
   }
 
   const search = async (value: string) => {
-    const result = await server.post(`/sw/v1/search/?text=${value}`);
-    setResult(result.data || []);
-    console.log(result.data);
+    searchFetch({ text: value }).then((result) => {
+      setResult(result || []);
+      console.log(result);
+    });
   };
 
   const debouncedSearch = React.useRef(
@@ -41,7 +36,7 @@ const Search = () => {
     debouncedSearch(value);
   };
 
-  React.useEffect(() => {
+  useEffect(() => {
     return () => {
       debouncedSearch.cancel();
     };

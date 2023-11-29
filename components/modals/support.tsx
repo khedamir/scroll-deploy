@@ -5,6 +5,7 @@ import { useForm } from "react-hook-form";
 import { supportScheme } from "./validationSchemes";
 import InputWrapper from "../InputWrapper";
 import ThanksModal from "./thanks";
+import { SupportFetch } from "../../utils/formFetchs";
 
 interface SupportProps {
   active: boolean;
@@ -24,12 +25,18 @@ const Support: FC<SupportProps> = ({ active, setActive }) => {
     register,
     handleSubmit,
     control,
+    reset,
     formState: { errors },
   } = useForm<FormValuesType>({ mode: "onBlur" });
 
   const onSubmit = (values: FormValuesType) => {
-    console.log(values);
+    SupportFetch(values).then(() => {
+      setThanksModalActive(true);
+      setActive(false);
+      reset();
+    });
   };
+  
   return (
     <>
       <div

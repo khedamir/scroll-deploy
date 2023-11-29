@@ -1,3 +1,4 @@
+import { CommentsFetchType } from "../redux/comments/types";
 import { server } from "./server";
 
 type EventsParamsType = {
@@ -20,6 +21,20 @@ type AdvertisingParamsType = {
   name: string;
   phone: string;
   email: string;
+};
+
+type SupprtParamsType = {
+  contact: string;
+  answer: string;
+};
+
+export type AddCommentFetchParams = {
+  iblockId: string;
+  id_publication: string;
+  userId: string;
+  text: string;
+  depth_level: string;
+  parent_comment?: string;
 };
 
 // запись на событие
@@ -100,6 +115,55 @@ export const advertisingFetch = async ({
         "Content-Type": "application/x-www-form-urlencoded",
       },
     });
+  } catch (error) {
+    console.error("Произошла ошибка", error);
+  }
+};
+
+// Вопрос в техподдержку
+export const SupportFetch = async ({ contact, answer }: SupprtParamsType) => {
+  try {
+    const params = {
+      form_text_22: contact,
+      form_textarea_21: answer,
+    };
+
+    await server.post("/sw/v1//webform/?id=6", params, {
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
+    });
+  } catch (error) {
+    console.error("Произошла ошибка", error);
+  }
+};
+
+// Добавить комментарий
+export const AddCommentFetch = async ({
+  iblockId,
+  id_publication,
+  userId,
+  text,
+  depth_level,
+  parent_comment,
+}: AddCommentFetchParams) => {
+  try {
+    const params = {
+      iblockId,
+      id_publication,
+      userId,
+      text,
+      depth_level,
+      parent_comment,
+      type: "add",
+    };
+
+    const result = await server.post("/sw/v1/comments.php", params, {
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
+    });
+    console.log(result);
   } catch (error) {
     console.error("Произошла ошибка", error);
   }

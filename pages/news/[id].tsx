@@ -34,7 +34,7 @@ interface NewProps {
 }
 
 const New: FC<NewProps> = ({ publication, recommendationNews }) => {
-  console.log(publication);
+  // console.log(publication);
   const [modalActive, setModalActive] = useState(false);
   const anchorRegex = /<a name="\d+"><\/a>/;
   const articleParts = publication.content.split(anchorRegex);
@@ -151,7 +151,10 @@ const New: FC<NewProps> = ({ publication, recommendationNews }) => {
                         </p>
                         <Tags tags={publication.props.PUB_TAG} />
                       </div>
-                      <Comments />
+                      <Comments
+                        id_publication={publication.id}
+                        iblockId={"9"}
+                      />
                     </div>
                   </div>
                 </div>

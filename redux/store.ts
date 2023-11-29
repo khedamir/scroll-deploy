@@ -11,6 +11,7 @@ import vacanciesReducer from "./vacancies/slice";
 import webinarsReducer from "./webinars/slice";
 import authReducer from "./auth/slice";
 import favoritesReducer from "./favorites/slice";
+import commentsReducer from "./comments/slice";
 
 const store = () =>
   configureStore({
@@ -25,6 +26,7 @@ const store = () =>
       webinars: webinarsReducer,
       auth: authReducer,
       favorites: favoritesReducer,
+      comments: commentsReducer,
     },
   });
 
