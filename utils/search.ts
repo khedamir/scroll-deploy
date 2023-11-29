@@ -10,7 +10,9 @@ export type SearchItem = {
   iblockId: string;
   iblockName: string;
   rubric: string;
+  podcastAuthor: string;
   title: string;
+  name: string;
   date: string;
 };
 

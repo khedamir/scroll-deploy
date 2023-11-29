@@ -1,46 +1,32 @@
-import React, { RefObject, useEffect, useRef, useState } from "react";
+import React, { useState, useEffect } from "react";
 import { ReactSVG } from "react-svg";
 import { useModalsContext } from "../../context/ModalsContext";
-import debounce from "lodash.debounce";
-import { SearchItem, searchFetch } from "../../utils/search";
+import { SearchItem } from "../../utils/search";
+import NewItem from "./newItem";
+import VideoItem from "./videoItem";
+import PodcastItem from "./podcastItem";
+import { SearchResultSort } from "../../utils/searchResultSort";
+import SearchInput from "./searchInput";
+import { server } from "../../utils/server";
 
 const Search = () => {
   const { searchActive, setSearchActive } = useModalsContext();
   const [result, setResult] = useState<SearchItem[]>([]);
-
-  const searchInput: RefObject<HTMLInputElement> = useRef(null);
-  const [inputWidth, setInputWidth] = useState("auto");
-
-  function autoresize() {
-    if (searchInput.current) {
-      const size = searchInput.current.scrollWidth;
-      setInputWidth(`${size}px`);
-    }
-  }
-
-  const search = async (value: string) => {
-    searchFetch({ text: value }).then((result) => {
-      setResult(result || []);
-      console.log(result);
-    });
-  };
-
-  const debouncedSearch = React.useRef(
-    debounce(async (criteria) => {
-      await search(criteria);
-    }, 500)
-  ).current;
-
-  const inputChange = (value: string) => {
-    autoresize();
-    debouncedSearch(value);
-  };
+  const [news, setNews] = useState<SearchItem[]>([]);
+  const [searched, setSearched] = useState(false);
+  const sortedResult = SearchResultSort(result);
 
   useEffect(() => {
-    return () => {
-      debouncedSearch.cancel();
+    const fetch = async () => {
+      const { data } = await server.get(`/sw/v1/publications/?iblockid=9`, {
+        params: { limit: 3 },
+      });
+      return data.datas;
     };
-  }, [debouncedSearch]);
+    fetch().then((result) => {
+      setNews(result);
+    });
+  }, []);
 
   return (
     <div className={`search ${searchActive && "is--active"}`} id="search">
@@ -59,80 +45,53 @@ const Search = () => {
               src="/img/sprite/icon-close.svg"
             />
           </button>
-          <div className="search__top">
-            <div className="search__control">
-              <button className="search__btn">
-                <ReactSVG src="/img/sprite/icon-search.svg" />
-              </button>
-              <input
-                type="text"
-                ref={searchInput}
-                id="search-input"
-                className="search__input"
-                style={{ width: inputWidth, transition: "none" }}
-                placeholder=""
-                onChange={(e) => inputChange(e.target.value)}
-              />
-            </div>
-          </div>
+          <SearchInput
+            setResult={setResult}
+            searched={searched}
+            setSearched={setSearched}
+          />
           <div className="search__main">
             <div className="search__container">
-              {!result.length && (
-                <div className="search__empty is--active">
-                  <h3 className="search__heading">ничего не найдено</h3>
-                  <p className="search__description">
-                    Можно изменить запрос или почитать <br />
-                    последние новости
-                  </p>
-                </div>
-              )}
-              {/* <div>
-                {result &&
-                  result.map((item, index) => (
-                    <div key={index + item.title}>
-                      <div className="search__content">
-                        <div className="search__block">
-                          <h3 className="search__subtitle">23 июня, 2023</h3>
-                        </div>
-                      </div>
-                      <div className="news-card mobile-wide section-indent">
-                        <div className="news-card__wrapper">
-                          <Link
-                            href={`/news/${1}`}
-                            key={index}
-                            className="news-card__item"
-                          >
-                            <div className="news-card__body">
-                              <span className={`news-card__name`}>
-                                {item.title}
-                              </span>
-                              <div className="news-card__inner">
-                                <span className="news-card__help">
-                                  {rubricByIdSelector(item.rubric)?.NAME}
-                                  Спорт
-                                </span>
-                                <span className="news-card__help">
-                                  {formatDateDifference(item.date)}
-                                  30 минут назад
-                                </span>
-                              </div>
-                              <button className="c-icon-btn news-card__favorite">
-                                <ReactSVG src="/img/sprite/icon-bookmarks.svg" />
-                              </button>
-                            </div>
-                            <picture className="news-card__img news-card__img--sm">
-                              <img
-                                src={`${baseURL}${item.images[0]}`}
-                                src={"/img/news-card-03.jpg"}
-                                alt="Image"
-                              />
-                            </picture>
-                          </Link>
-                        </div>
-                      </div>
+              {!result.length && searched && (
+                <>
+                  {" "}
+                  <div className="search__empty is--active">
+                    <h3 className="search__heading">ничего не найдено</h3>
+                    <p className="search__description">
+                      Можно изменить запрос или почитать <br />
+                      последние новости
+                    </p>
+                  </div>
+                  <div className="search__content">
+                    <div className="search__results">
+                      {news.map((item) => (
+                        <NewItem key={item.id} item={item} />
+                      ))}
                     </div>
-                  ))}
-              </div> */}
+                  </div>
+                </>
+              )}
+              <div className="search__content">
+                {sortedResult.map((res) => (
+                  <div key={res.date} className="search__block">
+                    <h3 className="search__subtitle">{res.date}</h3>
+                    <div className="search__results">
+                      {res.items.map((item) =>
+                        item.iblockId === "9" ? (
+                          <NewItem key={item.id} item={item} />
+                        ) : item.iblockId === "15" ||
+                          item.iblockId === "26" ||
+                          item.iblockId === "28" ||
+                          item.iblockId === "11" ? (
+                          <VideoItem key={item.id} item={item} />
+                        ) : (
+                          <PodcastItem key={item.id} item={item} />
+                        )
+                      )}
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         </div>
