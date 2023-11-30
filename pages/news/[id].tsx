@@ -25,8 +25,9 @@ import { FavoriteNew } from "../../redux/favorites/types";
 import { useModalsContext } from "../../context/ModalsContext";
 import { useFavoriteContext } from "../../context/FavoritesContext";
 import { isElementInFavorites } from "../../redux/favorites/slice";
-import { AppState } from "../../redux/store";
+import { AppState, wrapper } from "../../redux/store";
 import MoreNews from "../../components/pageNew/moreNews";
+import { fetchNews } from "../../redux/news/asyncAction";
 
 interface NewProps {
   publication: FullNewType;
@@ -174,43 +175,52 @@ const New: FC<NewProps> = ({ publication, recommendationNews }) => {
   );
 };
 
-export const getServerSideProps: GetServerSideProps<NewProps> = async (
-  context
-) => {
-  const { id } = context.params || {};
-  try {
-    const fetchNews = async (itemId: string) => {
-      const { data } = await server.get(`/sw/v1/publications/?id=${itemId}`);
-      return data.datas[Number(itemId)];
-    };
+export const getServerSideProps = wrapper.getServerSideProps(
+  (store) => async (context) => {
+    const { query } = context;
+    try {
+      const fetchNew = async (itemId: string) => {
+        const { data } = await server.get(`/sw/v1/publications/?id=${itemId}`);
+        return data.datas[Number(itemId)];
+      };
 
-    const publication = await fetchNews(String(id));
+      // запрос активной новости
+      const publication: FullNewType = await fetchNew(String(query.id));
 
-    const listId = getAnchorsId(publication.content);
-    const recommendationNews: FullNewType[] = [];
+      const rubricId = store
+        .getState()
+        .rubrics.rubrics.find(
+          (item) => item.NAME === publication.props.PUB_RUBRIC.VALUE[0]
+        )?.ID;
+      await store.dispatch(
+        fetchNews({ limit: 25, page: 1, rubric: Number(rubricId) })
+      );
 
-    const fetchRecommendationPromises = listId.map((item) =>
-      fetchNews(String(item))
-    );
+      // получение рекомендаций новостей
+      const listId = getAnchorsId(publication.content);
+      const recommendationNews: FullNewType[] = [];
+      const fetchRecommendationPromises = listId.map((item) =>
+        fetchNew(String(item))
+      );
+      await Promise.all(fetchRecommendationPromises).then((recommendations) => {
+        recommendationNews.push(...recommendations);
+      });
 
-    await Promise.all(fetchRecommendationPromises).then((recommendations) => {
-      recommendationNews.push(...recommendations);
-    });
-
-    return {
-      props: {
-        publication: publication,
-        recommendationNews: recommendationNews,
-      },
-    };
-  } catch (error) {
-    return {
-      redirect: {
-        destination: "/server-error",
-        permanent: false,
-      },
-    };
+      return {
+        props: {
+          publication: publication,
+          recommendationNews: recommendationNews,
+        },
+      };
+    } catch (error) {
+      return {
+        redirect: {
+          destination: "/server-error",
+          permanent: false,
+        },
+      };
+    }
   }
-};
+);
 
 export default New;

@@ -48,15 +48,23 @@ const NewComment: FC<NewCommentProps> = ({
     setParentComment(undefined);
     setInputActive(false);
   };
-
   return (
     <div className="comments-new comments__new">
       <div className={`comments-new__wrapper ${inputActive && "is--active"}`}>
         <picture className="comments-new__img">
           <span>{user?.main.VALUES.NAME.VALUE[0]}</span>
+          {user?.main.VALUES.PERSONAL_PHOTO?.VALUE ? (
+            <img src={user?.main.VALUES.PERSONAL_PHOTO?.VALUE} alt="" />
+          ) : (
+            <span>{user?.main.VALUES.NAME.VALUE[0]}</span>
+          )}
         </picture>
         <div className="comments-new__body">
-          {parentComment && <div style={{marginBottom: '12px'}}>@{parentComment.author_name}</div>}
+          {parentComment && (
+            <div style={{ marginBottom: "12px" }}>
+              @{parentComment.author_name}
+            </div>
+          )}
           <textarea
             className="comments-new__input comments-new__trigger"
             placeholder="Введите комментарий"

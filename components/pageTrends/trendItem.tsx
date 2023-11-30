@@ -5,7 +5,7 @@ import { TrendType } from "../../redux/trends/types";
 import { useSelector } from "react-redux";
 import { useModalsContext } from "../../context/ModalsContext";
 import { selectUser } from "../../redux/auth/slice";
-import { changeFavoriteItem } from "../../utils/controls";
+import { changeFavoriteItem, changeItemLike } from "../../utils/controls";
 import { useFavoriteContext } from "../../context/FavoritesContext";
 import { isElementInFavorites } from "../../redux/favorites/slice";
 import { FavoriteVideo } from "../../redux/favorites/types";
@@ -17,12 +17,34 @@ interface TrendItemProps {
 }
 
 const TrendItem: FC<TrendItemProps> = ({ trend }) => {
-  const { user } = useSelector(selectUser);
+  const { user, id } = useSelector(selectUser);
   const { setLoginActive } = useModalsContext();
   const { addFavorite, deleteFavorite } = useFavoriteContext();
   const isFavorite = useSelector((state: AppState) =>
     isElementInFavorites(state, "28", trend.id)
   );
+  const [isLiked, setIsLiked] = useState(false);
+  const [likesCount, setLikesCount] = useState(Number(trend.likes));
+
+  const addLike = () => {
+    if (!user) {
+      setLoginActive(true);
+      return;
+    }
+
+    changeItemLike({
+      newsId: trend.id,
+      type: isLiked ? "delete" : "add",
+      userId: id,
+    }).then(() => {
+      if (isLiked) {
+        setLikesCount(likesCount - 1);
+      } else {
+        setLikesCount(likesCount + 1);
+      }
+      setIsLiked(!isLiked);
+    });
+  };
 
   const changeFavorite = () => {
     if (!user) {
@@ -69,7 +91,7 @@ const TrendItem: FC<TrendItemProps> = ({ trend }) => {
           </div>
           <div className="trands__controls">
             <button className="trands__control c-like">
-              <div className="c-like__inner">
+              <div onClick={addLike} className="c-like__inner">
                 <ReactSVG
                   className="c-like__icon c-like__icon--default"
                   src="/img/sprite/icon-like-thumb-up.svg"
@@ -79,7 +101,7 @@ const TrendItem: FC<TrendItemProps> = ({ trend }) => {
                   src="/img/sprite/icon-like-thumb-up-filled.svg"
                 />
               </div>
-              <span>{trend.likes}</span>
+              <span>{likesCount}</span>
             </button>
             <button className="trands__control">
               <ReactSVG src="/img/sprite/icon-comment.svg" />

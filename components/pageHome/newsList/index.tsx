@@ -1,8 +1,14 @@
-import React, { FC } from "react";
+import React, { FC, MouseEvent } from "react";
 import Link from "next/link";
 import { ReactSVG } from "react-svg";
 import { NewType } from "../../../redux/news/types";
 import { formatDateDifference } from "../../../utils/formatDate";
+import { useSelector } from "react-redux";
+import { useFavoriteContext } from "../../../context/FavoritesContext";
+import { useModalsContext } from "../../../context/ModalsContext";
+import { selectUser } from "../../../redux/auth/slice";
+import { selectFavorites } from "../../../redux/favorites/slice";
+import { FavoriteNew } from "../../../redux/favorites/types";
 
 interface NewsListProps {
   news: NewType[];
@@ -10,6 +16,53 @@ interface NewsListProps {
 }
 
 const NewsList: FC<NewsListProps> = ({ news, largeNewIndex }) => {
+  const { user } = useSelector(selectUser);
+  const favorites = useSelector(selectFavorites);
+  const { setLoginActive } = useModalsContext();
+  const { addFavorite, deleteFavorite } = useFavoriteContext();
+
+  const isFavorite = (id: string) => {
+    if (favorites.data["9"] && favorites.data["9"].items) {
+      const sectionItems = favorites.data["9"].items;
+      return sectionItems.some((item) => item.id === id);
+    }
+
+    return false;
+  };
+
+  const changeFavorite = (
+    event: MouseEvent<HTMLButtonElement>,
+    newItem: NewType
+  ) => {
+    event.preventDefault();
+    if (!user) {
+      setLoginActive(true);
+      return;
+    }
+
+    if (isFavorite(newItem.id)) {
+      deleteFavorite({ itemId: newItem.id, sectionId: "9" });
+    }
+
+    if (!isFavorite(newItem.id)) {
+      const favoriteItem: FavoriteNew = {
+        id: newItem.id,
+        data: {
+          NAME: newItem.name,
+          props: {
+            PUB_TAG: {
+              VALUE: newItem.poperties.PUB_TAG,
+            },
+          },
+        },
+      };
+      addFavorite({
+        itemId: newItem.id,
+        sectionId: "9",
+        newItem: favoriteItem,
+      });
+    }
+  };
   return (
     <div className="news-card mobile-wide section-indent">
       {news && (
@@ -35,7 +88,12 @@ const NewsList: FC<NewsListProps> = ({ news, largeNewIndex }) => {
                       {formatDateDifference(item.date)}
                     </span>
                   </div>
-                  <button className="c-bookmark news-card__bookmark">
+                  <button
+                    onClick={(event) => changeFavorite(event, item)}
+                    className={`c-bookmark news-card__bookmark ${
+                      isFavorite(item.id) && "is--active"
+                    } `}
+                  >
                     <ReactSVG
                       className="c-bookmark__icon c-bookmark__icon--default"
                       src="/img/sprite/icon-bookmarks.svg"

@@ -238,6 +238,14 @@
     transition: all $transition-default;
     cursor: pointer;
 
+    .header-lk__logo {
+      width: 36px;
+      height: 36px;
+      min-width: 36px;
+      margin-left: 28px;
+      margin-right: 0;
+    }
+
     & > svg {
       min-width: 24px;
       width: 24px;

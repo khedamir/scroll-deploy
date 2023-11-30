@@ -1,13 +1,66 @@
-import React from "react";
+import React, { useState, MouseEvent } from "react";
 import Link from "next/link";
 import { useSelector } from "react-redux";
 import { selectNews } from "../../../redux/news/slice";
 import { baseURL } from "../../../utils/server";
 import { formatDateDifference } from "../../../utils/formatDate";
 import { ReactSVG } from "react-svg";
+import { NewType } from "../../../redux/news/types";
+import { selectFavorites } from "../../../redux/favorites/slice";
+import { FavoriteNew } from "../../../redux/favorites/types";
+import { selectUser } from "../../../redux/auth/slice";
+import { useModalsContext } from "../../../context/ModalsContext";
+import { useFavoriteContext } from "../../../context/FavoritesContext";
 
 const LastNews = () => {
   const { data } = useSelector(selectNews);
+  const { user } = useSelector(selectUser);
+  const favorites = useSelector(selectFavorites);
+  const { setLoginActive } = useModalsContext();
+  const { addFavorite, deleteFavorite } = useFavoriteContext();
+
+  const isFavorite = (id: string) => {
+    if (favorites.data["9"] && favorites.data["9"].items) {
+      const sectionItems = favorites.data["9"].items;
+      return sectionItems.some((item) => item.id === id);
+    }
+
+    return false;
+  };
+
+  const changeFavorite = (
+    event: MouseEvent<HTMLButtonElement>,
+    newItem: NewType
+  ) => {
+    event.preventDefault();
+    if (!user) {
+      setLoginActive(true);
+      return;
+    }
+
+    if (isFavorite(newItem.id)) {
+      deleteFavorite({ itemId: newItem.id, sectionId: "9" });
+    }
+
+    if (!isFavorite(newItem.id)) {
+      const favoriteItem: FavoriteNew = {
+        id: newItem.id,
+        data: {
+          NAME: newItem.name,
+          props: {
+            PUB_TAG: {
+              VALUE: newItem.poperties.PUB_TAG,
+            },
+          },
+        },
+      };
+      addFavorite({
+        itemId: newItem.id,
+        sectionId: "9",
+        newItem: favoriteItem,
+      });
+    }
+  };
 
   return (
     data.datas.length > 2 && (
@@ -33,7 +86,14 @@ const LastNews = () => {
                           {formatDateDifference(data.datas[0].date)}
                         </span>
                       </div>
-                      <button className="c-bookmark tidings-card__bookmark">
+                      <button
+                        onClick={(event) =>
+                          changeFavorite(event, data.datas[0])
+                        }
+                        className={`c-bookmark tidings-card__bookmark ${
+                          isFavorite(data.datas[0].id) && "is--active"
+                        } `}
+                      >
                         <ReactSVG
                           className="c-bookmark__icon c-bookmark__icon--default"
                           src="/img/sprite/icon-bookmarks.svg"
@@ -67,7 +127,14 @@ const LastNews = () => {
                           {formatDateDifference(data.datas[1].date)}
                         </span>
                       </div>
-                      <button className="c-bookmark tidings-card__bookmark">
+                      <button
+                        onClick={(event) =>
+                          changeFavorite(event, data.datas[1])
+                        }
+                        className={`c-bookmark tidings-card__bookmark ${
+                          isFavorite(data.datas[1].id) && "is--active"
+                        } `}
+                      >
                         <ReactSVG
                           className="c-bookmark__icon c-bookmark__icon--default"
                           src="/img/sprite/icon-bookmarks.svg"
@@ -96,7 +163,14 @@ const LastNews = () => {
                           {formatDateDifference(data.datas[2].date)}
                         </span>
                       </div>
-                      <button className="c-bookmark tidings-card__bookmark">
+                      <button
+                        onClick={(event) =>
+                          changeFavorite(event, data.datas[2])
+                        }
+                        className={`c-bookmark tidings-card__bookmark ${
+                          isFavorite(data.datas[2].id) && "is--active"
+                        } `}
+                      >
                         <ReactSVG
                           className="c-bookmark__icon c-bookmark__icon--default"
                           src="/img/sprite/icon-bookmarks.svg"
