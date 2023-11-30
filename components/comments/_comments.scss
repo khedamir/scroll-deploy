@@ -30,6 +30,7 @@
 }
 
 .comments-new {
+  position: relative;
   &__wrapper {
     display: flex;
     align-items: flex-start;
@@ -121,6 +122,25 @@
   &__controls {
     display: flex;
     align-items: center;
+
+    .emoji-block {
+      position: absolute;
+      z-index: 100;
+      top: 100%;
+      display: none;
+      width: 350px;
+
+      &.is--active {
+        display: block;
+      }
+
+      @media screen and (max-width: 520px) {
+        width: 90vw;
+        margin: auto;
+        right: 0;
+        left: 0;
+      }
+    }
   }
   &__emoji {
     display: flex;

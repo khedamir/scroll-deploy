@@ -6,6 +6,8 @@ import { AddCommentFetch, AddCommentFetchParams } from "../../utils/formFetchs";
 import { useAppDispatch } from "../../redux/store";
 import { fetchComments } from "../../redux/comments/asyncAction";
 import { CommentType } from "../../redux/comments/types";
+import { addComment } from "../../redux/comments/slice";
+import EmojiBlock from "./emojiBlock";
 
 interface NewCommentProps {
   iblockId: string;
@@ -23,6 +25,7 @@ const NewComment: FC<NewCommentProps> = ({
   const [inputActive, setInputActive] = useState(false);
   const { id, user } = useSelector(selectUser);
   const dispatch = useAppDispatch();
+  console.log(text);
 
   const onSubmit = () => {
     const params: AddCommentFetchParams = {
@@ -35,11 +38,30 @@ const NewComment: FC<NewCommentProps> = ({
     if (parentComment) {
       params.parent_comment = parentComment.ID;
     }
-    AddCommentFetch(params).then(() => {
+    AddCommentFetch(params).then((result) => {
       setText("");
       setParentComment(undefined);
       setInputActive(false);
       dispatch(fetchComments({ id_publication, type: "get" }));
+      // dispatch(
+      //   addComment({
+      //     ID: "string",
+      //     UF_ACTIVE: "string",
+      //     UF_ID_PUBLICATION: "string",
+      //     UF_DEPTH_LEVEL: "1",
+      //     UF_AUTHOR: "string",
+      //     UF_DATE: "string",
+      //     UF_TEXT: text,
+      //     UF_IBLOCK_ID: "9",
+      //     UF_IBLOCK_NAME: "Новости",
+      //     UF_PARENT_ID: parentComment ? parentComment.ID : "",
+      //     UF_LIKES: "0",
+      //     author_name: "string",
+      //     author_surname: "string",
+      //     author_photo: "string",
+      //     ANSWERS: [],
+      //   })
+      // );
     });
   };
 
@@ -48,6 +70,7 @@ const NewComment: FC<NewCommentProps> = ({
     setParentComment(undefined);
     setInputActive(false);
   };
+
   return (
     <div className="comments-new comments__new">
       <div className={`comments-new__wrapper ${inputActive && "is--active"}`}>
@@ -74,11 +97,7 @@ const NewComment: FC<NewCommentProps> = ({
           ></textarea>
           <div className="comments-new__holder">
             <div className="comments-new__inner">
-              <div className="comments-new__controls">
-                <button className="comments-new__emoji">
-                  <ReactSVG src="/img/sprite/icon-emoji.svg" />
-                </button>
-              </div>
+              <EmojiBlock text={text} setText={setText} />
               <div className="comments-new__controls">
                 <button onClick={resetComment} className="comments-new__clear">
                   Отмена

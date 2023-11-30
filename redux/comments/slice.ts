@@ -1,7 +1,7 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { Status } from "../types";
 import { AppState } from "../store";
-import { CommentsSliceState } from "./types";
+import { CommentType, CommentsSliceState } from "./types";
 import { fetchComments } from "./asyncAction";
 
 const initialState: CommentsSliceState = {
@@ -13,39 +13,23 @@ export const commentsSlice = createSlice({
   name: "comments",
   initialState,
   reducers: {
-    // addToFavorites: (
-    //   state,
-    //   action: PayloadAction<{ sectionId: FavoriteSections; element: any }>
-    // ) => {
-    //   const { sectionId, element } = action.payload;
-    //   if (state.data[sectionId]) {
-    //     state.data[sectionId].items.push(element);
-    //   } else {
-    //     state.data[sectionId] = {
-    //       items: [element],
-    //     };
-    //   }
-    // },
-    // removeFromFavorites: (
-    //   state,
-    //   action: PayloadAction<{ sectionId: FavoriteSections; elementId: string }>
-    // ) => {
-    //   const { sectionId, elementId } = action.payload;
-    //   const itemitems = state.data[sectionId].items.filter(
-    //     (item) => item.id !== elementId
-    //   );
-    //   // @ts-ignore
-    //   state.data[sectionId].items = itemitems;
-    // },
-    // removeFromFavoritesBlock: (
-    //   state,
-    //   action: PayloadAction<{ sectionId: FavoriteSections }>
-    // ) => {
-    //   const { sectionId } = action.payload;
-    //   state.data[sectionId] = {
-    //     items: [],
-    //   };
-    // },
+    addComment: (state, action: PayloadAction<CommentType>) => {
+      const { UF_PARENT_ID } = action.payload;
+      if (!UF_PARENT_ID) {
+        // Если UF_PARENT_ID отсутствует, добавляем комментарий в корень
+        state.data.unshift(action.payload);
+      } else {
+        // Иначе находим родительский комментарий по UF_PARENT_ID
+        const parentComment = findCommentById(state.data, UF_PARENT_ID);
+        if (parentComment) {
+          // Если родительский комментарий найден, добавляем текущий комментарий к нему
+          if (!parentComment.ANSWERS) {
+            parentComment.ANSWERS = [];
+          }
+          parentComment.ANSWERS.unshift(action.payload);
+        }
+      }
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(fetchComments.pending, (state) => {
@@ -63,8 +47,27 @@ export const commentsSlice = createSlice({
   },
 });
 
+// Вспомогательная функция для поиска комментария по ID
+const findCommentById = (
+  comments: CommentType[],
+  id: string
+): CommentType | undefined => {
+  for (const comment of comments) {
+    if (comment.ID === id) {
+      return comment;
+    }
+    if (comment.ANSWERS) {
+      const nestedComment = findCommentById(comment.ANSWERS, id);
+      if (nestedComment) {
+        return nestedComment;
+      }
+    }
+  }
+  return undefined;
+};
+
 export const selectComments = (state: AppState) => state.comments;
 
-export const {} = commentsSlice.actions;
+export const { addComment } = commentsSlice.actions;
 
 export default commentsSlice.reducer;
