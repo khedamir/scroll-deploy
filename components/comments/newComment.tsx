@@ -17,6 +17,7 @@ interface NewCommentProps {
 }
 
 const NewComment: FC<NewCommentProps> = ({
+  iblockId,
   id_publication,
   parentComment,
   setParentComment,
@@ -29,7 +30,7 @@ const NewComment: FC<NewCommentProps> = ({
 
   const onSubmit = () => {
     const params: AddCommentFetchParams = {
-      iblockId: "9",
+      iblockId: iblockId,
       text,
       id_publication,
       userId: id,

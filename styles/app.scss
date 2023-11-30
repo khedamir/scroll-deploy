@@ -1877,7 +1877,7 @@
     border: 1px solid rgba($line-faint-on-light-shift-up, 0.85);
     border-radius: 8px;
     transition: all $transition-default;
-    & > svg {
+    & svg {
       min-width: 24px;
       width: 24px;
       height: 24px;
@@ -2109,6 +2109,7 @@
   }
   &__author {
     padding: 24px 16px;
+    cursor: pointer;
 
     @media screen and (max-width: 1199px) {
       position: absolute;
@@ -2178,8 +2179,12 @@
     border-top: 1px solid $line-faint-on-light;
     .comments-all {
       &__scroll {
-        padding: 24px 16px;
+        padding: 24px 16px 84px;
       }
+    }
+
+    &.is--active {
+      display: block;
     }
   }
 }

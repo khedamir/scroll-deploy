@@ -26,7 +26,7 @@ export const commentsSlice = createSlice({
           if (!parentComment.ANSWERS) {
             parentComment.ANSWERS = [];
           }
-          parentComment.ANSWERS.unshift(action.payload);
+          parentComment.ANSWERS.push(action.payload);
         }
       }
     },
