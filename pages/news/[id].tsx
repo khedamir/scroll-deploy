@@ -1,6 +1,5 @@
-import React, { FC, useEffect, useState } from "react";
+import React, { FC, useState } from "react";
 import Footer from "../../components/footer";
-import { GetServerSideProps } from "next";
 import { ReactSVG } from "react-svg";
 import Comments from "../../components/comments";
 import Sidebar from "../../components/sidebar/sidebar";
@@ -14,10 +13,7 @@ import LegalAdvice from "../../components/modals/legalAdvice";
 import { FullNewType } from "../../redux/types";
 import Tags from "../../components/tags";
 import NewAuthor from "../../components/pageNew/newAuthor";
-import RecomendationNew from "../../components/pageNew/recomendationNew";
 import { getAnchorsId } from "../../utils/getAnchorsId";
-import NewFragment from "../../components/pageNew/newFragment";
-import Cookies from "js-cookie";
 import { useRouter } from "next/router";
 import { useSelector } from "react-redux";
 import { selectUser } from "../../redux/auth/slice";
@@ -28,6 +24,8 @@ import { isElementInFavorites } from "../../redux/favorites/slice";
 import { AppState, wrapper } from "../../redux/store";
 import MoreNews from "../../components/pageNew/moreNews";
 import { fetchNews } from "../../redux/news/asyncAction";
+import { useSetCookie } from "../../hooks";
+import NewContent from "../../components/pageNew/newContent";
 
 interface NewProps {
   publication: FullNewType;
@@ -36,32 +34,16 @@ interface NewProps {
 
 const New: FC<NewProps> = ({ publication, recommendationNews }) => {
   // console.log(publication);
-  const [modalActive, setModalActive] = useState(false);
-  const anchorRegex = /<a name="\d+"><\/a>/;
-  const articleParts = publication.content.split(anchorRegex);
   const router = useRouter();
+  useSetCookie(`/news/${router.query.id}`, String(router.query.id));
+
+  const [modalActive, setModalActive] = useState(false);
   const { user } = useSelector(selectUser);
   const { setLoginActive } = useModalsContext();
   const { addFavorite, deleteFavorite } = useFavoriteContext();
   const isFavorite = useSelector((state: AppState) =>
     isElementInFavorites(state, "9", publication.id)
   );
-
-  useEffect(() => {
-    if (!Cookies.get("userAddView")) {
-      server
-        .post(`/sw/v1/addView/?id=${router.query.id}`)
-        .then(() => {
-          Cookies.set("userAddView", "Y", {
-            expires: 30,
-            path: `/news/${router.query.id}`,
-          });
-        })
-        .catch((error) => {
-          console.error("Ошибка при запросе:", error);
-        });
-    }
-  }, []);
 
   const changeFavorite = () => {
     if (!user) {
@@ -136,16 +118,10 @@ const New: FC<NewProps> = ({ publication, recommendationNews }) => {
                             otherClassName="media-block__controls"
                           />
                         </div>
-                        {articleParts.map((part, index) => (
-                          <React.Fragment key={index}>
-                            {index > 0 && (
-                              <RecomendationNew
-                                newItem={recommendationNews[index - 1]}
-                              />
-                            )}
-                            <NewFragment fragment={part} />
-                          </React.Fragment>
-                        ))}
+                        <NewContent
+                          content={publication.content}
+                          recommendationNews={recommendationNews}
+                        />
                         <p className="small-description">
                           <span>Краткое резюме статьи: </span>
                           <RenderHTML content={publication.anons} />

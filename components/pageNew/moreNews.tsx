@@ -25,7 +25,6 @@ const MoreNews = () => {
   for (let i = 0; i < data.datas.length; i += 6) {
     const individualNews = data.datas.slice(i, i + 3);
     const threeNewsCard = data.datas.slice(i + 3, i + 6);
-    console.log(individualNews);
     newsComponents.push(
       <React.Fragment key={i}>
         {individualNews.map((item) => (

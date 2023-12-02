@@ -1,15 +1,5 @@
 import React, { FC } from "react";
-import { baseURL } from "../../utils/server";
-import { FullNewType, PropType } from "../../redux/types";
-import Link from "next/link";
-
-// interface NewAuthorProps {
-//   PUB_SOURCE?: PropType;
-//   PUB_SOURCE_LOGO?: PropType;
-//   author_name?: string;
-//   author_surname?: string;
-//   author_photo?: string;
-// }
+import { FullNewType } from "../../redux/types";
 
 interface NewAuthorProps {
   newItem: FullNewType;
