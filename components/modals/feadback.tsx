@@ -48,7 +48,10 @@ const Feadback: FC<FeadbackProps> = ({ active, setActive }) => {
                 <div className="modal__circle modal__circle--lg"></div>
                 <div className="modal__circle modal__circle--xl"></div>
               </div>
-              <button className="modal__close-btn modal__close-btn--mobile">
+              <button
+                onClick={() => setActive(false)}
+                className="modal__close-btn modal__close-btn--mobile"
+              >
                 <ReactSVG src="/img/sprite/icon-close-thin.svg" />
               </button>
             </div>

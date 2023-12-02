@@ -39,6 +39,7 @@
     }
   }
   &__grid-card {
+    width: 100%;
     &--full {
       height: 100%;
     }
@@ -120,7 +121,15 @@
         margin-left: 0;
       }
       &--sm {
-        margin-right: 8px;
+        margin-right: 0;
+        margin-left: 0;
+        max-width: none;
+        height: 200px;
+        width: 100%;
+
+        img {
+          object-fit: cover;
+        }
       }
     }
   }
@@ -212,11 +221,11 @@
       height: 100%;
       object-fit: cover;
     }
-    &--sm {
-      img {
-        object-fit: contain;
-      }
-    }
+    // &--sm {
+    //   img {
+    //     object-fit: contain;
+    //   }
+    // }
 
     @media screen and (max-width: 767px) {
       max-width: none;

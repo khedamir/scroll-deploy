@@ -7,6 +7,7 @@ import {
   FavoriteVideo,
 } from "../../../redux/favorites/types";
 import { useFavoriteContext } from "../../../context/FavoritesContext";
+import EmptyBookmarks from "./emptyBookmarks";
 
 export type OrientationValue = "vertical" | "horizontal";
 
@@ -72,50 +73,57 @@ const Video: FC<VideoProps> = ({
               </button>
             </li>
           </ul>
-          <button
-            onClick={deleteBlock}
-            className="lk-bookmarks__favorites c-bookmark is--active"
-          >
-            <ReactSVG
-              className="c-bookmark__icon c-bookmark__icon--default"
-              src="/img/sprite/icon-bookmarks.svg"
-            />
-            <ReactSVG
-              className="c-bookmark__icon c-bookmark__icon--filled"
-              src="/img/sprite/icon-bookmarks-filled.svg"
-            />
-          </button>
+          {(trends || videos || lectures) && (
+            <button
+              onClick={deleteBlock}
+              className="lk-bookmarks__favorites c-bookmark is--active"
+            >
+              <ReactSVG
+                className="c-bookmark__icon c-bookmark__icon--default"
+                src="/img/sprite/icon-bookmarks.svg"
+              />
+              <ReactSVG
+                className="c-bookmark__icon c-bookmark__icon--filled"
+                src="/img/sprite/icon-bookmarks-filled.svg"
+              />
+            </button>
+          )}
         </div>
         <div
           className={`lk-video__holder ${
             orientation === "vertical" && "is--active"
           }`}
         >
-          <div className="lk-video__wrapper">
-            {trends?.map((item) => (
-              <article
-                key={item.id}
-                className="lk-video__item lk-video__item--vertical"
-              >
-                <Link href={`/trends`} className="lk-video__media">
-                  <img src={item.data.images.preview} alt="Image" />
-                </Link>
-                <button
-                  onClick={() => changeFavorite(item.id, "28")}
-                  className="lk-video__favorites c-bookmark is--active"
+          {trends ? (
+            trends.map((item) => (
+              <div className="lk-video__wrapper">
+                {" "}
+                <article
+                  key={item.id}
+                  className="lk-video__item lk-video__item--vertical"
                 >
-                  <ReactSVG
-                    className="c-bookmark__icon c-bookmark__icon--default"
-                    src="/img/sprite/icon-bookmarks.svg"
-                  />
-                  <ReactSVG
-                    className="c-bookmark__icon c-bookmark__icon--filled"
-                    src="/img/sprite/icon-bookmarks-filled.svg"
-                  />
-                </button>
-              </article>
-            ))}
-          </div>
+                  <Link href={`/trends`} className="lk-video__media">
+                    <img src={item.data.images.preview} alt="Image" />
+                  </Link>
+                  <button
+                    onClick={() => changeFavorite(item.id, "28")}
+                    className="lk-video__favorites c-bookmark is--active"
+                  >
+                    <ReactSVG
+                      className="c-bookmark__icon c-bookmark__icon--default"
+                      src="/img/sprite/icon-bookmarks.svg"
+                    />
+                    <ReactSVG
+                      className="c-bookmark__icon c-bookmark__icon--filled"
+                      src="/img/sprite/icon-bookmarks-filled.svg"
+                    />
+                  </button>
+                </article>
+              </div>
+            ))
+          ) : (
+            <EmptyBookmarks />
+          )}
         </div>
         <div
           className={`lk-video__holder ${
@@ -163,6 +171,7 @@ const Video: FC<VideoProps> = ({
                 </button>
               </article>
             ))}
+            {!videos && !lectures && <EmptyBookmarks />}
           </div>
         </div>
       </div>

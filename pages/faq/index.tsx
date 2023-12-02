@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Footer from "../../components/footer";
 import { ReactSVG } from "react-svg";
 import Support from "../../components/modals/support";
+import FeadbackBlock from "../../components/pageFaq/feadbackBlock";
 
 const items = [
   {
@@ -230,22 +231,7 @@ const Faq = () => {
                         </div>
                       ))}
                     </div>
-                    <div className="feedback-widget faq__widget">
-                      <article className="feedback-widget__item">
-                        <div className="feedback-widget__body">
-                          <h3 className="feedback-widget__title">
-                            Помогите нам стать лучше
-                          </h3>
-                          <p className="feedback-widget__description">
-                            Пока мы изучаем для вас новые тренды, поделитесь
-                            впечатленими о прочитанном
-                          </p>
-                        </div>
-                        <a href="#" className="feedback-widget__btn">
-                          <ReactSVG src="/img/sprite/icon-arrow-next.svg" />
-                        </a>
-                      </article>
-                    </div>
+                    <FeadbackBlock />
                   </div>
                 </div>
               </div>

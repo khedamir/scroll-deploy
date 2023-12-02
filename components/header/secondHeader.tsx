@@ -36,7 +36,10 @@ const SecondHeader = () => {
               >
                 <SearchIcon />
               </span>
-              <Link href="/lk?block=bookmarks" className="header__btn header__btn--tablet-hidden">
+              <Link
+                href="/lk?block=bookmarks"
+                className="header__btn header__btn--tablet-hidden"
+              >
                 <BookmarksIcon />
               </Link>
               <Link href="#" className="header__btn notifications-btn">
@@ -45,7 +48,21 @@ const SecondHeader = () => {
             </div>
             <div className="header__controls header__controls--second">
               {user ? (
-                <Link href="/lk">А</Link>
+                <span className="header__btn">
+                  <Link href="/lk">
+                    <picture className="comments-new__img header-lk__logo">
+                      <span>{user?.main.VALUES.NAME.VALUE[0]}</span>
+                      {user?.main.VALUES.PERSONAL_PHOTO?.VALUE ? (
+                        <img
+                          src={user?.main.VALUES.PERSONAL_PHOTO?.VALUE}
+                          alt=""
+                        />
+                      ) : (
+                        <span>{user?.main.VALUES.NAME.VALUE[0]}</span>
+                      )}
+                    </picture>
+                  </Link>
+                </span>
               ) : (
                 <span onClick={login} className="header__btn">
                   <span>Войти</span>

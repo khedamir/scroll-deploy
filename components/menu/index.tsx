@@ -6,11 +6,25 @@ import { useModalsContext } from "../../context/ModalsContext";
 import { useSelector } from "react-redux";
 import { selectRubrics } from "../../redux/rubrics/slice";
 import { baseURL } from "../../utils/server";
+import { useRouter } from "next/router";
+import { selectUser } from "../../redux/auth/slice";
 
 const Menu = () => {
+  const { setAiChatActive, menuActive, setMenuActive, setLoginActive } =
+    useModalsContext();
   const { rubrics } = useSelector(selectRubrics);
+  const router = useRouter();
+  const { user, status } = useSelector(selectUser);
 
-  const { setAiChatActive, menuActive, setMenuActive } = useModalsContext();
+  useEffect(() => {
+    setMenuActive(false);
+  }, [router.query.id, router.pathname]);
+
+  const loginClick = () => {
+    setLoginActive(true);
+    setMenuActive(false);
+  };
+
   return (
     <div className={`menu ${menuActive && "is--active"}`}>
       <div className="menu__wrap">
@@ -19,11 +33,7 @@ const Menu = () => {
             <nav className="nav menu__nav">
               <ul className="nav__list">
                 {rubrics.map((value) => (
-                  <li
-                    // onClick={() => setMenuActive(false)}
-                    key={value.ID}
-                    className="nav__item"
-                  >
+                  <li key={value.ID} className="nav__item">
                     <Link href={`/rubrics/${value.ID}`} className="nav__link">
                       <img src={`${baseURL}${value.THEME_ICON_PATH}`} />
                       <span>{value.NAME}</span>
@@ -58,12 +68,24 @@ const Menu = () => {
                 <ReactSVG src="/img/sprite/icon-close.svg" />
               </button>
             </div>
-            <div className="c-account menu__account">
-              <button className="c-account__inner">
-                <span className="c-account__name">Александр Македонский</span>
-                <span className="c-account__help">Аккаунт</span>
-              </button>
-            </div>
+            {user ? (
+              <div className="c-account menu__account">
+                <Link href="/lk" className="c-account__inner">
+                  <span className="c-account__name">
+                    {user?.main.VALUES.NAME.VALUE}{" "}
+                    {user?.main.VALUES.LAST_NAME.VALUE}
+                  </span>
+                  <span className="c-account__help">Аккаунт</span>
+                </Link>
+              </div>
+            ) : (
+              <div className="c-account menu__account">
+                <button onClick={loginClick} className="c-account__inner">
+                  <span className="c-account__name">Войти</span>
+                  <span className="c-account__help">Аккаунт</span>
+                </button>
+              </div>
+            )}
           </div>
         </div>
         <Footer otherClassName="menu__footer" />

@@ -62,18 +62,13 @@ const ContactInput: FC<ContactInputProps> = ({
             control={control}
             rules={contactsSchemes.phone}
             render={({ field }) => (
-              <InputMask mask={"+7 (999) 999-99-99"} {...field}>
-                {/* @ts-ignore */}
-                {(inputProps) => (
-                  <input
-                    type="text"
-                    id="phone"
-                    className="input-field__input"
-                    placeholder="+7 (999) 999-99-99"
-                    {...inputProps}
-                  />
-                )}
-              </InputMask>
+              <InputMask
+                mask={"+7 (999) 999-99-99"}
+                placeholder={"+7 (999) 999-99-99"}
+                className="input-field__input"
+                id="phone"
+                {...field}
+              />
             )}
           />
         )}

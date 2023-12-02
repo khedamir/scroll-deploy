@@ -352,6 +352,7 @@
     border: none;
     border-radius: 78px;
     transition: all $transition-default;
+    cursor: pointer;
     & svg {
       min-width: 24px;
       width: 24px;

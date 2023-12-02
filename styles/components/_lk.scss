@@ -569,6 +569,7 @@
   }
   &__section {
     flex: 1 1 auto;
+    min-height: 300px;
 
     @media screen and (max-width: 767px) {
       width: 100%;
@@ -607,6 +608,31 @@
     @media screen and (max-width: 767px) {
       margin-left: auto;
       margin-bottom: 16px;
+    }
+  }
+
+  .empty-bookmarks {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    height: 300px;
+    p {
+      font-family: "Inter", sans-serif;
+      font-size: 18px;
+      font-style: normal;
+      font-weight: 400;
+      line-height: 24px;
+      color: $text-faint-on-light;
+      max-width: 300px;
+    }
+
+    @media screen and (max-width: 767px) {
+      height: auto;
+      p {
+        width: 223px;
+        font-size: 16px;
+      }
     }
   }
 }

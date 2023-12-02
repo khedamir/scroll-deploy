@@ -62,6 +62,12 @@ export const changeUserData = {
   email: emailScheme,
 };
 
+export const advertisingSchemes = {
+  name: nameScheme,
+  phone: phoneScheme,
+  email: emailScheme,
+};
+
 export const changePasswordSchemes = {
   passwrd: passwordScheme,
   re_password: passwordScheme,
