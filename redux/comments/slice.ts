@@ -6,6 +6,7 @@ import { fetchComments } from "./asyncAction";
 
 const initialState: CommentsSliceState = {
   data: [],
+  all_comments_count: 0,
   status: Status.LOADING,
 };
 
@@ -38,7 +39,8 @@ export const commentsSlice = createSlice({
     });
     builder.addCase(fetchComments.fulfilled, (state, action) => {
       state.status = Status.SUCCESS;
-      state.data = action.payload.reverse();
+      state.data = action.payload.datas.reverse();
+      state.all_comments_count = action.payload.all_comments_count;
     });
     builder.addCase(fetchComments.rejected, (state) => {
       state.status = Status.ERROR;

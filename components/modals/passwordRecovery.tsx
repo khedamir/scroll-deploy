@@ -1,25 +1,74 @@
-import React from "react";
+import React, { useState } from "react";
 import { ReactSVG } from "react-svg";
+import { useModalsContext } from "../../context/ModalsContext";
+import ContactInput, { ContactInputType } from "../ContactInput";
+import { useForm } from "react-hook-form";
+import { server } from "../../utils/server";
+
+type FormValuesType = {
+  contact: string;
+};
 
 const PasswordRecovery = () => {
+  const [contactType, setContactType] = useState<ContactInputType>("email");
+  const {
+    recoveryPasswordActive,
+    setRecoveryPasswordActive,
+    setLoginActive,
+    setRecoveryPasswordSend,
+  } = useModalsContext();
+
+  const {
+    control,
+    handleSubmit,
+    register,
+    formState: { errors },
+  } = useForm<FormValuesType>({ defaultValues: { contact: "" } });
+
+  const buttonBackClick = () => {
+    setLoginActive(true);
+    setRecoveryPasswordActive(false);
+  };
+
+  const onSubmit = (values: FormValuesType) => {
+    server
+      .post("/api/v1/auth/forgot", { email: values.contact })
+      .then(() => {
+        setRecoveryPasswordSend(values.contact);
+        setRecoveryPasswordActive(false);
+      })
+      .catch((errors) => {
+        console.error(errors);
+      });
+  };
+
   return (
-    <div className="modal modal--wide" id="modal-password-recovery">
+    <div
+      className={`modal modal--wide ${recoveryPasswordActive && "is--active"}`}
+      id="modal-password-recovery"
+    >
       <div className="modal__wrap">
         <div className="modal__wrapper">
           <div className="modal__left">
             <picture className="modal__logotype">
               <img src="/img/logotype.svg" alt="SCROLL" />
             </picture>
-            <button className="modal__close-btn modal__close-btn--mobile">
+            <button
+              onClick={() => setRecoveryPasswordActive(false)}
+              className="modal__close-btn modal__close-btn--mobile"
+            >
               <ReactSVG src="/img/sprite/icon-close-thin.svg" />
             </button>
           </div>
           <div className="modal__right">
-            <button className="modal__close-btn modal__close-btn--desktop">
+            <button
+              onClick={() => setRecoveryPasswordActive(false)}
+              className="modal__close-btn modal__close-btn--desktop"
+            >
               <ReactSVG src="/img/sprite/icon-close-thin.svg" />
             </button>
             <div className="modal__content">
-              <button className="modal__back">
+              <button onClick={buttonBackClick} className="modal__back">
                 <ReactSVG src="/img/sprite/icon-arrow-s-prev.svg" />
                 <span>Назад</span>
               </button>
@@ -29,34 +78,17 @@ const PasswordRecovery = () => {
                 вами при регистрации. Мы отправим вам ссылку для восстановления
                 пароля.
               </p>
-              <form action="#" className="modal-form modal__form">
-                <div className="input-field input-field--border modal-form__input">
-                  <div className="input-field__top">
-                    <label
-                      htmlFor="modal-password-recovery"
-                      className="input-field__tab is--active"
-                    >
-                      Email
-                    </label>
-                    <label
-                      htmlFor="modal-password-recovery"
-                      className="input-field__tab"
-                    >
-                      Телефон
-                    </label>
-                  </div>
-                  <div className="input-field__inner">
-                    <input
-                      type="text"
-                      id="modal-password-recovery"
-                      className="input-field__input"
-                      placeholder="Email"
-                    />
-                  </div>
-                  <span className="input-field__error">
-                    Это обязательное поле
-                  </span>
-                </div>
+              <form
+                onSubmit={handleSubmit(onSubmit)}
+                className="modal-form modal__form"
+              >
+                <ContactInput
+                  contactType={contactType}
+                  setContactType={setContactType}
+                  control={control}
+                  register={register}
+                  errors={errors}
+                />
                 <button className="modal-form__btn btn btn--blue">
                   Отправить
                 </button>

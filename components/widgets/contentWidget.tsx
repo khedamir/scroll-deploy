@@ -15,11 +15,11 @@ const ContentWidget = () => {
           <div className="content-widget__decor content-widget__decor--medium"></div>
           <div className="content-widget__decor content-widget__decor--large"></div>
           <div className="content-widget__decor content-widget__decor--cone"></div>
-          <Link href="#" className="content-widget__circle-btn">
+          <Link href="" className="content-widget__circle-btn">
             Перейти
           </Link>
         </div>
-        <Link href="#" className="content-widget__btn btn">
+        <Link href="" className="content-widget__btn btn">
           Перейти
         </Link>
       </div>

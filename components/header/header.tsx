@@ -10,6 +10,7 @@ import Hamburger from "../hamburger";
 import { useSelector } from "react-redux";
 import { selectUser } from "../../redux/auth/slice";
 import { useRouter } from "next/router";
+import UserBlock from "./userBlock";
 
 interface HeaderProps {
   isScrolling: boolean;
@@ -20,17 +21,12 @@ const Header: FC<HeaderProps> = ({ isScrolling }) => {
     setAiChatActive,
     menuActive,
     setLoginActive,
-    setRegisterActive,
     setNotification,
     setSearchActive,
   } = useModalsContext();
 
-  const { user, status } = useSelector(selectUser);
+  const { user } = useSelector(selectUser);
   const router = useRouter();
-
-  const login = () => {
-    setLoginActive(true);
-  };
 
   const bookmarks = () => {
     if (user) {
@@ -97,27 +93,7 @@ const Header: FC<HeaderProps> = ({ isScrolling }) => {
               </span>
             </div>
             <div className="header__controls header__controls--second">
-              {user ? (
-                <span className="header__btn">
-                  <Link href="/lk">
-                    <picture className="comments-new__img header-lk__logo">
-                      <span>{user?.main.VALUES.NAME.VALUE[0]}</span>
-                      {user?.main.VALUES.PERSONAL_PHOTO?.VALUE ? (
-                        <img
-                          src={user?.main.VALUES.PERSONAL_PHOTO?.VALUE}
-                          alt=""
-                        />
-                      ) : (
-                        <span>{user?.main.VALUES.NAME.VALUE[0]}</span>
-                      )}
-                    </picture>
-                  </Link>
-                </span>
-              ) : (
-                <span onClick={login} className="header__btn">
-                  <span>Войти</span>
-                </span>
-              )}
+              <UserBlock />
               <Hamburger />
             </div>
           </div>

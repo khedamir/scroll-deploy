@@ -24,8 +24,8 @@ const Articles: FC<ArticlesProps> = ({ activeBlock, data, changeFavorite }) => {
         <div className="lk-articles lk-bookmarks__section">
           {data ? (
             data?.map((item) => (
-              <div className="lk-articles__wrapper">
-                <div key={item.id} className="lk-articles__column">
+              <div key={item.id} className="lk-articles__wrapper">
+                <div className="lk-articles__column">
                   <article className="lk-articles__item">
                     <Link
                       href={`/news/${item.id}`}

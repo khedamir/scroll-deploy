@@ -6,6 +6,7 @@ import { selectUser } from "../../redux/auth/slice";
 import { useAppDispatch } from "../../redux/store";
 import { AddCommentFetchParams, AddCommentFetch } from "../../utils/formFetchs";
 import { fetchComments } from "./trendComments";
+import { useModalsContext } from "../../context/ModalsContext";
 
 interface TrendNewCommentProps {
   id_publication: string;
@@ -21,16 +22,20 @@ const TrendNewComment: FC<TrendNewCommentProps> = ({
   setComments,
 }) => {
   const [text, setText] = useState("");
-  const [inputActive, setInputActive] = useState(false);
-  const { id, user } = useSelector(selectUser);
-  const dispatch = useAppDispatch();
+  const { user } = useSelector(selectUser);
+  const { setLoginActive } = useModalsContext();
 
   const onSubmit = () => {
+    if (!user) {
+      setLoginActive(true);
+      return;
+    }
+
     const params: AddCommentFetchParams = {
       iblockId: "28",
       text,
       id_publication,
-      userId: id,
+      userId: user?.id,
       depth_level: parentComment ? parentComment.UF_DEPTH_LEVEL + 1 : "1",
     };
     if (parentComment) {
@@ -40,7 +45,6 @@ const TrendNewComment: FC<TrendNewCommentProps> = ({
     AddCommentFetch(params).then(() => {
       setText("");
       setParentComment(undefined);
-      setInputActive(false);
       fetchComments({ id_publication, type: "get" }).then((result) => {
         setComments(result.data.datas);
       });

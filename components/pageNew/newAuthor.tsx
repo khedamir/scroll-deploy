@@ -1,5 +1,6 @@
 import React, { FC } from "react";
 import { FullNewType } from "../../redux/types";
+import UserIcon from "../userIcon";
 
 interface NewAuthorProps {
   newItem: FullNewType;
@@ -25,9 +26,12 @@ const NewAuthor: FC<NewAuthorProps> = ({ newItem }) => {
           </>
         ) : newItem.author_name ? (
           <>
-            <picture className="c-author__img">
-              <img src={`${newItem.author_photo}`} alt="Image" />
-            </picture>
+            <div className="c-author__img">
+              <UserIcon
+                userPhoto={newItem.author_photo}
+                nameLatter={newItem.author_name[0]}
+              />
+            </div>
             <div className="c-author__body">
               <h3 className="c-author__name">
                 {newItem.author_name} {newItem.author_surname}

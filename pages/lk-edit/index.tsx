@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Footer from "../../components/footer";
 import Link from "next/link";
 import { ReactSVG } from "react-svg";
@@ -14,8 +14,10 @@ const LkEdit = () => {
   const { user, status } = useSelector(selectUser);
   const dispatch = useAppDispatch();
   const navigate = useRouter();
+  const [loaderText, setLoaderText] = useState("Проверка авторизации");
 
   const logoutFn = () => {
+    setLoaderText("Выход из аккаунта");
     localStorage.removeItem("token");
     dispatch(logout());
     navigate.push("/");
@@ -34,7 +36,7 @@ const LkEdit = () => {
     return (
       <div className="layout layout--sticky-bottom">
         <div className="container">
-          <Loader text="Проверка авторизации" />
+          <Loader text={loaderText} />
         </div>
       </div>
     );

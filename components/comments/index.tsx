@@ -7,6 +7,8 @@ import { selectComments } from "../../redux/comments/slice";
 import CommentItem from "./commentItem";
 import { Status } from "../../redux/types";
 import { CommentType } from "../../redux/comments/types";
+import { selectUser } from "../../redux/auth/slice";
+import getCommentCountWord from "../../utils/getCommentCountWord";
 
 interface CommentsProps {
   otherClassName?: string;
@@ -19,18 +21,35 @@ const Comments: FC<CommentsProps> = ({
   id_publication,
   iblockId,
 }) => {
-  const { data, status } = useSelector(selectComments);
+  const { data, status, all_comments_count } = useSelector(selectComments);
+  const { user } = useSelector(selectUser);
   const [parentComment, setParentComment] = useState<CommentType>();
+  const [page, setPage] = useState<number>(1);
+  const [limit, setLimit] = useState<number>(5);
   const dispatch = useAppDispatch();
 
+  const pageCount = Math.ceil(all_comments_count / limit);
+
   useEffect(() => {
-    dispatch(fetchComments({ id_publication, type: "get" }));
-  }, []);
+    if (user) {
+      dispatch(
+        fetchComments({
+          id_publication,
+          type: "get",
+          userId: user.id,
+          page: 1,
+          limit,
+        })
+      );
+    }
+  }, [user]);
 
   return (
     <div className={`comments ${otherClassName}`}>
       <div className="comments__top">
-        <h3 className="comments__heading">5 комментариев</h3>
+        <h3 className="comments__heading">
+          {getCommentCountWord(all_comments_count)}
+        </h3>
       </div>
       <NewComment
         id_publication={id_publication}
@@ -54,6 +73,7 @@ const Comments: FC<CommentsProps> = ({
                 />
               ))
             )}
+            {pageCount > page && <div>Загрузить ещё</div>}
           </div>
         </div>
       </div>

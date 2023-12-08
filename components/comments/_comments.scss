@@ -360,7 +360,7 @@
     width: fit-content;
     font-size: 14px;
     font-weight: 500;
-    & > img {
+    &-img {
       display: block;
       overflow: hidden;
       min-width: 32px;
@@ -423,6 +423,12 @@
     }
   }
   &__like {
+    &.is--active {
+      color: $root-complement-2-on-light;
+      svg {
+        color: $root-complement-2-on-light;
+      }
+    }
     @media screen and (max-width: 767px) {
       position: absolute;
       top: 0;

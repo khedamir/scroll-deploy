@@ -18,6 +18,7 @@ import {
   removeFromFavorites,
   removeFromFavoritesBlock,
 } from "../redux/favorites/slice";
+import { useModalsContext } from "./ModalsContext";
 
 type addFavoritePropsType = {
   itemId: string;
@@ -51,8 +52,9 @@ const FavoritesContext = createContext({
 });
 
 const FavoritesContextProvider = (props: any) => {
-  const { id } = useSelector(selectUser);
+  const { user } = useSelector(selectUser);
   const dispatch = useAppDispatch();
+  const { setLoginActive } = useModalsContext();
 
   const addFavorite = ({
     itemId,
@@ -63,10 +65,15 @@ const FavoritesContextProvider = (props: any) => {
     trendItem,
     podcastItem,
   }: addFavoritePropsType) => {
+    if (!user) {
+      setLoginActive(true);
+      return;
+    }
+
     changeFavoriteItem({
       id: itemId,
       type: "add",
-      userId: id,
+      userId: user?.id,
     }).then(() => {
       if (newItem) {
         dispatch(addToFavorites({ sectionId, element: newItem }));
@@ -87,36 +94,42 @@ const FavoritesContextProvider = (props: any) => {
   };
 
   const deleteFavorite = ({ itemId, sectionId }: removeFavoritePropsType) => {
-    changeFavoriteItem({
-      id: itemId,
-      type: "delete",
-      userId: id,
-    }).then(() => {
-      dispatch(removeFromFavorites({ sectionId, elementId: itemId }));
-    });
+    if (user) {
+      changeFavoriteItem({
+        id: itemId,
+        type: "delete",
+        userId: user?.id,
+      }).then(() => {
+        dispatch(removeFromFavorites({ sectionId, elementId: itemId }));
+      });
+    }
   };
 
   const deleteFavoriteBlock = ({ sectionId }: removeFavoriteBlockPropsType) => {
-    deleteFavoritesBlock({
-      iblockId: sectionId,
-      userId: id,
-    }).then(() => {
-      dispatch(removeFromFavoritesBlock({ sectionId }));
-    });
+    if (user) {
+      deleteFavoritesBlock({
+        iblockId: sectionId,
+        userId: user?.id,
+      }).then(() => {
+        dispatch(removeFromFavoritesBlock({ sectionId }));
+      });
+    }
   };
 
   const changeEditionsPodcast = async ({
     podcastId,
     type,
   }: changeFavoritePodcastType) => {
-    try {
-      await changeFavoriteItem({
-        id: podcastId,
-        type: type,
-        userId: id,
-      });
-    } catch (error) {
-      console.error("Произошла ошибка", error);
+    if (user) {
+      try {
+        await changeFavoriteItem({
+          id: podcastId,
+          type: type,
+          userId: user?.id,
+        });
+      } catch (error) {
+        console.error("Произошла ошибка", error);
+      }
     }
   };
 

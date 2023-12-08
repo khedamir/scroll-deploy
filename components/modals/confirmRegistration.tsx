@@ -15,8 +15,15 @@ const ConfirmRegistration = () => {
   const { setLoginActive } = useModalsContext();
   const router = useRouter();
   const { confirm_user_id, confirm_code } = router.query;
-  const [active, setActive] = useState(false);
   const [succes, setSucces] = useState(false);
+
+  const clearQueryParams = () => {
+    const { pathname, query } = router;
+    const newUrl = { pathname };
+    router.replace({ pathname: newUrl.pathname, query: {} }, undefined, {
+      shallow: true,
+    });
+  };
 
   const {
     register,
@@ -30,16 +37,18 @@ const ConfirmRegistration = () => {
   });
 
   useEffect(() => {
-    if (confirm_user_id) {
-      setActive(true);
-    }
-
+    let timeoutId;
     if (confirm_code) {
       registerConfirm({
         userId: String(confirm_user_id),
         confirm_code: String(confirm_code),
       }).then(() => {
         setSucces(true);
+
+        timeoutId = setTimeout(() => {
+          setLoginActive(true);
+          clearQueryParams();
+        }, 1500);
       });
     }
   }, []);
@@ -49,9 +58,8 @@ const ConfirmRegistration = () => {
       userId: String(confirm_user_id),
       confirm_code: values.code,
     }).then(() => {
-      router.push("/");
-      setActive(false);
       setLoginActive(true);
+      clearQueryParams();
     });
     try {
     } catch (error) {
@@ -61,7 +69,7 @@ const ConfirmRegistration = () => {
 
   return (
     <div
-      className={`modal modal--wide ${active && "is--active"}`}
+      className={`modal modal--wide ${confirm_user_id && "is--active"}`}
       id="modal-login"
     >
       <div className="modal__wrap">
@@ -71,7 +79,7 @@ const ConfirmRegistration = () => {
               <img src="/img/logotype.svg" alt="SCROLL" />
             </picture>
             <button
-              onClick={() => setActive(false)}
+              onClick={() => clearQueryParams()}
               className="modal__close-btn modal__close-btn--mobile"
             >
               <ReactSVG src="/img/sprite/icon-close-thin.svg" />
@@ -79,13 +87,13 @@ const ConfirmRegistration = () => {
           </div>
           <div className="modal__right">
             <button
-              onClick={() => setActive(false)}
+              onClick={() => clearQueryParams()}
               className="modal__close-btn modal__close-btn--desktop"
             >
               <ReactSVG src="/img/sprite/icon-close-thin.svg" />
             </button>
             <div className="modal__body">
-              {confirm_code ? (
+              {!confirm_code ? (
                 <>
                   <h3 className="modal__heading">
                     Введите код для подтверждения регистрации

@@ -17,42 +17,42 @@ const Footer: FC<FooterProps> = ({ otherClassName }) => {
     <footer className={`footer ${otherClassName}`} id="footer">
       <div className="footer-socmedia footer__socmedia">
         <div className="footer-socmedia__wrapper">
-          <a href="#" className="footer-socmedia__btn">
+          <Link href="" className="footer-socmedia__btn">
             <VCRUIcon />
-          </a>
-          <a href="#" className="footer-socmedia__btn">
+          </Link>
+          <Link href="" className="footer-socmedia__btn">
             <TelegramIcon />
-          </a>
-          <a href="#" className="footer-socmedia__btn">
+          </Link>
+          <Link href="" className="footer-socmedia__btn">
             <VKIcon />
-          </a>
-          <a href="#" className="footer-socmedia__btn">
+          </Link>
+          <Link href="" className="footer-socmedia__btn">
             <DzenIcon />
-          </a>
+          </Link>
         </div>
       </div>
       <div className="footer-nav footer__nav">
         <div className="footer-nav__wrapper">
           <ul className="footer-nav__list">
             <li className="footer-nav__item">
-              <Link href="#" className="footer-nav__link">
+              <Link href="" className="footer-nav__link">
                 Заказать рекламу
               </Link>
             </li>
             <li className="footer-nav__item">
-              <Link href="#" className="footer-nav__link">
+              <Link href="" className="footer-nav__link">
                 О проекте
               </Link>
             </li>
             <li className="footer-nav__item">
-              <Link href="#" className="footer-nav__link">
+              <Link href="" className="footer-nav__link">
                 Конфиденциальность
               </Link>
             </li>
           </ul>
           <ul className="footer-nav__list">
             <li className="footer-nav__item">
-              <Link href="#" className="footer-nav__link">
+              <Link href="" className="footer-nav__link">
                 Правила
               </Link>
             </li>

@@ -31,7 +31,7 @@ interface PodcastProps {
 
 const Podcast: FC<PodcastProps> = ({ podcast }) => {
   const { data } = useSelector(selectPodcasts);
-  const { user, id } = useSelector(selectUser);
+  const { user } = useSelector(selectUser);
   const { setLoginActive } = useModalsContext();
   const dispatch = useAppDispatch();
 
@@ -51,7 +51,7 @@ const Podcast: FC<PodcastProps> = ({ podcast }) => {
       type: isFullPodcastFavorite
         ? "deleteEditionsPodcast"
         : "addEditionsPodcast",
-      userId: id,
+      userId: user.id,
     }).then(() => {
       if (isFullPodcastFavorite) {
         podcast.editions.forEach((item) => {

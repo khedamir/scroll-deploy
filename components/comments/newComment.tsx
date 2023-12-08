@@ -4,10 +4,11 @@ import { ReactSVG } from "react-svg";
 import { selectUser } from "../../redux/auth/slice";
 import { AddCommentFetch, AddCommentFetchParams } from "../../utils/formFetchs";
 import { useAppDispatch } from "../../redux/store";
-import { fetchComments } from "../../redux/comments/asyncAction";
 import { CommentType } from "../../redux/comments/types";
 import { addComment } from "../../redux/comments/slice";
 import EmojiBlock from "./emojiBlock";
+import { useModalsContext } from "../../context/ModalsContext";
+import UserIcon from "../userIcon";
 
 interface NewCommentProps {
   iblockId: string;
@@ -24,45 +25,33 @@ const NewComment: FC<NewCommentProps> = ({
 }) => {
   const [text, setText] = useState("");
   const [inputActive, setInputActive] = useState(false);
-  const { id, user } = useSelector(selectUser);
+  const { user } = useSelector(selectUser);
   const dispatch = useAppDispatch();
-  console.log(text);
+  const { setLoginActive } = useModalsContext();
 
   const onSubmit = () => {
+    if (!user) {
+      setLoginActive(true);
+      return;
+    }
+
     const params: AddCommentFetchParams = {
       iblockId: iblockId,
       text,
       id_publication,
-      userId: id,
+      userId: user.id,
       depth_level: parentComment ? parentComment.UF_DEPTH_LEVEL + 1 : "1",
     };
     if (parentComment) {
       params.parent_comment = parentComment.ID;
     }
     AddCommentFetch(params).then((result) => {
-      setText("");
-      setParentComment(undefined);
-      setInputActive(false);
-      dispatch(fetchComments({ id_publication, type: "get" }));
-      // dispatch(
-      //   addComment({
-      //     ID: "string",
-      //     UF_ACTIVE: "string",
-      //     UF_ID_PUBLICATION: "string",
-      //     UF_DEPTH_LEVEL: "1",
-      //     UF_AUTHOR: "string",
-      //     UF_DATE: "string",
-      //     UF_TEXT: text,
-      //     UF_IBLOCK_ID: "9",
-      //     UF_IBLOCK_NAME: "Новости",
-      //     UF_PARENT_ID: parentComment ? parentComment.ID : "",
-      //     UF_LIKES: "0",
-      //     author_name: "string",
-      //     author_surname: "string",
-      //     author_photo: "string",
-      //     ANSWERS: [],
-      //   })
-      // );
+      if (result) {
+        setText("");
+        setParentComment(undefined);
+        setInputActive(false);
+        dispatch(addComment(result));
+      }
     });
   };
 
@@ -75,14 +64,11 @@ const NewComment: FC<NewCommentProps> = ({
   return (
     <div className="comments-new comments__new">
       <div className={`comments-new__wrapper ${inputActive && "is--active"}`}>
-        <picture className="comments-new__img">
-          <span>{user?.main.VALUES.NAME.VALUE[0]}</span>
-          {user?.main.VALUES.PERSONAL_PHOTO?.VALUE ? (
-            <img src={user?.main.VALUES.PERSONAL_PHOTO?.VALUE} alt="" />
-          ) : (
-            <span>{user?.main.VALUES.NAME.VALUE[0]}</span>
-          )}
-        </picture>
+        {user && (
+          <div className="comments-new__img">
+            <UserIcon userPhoto={user.photo} nameLatter={user.name[0]} />
+          </div>
+        )}
         <div className="comments-new__body">
           {parentComment && (
             <div style={{ marginBottom: "12px" }}>

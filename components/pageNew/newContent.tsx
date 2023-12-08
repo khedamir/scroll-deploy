@@ -6,9 +6,14 @@ import { FullNewType } from "../../redux/types";
 interface NewContentProps {
   content: string;
   recommendationNews: FullNewType[];
+  setModalActive: (v: boolean) => void;
 }
 
-const NewContent: FC<NewContentProps> = ({ content, recommendationNews }) => {
+const NewContent: FC<NewContentProps> = ({
+  content,
+  recommendationNews,
+  setModalActive,
+}) => {
   const anchorRegex = /<a name="\d+"><\/a>/;
   const articleParts = content.split(anchorRegex);
   return (
@@ -18,7 +23,7 @@ const NewContent: FC<NewContentProps> = ({ content, recommendationNews }) => {
           {index > 0 && (
             <RecomendationNew newItem={recommendationNews[index - 1]} />
           )}
-          <NewFragment fragment={part} />
+          <NewFragment fragment={part} setModalActive={setModalActive} />
         </React.Fragment>
       ))}
     </>

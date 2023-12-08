@@ -1748,12 +1748,17 @@
     width: 100%;
     font-size: 16px;
     font-weight: 500;
-    & > img {
+    &-img {
       display: block;
       min-width: 40px;
       width: 40px;
       height: 40px;
-      object-fit: contain;
+
+      img {
+        object-fit: cover;
+        width: 100%;
+        height: 100%;
+      }
     }
     & > * + * {
       margin-left: 16px;
@@ -1762,6 +1767,12 @@
     @media screen and (hover: hover) {
       &:hover {
         color: $text-base-on-light-shift-up;
+
+        &-img {
+          .user-btn__icon--wrapper {
+            background-color: rgba($root-base-on-light, 0.1);
+          }
+        }
       }
     }
     @media screen and (max-width: 767px) {
@@ -1786,7 +1797,7 @@
 // big news
 .big-news {
   &__wrap {
-    overflow: hidden;
+    // overflow: hidden;
     background: $white-color;
 
     @media screen and (max-width: 767px) {

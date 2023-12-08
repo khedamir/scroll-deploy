@@ -12,6 +12,10 @@ const ModalsContext = createContext({
   setRegisterActive: (value: boolean) => {},
   changePasswordActive: false,
   setChangePasswordActive: (value: boolean) => {},
+  recoveryPasswordActive: false,
+  setRecoveryPasswordActive: (value: boolean) => {},
+  recoveryPasswordSend: "",
+  setRecoveryPasswordSend: (value: string) => {},
   searchActive: false,
   setSearchActive: (value: boolean) => {},
   notification: false,
@@ -24,6 +28,8 @@ const ModalsContextProvider = (props: any) => {
   const [loginActive, setLoginActive] = useState(false);
   const [registerActive, setRegisterActive] = useState(false);
   const [changePasswordActive, setChangePasswordActive] = useState(false);
+  const [recoveryPasswordActive, setRecoveryPasswordActive] = useState(false);
+  const [recoveryPasswordSend, setRecoveryPasswordSend] = useState("");
   const [searchActive, setSearchActive] = useState(false);
   const [notification, setNotification] = useState(false);
 
@@ -46,6 +52,10 @@ const ModalsContextProvider = (props: any) => {
         setRegisterActive,
         changePasswordActive,
         setChangePasswordActive,
+        recoveryPasswordActive,
+        setRecoveryPasswordActive,
+        recoveryPasswordSend,
+        setRecoveryPasswordSend,
         searchActive,
         setSearchActive,
         notification,

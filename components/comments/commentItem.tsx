@@ -7,6 +7,7 @@ import { useSelector } from "react-redux";
 import { selectUser } from "../../redux/auth/slice";
 import { useModalsContext } from "../../context/ModalsContext";
 import { changeCommentLike } from "../../utils/controls";
+import UserIcon from "../userIcon";
 
 interface CommentItemProps {
   comment: CommentType;
@@ -14,9 +15,9 @@ interface CommentItemProps {
 }
 
 const CommentItem: FC<CommentItemProps> = ({ comment, setParentComment }) => {
-  const [isLiked, setIsLiked] = useState(false);
+  const [isLiked, setIsLiked] = useState(comment.LIKED);
   const [likesCount, setLikesCount] = useState(Number(comment.UF_LIKES));
-  const { id, user } = useSelector(selectUser);
+  const { user } = useSelector(selectUser);
   const { setLoginActive } = useModalsContext();
 
   const addLike = () => {
@@ -28,7 +29,7 @@ const CommentItem: FC<CommentItemProps> = ({ comment, setParentComment }) => {
     changeCommentLike({
       id: comment.ID,
       type: isLiked ? "deleteLike" : "addLike",
-      userId: id,
+      userId: user.id,
     }).then(() => {
       if (isLiked) {
         setLikesCount(likesCount - 1);
@@ -44,7 +45,12 @@ const CommentItem: FC<CommentItemProps> = ({ comment, setParentComment }) => {
       <div className="comment-card comments-all__card">
         <div className="comment-card__top">
           <span className="comment-card__author">
-            <img src={comment.author_photo} alt="Image" />
+            <span className="comment-card__author-img">
+              <UserIcon
+                userPhoto={comment.author_photo}
+                nameLatter={comment.author_name[0]}
+              />
+            </span>
             <span>
               {comment.author_name} {comment.author_surname}
             </span>
@@ -59,7 +65,12 @@ const CommentItem: FC<CommentItemProps> = ({ comment, setParentComment }) => {
           </div>
         </div>
         <div className="comment-card__bottom">
-          <button onClick={addLike} className="feedback-btn comment-card__like">
+          <button
+            onClick={addLike}
+            className={`feedback-btn comment-card__like ${
+              isLiked && "is--active"
+            }`}
+          >
             <ReactSVG src="/img/sprite/icon-like-thumb-up.svg" />
             <span>{likesCount}</span>
           </button>

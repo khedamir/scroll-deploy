@@ -54,7 +54,6 @@ const Search = () => {
             <div className="search__container">
               {!result.length && searched && (
                 <>
-                  {" "}
                   <div className="search__empty is--active">
                     <h3 className="search__heading">ничего не найдено</h3>
                     <p className="search__description">

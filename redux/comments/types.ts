@@ -4,9 +4,11 @@ export type CommentsFetchType = "get" | "add" | "addLike" | "deleteLike";
 
 export type FetchParams = {
   id_publication: string;
+  userId: string;
   type: CommentsFetchType;
+  page: number;
+  limit: number;
 };
-
 
 export type CommentType = {
   ID: string;
@@ -20,6 +22,7 @@ export type CommentType = {
   UF_IBLOCK_NAME: string;
   UF_PARENT_ID: string;
   UF_LIKES: string;
+  LIKED: boolean;
   author_name: string;
   author_surname: string;
   author_photo: string;
@@ -28,5 +31,6 @@ export type CommentType = {
 
 export interface CommentsSliceState {
   data: CommentType[];
+  all_comments_count: number;
   status: Status;
 }

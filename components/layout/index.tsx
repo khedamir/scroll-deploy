@@ -14,6 +14,9 @@ import Notification from "../notifications";
 import { fetchFavorites } from "../../redux/favorites/asyncAction";
 import Register from "../modals/register";
 import ConfirmRegistration from "../modals/confirmRegistration";
+import PasswordRecovery from "../modals/passwordRecovery";
+import PassworRecoverySend from "../modals/passworRecoverySend";
+import PasswordRecoveryNew from "../modals/passwordRecoveryNew";
 
 const Layout = ({ children }: { children: ReactNode }) => {
   const headerComponents: any = {
@@ -83,14 +86,13 @@ const Layout = ({ children }: { children: ReactNode }) => {
     window.addEventListener("scroll", scrollHandler);
 
     return () => {
-      // Очистка слушателя событий при размонтировании компонента
       window.removeEventListener("scroll", scrollHandler);
     };
   }, []);
 
   useEffect(() => {
     if (localStorage.getItem("token") && localStorage.getItem("id")) {
-      dispatch(fetchAuthMe());
+      dispatch(fetchAuthMe({ userId: String(localStorage.getItem("id")) }));
       dispatch(
         fetchFavorites({
           userId: String(localStorage.getItem("id")),
@@ -106,6 +108,9 @@ const Layout = ({ children }: { children: ReactNode }) => {
       <Login />
       <Register />
       <ChangePassword />
+      <PasswordRecovery />
+      <PassworRecoverySend />
+      <PasswordRecoveryNew />
       <Search />
       <Menu />
       <Notification />

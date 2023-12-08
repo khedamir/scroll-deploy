@@ -49,6 +49,7 @@ const EmojiBlock: FC<EmojiBlockProps> = ({ text, setText }) => {
           categories={CategoriesList}
           searchPlaceHolder="Поиск"
           width={"100%"}
+          height={350}
           onEmojiClick={onEmojiClick}
         />
       </div>

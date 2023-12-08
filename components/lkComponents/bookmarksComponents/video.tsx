@@ -96,8 +96,7 @@ const Video: FC<VideoProps> = ({
         >
           {trends ? (
             trends.map((item) => (
-              <div className="lk-video__wrapper">
-                {" "}
+              <div key={item.id} className="lk-video__wrapper">
                 <article
                   key={item.id}
                   className="lk-video__item lk-video__item--vertical"

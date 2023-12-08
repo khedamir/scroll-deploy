@@ -18,7 +18,7 @@ interface TrendItemProps {
 }
 
 const TrendItem: FC<TrendItemProps> = ({ trend }) => {
-  const { user, id } = useSelector(selectUser);
+  const { user } = useSelector(selectUser);
   const { setLoginActive } = useModalsContext();
   const { addFavorite, deleteFavorite } = useFavoriteContext();
   const isFavorite = useSelector((state: AppState) =>
@@ -36,7 +36,7 @@ const TrendItem: FC<TrendItemProps> = ({ trend }) => {
     changeItemLike({
       newsId: trend.id,
       type: isLiked ? "delete" : "add",
-      userId: id,
+      userId: user.id,
     }).then(() => {
       if (isLiked) {
         setLikesCount(likesCount - 1);

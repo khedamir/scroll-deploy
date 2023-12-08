@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import InputMask from "react-input-mask";
 import { Controller, useForm } from "react-hook-form";
 import { useSelector } from "react-redux";
@@ -7,9 +7,12 @@ import { selectUser } from "../../redux/auth/slice";
 import InputWrapper from "../InputWrapper";
 import { changeUserData } from "../modals/validationSchemes";
 import { useModalsContext } from "../../context/ModalsContext";
+import { ChangeUserDataProps, UserDataChange } from "../../utils/formFetchs";
+import UserIcon from "../userIcon";
 
 type FormValuesType = {
   name: string;
+  last_name: string;
   city: string;
   phone: string;
   email: string;
@@ -18,6 +21,7 @@ type FormValuesType = {
 const UserDataForm = () => {
   const { user } = useSelector(selectUser);
   const { setChangePasswordActive } = useModalsContext();
+  const [userImg, setUserImg] = useState("");
 
   const {
     register,
@@ -26,16 +30,59 @@ const UserDataForm = () => {
     formState: { errors },
   } = useForm<FormValuesType>({
     defaultValues: {
-      name: user ? user.main.VALUES.NAME.VALUE : "",
-      city: user ? user.personal.VALUES.PERSONAL_CITY.VALUE : "",
-      phone: user ? user.personal.VALUES.PERSONAL_PHONE.VALUE : "",
-      email: user ? user.main.VALUES.EMAIL.VALUE : "",
+      name: user?.name || "",
+      last_name: user?.last_name || "",
+      city: user?.city || "",
+      phone: user?.phone || "",
+      email: user?.email || "",
     },
     mode: "onBlur",
   });
 
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    const fileReader = new FileReader();
+    if (file) {
+      fileReader.onload = function (ev) {
+        if (ev.target && typeof ev.target.result === "string") {
+          console.log(ev.target.result);
+          setUserImg(ev.target.result);
+        }
+      };
+      fileReader.readAsDataURL(file);
+    }
+  };
+
   const onSubmit = (values: FormValuesType) => {
-    console.log(values);
+    if (user) {
+      const params: ChangeUserDataProps = {
+        userId: user?.id,
+        data: {},
+      };
+      if (user.name !== values.name) {
+        params.data.name = values.name;
+      }
+
+      if (user.last_name !== values.last_name) {
+        params.data.last_name = values.last_name;
+      }
+
+      if (user.city !== values.city) {
+        params.data.city = values.city;
+      }
+
+      if (user.phone !== values.phone) {
+        params.data.phone = values.phone;
+      }
+
+      if (user.email !== values.email) {
+        params.data.email = values.email;
+      }
+
+      UserDataChange(params).then(() => {
+        console.log("changed");
+      });
+    }
   };
 
   return (
@@ -46,11 +93,16 @@ const UserDataForm = () => {
             type="file"
             id="upload-photo"
             className="lk-edit__photo-input"
+            onChange={handleFileChange}
           />
           <label htmlFor="upload-photo" className="lk-edit__photo-label">
-            <picture className="lk-edit__img">
-              <img src="/img/user.jpg" alt="Image" />
-            </picture>
+            <div className="lk-user__img">
+              <UserIcon
+                userPhoto={user?.photo || ""}
+                nameLatter={user?.name[0] || ""}
+                photo={userImg}
+              />
+            </div>
             <div className="lk-edit__icon-wrap">
               <ReactSVG src="/img/sprite/icon-camera.svg" />
             </div>
@@ -72,6 +124,21 @@ const UserDataForm = () => {
               className="input-field__input"
               placeholder="Имя"
               {...register("name", changeUserData.name)}
+            />
+          </InputWrapper>
+          <InputWrapper
+            labelValue="Фамилия"
+            htmlForValue="lk-edit-last-name"
+            error={errors.last_name}
+            errorMessage={errors.last_name?.message}
+            otherClassName="lk-edit__input"
+          >
+            <input
+              type="text"
+              id="lk-edit-last-name"
+              className="input-field__input"
+              placeholder="Фамилия"
+              {...register("last_name", changeUserData.last_name)}
             />
           </InputWrapper>
           <InputWrapper

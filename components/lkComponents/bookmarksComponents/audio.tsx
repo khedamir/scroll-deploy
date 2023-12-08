@@ -28,8 +28,8 @@ const Audio: FC<AudioProps> = ({ activeBlock, data, changeFavorite }) => {
         <div className="lk-podcasts lk-bookmarks__section">
           {data ? (
             data?.map((item) => (
-              <div className="lk-podcasts__wrapper">
-                <div key={item.id} className="lk-podcasts__item">
+              <div key={item.id} className="lk-podcasts__wrapper">
+                <div className="lk-podcasts__item">
                   <picture className="lk-podcasts__img">
                     <img src={item.data.podcastPhoto} alt="Image" />
                   </picture>

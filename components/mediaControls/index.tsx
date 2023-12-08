@@ -31,19 +31,19 @@ const MediaControls: FC<MediaControlsProps> = ({
   const [isLiked, setIsLiked] = useState(false);
   const [likesCount, setLikesCount] = useState(Number(likes));
   const router = useRouter();
-  const { id, user } = useSelector(selectUser);
+  const { user } = useSelector(selectUser);
   const { setLoginActive } = useModalsContext();
 
   useEffect(() => {
     const fetch = async () => {
       const { data } = await server.get(
-        `/sw/v1/publications/?id=${router.query.id}&userId=${id}`
+        `/sw/v1/publications/?id=${router.query.id}&userId=${user?.id}`
       );
       const pub = data.datas[Number(router.query.id)];
       setIsLiked(pub.liked);
     };
     fetch();
-  }, [id]);
+  }, [user]);
 
   const addLike = () => {
     if (!user) {
@@ -54,7 +54,7 @@ const MediaControls: FC<MediaControlsProps> = ({
     changeItemLike({
       newsId: publication_id,
       type: isLiked ? "delete" : "add",
-      userId: id,
+      userId: user.id,
     }).then(() => {
       if (isLiked) {
         setLikesCount(likesCount - 1);

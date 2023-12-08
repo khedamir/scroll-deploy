@@ -15,7 +15,12 @@ type FormValuesType = {
 };
 
 const Login = () => {
-  const { loginActive, setLoginActive, setRegisterActive } = useModalsContext();
+  const {
+    loginActive,
+    setLoginActive,
+    setRegisterActive,
+    setRecoveryPasswordActive,
+  } = useModalsContext();
   const [contactType, setContactType] = useState<ContactInputType>("email");
 
   const dispatch = useAppDispatch();
@@ -45,7 +50,9 @@ const Login = () => {
       );
 
       if (fetchAuth.fulfilled.match(resultAction)) {
-        await dispatch(fetchAuthMe());
+        await dispatch(
+          fetchAuthMe({ userId: String(localStorage.getItem("id")) })
+        );
         setLoginActive(false);
       } else if (fetchAuth.rejected.match(resultAction)) {
         alert("error");
@@ -55,7 +62,8 @@ const Login = () => {
     }
   };
 
-  const changePassword = () => {
+  const recoveryPassword = () => {
+    setRecoveryPasswordActive(true);
     setLoginActive(false);
   };
 
@@ -122,7 +130,7 @@ const Login = () => {
                 </button>
                 <div className="modal-form__links">
                   <span
-                    onClick={changePassword}
+                    onClick={recoveryPassword}
                     className="modal-form__link modal-form__link--red"
                   >
                     Забыли пароль?

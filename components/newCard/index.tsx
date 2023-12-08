@@ -15,6 +15,7 @@ import {
 import { AppState, useAppDispatch } from "../../redux/store";
 import { FavoriteNew } from "../../redux/favorites/types";
 import { useFavoriteContext } from "../../context/FavoritesContext";
+import UserIcon from "../userIcon";
 
 interface NewCardProps {
   newItem: NewType;
@@ -84,15 +85,22 @@ const NewCard: FC<NewCardProps> = ({ newItem, isLast, newLimit, end }) => {
             <span className="big-news-card__author">
               {newItem.poperties.SOURCE ? (
                 <>
-                  <img
-                    src={`${newItem.poperties.PUB_SOURCE_LOGO}`}
-                    alt="Image"
-                  />
+                  <span className="big-news-card__author--img">
+                    <img
+                      src={`${newItem.poperties.PUB_SOURCE_LOGO}`}
+                      alt="Icon"
+                    />
+                  </span>
                   <span>{newItem.poperties.SOURCE}</span>
                 </>
               ) : newItem.author_name ? (
                 <>
-                  <img src={`${newItem.author_photo}`} alt="Image" />
+                  <span className="big-news-card__author--img">
+                    <UserIcon
+                      userPhoto={newItem.author_photo}
+                      nameLatter={newItem.author_name[0]}
+                    />
+                  </span>
                   <span>
                     {newItem.author_name} {newItem.author_surname}
                   </span>

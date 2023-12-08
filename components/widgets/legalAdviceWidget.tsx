@@ -19,9 +19,12 @@ const LegalAdvice: FC<LegalAdviceProps> = ({ setModalActive }) => {
               <picture className="content-widget__img">
                 <img src="/img/widget-consultation-01.jpg" alt="Image" />
               </picture>
-              <a href="#" className="content-widget__circle-btn">
+              <button
+                onClick={() => setModalActive(true)}
+                className="content-widget__circle-btn"
+              >
                 Записаться
-              </a>
+              </button>
             </div>
             <button
               onClick={() => setModalActive(true)}

@@ -1,6 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { LoginData, TokenType, UserData } from "./types";
-import { server, serverWithJwt } from "../../utils/server";
+import { server } from "../../utils/server";
 
 export const fetchAuth = createAsyncThunk<TokenType, LoginData>(
   "auth/fetchAuth",
@@ -10,10 +10,18 @@ export const fetchAuth = createAsyncThunk<TokenType, LoginData>(
   }
 );
 
-export const fetchAuthMe = createAsyncThunk<UserData>(
+export const fetchAuthMe = createAsyncThunk<UserData, { userId: string }>(
   "auth/fetchAuthMe",
-  async () => {
-    const { data } = await serverWithJwt.get("/api/v1/users");
-    return data.message;
+  async (params) => {
+    const { data } = await server.post(
+      "/sw/v1/userData.php",
+      { type: "get", userId: params.userId },
+      {
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+      }
+    );
+    return data.datas[0];
   }
 );

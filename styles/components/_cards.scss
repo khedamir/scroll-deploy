@@ -302,14 +302,18 @@
     font-size: 16px;
     font-weight: 600;
     color: $text-faint-on-light;
-    & > img {
+    &--img {
       display: block;
       overflow: hidden;
       min-width: 32px;
       width: 32px;
       height: 32px;
-      object-fit: cover;
       border-radius: 50%;
+      img {
+        object-fit: cover;
+        width: 100%;
+        height: 100%;
+      }
     }
     & > * + * {
       margin-left: 8px;

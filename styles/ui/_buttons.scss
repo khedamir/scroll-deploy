@@ -14,6 +14,13 @@
   border: none;
   border-radius: 40px;
   transition: all $transition-default;
+
+  &:disabled {
+    cursor: default;
+    pointer-events: none;
+    opacity: 0.5;
+  }
+
   & svg {
     min-width: 24px;
     width: 24px;
@@ -383,5 +390,50 @@
   }
   &:focus {
     outline: none;
+  }
+}
+
+.user-btn {
+  width: 100%;
+  height: 100%;
+  &__photo {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    overflow: hidden;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+
+  &__icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    overflow: hidden;
+
+    &--wrapper {
+      font-family: "Inter";
+      font-style: normal;
+      font-weight: 500;
+      line-height: 17px;
+      color: $white-color;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      height: 100%;
+
+      &:hover {
+        background-color: rgba($root-base-on-light, 0.1);
+      }
+    }
   }
 }

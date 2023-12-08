@@ -1,7 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import Footer from "../../components/footer";
 import SecondSidebar from "../../components/sidebar/secondSidebar";
-import { ReactSVG } from "react-svg";
 import Swiper from "swiper";
 import { wrapper } from "../../redux/store";
 import { fetchTrends } from "../../redux/trends/asyncAction";

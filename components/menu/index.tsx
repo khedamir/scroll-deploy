@@ -72,8 +72,7 @@ const Menu = () => {
               <div className="c-account menu__account">
                 <Link href="/lk" className="c-account__inner">
                   <span className="c-account__name">
-                    {user?.main.VALUES.NAME.VALUE}{" "}
-                    {user?.main.VALUES.LAST_NAME.VALUE}
+                    {user?.name} {user?.last_name}
                   </span>
                   <span className="c-account__help">Аккаунт</span>
                 </Link>

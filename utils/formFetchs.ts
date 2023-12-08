@@ -1,4 +1,4 @@
-import { CommentsFetchType } from "../redux/comments/types";
+import { CommentType, CommentsFetchType } from "../redux/comments/types";
 import { server } from "./server";
 
 type EventsParamsType = {
@@ -163,7 +163,7 @@ export const AddCommentFetch = async ({
         "Content-Type": "application/x-www-form-urlencoded",
       },
     });
-    console.log(result);
+    return result.data.datas[0] as CommentType;
   } catch (error) {
     console.error("Произошла ошибка", error);
   }
@@ -181,6 +181,25 @@ export type RegisterParamsType = {
 export type ConfirmParamsType = {
   userId: string;
   confirm_code: string;
+};
+
+export type ChangeUserDataProps = {
+  userId: string;
+
+  data: {
+    name?: string;
+    last_name?: string;
+    email?: string;
+    city?: string;
+    phone?: string;
+  };
+};
+
+export type RecoveryPasswordProps = {
+  login: string;
+  control_string: string;
+  password: string;
+  confirm_password: string;
 };
 
 // Регистрация пользователя
@@ -228,6 +247,52 @@ export const registerConfirm = async ({
         },
       }
     );
+  } catch (error) {
+    console.error("Произошла ошибка", error);
+  }
+};
+
+// Изменить данные пользователя
+export const UserDataChange = async ({ userId, data }: ChangeUserDataProps) => {
+  try {
+    const params = {
+      type: "change",
+      userId,
+      ...data,
+    };
+
+    const result = await server.post("/sw/v1/userData.php", params, {
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
+    });
+    console.log(result);
+  } catch (error) {
+    console.error("Произошла ошибка", error);
+  }
+};
+
+// Изменить данные пользователя
+export const PasswrodRecoveryFetch = async ({
+  login,
+  control_string,
+  password,
+  confirm_password,
+}: RecoveryPasswordProps) => {
+  try {
+    const params = {
+      login,
+      control_string,
+      password,
+      confirm_password,
+    };
+
+    const result = await server.post("/sw/v1/changePassword.php", params, {
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
+    });
+    console.log(result);
   } catch (error) {
     console.error("Произошла ошибка", error);
   }

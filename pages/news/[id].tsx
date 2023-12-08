@@ -26,6 +26,8 @@ import MoreNews from "../../components/pageNew/moreNews";
 import { fetchNews } from "../../redux/news/asyncAction";
 import { useSetCookie } from "../../hooks";
 import NewContent from "../../components/pageNew/newContent";
+import { selectComments } from "../../redux/comments/slice";
+import getCommentCountWord from "../../utils/getCommentCountWord";
 
 interface NewProps {
   publication: FullNewType;
@@ -39,6 +41,7 @@ const New: FC<NewProps> = ({ publication, recommendationNews }) => {
 
   const [modalActive, setModalActive] = useState(false);
   const { user } = useSelector(selectUser);
+  const { all_comments_count } = useSelector(selectComments);
   const { setLoginActive } = useModalsContext();
   const { addFavorite, deleteFavorite } = useFavoriteContext();
   const isFavorite = useSelector((state: AppState) =>
@@ -105,7 +108,9 @@ const New: FC<NewProps> = ({ publication, recommendationNews }) => {
                             <img src={`${publication.images[1]}`} alt="" />
                             <Link href="#" className="media-block__comments">
                               <ReactSVG src="/img/sprite/icon-comment.svg" />
-                              <span>5 комментариев</span>
+                              <span>
+                                {getCommentCountWord(all_comments_count)}
+                              </span>
                             </Link>
                           </picture>
                           <MediaControls
@@ -121,6 +126,7 @@ const New: FC<NewProps> = ({ publication, recommendationNews }) => {
                         <NewContent
                           content={publication.content}
                           recommendationNews={recommendationNews}
+                          setModalActive={setModalActive}
                         />
                         <p className="small-description">
                           <span>Краткое резюме статьи: </span>

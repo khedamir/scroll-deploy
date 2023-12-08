@@ -29,11 +29,9 @@ const Advertising: FC<AdvertisingProps> = ({ active }) => {
     formState: { errors },
   } = useForm({
     defaultValues: {
-      name: user
-        ? `${user?.main.VALUES.NAME.VALUE} ${user?.main.VALUES.LAST_NAME.VALUE}`
-        : "",
-      phone: user ? user?.personal.VALUES.PERSONAL_PHONE.VALUE : "",
-      email: user ? user?.main.VALUES.EMAIL.VALUE : "",
+      name: user ? `${user?.name} ${user?.last_name}` : "",
+      phone: user ? user?.phone : "",
+      email: user ? user?.email : "",
     },
     mode: "onBlur",
   });

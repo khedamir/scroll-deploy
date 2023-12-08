@@ -10,29 +10,25 @@ export type LoginData = {
   password: string;
 };
 
-type FieldType = {
-  VALUE: string;
+export type UserDataParams = {
+  userId: string;
 };
 
 export type UserData = {
-  main: {
-    VALUES: {
-      EMAIL: FieldType;
-      LAST_NAME: FieldType;
-      NAME: FieldType;
-      PERSONAL_PHOTO: FieldType;
-    };
-  };
-  personal: {
-    VALUES: {
-      PERSONAL_CITY: FieldType;
-      PERSONAL_PHONE: FieldType;
-    };
-  };
+  id: string;
+  login: string;
+  active: string;
+  name: string;
+  last_name: string;
+  email: string;
+  data_register: string;
+  phone: string;
+  city: string;
+  gender: string;
+  photo: string;
 };
 
 export interface AuthSliceState {
-  id: string;
   user: UserData | null;
   status: Status;
 }

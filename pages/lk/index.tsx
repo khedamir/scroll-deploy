@@ -1,4 +1,3 @@
-"use client";
 import React, { useEffect, useState } from "react";
 import Publications from "../../components/lkComponents/publications";
 import Bookmarks from "../../components/lkComponents/bookmarks";
@@ -14,9 +13,9 @@ import { useAppDispatch } from "../../redux/store";
 import { useRouter } from "next/router";
 import { Status } from "../../redux/types";
 import { useModalsContext } from "../../context/ModalsContext";
-import { server } from "../../utils/server";
 import { fetchFavorites } from "../../redux/favorites/asyncAction";
 import Loader from "../../components/loader";
+import UserIcon from "../../components/userIcon";
 
 type ActiveBlockValue =
   | "publications"
@@ -29,12 +28,14 @@ const Lk = () => {
   const [activeBlock, setActiveBlock] =
     useState<ActiveBlockValue>("publications");
   const { setLoginActive } = useModalsContext();
-  const { id, user, status } = useSelector(selectUser);
+  const { user, status } = useSelector(selectUser);
   const navigate = useRouter();
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    dispatch(fetchFavorites({ userId: id, type: "get" }));
+    if (user) {
+      dispatch(fetchFavorites({ userId: user.id, type: "get" }));
+    }
   }, [user, status]);
 
   useEffect(() => {
@@ -88,16 +89,18 @@ const Lk = () => {
                       <div className="lk__main">
                         <div className="lk-user lk__user">
                           <div className="lk-user__wrapper">
-                            <picture className="lk-user__img">
-                              <img src="/img/user.jpg" alt="Image" />
-                            </picture>
+                            <div className="lk-user__img">
+                              <UserIcon
+                                userPhoto={user.photo}
+                                nameLatter={user.name[0]}
+                              />
+                            </div>
                             <div className="lk-user__body">
                               <span className="lk-user__name">
-                                {user?.main.VALUES?.NAME.VALUE}{" "}
-                                {user?.main.VALUES?.LAST_NAME.VALUE}
+                                {user.name} {user.last_name}
                               </span>
                               <span className="lk-user__help">
-                                {user?.main.VALUES.EMAIL.VALUE}
+                                {user.email}
                               </span>
                             </div>
                           </div>
@@ -162,7 +165,7 @@ const Lk = () => {
               </div>
               <div className="layout__right">
                 <span className="layout__info layout__sticky layout__sticky--bottom">
-                  На проекте с 12 янв 2023
+                  На проекте с {user.data_register}
                 </span>
               </div>
             </div>

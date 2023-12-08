@@ -19,6 +19,7 @@ import { rubricByIdSelector } from "../../redux/rubrics/slice";
 import { fetchLectures } from "../../redux/lectures/asyncAction";
 import { fetchPodcasts } from "../../redux/podcasts/asyncAction";
 import { fetchTrends } from "../../redux/trends/asyncAction";
+import UserIcon from "../../components/userIcon";
 
 interface RubricsProps {
   recomendations: NewType[];
@@ -79,15 +80,19 @@ const Rubrics: FC<RubricsProps> = ({ recomendations }) => {
                           className="page-list__item"
                         >
                           {recomendation.poperties.PUB_SOURCE_LOGO ? (
-                            <img
-                              src={`${recomendation.poperties.PUB_SOURCE_LOGO}`}
-                              alt="Icon"
-                            />
+                            <span className="page-list__item-img">
+                              <img
+                                src={`${recomendation.poperties.PUB_SOURCE_LOGO}`}
+                                alt="Icon"
+                              />
+                            </span>
                           ) : (
-                            <img
-                              src={`${recomendation.author_photo}`}
-                              alt="Icon"
-                            />
+                            <span className="page-list__item-img">
+                              <UserIcon
+                                userPhoto={recomendation.author_photo}
+                                nameLatter={recomendation.author_name[0]}
+                              />
+                            </span>
                           )}
                           <span>{recomendation.name}</span>
                         </Link>

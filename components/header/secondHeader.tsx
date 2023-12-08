@@ -9,6 +9,7 @@ import NotificationIcon from "../../public/img/sprite/icon-notifications.svg";
 import { useRouter } from "next/router";
 import { useSelector } from "react-redux";
 import { selectUser } from "../../redux/auth/slice";
+import UserBlock from "./userBlock";
 
 const SecondHeader = () => {
   const { menuActive, setLoginActive, setSearchActive } = useModalsContext();
@@ -47,27 +48,7 @@ const SecondHeader = () => {
               </Link>
             </div>
             <div className="header__controls header__controls--second">
-              {user ? (
-                <span className="header__btn">
-                  <Link href="/lk">
-                    <picture className="comments-new__img header-lk__logo">
-                      <span>{user?.main.VALUES.NAME.VALUE[0]}</span>
-                      {user?.main.VALUES.PERSONAL_PHOTO?.VALUE ? (
-                        <img
-                          src={user?.main.VALUES.PERSONAL_PHOTO?.VALUE}
-                          alt=""
-                        />
-                      ) : (
-                        <span>{user?.main.VALUES.NAME.VALUE[0]}</span>
-                      )}
-                    </picture>
-                  </Link>
-                </span>
-              ) : (
-                <span onClick={login} className="header__btn">
-                  <span>Войти</span>
-                </span>
-              )}
+              <UserBlock />
               <Hamburger />
             </div>
           </div>

@@ -58,6 +58,7 @@ export const registerSchemes = {
 
 export const changeUserData = {
   name: nameScheme,
+  last_name: nameScheme,
   phone: phoneScheme,
   email: emailScheme,
 };
