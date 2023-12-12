@@ -1,10 +1,5 @@
 import React, { FC, useEffect, useState } from "react";
-import { useSelector } from "react-redux";
-import { ReactSVG } from "react-svg";
-import { selectComments } from "../../redux/comments/slice";
 import { CommentType, CommentsFetchType } from "../../redux/comments/types";
-import { useAppDispatch } from "../../redux/store";
-import { Status } from "../../redux/types";
 import CommentItem from "../comments/commentItem";
 import TrendNewComment from "./trendNewComment";
 import { server } from "../../utils/server";
@@ -15,6 +10,7 @@ interface TrendCommentsProps {
 }
 
 export type FetchCommentsParams = {
+  page: number;
   id_publication: string;
   type: CommentsFetchType;
 };
@@ -30,18 +26,29 @@ export const fetchComments = async (params: FetchCommentsParams) => {
 const TrendComments: FC<TrendCommentsProps> = ({ active, id_publication }) => {
   const [parentComment, setParentComment] = useState<CommentType>();
   const [comments, setComments] = useState<CommentType[]>([]);
+  const [totalPages, setTotalPages] = useState<number>(1);
+  const [page, setPage] = useState<number>(1);
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    fetchComments({ id_publication, type: "get" })
+    fetchComments({ id_publication, type: "get", page })
       .then((result) => {
         setComments(result.data.datas);
+        setTotalPages(result.data.pagination.totalPages);
         setIsLoading(true);
       })
       .finally(() => {
         setIsLoading(true);
       });
   }, []);
+
+  useEffect(() => {
+    if (totalPages && page > 1 && page <= totalPages) {
+      fetchComments({ id_publication, type: "get", page }).then((result) => {
+        setComments((prev) => [...prev, ...result.data.datas]);
+      });
+    }
+  }, [page]);
 
   return (
     <div className={`comments-all trands__comments ${active && "is--active"}`}>
@@ -60,6 +67,11 @@ const TrendComments: FC<TrendCommentsProps> = ({ active, id_publication }) => {
                   setParentComment={setParentComment}
                 />
               ))
+            )}
+            {totalPages > page && (
+              <div className="new-comments__btn">
+                <span onClick={() => setPage(page + 1)}>Загрузить ещё</span>
+              </div>
             )}
           </div>
         </div>

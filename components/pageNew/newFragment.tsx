@@ -1,15 +1,19 @@
-import React, { FC, RefObject, useEffect, useRef, useState } from "react";
+import React, { FC, useEffect, useRef, useState } from "react";
 import RenderHTML from "../renderHTML";
 import NewContentWidget from "./newContentWidget";
 import NewWidget from "./newWidget";
 
 interface NewFragmentProps {
+  title?: string;
   fragment: string;
   setModalActive: (v: boolean) => void;
 }
 
-const NewFragment: FC<NewFragmentProps> = ({ fragment, setModalActive }) => {
-  const [widgetTitle, setWidgetTitle] = useState<string | null>();
+const NewFragment: FC<NewFragmentProps> = ({
+  fragment,
+  setModalActive,
+  title,
+}) => {
   const widgetRef = useRef<HTMLDivElement | null>(null);
   const [replacedHTMLFragment, setReplacedHTMLFragment] = useState<string[]>(
     []
@@ -37,29 +41,17 @@ const NewFragment: FC<NewFragmentProps> = ({ fragment, setModalActive }) => {
   );
 
   useEffect(() => {
-    const anchorRegex =
-      /<a\s+name="widget"><\/a>[\s\S]*?<a\s+name="widget_end"><\/a>/;
-
+    const anchorRegex = /<a\s+name="widget"><\/a>/;
     const anchorMatches = replacedHTML.match(anchorRegex);
 
     if (anchorMatches) {
       setReplacedHTMLFragment(replacedHTML.split(anchorRegex));
-
-      // Регулярное выражение для извлечения текста между тегами
-      const regex = /<a name="widget"><\/a>(.*?)<a name="widget_end"><\/a>/;
-
-      // Применяем регулярное выражение к строке
-      const match = anchorMatches[0].match(regex);
-
-      // Извлекаем текст между тегами, если есть совпадение
-      const extractedText = match ? match[1] : null;
-      setWidgetTitle(extractedText);
     }
   }, []);
 
   return (
     <React.Fragment>
-      {replacedHTMLFragment.length && widgetTitle ? (
+      {replacedHTMLFragment.length && title ? (
         <React.Fragment>
           {replacedHTMLFragment.map((item, index) => (
             <React.Fragment key={index}>
@@ -67,7 +59,7 @@ const NewFragment: FC<NewFragmentProps> = ({ fragment, setModalActive }) => {
               {index === 0 && (
                 <NewContentWidget
                   refCallback={handleRefCallback}
-                  title={widgetTitle}
+                  title={title}
                   setModalActive={setModalActive}
                 />
               )}

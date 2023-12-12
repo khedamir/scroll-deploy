@@ -1,4 +1,4 @@
-import { Status } from "../types";
+import { PaginationType, Status } from "../types";
 
 export type CommentsFetchType = "get" | "add" | "addLike" | "deleteLike";
 
@@ -7,7 +7,7 @@ export type FetchParams = {
   userId: string;
   type: CommentsFetchType;
   page: number;
-  limit: number;
+  limit?: number;
 };
 
 export type CommentType = {
@@ -32,5 +32,6 @@ export type CommentType = {
 export interface CommentsSliceState {
   data: CommentType[];
   all_comments_count: number;
+  pagination: PaginationType | null,
   status: Status;
 }

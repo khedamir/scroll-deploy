@@ -9,9 +9,10 @@ import podcastsReducer from "./podcasts/slice";
 import trandsReducer from "./trends/slice";
 import vacanciesReducer from "./vacancies/slice";
 import webinarsReducer from "./webinars/slice";
+import commentsReducer from "./comments/slice";
 import authReducer from "./auth/slice";
 import favoritesReducer from "./favorites/slice";
-import commentsReducer from "./comments/slice";
+import newpublicationReducer from "./new_publication/slice";
 
 const store = () =>
   configureStore({
@@ -24,9 +25,10 @@ const store = () =>
       trands: trandsReducer,
       vacancies: vacanciesReducer,
       webinars: webinarsReducer,
-      auth: authReducer,
-      favorites: favoritesReducer,
       comments: commentsReducer,
+      auth: authReducer,
+      newpublication: newpublicationReducer,
+      favorites: favoritesReducer,
     },
   });
 

@@ -7,6 +7,7 @@ import { fetchComments } from "./asyncAction";
 const initialState: CommentsSliceState = {
   data: [],
   all_comments_count: 0,
+  pagination: null,
   status: Status.LOADING,
 };
 
@@ -31,6 +32,9 @@ export const commentsSlice = createSlice({
         }
       }
     },
+    addNewPageComments: (state, action: PayloadAction<CommentType[]>) => {
+      state.data = [...state.data, ...action.payload];
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(fetchComments.pending, (state) => {
@@ -41,6 +45,7 @@ export const commentsSlice = createSlice({
       state.status = Status.SUCCESS;
       state.data = action.payload.datas.reverse();
       state.all_comments_count = action.payload.all_comments_count;
+      state.pagination = action.payload.pagination;
     });
     builder.addCase(fetchComments.rejected, (state) => {
       state.status = Status.ERROR;
@@ -70,6 +75,6 @@ const findCommentById = (
 
 export const selectComments = (state: AppState) => state.comments;
 
-export const { addComment } = commentsSlice.actions;
+export const { addComment, addNewPageComments } = commentsSlice.actions;
 
 export default commentsSlice.reducer;

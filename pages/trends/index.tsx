@@ -2,25 +2,32 @@ import React, { useEffect } from "react";
 import Footer from "../../components/footer";
 import SecondSidebar from "../../components/sidebar/secondSidebar";
 import Swiper from "swiper";
-import { wrapper } from "../../redux/store";
+import { useAppDispatch, wrapper } from "../../redux/store";
 import { fetchTrends } from "../../redux/trends/asyncAction";
 import { useSelector } from "react-redux";
 import { selectTrands } from "../../redux/trends/slice";
 import TrendItem from "../../components/pageTrends/trendItem";
+import { selectUser } from "../../redux/auth/slice";
 
 const Trends = () => {
   const { data } = useSelector(selectTrands);
+  const { user } = useSelector(selectUser);
+  const dispatch = useAppDispatch();
+
   useEffect(() => {
     const swiper = new Swiper(".trands__slider .swiper", {
       direction: "vertical",
       slidesPerView: "auto",
       spaceBetween: 8,
     });
-
     return () => {
       swiper.destroy(true, true);
     };
   }, []);
+
+  useEffect(() => {
+    dispatch(fetchTrends({ limit: 15, userId: user?.id }));
+  }, [user]);
 
   return (
     <div className="layout layout--sticky-bottom">
@@ -54,13 +61,13 @@ const Trends = () => {
   );
 };
 
-export const getServerSideProps = wrapper.getServerSideProps(
-  (store) => async () => {
-    await store.dispatch(fetchTrends({ limit: 15 }));
-    return {
-      props: {},
-    };
-  }
-);
+// export const getServerSideProps = wrapper.getServerSideProps(
+//   (store) => async () => {
+//     await store.dispatch(fetchTrends({ limit: 15 }));
+//     return {
+//       props: {},
+//     };
+//   }
+// );
 
 export default Trends;

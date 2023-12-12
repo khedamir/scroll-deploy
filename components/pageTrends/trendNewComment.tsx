@@ -12,7 +12,7 @@ interface TrendNewCommentProps {
   id_publication: string;
   parentComment: CommentType | undefined;
   setParentComment: (v: any) => void;
-  setComments: (v: CommentType[]) => void;
+  setComments: (v: any) => void;
 }
 
 const TrendNewComment: FC<TrendNewCommentProps> = ({
@@ -42,12 +42,10 @@ const TrendNewComment: FC<TrendNewCommentProps> = ({
       params.parent_comment = parentComment.ID;
     }
 
-    AddCommentFetch(params).then(() => {
+    AddCommentFetch(params).then((result) => {
       setText("");
       setParentComment(undefined);
-      fetchComments({ id_publication, type: "get" }).then((result) => {
-        setComments(result.data.datas);
-      });
+      setComments((prev: any) => [...prev, result]);
     });
   };
 

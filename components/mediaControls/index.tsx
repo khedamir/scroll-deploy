@@ -35,14 +35,16 @@ const MediaControls: FC<MediaControlsProps> = ({
   const { setLoginActive } = useModalsContext();
 
   useEffect(() => {
-    const fetch = async () => {
-      const { data } = await server.get(
-        `/sw/v1/publications/?id=${router.query.id}&userId=${user?.id}`
-      );
-      const pub = data.datas[Number(router.query.id)];
-      setIsLiked(pub.liked);
-    };
-    fetch();
+    if (Number(likes)) {
+      const fetch = async () => {
+        const { data } = await server.get(
+          `/sw/v1/publications/?id=${router.query.id}&userId=${user?.id}`
+        );
+        const pub = data.datas[Number(router.query.id)];
+        setIsLiked(pub.liked);
+      };
+      fetch();
+    }
   }, [user]);
 
   const addLike = () => {

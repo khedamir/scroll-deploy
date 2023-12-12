@@ -35,7 +35,7 @@ interface NewProps {
 }
 
 const New: FC<NewProps> = ({ publication, recommendationNews }) => {
-  // console.log(publication);
+  console.log(publication);
   const router = useRouter();
   useSetCookie(`/news/${router.query.id}`, String(router.query.id));
 
@@ -124,6 +124,7 @@ const New: FC<NewProps> = ({ publication, recommendationNews }) => {
                           />
                         </div>
                         <NewContent
+                          widgetTitle={publication.props.WIDGET?.VALUE[0]}
                           content={publication.content}
                           recommendationNews={recommendationNews}
                           setModalActive={setModalActive}
@@ -145,7 +146,12 @@ const New: FC<NewProps> = ({ publication, recommendationNews }) => {
                   <div className="layout__sticky-block">
                     <NewAuthor newItem={publication} />
                   </div>
-                  <LegalAdviceWidget setModalActive={setModalActive} />
+                  {publication.props.WIDGET && (
+                    <LegalAdviceWidget
+                      title={publication.props.WIDGET.VALUE[0]}
+                      setModalActive={setModalActive}
+                    />
+                  )}
                 </div>
               </div>
             </div>

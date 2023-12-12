@@ -530,7 +530,8 @@
   }
 
   .editor-scroll {
-    height: 100%;
+    height: 400px;
+    max-height: 50vh;
     overflow: auto;
 
     scrollbar-width: thin;
@@ -547,6 +548,14 @@
 
     &::-webkit-scrollbar-track {
       background-color: #f1f1f1; /* Цвет фона скроллбара */
+    }
+
+    .ce-block__content {
+      max-width: 83%;
+    }
+
+    .ce-toolbar__content {
+      max-width: 85%;
     }
   }
   .modal-header {
@@ -572,9 +581,10 @@
   input {
     width: 100%;
     border: none;
-    font-size: 29px;
+    font-size: 36px;
     font-weight: 600;
     outline: none;
+    color: $root-base-on-light;
 
     &::-moz-placeholder {
       color: $root-faint-on-light-shift-up;
@@ -612,7 +622,7 @@
   }
 }
 
-.modal.is--active .frame-btn_activ {
+.modal.is--active .frame-btn_active {
   margin: 0;
   padding: 0;
   max-width: none;
@@ -629,5 +639,10 @@
   }
   .editor__content {
     border-radius: 0;
+
+    .editor-scroll {
+      height: 100%;
+      max-height: none;
+    }
   }
 }

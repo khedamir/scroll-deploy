@@ -22,6 +22,23 @@ const Advertising: FC<AdvertisingProps> = ({ active }) => {
   const { user } = useSelector(selectUser);
   const [thanksActive, setThanksActive] = useState(false);
 
+  const getNameFiled = () => {
+    let name = "";
+    if (user) {
+      if (user.name) {
+        name += user.name;
+      }
+      if (user.last_name) {
+        if (name.length) {
+          name += " " + user.last_name;
+        } else {
+          name += user.last_name;
+        }
+      }
+    }
+    return name;
+  };
+
   const {
     register,
     handleSubmit,
@@ -29,9 +46,9 @@ const Advertising: FC<AdvertisingProps> = ({ active }) => {
     formState: { errors },
   } = useForm({
     defaultValues: {
-      name: user ? `${user?.name} ${user?.last_name}` : "",
-      phone: user ? user?.phone : "",
-      email: user ? user?.email : "",
+      name: getNameFiled(),
+      phone: user?.phone ? user.phone : "",
+      email: user?.email ? user.email : "",
     },
     mode: "onBlur",
   });

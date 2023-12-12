@@ -3,12 +3,13 @@ import NewComment from "./newComment";
 import { useAppDispatch } from "../../redux/store";
 import { fetchComments } from "../../redux/comments/asyncAction";
 import { useSelector } from "react-redux";
-import { selectComments } from "../../redux/comments/slice";
+import { addNewPageComments, selectComments } from "../../redux/comments/slice";
 import CommentItem from "./commentItem";
 import { Status } from "../../redux/types";
 import { CommentType } from "../../redux/comments/types";
 import { selectUser } from "../../redux/auth/slice";
 import getCommentCountWord from "../../utils/getCommentCountWord";
+import { server } from "../../utils/server";
 
 interface CommentsProps {
   otherClassName?: string;
@@ -21,14 +22,12 @@ const Comments: FC<CommentsProps> = ({
   id_publication,
   iblockId,
 }) => {
-  const { data, status, all_comments_count } = useSelector(selectComments);
+  const { data, status, all_comments_count, pagination } =
+    useSelector(selectComments);
   const { user } = useSelector(selectUser);
   const [parentComment, setParentComment] = useState<CommentType>();
   const [page, setPage] = useState<number>(1);
-  const [limit, setLimit] = useState<number>(5);
   const dispatch = useAppDispatch();
-
-  const pageCount = Math.ceil(all_comments_count / limit);
 
   useEffect(() => {
     if (user) {
@@ -38,11 +37,34 @@ const Comments: FC<CommentsProps> = ({
           type: "get",
           userId: user.id,
           page: 1,
-          limit,
         })
       );
     }
   }, [user]);
+
+  const fetchNewPage = async () => {
+    const { data } = await server.post(
+      `/sw/v1/comments.php`,
+      {
+        id_publication,
+        type: "get",
+        userId: user?.id,
+        page,
+      },
+      {
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+      }
+    );
+    dispatch(addNewPageComments(data.datas));
+  };
+
+  useEffect(() => {
+    if (pagination && page > 1 && page <= pagination?.totalPages) {
+      fetchNewPage();
+    }
+  }, [page]);
 
   return (
     <div className={`comments ${otherClassName}`}>
@@ -73,7 +95,11 @@ const Comments: FC<CommentsProps> = ({
                 />
               ))
             )}
-            {pageCount > page && <div>Загрузить ещё</div>}
+            {pagination && pagination?.totalPages > page && (
+              <div className="new-comments__btn">
+                <span onClick={() => setPage(page + 1)}>Загрузить ещё</span>
+              </div>
+            )}
           </div>
         </div>
       </div>

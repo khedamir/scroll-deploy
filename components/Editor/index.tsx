@@ -12,7 +12,6 @@ export default function Editor({ data, onChange, holder }: EditorProps) {
   // Добавляем ссылку на редактор
   const ref = useRef<EditorJS | null>(null);
 
-
   // Инициализируем Editor.js
   useEffect(() => {
     // Инициализируем редактор, если у нас нет ссылки
@@ -22,7 +21,7 @@ export default function Editor({ data, onChange, holder }: EditorProps) {
         autofocus: true,
         tools: EDITOR_TOOLS,
         data,
-        placeholder: 'Давайте напишем классную историю!...',
+        placeholder: 'Написать статью...',
         i18n: {
           messages: message
         },

@@ -39,6 +39,7 @@ export type FullNewType = FullPublicationType & {
     SOURCE: PropType;
     PUB_SOURCE_LOGO: PropType;
     PUB_TAG: PropType;
+    WIDGET: PropType;
   };
 };
 

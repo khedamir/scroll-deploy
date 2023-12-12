@@ -80,13 +80,14 @@ export const changeItemLike = async ({
   userId,
 }: likesParamsType) => {
   try {
-    await server.get(`/sw/v1/likes`, {
+    const result = await server.get(`/sw/v1/likes`, {
       params: {
         newsId,
         type,
         userId,
       },
     });
+    console.log(result);
   } catch (error) {
     console.error("Произошла ошибка при обработке лайка:", error);
   }

@@ -2,6 +2,7 @@ import { ImageType, PaginationType, Status } from "../types";
 
 export type FetchParams = {
   limit: number;
+  userId?: string | undefined;
   page?: number;
   rubric?: number;
 };
@@ -12,6 +13,7 @@ export type TrendType = {
   images: ImageType;
   date: string;
   likes: string;
+  liked: boolean;
   poperties: {
     PUB_TAG: string[];
     PUB_AUTOR: string;

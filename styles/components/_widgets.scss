@@ -305,19 +305,18 @@
   top: 40%;
   transform: rotate(-90deg);
   transform-origin: left top;
-  left: 0;
+  left: -100%;
   z-index: 50;
   margin-bottom: 0 !important;
   display: none;
   cursor: pointer;
 
-  // &.is--active {
-  //   display: block;
-  // }
-
   @media screen and (max-width: 1199px) {
+    display: block;
+    transition: 0.1s left ease-in;
+
     &.is--active {
-      display: block;
+      left: 0;
     }
   }
 

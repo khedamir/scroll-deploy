@@ -24,7 +24,7 @@ const TrendItem: FC<TrendItemProps> = ({ trend }) => {
   const isFavorite = useSelector((state: AppState) =>
     isElementInFavorites(state, "28", trend.id)
   );
-  const [isLiked, setIsLiked] = useState(false);
+  const [isLiked, setIsLiked] = useState(trend.liked);
   const [likesCount, setLikesCount] = useState(Number(trend.likes));
 
   const addLike = () => {
