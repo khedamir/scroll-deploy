@@ -17,6 +17,7 @@
 @import "../components/aiChat/ai-chat";
 @import "../components/menu/menu";
 @import "../components/notifications/notifications";
+@import "../components/bookmarks/bookmarks";
 @import "../components/comments/comments";
 @import "../components/footer/footer";
 @import "../components/search/search";
@@ -197,6 +198,9 @@
       max-width: 100%;
       width: 100%;
     }
+  }
+  &__circle-btn {
+    margin-left: auto;
   }
   &__head {
     margin-bottom: 32px;

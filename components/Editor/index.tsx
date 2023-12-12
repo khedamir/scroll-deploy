@@ -9,12 +9,9 @@ interface EditorProps {
 }
 
 export default function Editor({ data, onChange, holder }: EditorProps) {
-  // Добавляем ссылку на редактор
   const ref = useRef<EditorJS | null>(null);
 
-  // Инициализируем Editor.js
   useEffect(() => {
-    // Инициализируем редактор, если у нас нет ссылки
     if (!ref.current) {
       const editorConfig: EditorConfig = {
         holder,

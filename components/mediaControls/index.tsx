@@ -8,6 +8,7 @@ import { useModalsContext } from "../../context/ModalsContext";
 import { changeFavoriteItem, changeItemLike } from "../../utils/controls";
 import { AppState } from "../../redux/store";
 import { isElementInFavorites } from "../../redux/favorites/slice";
+import Share from "./share";
 
 interface MediaControlsProps {
   otherClassName?: string;
@@ -82,10 +83,7 @@ const MediaControls: FC<MediaControlsProps> = ({
               <ReactSVG src="/img/sprite/icon-like-thumb-up.svg" />
               <span>{likesCount}</span>
             </button>
-            <button className="btn-control media-controls__btn">
-              <ReactSVG src="/img/sprite/icon-reply.svg" />
-              <span>Поделиться</span>
-            </button>
+            <Share />
             <button
               onClick={changeFavorite}
               className={`btn-control media-controls__btn ${

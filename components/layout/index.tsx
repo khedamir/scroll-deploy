@@ -17,6 +17,7 @@ import ConfirmRegistration from "../modals/confirmRegistration";
 import PasswordRecovery from "../modals/passwordRecovery";
 import PassworRecoverySend from "../modals/passworRecoverySend";
 import PasswordRecoveryNew from "../modals/passwordRecoveryNew";
+import Bookmarks from "../bookmarks";
 
 const Layout = ({ children }: { children: ReactNode }) => {
   const headerComponents: any = {
@@ -114,6 +115,7 @@ const Layout = ({ children }: { children: ReactNode }) => {
       <Search />
       <Menu />
       <Notification />
+      <Bookmarks />
       <ConfirmRegistration />
       {currentHeader}
       {children}

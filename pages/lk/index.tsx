@@ -16,6 +16,7 @@ import { useModalsContext } from "../../context/ModalsContext";
 import { fetchFavorites } from "../../redux/favorites/asyncAction";
 import Loader from "../../components/loader";
 import UserIcon from "../../components/userIcon";
+import { formatDateDifference } from "../../utils/formatDate";
 
 type ActiveBlockValue =
   | "publications"
@@ -165,7 +166,7 @@ const Lk = () => {
               </div>
               <div className="layout__right">
                 <span className="layout__info layout__sticky layout__sticky--bottom">
-                  На проекте с {user.data_register}
+                  На проекте с {formatDateDifference(user.date_register)}
                 </span>
               </div>
             </div>

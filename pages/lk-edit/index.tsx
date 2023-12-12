@@ -9,6 +9,7 @@ import { Status } from "../../redux/types";
 import { useAppDispatch } from "../../redux/store";
 import Loader from "../../components/loader";
 import UserDataForm from "../../components/userDataForm";
+import { formatDateDifference } from "../../utils/formatDate";
 
 const LkEdit = () => {
   const { user, status } = useSelector(selectUser);
@@ -78,7 +79,7 @@ const LkEdit = () => {
               </div>
               <div className="layout__right">
                 <span className="layout__info layout__sticky layout__sticky--bottom">
-                  На проекте с 12 янв 2023
+                  На проекте с {formatDateDifference(user.date_register)}
                 </span>
               </div>
             </div>

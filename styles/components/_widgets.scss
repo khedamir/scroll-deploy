@@ -108,14 +108,15 @@
     color: $root-base-on-dark;
   }
   &__help + &__title {
-    margin-top: 15px;
+    margin-top: 15px !important;
 
     @media screen and (min-width: 768px) and (max-width: 1199px) {
-      margin-top: 8px;
+      margin-top: 8px !important;
     }
   }
   &__title {
     display: block;
+    margin-top: 0 !important;
     max-width: 177px;
     width: fit-content;
     font-size: 20px;
@@ -418,24 +419,5 @@
         height: 20px;
       }
     }
-  }
-}
-
-.answer-widget {
-  width: 198px;
-  height: 198px;
-  border-radius: 50%;
-  background-color: $root-complement-2-shift-up;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 16px;
-  text-align: center;
-  cursor: pointer;
-
-  p {
-    color: $root-faint-on-light;
-    font-size: 16px;
-    font-weight: 500;
   }
 }

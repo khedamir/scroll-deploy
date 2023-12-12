@@ -1,18 +1,12 @@
-// import CheckList from "@editorjs/checklist";
-// import Code from "@editorjs/code";
-// import Delimiter from "@editorjs/delimiter";
 import Embed from "@editorjs/embed";
 import Image from "@editorjs/image";
-// import InlineCode from "@editorjs/inline-code";
 import Link from "@editorjs/link";
-// import List from "@editorjs/list";
 import Quote from "@editorjs/quote";
-import SimpleImage from "@editorjs/simple-image";
 import Paragraph from "@editorjs/paragraph";
 import Header from "@editorjs/header";
+import axios from "axios";
 
 export const EDITOR_TOOLS = {
-  // code: Code,
   header: {
     class: Header,
     config: {
@@ -24,7 +18,6 @@ export const EDITOR_TOOLS = {
   paragraph: {
     class: Paragraph,
   },
-  // checklist: CheckList,
   embed: {
     class: Embed,
     inlineToolbar: true,
@@ -40,35 +33,27 @@ export const EDITOR_TOOLS = {
     config: {
       uploader: {
         async uploadByFile(file) {
-          // Ваш endpoint для загрузки изображений
-          const endpoint = "/uploadImage";
-
-          // Создаем объект FormData для передачи файла
-          const formData = new FormData();
-          formData.append("image", file);
-
-          // Отправляем запрос на сервер для загрузки изображения
           try {
-            const response = await fetch(endpoint, {
-              method: "POST",
-              body: formData,
-            });
-            const result_1 = await response.json();
             return {
-              success: result_1.success,
-              file: { url: result_1.file.url },
+              success: 1,
+              file: {
+                // url: "https://rehornubay.beget.app/upload/iblock/552/dz8yg9nevav4fajlo25dpfbrd4f8z71v.png",
+                url: "https://img.freepik.com/free-photo/painting-mountain-lake-with-mountain-background_188544-9126.jpg",
+              },
             };
-          } catch (error) {
-            console.error("Error uploading image:", error);
-            return { success: false };
+          } catch {
+            return {
+              success: 0,
+              file: {
+                url: "",
+              },
+            };
           }
         },
       },
     },
   },
-  // inlineCode: InlineCode,
   link: Link,
-  // list: List,
   quote: {
     class: Quote,
     inlineToolbar: true,
@@ -78,8 +63,6 @@ export const EDITOR_TOOLS = {
       captionPlaceholder: "Автор цитаты",
     },
   },
-  // image: SimpleImage,
-  // delimiter: Delimiter,
 };
 
 export const message = {
@@ -122,9 +105,9 @@ export const message = {
     },
     header: {
       Header: "Заголовок",
-      "Heading 1": "Заголовок уровня 1",
       "Heading 2": "Заголовок уровня 2",
       "Heading 3": "Заголовок уровня 3",
+      "Heading 4": "Заголовок уровня 4",
     },
     paragraph: {
       "Enter something": "Введите текст",

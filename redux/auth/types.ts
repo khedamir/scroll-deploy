@@ -21,7 +21,7 @@ export type UserData = {
   name: string;
   last_name: string;
   email: string;
-  data_register: string;
+  date_register: string;
   phone: string;
   city: string;
   gender: string;

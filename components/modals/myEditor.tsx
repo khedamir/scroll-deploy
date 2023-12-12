@@ -31,6 +31,7 @@ export default function MyEditor({
   const [title, setTitle] = useState("");
   const [isClicked, setIsClicked] = useState(false);
   const { user } = useSelector(selectUser);
+  const [newImg, setNewImg] = useState("");
 
   const [selectRubric, setSelectRubric] = useState<RubricType>();
   const dispatch = useAppDispatch();
@@ -40,7 +41,7 @@ export default function MyEditor({
       date: new Date().toLocaleString(),
       name: title,
       rubric: selectRubric ? selectRubric.NAME : "",
-      image: "",
+      image: newImg,
       content: data ? editorFormattedContent(data) : "",
       author_name: user?.name ? user.name : "",
       author_surname: user?.last_name ? user.last_name : "",
@@ -51,6 +52,20 @@ export default function MyEditor({
     const preview = JSON.stringify(newData);
     localStorage.setItem("preview", preview);
     window.open("/preview", "_blank");
+  };
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    const fileReader = new FileReader();
+    if (file) {
+      fileReader.onload = function (ev) {
+        if (ev.target && typeof ev.target.result === "string") {
+          console.log(ev.target.result);
+          setNewImg(ev.target.result);
+        }
+      };
+      fileReader.readAsDataURL(file);
+    }
   };
 
   return (
@@ -86,8 +101,44 @@ export default function MyEditor({
                 type="text"
                 value={title}
                 placeholder="Заголовок"
+                className="editor-title__input"
                 onChange={(e) => setTitle(e.target.value)}
               />
+              <div className="editor-photo">
+                <input
+                  type="file"
+                  id="upload-photo"
+                  onChange={handleFileChange}
+                  style={{ display: "none" }}
+                />
+
+                <div className="editor-photo__buttons">
+                  {newImg ? (
+                    <>
+                      <label
+                        htmlFor="upload-photo"
+                        className="upload-photo-label"
+                      >
+                        <span>Изменить фото</span>
+                      </label>
+                      <label
+                        onClick={() => setNewImg("")}
+                        className="delete-photo-label"
+                      >
+                        <span>Удалить фото</span>
+                      </label>
+                    </>
+                  ) : (
+                    <label
+                      htmlFor="upload-photo"
+                      className="upload-photo-label"
+                    >
+                      <span>Загрузить фото</span>
+                    </label>
+                  )}
+                </div>
+                {newImg && <img src={newImg} alt="" />}
+              </div>
               <Editor
                 data={data as OutputData}
                 onChange={setData}

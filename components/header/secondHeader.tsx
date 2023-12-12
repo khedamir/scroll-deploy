@@ -12,7 +12,8 @@ import { selectUser } from "../../redux/auth/slice";
 import UserBlock from "./userBlock";
 
 const SecondHeader = () => {
-  const { menuActive, setLoginActive, setSearchActive } = useModalsContext();
+  const { menuActive, setLoginActive, setSearchActive, setBookmarks } =
+    useModalsContext();
 
   const { user, status } = useSelector(selectUser);
 
@@ -37,12 +38,12 @@ const SecondHeader = () => {
               >
                 <SearchIcon />
               </span>
-              <Link
-                href="/lk?block=bookmarks"
-                className="header__btn header__btn--tablet-hidden"
+              <span
+                onClick={() => setBookmarks(true)}
+                className="header__btn header__btn--tablet-hidden bookmarks-btn"
               >
                 <BookmarksIcon />
-              </Link>
+              </span>
               <Link href="#" className="header__btn notifications-btn">
                 <NotificationIcon />
               </Link>

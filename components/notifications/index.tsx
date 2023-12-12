@@ -82,7 +82,7 @@ const Notification = () => {
                         href="#"
                         className="notifications-webinar__btn btn btn--md btn--white-blue"
                       >
-                        <span>Продлить</span>
+                        <span>Перейти</span>
                         <ReactSVG src="/img/sprite/icon-arrow-next.svg" />
                       </a>
                     </div>

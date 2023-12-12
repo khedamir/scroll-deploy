@@ -20,6 +20,8 @@ const ModalsContext = createContext({
   setSearchActive: (value: boolean) => {},
   notification: false,
   setNotification: (value: boolean) => {},
+  bookmarks: false,
+  setBookmarks: (value: boolean) => {},
 });
 
 const ModalsContextProvider = (props: any) => {
@@ -32,6 +34,7 @@ const ModalsContextProvider = (props: any) => {
   const [recoveryPasswordSend, setRecoveryPasswordSend] = useState("");
   const [searchActive, setSearchActive] = useState(false);
   const [notification, setNotification] = useState(false);
+  const [bookmarks, setBookmarks] = useState(false);
 
   useEffect(() => {
     const disabled =
@@ -60,6 +63,8 @@ const ModalsContextProvider = (props: any) => {
         setSearchActive,
         notification,
         setNotification,
+        bookmarks,
+        setBookmarks,
       }}
       {...props}
     />

@@ -83,12 +83,18 @@
     & > svg {
       color: $icon-faint-on-light;
     }
+    &:hover {
+      color: $text-base-on-light;
+    }
   }
   &--white {
     color: $text-base-on-light;
     background: $white-color;
     & svg {
       color: $icon-faint-on-light;
+    }
+    &:hover {
+      color: $text-base-on-light;
     }
   }
   &--white-blue {
@@ -97,12 +103,18 @@
     & svg {
       color: $icon-accent-on-light;
     }
+    &:hover {
+      color: $text-base-on-light;
+    }
   }
   &--grey {
     color: $text-base-on-light;
     background: $root-faint-on-dark;
     & > svg {
       color: $icon-base-on-light;
+    }
+    &:hover {
+      color: $text-base-on-light;
     }
   }
   &--red {
@@ -255,7 +267,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 0;
+  padding: 16px;
   min-width: 198px;
   width: 198px;
   height: 198px;
@@ -267,21 +279,43 @@
   border: none;
   border-radius: 50%;
   transition: all $transition-default;
-  &--sm {
-    min-width: 128px;
-    width: 128px;
-    height: 128px;
-  }
   &:focus {
     outline: none;
   }
   &:hover {
     color: $white-color;
   }
+  &--sm {
+    padding: 8px;
+    min-width: 128px;
+    width: 128px;
+    height: 128px;
+  }
+  &--pink {
+    color: $root-faint-on-light;
+    background: $root-complement-2-shift-up;
+    &:hover {
+      color: $root-faint-on-light;
+    }
+    &:active {
+      color: $white-color;
+      background: $root-complement-2-on-light-shift-down;
+    }
+  }
 
   @media screen and (hover: hover) {
     &:hover {
       background: $root-accent-on-light-shift-down;
+    }
+    &--pink {
+      &:hover {
+        color: $white-color;
+        background: $root-complement-2-on-light;
+      }
+      &:active {
+        color: $white-color;
+        background: $root-complement-2-on-light-shift-down;
+      }
     }
   }
 }
@@ -390,6 +424,43 @@
   }
   &:focus {
     outline: none;
+  }
+}
+
+.btn-ask-question {
+  position: fixed;
+  top: 75%;
+  left: 0;
+  z-index: 100;
+  transform: translate(0, -50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  min-width: 55px;
+  width: 55px;
+  height: 55px;
+  font-size: 26px;
+  font-weight: 600;
+  text-align: center;
+  color: $white-color;
+  background: $root-complement-2-on-light;
+  border: none;
+  border-radius: 50%;
+  transition: all $transition-default;
+  &:focus {
+    outline: none;
+  }
+  &:hover {
+    color: $white-color;
+  }
+  &:active {
+    color: $white-color;
+    background: $root-complement-2-on-light-shift-down;
+  }
+
+  @media screen and (min-width: 1200px) {
+    display: none;
   }
 }
 

@@ -22,19 +22,12 @@ const Header: FC<HeaderProps> = ({ isScrolling }) => {
     menuActive,
     setLoginActive,
     setNotification,
+    setBookmarks,
     setSearchActive,
   } = useModalsContext();
 
   const { user } = useSelector(selectUser);
   const router = useRouter();
-
-  const bookmarks = () => {
-    if (user) {
-      router.push("/lk?block=bookmarks");
-    } else {
-      setLoginActive(true);
-    }
-  };
 
   return (
     <header
@@ -80,8 +73,8 @@ const Header: FC<HeaderProps> = ({ isScrolling }) => {
                 <SearchIcon />
               </span>
               <span
-                onClick={bookmarks}
-                className="header__btn header__btn--tablet-hidden"
+                onClick={() => setBookmarks(true)}
+                className="header__btn header__btn--tablet-hidden bookmarks-btn"
               >
                 <BookmarksIcon />
               </span>

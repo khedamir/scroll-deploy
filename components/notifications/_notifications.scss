@@ -312,6 +312,8 @@
         color: $text-base-on-light-shift-down;
     }
     &__btn {
+        justify-content: flex-start;
+        padding-left: 56px;
         min-width: 174px;
         
         @media screen and (max-width: 767px) {
