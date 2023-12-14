@@ -17,6 +17,7 @@ const Share = () => {
   useEffect(() => {
     // Подписываемся на изменения маршрута и обновляем состояние
     setCurrentURL(window.location.href);
+    console.log(window.location.href);
 
     const handleRouteChange = (url: string) => {
       setCurrentURL(url);
@@ -83,7 +84,10 @@ const Share = () => {
             </a>
           </li>
           <li className="c-share__item">
-            <OKShareButton url={currentURL}>
+            <OKShareButton
+              title="Посмотри интересную статью на Scroll"
+              url={currentURL}
+            >
               <span className="c-share__btn">
                 <ReactSVG
                   className="desktop"
@@ -98,7 +102,10 @@ const Share = () => {
             </OKShareButton>
           </li>
           <li className="c-share__item">
-            <VKShareButton url={currentURL}>
+            <VKShareButton
+              title="Посмотри интересную статью на Scroll"
+              url={currentURL}
+            >
               <span className="c-share__btn">
                 <ReactSVG
                   className="desktop"
@@ -113,7 +120,10 @@ const Share = () => {
             </VKShareButton>
           </li>
           <li className="c-share__item">
-            <WhatsappShareButton url={currentURL}>
+            <WhatsappShareButton
+              title="Посмотри интересную статью на Scroll"
+              url={currentURL}
+            >
               <span className="c-share__btn">
                 <ReactSVG
                   className="desktop"
@@ -128,7 +138,10 @@ const Share = () => {
             </WhatsappShareButton>
           </li>
           <li className="c-share__item">
-            <TelegramShareButton url={currentURL}>
+            <TelegramShareButton
+              title="Посмотри интересную статью на Scroll"
+              url={currentURL}
+            >
               <span className="c-share__btn">
                 <ReactSVG
                   className="desktop"
@@ -143,7 +156,12 @@ const Share = () => {
             </TelegramShareButton>
           </li>
           <li className="c-share__item c-share__item--mobile">
-            <RWebShare data={{ url: currentURL }}>
+            <RWebShare
+              data={{
+                url: currentURL,
+                title: "Посмотри интересную статью на Scroll",
+              }}
+            >
               <span className="c-share__btn">
                 <ReactSVG
                   className="mobile"

@@ -85,6 +85,7 @@ const New = () => {
                           <UserIcon
                             userPhoto={preview.author_photo}
                             nameLatter={preview.author_name[0]}
+                            avatarColor={preview.author_avatar_color}
                           />
                         </div>
                         <div className="c-author__body">

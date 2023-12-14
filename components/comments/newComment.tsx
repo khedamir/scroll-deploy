@@ -66,7 +66,11 @@ const NewComment: FC<NewCommentProps> = ({
       <div className={`comments-new__wrapper ${inputActive && "is--active"}`}>
         {user && (
           <div className="comments-new__img">
-            <UserIcon userPhoto={user.photo} nameLatter={user.name[0]} />
+            <UserIcon
+              userPhoto={user.photo}
+              nameLatter={user.name[0]}
+              avatarColor={user.avatar_color}
+            />
           </div>
         )}
         <div className="comments-new__body">

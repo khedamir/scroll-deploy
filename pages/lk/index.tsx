@@ -94,6 +94,7 @@ const Lk = () => {
                               <UserIcon
                                 userPhoto={user.photo}
                                 nameLatter={user.name[0]}
+                                avatarColor={user.avatar_color}
                               />
                             </div>
                             <div className="lk-user__body">

@@ -1327,6 +1327,17 @@
   &__wrapper {
     display: flex;
     flex-wrap: wrap;
+
+    &-search {
+      display: flex;
+      gap: 24px;
+      flex-direction: column;
+      .faq__item {
+        width: 100% !important;
+        margin: 0;
+        margin-left: 0 !important;
+      }
+    }
   }
   &__widget {
     margin-top: 40px;
@@ -1818,6 +1829,15 @@
       p {
         padding: 0 24px;
       }
+    }
+    img {
+      width: 100%;
+      height: auto;
+    }
+    iframe {
+      width: 100%;
+      height: auto;
+      min-height: 400px;
     }
     .big-news {
       &__block {

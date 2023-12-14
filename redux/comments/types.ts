@@ -26,12 +26,13 @@ export type CommentType = {
   author_name: string;
   author_surname: string;
   author_photo: string;
+  author_avatar_color: string;
   ANSWERS: CommentType[];
 };
 
 export interface CommentsSliceState {
   data: CommentType[];
   all_comments_count: number;
-  pagination: PaginationType | null,
+  pagination: PaginationType | null;
   status: Status;
 }

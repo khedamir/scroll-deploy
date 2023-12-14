@@ -15,6 +15,7 @@ export type NewType = {
   author_name: string;
   author_surname: string;
   author_photo: string;
+  author_avatar_color: string;
   poperties: {
     PUB_SOURCE_LOGO: string;
     SOURCE: string;

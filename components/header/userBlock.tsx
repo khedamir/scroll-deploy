@@ -16,7 +16,11 @@ const UserBlock = () => {
     <span className={`header__btn user-block ${user && "is--active"}`}>
       {user ? (
         <Link href="/lk">
-          <UserIcon userPhoto={user.photo} nameLatter={user.name[0]} />
+          <UserIcon
+            userPhoto={user.photo}
+            nameLatter={user.name[0]}
+            avatarColor={user.avatar_color}
+          />
         </Link>
       ) : (
         <span onClick={login}>Войти</span>

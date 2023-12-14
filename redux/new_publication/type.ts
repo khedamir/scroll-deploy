@@ -7,6 +7,7 @@ export type PreviewNewType = {
   author_name: string;
   author_surname: string;
   author_photo: string;
+  author_avatar_color: string;
 };
 
 export interface NewPublicationSliceState {

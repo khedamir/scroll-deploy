@@ -34,6 +34,7 @@ export type FullNewType = FullPublicationType & {
   author_name: string;
   author_surname: string;
   author_photo: string;
+  author_avatar_color: string;
   props: {
     PUB_RUBRIC: PropType;
     SOURCE: PropType;

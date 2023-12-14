@@ -297,3 +297,55 @@ export const PasswrodRecoveryFetch = async ({
     console.error("Произошла ошибка", error);
   }
 };
+
+// Работа с файлами
+
+export type FileUploadType = {
+  userId: string;
+  file: string;
+};
+
+export type FileDeleteType = {
+  userId: string;
+  "delete-file-path": string;
+};
+
+// Загрузить файл
+export const FileUpload = async ({ userId, file }: FileUploadType) => {
+  try {
+    const params = {
+      userId,
+      file,
+      type: "add",
+    };
+
+    const result = await server.post("/sw/v1/file.php", params, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+    console.log(result);
+    return result.data;
+  } catch (error) {
+    console.error("Произошла ошибка", error);
+  }
+};
+
+export const FileDelete = async (data: FileDeleteType) => {
+  try {
+    const params = {
+      userId: data.userId,
+      "delete-file-path": data["delete-file-path"],
+      type: "delete",
+    };
+
+    const result = await server.post("/sw/v1/file.php", params, {
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
+    });
+    console.log(result);
+  } catch (error) {
+    console.error("Произошла ошибка", error);
+  }
+};

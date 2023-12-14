@@ -5,10 +5,16 @@ import { selectUser } from "../../redux/auth/slice";
 interface UserIconProps {
   userPhoto: string;
   nameLatter: string;
+  avatarColor: string | undefined;
   photo?: string | null;
 }
 
-const UserIcon: FC<UserIconProps> = ({ photo, userPhoto, nameLatter }) => {
+const UserIcon: FC<UserIconProps> = ({
+  photo,
+  userPhoto,
+  nameLatter,
+  avatarColor,
+}) => {
   return (
     <span className="user-btn">
       {userPhoto || photo ? (
@@ -16,7 +22,10 @@ const UserIcon: FC<UserIconProps> = ({ photo, userPhoto, nameLatter }) => {
           <img src={photo ? photo : userPhoto} alt="user photo" />
         </picture>
       ) : (
-        <span style={{ backgroundColor: "#9bb8ff" }} className="user-btn__icon">
+        <span
+          style={{ backgroundColor: avatarColor }}
+          className="user-btn__icon"
+        >
           <span className="user-btn__icon--wrapper">{nameLatter}</span>
         </span>
       )}

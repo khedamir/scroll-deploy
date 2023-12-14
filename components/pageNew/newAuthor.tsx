@@ -30,6 +30,7 @@ const NewAuthor: FC<NewAuthorProps> = ({ newItem }) => {
               <UserIcon
                 userPhoto={newItem.author_photo}
                 nameLatter={newItem.author_name[0]}
+                avatarColor={newItem.author_avatar_color}
               />
             </div>
             <div className="c-author__body">

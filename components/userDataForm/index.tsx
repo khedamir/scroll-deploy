@@ -101,6 +101,7 @@ const UserDataForm = () => {
                 userPhoto={user?.photo || ""}
                 nameLatter={user?.name[0] || ""}
                 photo={userImg}
+                avatarColor={user?.avatar_color}
               />
             </div>
             <div className="lk-edit__icon-wrap">

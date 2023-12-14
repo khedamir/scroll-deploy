@@ -47,8 +47,9 @@ const CommentItem: FC<CommentItemProps> = ({ comment, setParentComment }) => {
           <span className="comment-card__author">
             <span className="comment-card__author-img">
               <UserIcon
+                avatarColor={comment.author_avatar_color}
                 userPhoto={comment.author_photo}
-                nameLatter={comment.author_name[0]}
+                nameLatter={comment.author_name?.[0]}
               />
             </span>
             <span>

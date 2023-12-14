@@ -99,6 +99,7 @@ const NewCard: FC<NewCardProps> = ({ newItem, isLast, newLimit, end }) => {
                     <UserIcon
                       userPhoto={newItem.author_photo}
                       nameLatter={newItem.author_name[0]}
+                      avatarColor={newItem.author_avatar_color}
                     />
                   </span>
                   <span>

@@ -5,6 +5,7 @@ import Quote from "@editorjs/quote";
 import Paragraph from "@editorjs/paragraph";
 import Header from "@editorjs/header";
 import axios from "axios";
+import { FileUpload } from "../../utils/formFetchs";
 
 export const EDITOR_TOOLS = {
   header: {
@@ -34,11 +35,25 @@ export const EDITOR_TOOLS = {
       uploader: {
         async uploadByFile(file) {
           try {
+            // const fileReader = new FileReader();
+            // let image = "";
+            // if (file) {
+            //   fileReader.onload = function (ev) {
+            //     if (ev.target && typeof ev.target.result === "string") {
+            //       image = ev.target.result;
+            //     }
+            //   };
+            //   fileReader.readAsDataURL(file);
+            // }
+
+            const formData = new FormData();
+            formData.append("image", file);
+            const result = await FileUpload({ userId: "8", file });
+            console.log(result);
             return {
               success: 1,
               file: {
-                // url: "https://rehornubay.beget.app/upload/iblock/552/dz8yg9nevav4fajlo25dpfbrd4f8z71v.png",
-                url: "https://img.freepik.com/free-photo/painting-mountain-lake-with-mountain-background_188544-9126.jpg",
+                url: result.filePath,
               },
             };
           } catch {

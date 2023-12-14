@@ -46,6 +46,7 @@ export default function MyEditor({
       author_name: user?.name ? user.name : "",
       author_surname: user?.last_name ? user.last_name : "",
       author_photo: user?.photo ? user.photo : "",
+      author_avatar_color: user?.avatar_color ? user.avatar_color : "",
     };
 
     dispatch(addPreview(newData));

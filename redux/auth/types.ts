@@ -26,6 +26,7 @@ export type UserData = {
   city: string;
   gender: string;
   photo: string;
+  avatar_color: string;
 };
 
 export interface AuthSliceState {
