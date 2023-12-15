@@ -1,5 +1,6 @@
 import React, { FC } from "react";
 import { ReactSVG } from "react-svg";
+import { useHandleScroll } from "../../hooks";
 
 interface ChangePasswordCompleteProps {
   active: boolean;
@@ -10,6 +11,7 @@ const ChangePasswordComplete: FC<ChangePasswordCompleteProps> = ({
   active,
   setActive,
 }) => {
+  useHandleScroll(active);
   return (
     <div
       className={`modal modal--wide ${active && "is--active"}`}

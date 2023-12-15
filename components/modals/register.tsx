@@ -8,6 +8,7 @@ import InputWrapper from "../InputWrapper";
 import { registerSchemes } from "./validationSchemes";
 import LoginWidthGoogle from "../loginWidthGoogle";
 import RegisterComplete from "./registerComplete";
+import { useHandleScroll } from "../../hooks";
 
 type FormValuesType = {
   name: string;
@@ -20,6 +21,7 @@ const Register = () => {
     useModalsContext();
   const [contactType, setContactType] = useState<ContactInputType>("email");
   const [registerCompleteActive, setRegisterCompleteActive] = useState(false);
+  useHandleScroll(registerCompleteActive);
 
   const {
     register,

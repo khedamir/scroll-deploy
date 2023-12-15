@@ -3,6 +3,7 @@ import { ReactSVG } from "react-svg";
 import { useModalsContext } from "../../context/ModalsContext";
 import { encryptEmail } from "../../utils/encryptEmail";
 import { server } from "../../utils/server";
+import { useHandleScroll } from "../../hooks";
 
 interface RegisterCompleteProps {
   email: string;
@@ -15,12 +16,13 @@ const RegisterComplete: FC<RegisterCompleteProps> = ({
   setActive,
   email,
 }) => {
-  const [resendActive, setResendActive] = useState(false);
-  const { setLoginActive, setRecoveryPasswordActive } = useModalsContext();
+  const { setRecoveryPasswordActive } = useModalsContext();
 
   const buttonBackClick = () => {
     setRecoveryPasswordActive(true);
   };
+
+  useHandleScroll(active);
 
   return (
     <div

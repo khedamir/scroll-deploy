@@ -10,6 +10,7 @@ interface EditorProps {
 
 export default function Editor({ data, onChange, holder }: EditorProps) {
   const ref = useRef<EditorJS | null>(null);
+  
 
   useEffect(() => {
     if (!ref.current) {

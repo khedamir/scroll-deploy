@@ -3,7 +3,6 @@ import dynamic from "next/dynamic";
 import { useState } from "react";
 import { OutputData } from "@editorjs/editorjs";
 import { ReactSVG } from "react-svg";
-import Select from "../select/select";
 import editorFormattedContent from "../../utils/editorFormattedContent";
 import { RubricType } from "../../redux/rubrics/types";
 import { useSelector } from "react-redux";
@@ -11,9 +10,8 @@ import { selectUser } from "../../redux/auth/slice";
 import { useAppDispatch } from "../../redux/store";
 import { addPreview } from "../../redux/new_publication/slice";
 import { PreviewNewType } from "../../redux/new_publication/type";
-import { useRouter } from "next/router";
-import Selector from "../selector";
 import RubricSelector from "../lkComponents/rubricSelector";
+import { useHandleScroll } from "../../hooks";
 
 // important that we use dynamic loading here
 // editorjs should only be rendered on the client side.
@@ -28,7 +26,6 @@ export default function MyEditor({
   active: boolean;
   setActive: (v: boolean) => void;
 }) {
-  //state to hold output data. we'll use this for rendering later
   const [data, setData] = useState<OutputData>();
   const [title, setTitle] = useState("");
   const [isClicked, setIsClicked] = useState(false);
@@ -37,6 +34,8 @@ export default function MyEditor({
 
   const [selectRubric, setSelectRubric] = useState<RubricType>();
   const dispatch = useAppDispatch();
+
+  useHandleScroll(active);
 
   const previewClick = () => {
     const newData: PreviewNewType = {
@@ -72,12 +71,21 @@ export default function MyEditor({
   };
 
   return (
-    <div className={`modal modal--wide ${active && "is--active"}`}>
+    <div
+      className={`modal modal--wide modal__editor ${active && "is--active"}`}
+    >
       <div className={`modal__wrap ${isClicked && "frame-btn_active"}`}>
         <div className="modal__wrapper">
           <div className="editor__content">
             <div className="modal-header">
               <div className="modal-header__title">
+                <h5>Новая публикация</h5>
+              </div>
+              <div
+                onClick={() => setActive(false)}
+                className="modal-header__title--mobile"
+              >
+                <ReactSVG src="/img/sprite/icon-arrow-s-prev.svg" />
                 <h5>Новая публикация</h5>
               </div>
               <div className="modal-header__config">
@@ -94,7 +102,15 @@ export default function MyEditor({
                   <ReactSVG src="/img/sprite/close.svg" />
                 </button>
               </div>
+
+              <div className="modal-header__buttons buttons">
+                <button className="button button_moderation">Отправить</button>
+                <button onClick={previewClick} className="button button_view">
+                  <ReactSVG src="/img/sprite/icon-eye.svg" />
+                </button>
+              </div>
             </div>
+
             <RubricSelector
               selectRubric={selectRubric}
               setSelectRubric={setSelectRubric}
@@ -149,7 +165,8 @@ export default function MyEditor({
                 holder="editorjs-container"
               />
             </div>
-            <div className="buttons">
+
+            <div className="editor__content-bottom buttons">
               <button className="button button_moderation">
                 Отправить на модерацию
                 <ReactSVG src="/img/sprite/icon-arrow-link-up.svg" />

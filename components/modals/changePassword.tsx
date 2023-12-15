@@ -8,6 +8,7 @@ import ChangePasswordComplete from "./changePasswordComplete";
 import { ChangeUserDataProps, UserDataChange } from "../../utils/formFetchs";
 import { useSelector } from "react-redux";
 import { selectUser } from "../../redux/auth/slice";
+import { useHandleScroll } from "../../hooks";
 
 type FormValuesType = {
   password: string;
@@ -18,6 +19,7 @@ const ChangePassword = () => {
   const { changePasswordActive, setChangePasswordActive } = useModalsContext();
   const [completeModalActive, setCompleteModalActive] = useState(false);
   const { user } = useSelector(selectUser);
+  useHandleScroll(changePasswordActive);
 
   const {
     register,

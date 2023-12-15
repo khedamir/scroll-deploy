@@ -17,7 +17,7 @@ const Publications: FC<PublicationsProps> = ({ active }) => {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    dispatch(fetchRubrics())
+    dispatch(fetchRubrics());
   }, [dispatch]);
 
   return (

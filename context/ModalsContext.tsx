@@ -1,5 +1,4 @@
 import { createContext, useContext, useEffect, useState } from "react";
-import { handleScrollDisabled } from "../utils/handleScrollDisabled";
 
 const ModalsContext = createContext({
   aiChatActive: false,
@@ -25,8 +24,8 @@ const ModalsContext = createContext({
 });
 
 const ModalsContextProvider = (props: any) => {
-  const [aiChatActive, setAiChatActive] = useState(false);
   const [menuActive, setMenuActive] = useState(false);
+  const [aiChatActive, setAiChatActive] = useState(false);
   const [loginActive, setLoginActive] = useState(false);
   const [registerActive, setRegisterActive] = useState(false);
   const [changePasswordActive, setChangePasswordActive] = useState(false);
@@ -35,12 +34,6 @@ const ModalsContextProvider = (props: any) => {
   const [searchActive, setSearchActive] = useState(false);
   const [notification, setNotification] = useState(false);
   const [bookmarks, setBookmarks] = useState(false);
-
-  useEffect(() => {
-    const disabled =
-      aiChatActive || loginActive || registerActive || menuActive;
-    handleScrollDisabled(disabled);
-  }, [aiChatActive, loginActive, registerActive, menuActive]);
 
   return (
     <ModalsContext.Provider

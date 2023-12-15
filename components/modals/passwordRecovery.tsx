@@ -4,6 +4,7 @@ import { useModalsContext } from "../../context/ModalsContext";
 import ContactInput, { ContactInputType } from "../ContactInput";
 import { useForm } from "react-hook-form";
 import { server } from "../../utils/server";
+import { useHandleScroll } from "../../hooks";
 
 type FormValuesType = {
   contact: string;
@@ -17,6 +18,8 @@ const PasswordRecovery = () => {
     setLoginActive,
     setRecoveryPasswordSend,
   } = useModalsContext();
+
+  useHandleScroll(recoveryPasswordActive);
 
   const {
     control,

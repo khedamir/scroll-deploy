@@ -1,5 +1,6 @@
 import React, { FC } from "react";
 import { ReactSVG } from "react-svg";
+import { useHandleScroll } from "../../hooks";
 
 interface ThanksModalProps {
   active: boolean;
@@ -14,6 +15,7 @@ const ThanksModal: FC<ThanksModalProps> = ({
   title,
   description,
 }) => {
+  useHandleScroll(active);
   return (
     <div
       className={`modal ${active && "is--active"}`}

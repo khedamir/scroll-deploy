@@ -8,6 +8,7 @@ import ContactInput, { ContactInputType } from "../ContactInput";
 import { loginSchemes } from "./validationSchemes";
 import LoginWidthGoogle from "../loginWidthGoogle";
 import InputWrapper from "../InputWrapper";
+import { useHandleScroll } from "../../hooks";
 
 type FormValuesType = {
   contact: string;
@@ -22,6 +23,7 @@ const Login = () => {
     setRecoveryPasswordActive,
   } = useModalsContext();
   const [contactType, setContactType] = useState<ContactInputType>("email");
+  useHandleScroll(loginActive);
 
   const dispatch = useAppDispatch();
 

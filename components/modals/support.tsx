@@ -6,6 +6,7 @@ import { supportScheme } from "./validationSchemes";
 import InputWrapper from "../InputWrapper";
 import ThanksModal from "./thanks";
 import { SupportFetch } from "../../utils/formFetchs";
+import { useHandleScroll } from "../../hooks";
 
 interface SupportProps {
   active: boolean;
@@ -20,6 +21,8 @@ export type FormValuesType = {
 const Support: FC<SupportProps> = ({ active, setActive }) => {
   const [thanksModalActive, setThanksModalActive] = useState(false);
   const [contactType, setContactType] = useState<ContactInputType>("email");
+
+  useHandleScroll(thanksModalActive);
 
   const {
     register,
@@ -36,7 +39,7 @@ const Support: FC<SupportProps> = ({ active, setActive }) => {
       reset();
     });
   };
-  
+
   return (
     <>
       <div

@@ -5,6 +5,7 @@ import { useForm } from "react-hook-form";
 import ThanksModal from "./thanks";
 import InputWrapper from "../InputWrapper";
 import { feadbackSchemes } from "./validationSchemes";
+import { useHandleScroll } from "../../hooks";
 
 interface FeadbackProps {
   active: boolean;
@@ -17,6 +18,7 @@ type FormValuesType = {
 
 const Feadback: FC<FeadbackProps> = ({ active, setActive }) => {
   const [thanksModalActive, setThanksModalActive] = useState(false);
+  useHandleScroll(thanksModalActive);
 
   const {
     register,

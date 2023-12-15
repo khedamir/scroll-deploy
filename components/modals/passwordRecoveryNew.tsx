@@ -7,6 +7,7 @@ import { changePasswordSchemes } from "./validationSchemes";
 import ChangePasswordComplete from "./changePasswordComplete";
 import { useRouter } from "next/router";
 import { PasswrodRecoveryFetch } from "../../utils/formFetchs";
+import { useHandleScroll } from "../../hooks";
 
 type FormValuesType = {
   password: string;
@@ -17,6 +18,8 @@ const PasswordRecoveryNew = () => {
   const [completeModalActive, setCompleteModalActive] = useState(false);
   const { setLoginActive } = useModalsContext();
   const router = useRouter();
+
+  useHandleScroll(completeModalActive);
 
   const clearQueryParams = () => {
     const { pathname, query } = router;

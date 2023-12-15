@@ -3,6 +3,7 @@ import { ReactSVG } from "react-svg";
 import { Answers } from "./answers";
 import { askGpt } from "../../utils/askGpt";
 import { useModalsContext } from "../../context/ModalsContext";
+import { useHandleScroll } from "../../hooks";
 
 enum role {
   USER = "user",
@@ -23,6 +24,8 @@ const ChatAi = () => {
 
   const [activeItem, setActiveItem] = useState<number>();
   const contentRefs = useRef<any>({});
+
+  useHandleScroll(aiChatActive);
 
   const getHeight = (itemId: number) => {
     if (contentRefs.current[itemId]) {
@@ -103,8 +106,7 @@ const ChatAi = () => {
                   </button>
                   <div
                     style={{
-                      height:
-                        ans.id === activeItem ? getHeight(ans.id) : "0px",
+                      height: ans.id === activeItem ? getHeight(ans.id) : "0px",
                     }}
                     className={`ai-chat__dropdown ${
                       activeItem === ans.id && "is--open"

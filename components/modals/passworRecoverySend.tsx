@@ -3,13 +3,13 @@ import { ReactSVG } from "react-svg";
 import { useModalsContext } from "../../context/ModalsContext";
 import { encryptEmail } from "../../utils/encryptEmail";
 import { server } from "../../utils/server";
+import { useHandleScroll } from "../../hooks";
 
 const PassworRecoverySend = () => {
   const [resendActive, setResendActive] = useState(false);
   const {
     recoveryPasswordSend,
     setRecoveryPasswordSend,
-    setLoginActive,
     setRecoveryPasswordActive,
   } = useModalsContext();
 
@@ -18,6 +18,7 @@ const PassworRecoverySend = () => {
     setRecoveryPasswordSend("");
   };
 
+  useHandleScroll(resendActive);
   const reSend = () => {
     server
       .post("/api/v1/auth/forgot", { email: recoveryPasswordSend })

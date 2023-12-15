@@ -6,6 +6,7 @@ import ContactInput, { ContactInputType } from "../ContactInput";
 import { legalAdviceSchemes } from "./validationSchemes";
 import { legalAdviceFetch } from "../../utils/formFetchs";
 import InputWrapper from "../InputWrapper";
+import { useHandleScroll } from "../../hooks";
 
 interface LegalAdviceProps {
   active: boolean;
@@ -21,6 +22,7 @@ type FormValuesType = {
 const LegalAdvice: FC<LegalAdviceProps> = ({ active, setActive }) => {
   const [thanksModalActive, setThanksModalActive] = useState(false);
   const [contactType, setContactType] = useState<ContactInputType>("email");
+  useHandleScroll(active);
 
   const {
     register,

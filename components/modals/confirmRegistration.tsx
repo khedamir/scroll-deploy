@@ -6,6 +6,7 @@ import { registerConfirm } from "../../utils/formFetchs";
 import InputWrapper from "../InputWrapper";
 import { ReactSVG } from "react-svg";
 import Loader from "../loader";
+import { useHandleScroll } from "../../hooks";
 
 interface FormValuesType {
   code: string;
@@ -16,6 +17,8 @@ const ConfirmRegistration = () => {
   const router = useRouter();
   const { confirm_user_id, confirm_code } = router.query;
   const [succes, setSucces] = useState(false);
+
+  useHandleScroll(Boolean(confirm_user_id));
 
   const clearQueryParams = () => {
     const { pathname, query } = router;
