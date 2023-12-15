@@ -4,7 +4,6 @@ import Link from "@editorjs/link";
 import Quote from "@editorjs/quote";
 import Paragraph from "@editorjs/paragraph";
 import Header from "@editorjs/header";
-import axios from "axios";
 import { FileUpload } from "../../utils/formFetchs";
 
 export const EDITOR_TOOLS = {
@@ -72,7 +71,6 @@ export const EDITOR_TOOLS = {
   quote: {
     class: Quote,
     inlineToolbar: true,
-    shortcut: "CMD+SHIFT+O",
     config: {
       quotePlaceholder: "Введите цитату",
       captionPlaceholder: "Автор цитаты",
@@ -94,7 +92,7 @@ export const message = {
     Heading: "Заголовок",
     Quote: "Цитата",
     Link: "Ссылка",
-    Image: "Фото или видео",
+    Image: "Фото",
   },
   tools: {
     warning: {

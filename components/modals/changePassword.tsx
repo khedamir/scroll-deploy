@@ -5,24 +5,44 @@ import { useForm } from "react-hook-form";
 import InputWrapper from "../InputWrapper";
 import { changePasswordSchemes } from "./validationSchemes";
 import ChangePasswordComplete from "./changePasswordComplete";
+import { ChangeUserDataProps, UserDataChange } from "../../utils/formFetchs";
+import { useSelector } from "react-redux";
+import { selectUser } from "../../redux/auth/slice";
 
 type FormValuesType = {
   password: string;
-  re_password: string;
+  confirm_password: string;
 };
 
 const ChangePassword = () => {
   const { changePasswordActive, setChangePasswordActive } = useModalsContext();
   const [completeModalActive, setCompleteModalActive] = useState(false);
+  const { user } = useSelector(selectUser);
 
   const {
     register,
     handleSubmit,
+    setValue,
     formState: { errors },
   } = useForm<FormValuesType>({ mode: "onBlur" });
 
   const onSubmit = (values: FormValuesType) => {
-    console.log(values);
+    if (!user) {
+      return;
+    }
+    const params: ChangeUserDataProps = {
+      userId: user.id,
+      data: {
+        password: values.password,
+        confirm_password: values.confirm_password,
+      },
+    };
+    UserDataChange(params).then(() => {
+      setCompleteModalActive(true);
+      setValue("password", "");
+      setValue("confirm_password", "");
+      setChangePasswordActive(false);
+    });
   };
 
   return (
@@ -64,7 +84,7 @@ const ChangePassword = () => {
                     errorMessage={errors.password?.message}
                   >
                     <input
-                      type="text"
+                      type="password"
                       id="modal-change-password-1"
                       className="input-field__input"
                       placeholder=""
@@ -75,8 +95,8 @@ const ChangePassword = () => {
                   <InputWrapper
                     labelValue="Повторите пароль"
                     htmlForValue="modal-change-password-2"
-                    error={errors.re_password}
-                    errorMessage={errors.re_password?.message}
+                    error={errors.confirm_password}
+                    errorMessage={errors.confirm_password?.message}
                   >
                     <input
                       type="password"
@@ -85,7 +105,7 @@ const ChangePassword = () => {
                       placeholder=""
                       autoComplete="current-password"
                       {...register(
-                        "re_password",
+                        "confirm_password",
                         changePasswordSchemes.re_password
                       )}
                     />

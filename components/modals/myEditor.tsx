@@ -12,6 +12,8 @@ import { useAppDispatch } from "../../redux/store";
 import { addPreview } from "../../redux/new_publication/slice";
 import { PreviewNewType } from "../../redux/new_publication/type";
 import { useRouter } from "next/router";
+import Selector from "../selector";
+import RubricSelector from "../lkComponents/rubricSelector";
 
 // important that we use dynamic loading here
 // editorjs should only be rendered on the client side.
@@ -93,10 +95,11 @@ export default function MyEditor({
                 </button>
               </div>
             </div>
-            <Select
+            <RubricSelector
               selectRubric={selectRubric}
               setSelectRubric={setSelectRubric}
             />
+
             <div className="editor-scroll">
               <input
                 type="text"

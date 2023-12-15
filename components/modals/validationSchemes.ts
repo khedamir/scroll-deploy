@@ -58,8 +58,22 @@ export const registerSchemes = {
 
 export const changeUserData = {
   name: nameScheme,
-  last_name: nameScheme,
-  phone: phoneScheme,
+  last_name: {
+    minLength: {
+      value: 2,
+      message: "Фамилия должна содержать не менее 2 символов",
+    },
+    maxLength: {
+      value: 255,
+      message: "Фамилия должна содержать не более 255 символов",
+    },
+  },
+  phone: {
+    pattern: {
+      value: /^(\+7\s)?\(\d{3}\)\s\d{3}-\d{2}-\d{2}$/,
+      message: "Неверный телефон",
+    },
+  },
   email: emailScheme,
 };
 

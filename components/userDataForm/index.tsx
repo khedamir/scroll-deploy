@@ -7,7 +7,11 @@ import { selectUser } from "../../redux/auth/slice";
 import InputWrapper from "../InputWrapper";
 import { changeUserData } from "../modals/validationSchemes";
 import { useModalsContext } from "../../context/ModalsContext";
-import { ChangeUserDataProps, UserDataChange } from "../../utils/formFetchs";
+import {
+  ChangeUserDataProps,
+  FileUpload,
+  UserDataChange,
+} from "../../utils/formFetchs";
 import UserIcon from "../userIcon";
 
 type FormValuesType = {
@@ -22,6 +26,7 @@ const UserDataForm = () => {
   const { user } = useSelector(selectUser);
   const { setChangePasswordActive } = useModalsContext();
   const [userImg, setUserImg] = useState("");
+  const [inputImgValue, setInputImg] = useState<any>();
 
   const {
     register,
@@ -45,15 +50,22 @@ const UserDataForm = () => {
     if (file) {
       fileReader.onload = function (ev) {
         if (ev.target && typeof ev.target.result === "string") {
-          console.log(ev.target.result);
           setUserImg(ev.target.result);
         }
       };
       fileReader.readAsDataURL(file);
+      setInputImg(file);
     }
   };
 
-  const onSubmit = (values: FormValuesType) => {
+  const setImageFetch = async (file: string) => {
+    const formData = new FormData();
+    formData.append("image", file);
+    const result = await FileUpload({ userId: "8", file });
+    return result.filePath;
+  };
+
+  const onSubmit = async (values: FormValuesType) => {
     if (user) {
       const params: ChangeUserDataProps = {
         userId: user?.id,
@@ -77,6 +89,11 @@ const UserDataForm = () => {
 
       if (user.email !== values.email) {
         params.data.email = values.email;
+      }
+
+      if (userImg) {
+        const path = await setImageFetch(inputImgValue);
+        params.data.photo = path;
       }
 
       UserDataChange(params).then(() => {

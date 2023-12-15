@@ -192,6 +192,9 @@ export type ChangeUserDataProps = {
     email?: string;
     city?: string;
     phone?: string;
+    photo?: string;
+    password?: string;
+    confirm_password?: string;
   };
 };
 
@@ -260,6 +263,8 @@ export const UserDataChange = async ({ userId, data }: ChangeUserDataProps) => {
       userId,
       ...data,
     };
+
+    console.log(data);
 
     const result = await server.post("/sw/v1/userData.php", params, {
       headers: {
