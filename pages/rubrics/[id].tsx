@@ -90,7 +90,7 @@ const Rubrics: FC<RubricsProps> = ({ recomendations }) => {
                             <span className="page-list__item-img">
                               <UserIcon
                                 userPhoto={recomendation.author_photo}
-                                nameLatter={recomendation.author_name[0]}
+                                nameLatter={recomendation.author_name?.[0]}
                                 avatarColor={recomendation.author_avatar_color}
                               />
                             </span>
