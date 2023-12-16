@@ -18,6 +18,9 @@ import PasswordRecovery from "../modals/passwordRecovery";
 import PassworRecoverySend from "../modals/passworRecoverySend";
 import PasswordRecoveryNew from "../modals/passwordRecoveryNew";
 import Bookmarks from "../bookmarks";
+import { setFavorites } from "../../redux/favorites/slice";
+import { useSelector } from "react-redux";
+import { selectUser } from "../../redux/auth/slice";
 
 const Layout = ({ children }: { children: ReactNode }) => {
   const headerComponents: any = {
@@ -34,14 +37,15 @@ const Layout = ({ children }: { children: ReactNode }) => {
     "/podcasts/[id]": <SecondHeader />,
     "/lawyers-club": <SecondHeader />,
   };
-  const [isScrolling, setIsScrolling] = useState<boolean>(false);
 
+  const [isScrolling, setIsScrolling] = useState<boolean>(false);
+  const dispatch = useAppDispatch();
   const router = useRouter();
+  const { user } = useSelector(selectUser);
+
   const currentHeader = headerComponents[router.pathname] || (
     <Header isScrolling={isScrolling} />
   );
-
-  const dispatch = useAppDispatch();
 
   const handleScroll = () => {
     const layoutWrap = document.querySelector(".layout__wrap") as HTMLElement;
@@ -100,8 +104,29 @@ const Layout = ({ children }: { children: ReactNode }) => {
           type: "get",
         })
       );
+    } else {
+      const favorites = localStorage.getItem("favorites");
+      if (favorites) {
+        dispatch(setFavorites(JSON.parse(favorites)));
+      }
     }
   }, [dispatch]);
+
+  useEffect(() => {
+    if (user) {
+      dispatch(
+        fetchFavorites({
+          userId: String(user.id),
+          type: "get",
+        })
+      );
+    } else {
+      const favorites = localStorage.getItem("favorites");
+      if (favorites) {
+        dispatch(setFavorites(JSON.parse(favorites)));
+      }
+    }
+  }, [user]);
 
   return (
     <div>

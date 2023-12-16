@@ -2,7 +2,7 @@ import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { Status } from "../types";
 import { fetchFavorites } from "./asyncAction";
 import { AppState } from "../store";
-import { FavoriteSections, FavoritesSliceState } from "./types";
+import { FavoriteSections, FavoritesSliceState, FavoritesType } from "./types";
 
 const initialState: FavoritesSliceState = {
   data: {
@@ -29,11 +29,18 @@ export const favoritesSlice = createSlice({
   name: "favorites",
   initialState,
   reducers: {
+    setFavorites: (state, action: PayloadAction<FavoritesType>) => {
+      state.data = action.payload;
+    },
     addToFavorites: (
       state,
-      action: PayloadAction<{ sectionId: FavoriteSections; element: any }>
+      action: PayloadAction<{
+        sectionId: FavoriteSections;
+        element: any;
+        auth?: boolean;
+      }>
     ) => {
-      const { sectionId, element } = action.payload;
+      const { sectionId, element, auth = true } = action.payload;
       if (state.data[sectionId]) {
         state.data[sectionId].items.push(element);
       } else {
@@ -41,26 +48,39 @@ export const favoritesSlice = createSlice({
           items: [element],
         };
       }
+      if (!auth) {
+        localStorage.setItem("favorites", JSON.stringify(state.data));
+      }
     },
     removeFromFavorites: (
       state,
-      action: PayloadAction<{ sectionId: FavoriteSections; elementId: string }>
+      action: PayloadAction<{
+        sectionId: FavoriteSections;
+        elementId: string;
+        auth?: boolean;
+      }>
     ) => {
-      const { sectionId, elementId } = action.payload;
+      const { sectionId, elementId, auth = true } = action.payload;
       const itemitems = state.data[sectionId].items.filter(
         (item) => item.id !== elementId
       );
       // @ts-ignore
       state.data[sectionId].items = itemitems;
+      if (!auth) {
+        localStorage.setItem("favorites", JSON.stringify(state.data));
+      }
     },
     removeFromFavoritesBlock: (
       state,
-      action: PayloadAction<{ sectionId: FavoriteSections }>
+      action: PayloadAction<{ sectionId: FavoriteSections; auth?: boolean }>
     ) => {
-      const { sectionId } = action.payload;
+      const { sectionId, auth = true } = action.payload;
       state.data[sectionId] = {
         items: [],
       };
+      if (!auth) {
+        localStorage.setItem("favorites", JSON.stringify(state.data));
+      }
     },
   },
   extraReducers: (builder) => {
@@ -113,7 +133,7 @@ export const areAllElementsInFavorites = (
   return false;
 };
 
-export const { removeFromFavorites, addToFavorites, removeFromFavoritesBlock } =
+export const { removeFromFavorites, addToFavorites, removeFromFavoritesBlock, setFavorites } =
   favoritesSlice.actions;
 
 export default favoritesSlice.reducer;

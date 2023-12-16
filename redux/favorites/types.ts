@@ -9,8 +9,10 @@ export type FavoriteNew = {
   id: string;
   data: {
     NAME: string;
+    images: { detail: string };
     props: {
       PUB_TAG: { VALUE: string[] };
+      PUB_RUBRIC: { VALUE: string[] };
     };
   };
 };
@@ -18,6 +20,7 @@ export type FavoriteNew = {
 export type FavoriteVideo = {
   id: string;
   data: {
+    NAME: string;
     images: ImageType;
   };
 };

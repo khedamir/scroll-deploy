@@ -59,10 +59,6 @@ const FullPodcastItem: FC<PodcastItemProps> = ({
   }, [isLast]);
 
   const changeFavorite = () => {
-    if (!user) {
-      setLoginActive(true);
-      return;
-    }
 
     if (isFavorite) {
       deleteFavorite({ itemId: podcast.id, sectionId: "34" });

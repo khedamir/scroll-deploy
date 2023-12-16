@@ -54,7 +54,6 @@ const FavoritesContext = createContext({
 const FavoritesContextProvider = (props: any) => {
   const { user } = useSelector(selectUser);
   const dispatch = useAppDispatch();
-  const { setLoginActive } = useModalsContext();
 
   const addFavorite = ({
     itemId,
@@ -66,7 +65,29 @@ const FavoritesContextProvider = (props: any) => {
     podcastItem,
   }: addFavoritePropsType) => {
     if (!user) {
-      setLoginActive(true);
+      if (newItem) {
+        dispatch(addToFavorites({ sectionId, element: newItem, auth: false }));
+      }
+      if (videoItem) {
+        dispatch(
+          addToFavorites({ sectionId, element: videoItem, auth: false })
+        );
+      }
+      if (lectureItem) {
+        dispatch(
+          addToFavorites({ sectionId, element: lectureItem, auth: false })
+        );
+      }
+      if (trendItem) {
+        dispatch(
+          addToFavorites({ sectionId, element: trendItem, auth: false })
+        );
+      }
+      if (podcastItem) {
+        dispatch(
+          addToFavorites({ sectionId, element: podcastItem, auth: false })
+        );
+      }
       return;
     }
 
@@ -102,6 +123,10 @@ const FavoritesContextProvider = (props: any) => {
       }).then(() => {
         dispatch(removeFromFavorites({ sectionId, elementId: itemId }));
       });
+    } else {
+      dispatch(
+        removeFromFavorites({ sectionId, elementId: itemId, auth: false })
+      );
     }
   };
 

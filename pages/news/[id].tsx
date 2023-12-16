@@ -16,9 +16,7 @@ import NewAuthor from "../../components/pageNew/newAuthor";
 import { getAnchorsId } from "../../utils/getAnchorsId";
 import { useRouter } from "next/router";
 import { useSelector } from "react-redux";
-import { selectUser } from "../../redux/auth/slice";
 import { FavoriteNew } from "../../redux/favorites/types";
-import { useModalsContext } from "../../context/ModalsContext";
 import { useFavoriteContext } from "../../context/FavoritesContext";
 import { isElementInFavorites } from "../../redux/favorites/slice";
 import { AppState, wrapper } from "../../redux/store";
@@ -35,25 +33,17 @@ interface NewProps {
 }
 
 const New: FC<NewProps> = ({ publication, recommendationNews }) => {
-  console.log(publication);
   const router = useRouter();
   useSetCookie(`/news/${router.query.id}`, String(router.query.id));
 
   const [modalActive, setModalActive] = useState(false);
-  const { user } = useSelector(selectUser);
   const { all_comments_count } = useSelector(selectComments);
-  const { setLoginActive } = useModalsContext();
   const { addFavorite, deleteFavorite } = useFavoriteContext();
   const isFavorite = useSelector((state: AppState) =>
     isElementInFavorites(state, "9", publication.id)
   );
 
   const changeFavorite = () => {
-    if (!user) {
-      setLoginActive(true);
-      return;
-    }
-
     if (isFavorite) {
       deleteFavorite({ itemId: publication.id, sectionId: "9" });
     }
@@ -63,9 +53,13 @@ const New: FC<NewProps> = ({ publication, recommendationNews }) => {
         id: publication.id,
         data: {
           NAME: publication.name,
+          images: { detail: publication.images[1] },
           props: {
             PUB_TAG: {
               VALUE: publication.props.PUB_TAG.VALUE,
+            },
+            PUB_RUBRIC: {
+              VALUE: [],
             },
           },
         },

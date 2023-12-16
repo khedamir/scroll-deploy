@@ -34,10 +34,6 @@ const NewsCard: FC<NewsCardProps> = ({ news }) => {
     newItem: NewType
   ) => {
     event.preventDefault();
-    if (!user) {
-      setLoginActive(true);
-      return;
-    }
 
     if (isFavorite(newItem.id)) {
       deleteFavorite({ itemId: newItem.id, sectionId: "9" });
@@ -48,9 +44,13 @@ const NewsCard: FC<NewsCardProps> = ({ news }) => {
         id: newItem.id,
         data: {
           NAME: newItem.name,
+          images: newItem.images,
           props: {
             PUB_TAG: {
               VALUE: newItem.poperties.PUB_TAG,
+            },
+            PUB_RUBRIC: {
+              VALUE: [newItem.rubric],
             },
           },
         },

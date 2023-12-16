@@ -48,10 +48,6 @@ const TrendItem: FC<TrendItemProps> = ({ trend }) => {
   };
 
   const changeFavorite = () => {
-    if (!user) {
-      setLoginActive(true);
-      return;
-    }
 
     if (isFavorite) {
       deleteFavorite({ itemId: trend.id, sectionId: "28" });
@@ -62,6 +58,7 @@ const TrendItem: FC<TrendItemProps> = ({ trend }) => {
         id: trend.id,
         data: {
           images: trend.images,
+          NAME: trend.name,
         },
       };
       addFavorite({

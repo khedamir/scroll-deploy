@@ -1,7 +1,5 @@
-import Link from "next/link";
-import React, { FC, useState } from "react";
+import React, { FC, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { ReactSVG } from "react-svg";
 import { selectFavorites } from "../../redux/favorites/slice";
 import { selectUser } from "../../redux/auth/slice";
 import { useModalsContext } from "../../context/ModalsContext";
@@ -22,16 +20,16 @@ const Bookmarks: FC<BookmarksProps> = ({ active }) => {
   const [activeBlock, setActiveBlock] = useState<ActiveBlockValue>("articles");
   const { data } = useSelector(selectFavorites);
   const { user } = useSelector(selectUser);
-  const { setLoginActive } = useModalsContext();
+  const { setLoginActive, setBookmarks } = useModalsContext();
   const { deleteFavorite } = useFavoriteContext();
 
   const changeFavorite = (itemId: string, sectionId: FavoriteSections) => {
-    if (!user) {
-      setLoginActive(true);
-      return;
-    }
     deleteFavorite({ itemId, sectionId });
   };
+
+  useEffect(() => {
+    setBookmarks(false);
+  }, []);
 
   return (
     <div className={`lk-tabs__wrapper ${active && "is--active"}`}>

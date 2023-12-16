@@ -23,10 +23,6 @@ const MoreNewItem: FC<MoreNewItemProps> = ({ item }) => {
   );
   const { addFavorite, deleteFavorite } = useFavoriteContext();
   const changeFavorite = () => {
-    if (!user) {
-      setLoginActive(true);
-      return;
-    }
 
     if (isFavorite) {
       deleteFavorite({ itemId: item.id, sectionId: "9" });
@@ -37,9 +33,13 @@ const MoreNewItem: FC<MoreNewItemProps> = ({ item }) => {
         id: item.id,
         data: {
           NAME: item.name,
+          images: item.images,
           props: {
             PUB_TAG: {
               VALUE: item.poperties.PUB_TAG,
+            },
+            PUB_RUBRIC: {
+              VALUE: [item.rubric],
             },
           },
         },
@@ -51,7 +51,7 @@ const MoreNewItem: FC<MoreNewItemProps> = ({ item }) => {
       });
     }
   };
-  
+
   return (
     <div key={item.id} className="swiper-slide">
       <article className="more-topic__item">

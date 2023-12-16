@@ -30,11 +30,6 @@ const Video: FC<VideoProps> = ({ publication }) => {
   );
 
   const changeFavorite = () => {
-    if (!user) {
-      setLoginActive(true);
-      return;
-    }
-
     if (isFavorite) {
       deleteFavorite({ itemId: publication.id, sectionId: "15" });
     }
@@ -47,6 +42,7 @@ const Video: FC<VideoProps> = ({ publication }) => {
             detail: "",
             preview: publication.images[0],
           },
+          NAME: publication.name,
         },
       };
       addFavorite({

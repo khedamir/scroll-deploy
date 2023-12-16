@@ -48,11 +48,6 @@ const NewCard: FC<NewCardProps> = ({ newItem, isLast, newLimit, end }) => {
   }, [isLast]);
 
   const changeFavorite = () => {
-    if (!user) {
-      setLoginActive(true);
-      return;
-    }
-
     if (isFavorite) {
       deleteFavorite({ itemId: newItem.id, sectionId: "9" });
     }
@@ -62,9 +57,13 @@ const NewCard: FC<NewCardProps> = ({ newItem, isLast, newLimit, end }) => {
         id: newItem.id,
         data: {
           NAME: newItem.name,
+          images: newItem.images,
           props: {
             PUB_TAG: {
               VALUE: newItem.poperties.PUB_TAG,
+            },
+            PUB_RUBRIC: {
+              VALUE: [newItem.rubric],
             },
           },
         },

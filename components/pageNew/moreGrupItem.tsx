@@ -24,10 +24,6 @@ const MoreGrupItem: FC<MoreGrupItemProps> = ({ item }) => {
   const { addFavorite, deleteFavorite } = useFavoriteContext();
   const changeFavorite = (event: MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
-    if (!user) {
-      setLoginActive(true);
-      return;
-    }
 
     if (isFavorite) {
       deleteFavorite({ itemId: item.id, sectionId: "9" });
@@ -38,9 +34,13 @@ const MoreGrupItem: FC<MoreGrupItemProps> = ({ item }) => {
         id: item.id,
         data: {
           NAME: item.name,
+          images: item.images,
           props: {
             PUB_TAG: {
               VALUE: item.poperties.PUB_TAG,
+            },
+            PUB_RUBRIC: {
+              VALUE: [item.rubric],
             },
           },
         },

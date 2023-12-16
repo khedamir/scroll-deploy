@@ -41,10 +41,6 @@ const PodcastItem: FC<PodcastItemProps> = ({
   } = useAudioContext();
 
   const changeFavorite = () => {
-    if (!user) {
-      setLoginActive(true);
-      return;
-    }
 
     if (isFavorite) {
       deleteFavorite({ itemId: podcast.id, sectionId: "34" });
