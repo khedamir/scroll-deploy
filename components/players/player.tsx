@@ -1,9 +1,15 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, {
+  useState,
+  useRef,
+  useEffect,
+  MouseEvent,
+  ChangeEvent,
+  TouchEvent,
+} from "react";
 import { ReactSVG } from "react-svg";
 import SpeedChanger from "./speedChanger";
-import dynamic from "next/dynamic";
 import { useAudioContext } from "../../context/audioContext";
-const ReactPlayer = dynamic(() => import("react-player"), { ssr: false });
+import ReactPlayer from "react-player";
 
 const AudioPlayer = () => {
   const [played, setPlayed] = useState(0);
@@ -11,7 +17,8 @@ const AudioPlayer = () => {
   const [volume, setVolume] = useState(0.8);
   const [speedValue, setSpeedValue] = useState(1);
   const [playbackRate, setPlaybackRate] = useState(1.0);
-  const playerRef = useRef(null);
+  const [seeking, setSeeking] = useState<boolean>(false);
+  const playerRef = useRef<ReactPlayer | null>(null);
 
   const {
     audioLink,
@@ -26,7 +33,7 @@ const AudioPlayer = () => {
     console.log(podcastId, audioLink);
     setPlayed(0);
     setDuration(0);
-  }, [podcastId]);
+  }, [podcastId, audioLink]);
 
   const handlePlayPause = () => {
     setIsPlaying(!isPlaying);
@@ -35,7 +42,9 @@ const AudioPlayer = () => {
   const handleProgress = (progress: {
     played: React.SetStateAction<number>;
   }) => {
-    setPlayed(progress.played);
+    if (!seeking) {
+      setPlayed(progress.played);
+    }
   };
 
   const handleDuration = (duration: React.SetStateAction<number>) => {
@@ -49,7 +58,6 @@ const AudioPlayer = () => {
       setVolume(parseFloat("1"));
     }
   };
-
   const handleVolumeChange = (e: { target: { value: string } }) => {
     setVolume(parseFloat(e.target.value));
   };
@@ -57,6 +65,24 @@ const AudioPlayer = () => {
   const handlePlaybackRateChange = (value: string) => {
     setPlaybackRate(parseFloat(value));
   };
+
+  const handleSeekMouseDown = () => {
+    setSeeking(true);
+  };
+  const handleSeekChange = (e: TouchEvent | MouseEvent | ChangeEvent) => {
+    const target = e.target as HTMLInputElement;
+    setPlayed(parseFloat(target.value));
+  };
+  const handleSeekMouseUp = (e: MouseEvent | TouchEvent) => {
+    const target = e.target as HTMLInputElement;
+    setSeeking(false);
+    playerRef.current?.seekTo(Number(target.value));
+    setPlayed(Number(target.value));
+  };
+
+  if (!(audioLink && podcastId)) {
+    return <span></span>;
+  }
 
   return (
     <div className={`player ${playerActive && "is--active"}`}>
@@ -90,8 +116,12 @@ const AudioPlayer = () => {
               max={1}
               step="any"
               value={played}
-              onChange={(e) => setPlayed(parseFloat(e.target.value))}
-              aria-valuetext={`Progress: ${played * 100}%`}
+              onMouseDown={handleSeekMouseDown}
+              onChange={handleSeekChange}
+              onMouseUp={handleSeekMouseUp}
+              onTouchStart={handleSeekMouseDown}
+              onTouchMove={handleSeekChange}
+              onTouchEnd={handleSeekMouseUp}
             />
             <span className="time">{formatTime(duration)}</span>
           </div>

@@ -34,21 +34,12 @@ export const EDITOR_TOOLS = {
       uploader: {
         async uploadByFile(file) {
           try {
-            // const fileReader = new FileReader();
-            // let image = "";
-            // if (file) {
-            //   fileReader.onload = function (ev) {
-            //     if (ev.target && typeof ev.target.result === "string") {
-            //       image = ev.target.result;
-            //     }
-            //   };
-            //   fileReader.readAsDataURL(file);
-            // }
-
             const formData = new FormData();
             formData.append("image", file);
-            const result = await FileUpload({ userId: "8", file });
-            console.log(result);
+            const result = await FileUpload({
+              userId: localStorage.getItem("id"),
+              file,
+            });
             return {
               success: 1,
               file: {

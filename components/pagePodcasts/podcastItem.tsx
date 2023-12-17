@@ -24,8 +24,6 @@ const PodcastItem: FC<PodcastItemProps> = ({
   podcastAuthor,
   podcastPhoto,
 }) => {
-  const { user } = useSelector(selectUser);
-  const { setLoginActive } = useModalsContext();
   const isFavorite = useSelector((state: AppState) =>
     isElementInFavorites(state, "34", podcast.id)
   );
@@ -41,7 +39,6 @@ const PodcastItem: FC<PodcastItemProps> = ({
   } = useAudioContext();
 
   const changeFavorite = () => {
-
     if (isFavorite) {
       deleteFavorite({ itemId: podcast.id, sectionId: "34" });
     }
