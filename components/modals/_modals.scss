@@ -525,6 +525,10 @@
   flex-direction: column;
   gap: 20px;
 
+  .editor-error {
+    color: $root-complement-2-on-light-shift-down;
+  }
+
   .codex-editor__redactor {
     padding-bottom: 0 !important;
   }
@@ -597,11 +601,9 @@
     scrollbar-width: thin;
     scrollbar-color: #888 #f1f1f1;
 
-    .editor-title__input {
+    .editor-input {
       width: 100%;
       border: none;
-      font-size: 36px;
-      font-weight: 600;
       outline: none;
       color: $root-base-on-light;
 
@@ -611,6 +613,17 @@
 
       &::-webkit-input-placeholder {
         color: $root-faint-on-light-shift-up;
+      }
+
+      &__title {
+        font-size: 36px;
+        font-weight: 600;
+      }
+
+      &__preview {
+        font-size: 16px;
+        font-weight: 400;
+        margin-bottom: 24px;
       }
     }
 
@@ -646,6 +659,26 @@
             opacity: 0.8;
           }
         }
+      }
+    }
+
+    .editor-source {
+      margin: 24px 0;
+
+      &__title {
+        font-size: 24px;
+        margin-bottom: 24px;
+      }
+
+      img {
+        width: 36px;
+        height: 36px;
+        object-fit: cover;
+      }
+
+      &__description {
+        display: flex;
+        gap: 12px;
       }
     }
 

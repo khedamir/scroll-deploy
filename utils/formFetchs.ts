@@ -1,4 +1,5 @@
 import { CommentType, CommentsFetchType } from "../redux/comments/types";
+import { removeDomainFromUrl } from "./editorFormattedContent";
 import { server } from "./server";
 
 type EventsParamsType = {
@@ -350,6 +351,139 @@ export const FileDelete = async (data: FileDeleteType) => {
       },
     });
     console.log(result);
+  } catch (error) {
+    console.error("Произошла ошибка", error);
+  }
+};
+
+// Публикации
+
+export type AddPublicationType = {
+  userId: string;
+  iblockid: string;
+  title: string;
+  photo: string;
+  text_preview: string;
+  text: string;
+  publication_type: "draft" | "moderation";
+  rubric: string;
+  source: string;
+  source_photo: string;
+  source_url: string;
+  type: "add" | "update";
+  publication_id: string;
+};
+
+export type GetPublicationsType = {
+  userId: string;
+};
+
+export type DeletePublicationType = {
+  userId: string;
+  iblockid: string;
+  publication_id: string;
+};
+
+export const addPublication = async ({
+  userId,
+  iblockid,
+  title,
+  photo,
+  text_preview,
+  text,
+  publication_type,
+  rubric,
+  source,
+  source_photo,
+  source_url,
+  type,
+  publication_id,
+}: AddPublicationType) => {
+  try {
+    const params: AddPublicationType = {
+      userId,
+      iblockid,
+      title,
+      photo,
+      text_preview,
+      text,
+      publication_type,
+      rubric,
+      type,
+      source,
+      source_photo,
+      source_url,
+      publication_id,
+    };
+
+    console.log(params);
+
+    const result = await server.post("/sw/v1/userPublications.php", params, {
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
+    });
+
+    if (publication_type === "moderation") {
+      const FFFF = await server.post("/sw/v1/userPublications.php", {
+        type: "addModeration",
+        userId,
+        iblockid,
+        publication_id,
+      });
+      console.log({
+        type: "addModeration",
+        userId,
+        iblockid,
+        publication_id,
+      });
+      console.log(FFFF);
+    }
+    return result.data;
+  } catch (error) {
+    console.error("Произошла ошибка", error);
+  }
+};
+
+export const getPublications = async ({ userId }: GetPublicationsType) => {
+  try {
+    const params = {
+      userId,
+      type: "get",
+    };
+
+    const result = await server.post("/sw/v1/userPublications.php", params, {
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
+    });
+    console.log(result);
+    return result.data;
+  } catch (error) {
+    console.error("Произошла ошибка", error);
+  }
+};
+
+export const deletePublication = async ({
+  userId,
+  iblockid,
+  publication_id,
+}: DeletePublicationType) => {
+  try {
+    const params = {
+      userId,
+      iblockid,
+      publication_id,
+      type: "delete",
+    };
+
+    const result = await server.post("/sw/v1/userPublications.php", params, {
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
+    });
+    console.log(result);
+    return result.data;
   } catch (error) {
     console.error("Произошла ошибка", error);
   }

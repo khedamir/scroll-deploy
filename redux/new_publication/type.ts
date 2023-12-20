@@ -4,14 +4,32 @@ export type PreviewNewType = {
   rubric: string;
   image: string;
   content: string;
-  author_name: string;
-  author_surname: string;
-  author_photo: string;
-  author_avatar_color: string;
+  anons: string;
+  source: string;
+  sourcePhoto: string;
+};
+
+export type PublishedNewType = {
+  id: string;
+  name: string;
+  comments: number;
+  likes: number;
+  views: string;
+  liked: boolean;
+  rubric: string;
+  anons: string;
+  content: string;
+  images: { detail: string };
+  poperties: {
+    SOURCE: string;
+    PUB_SOURCE_LOGO: string;
+    DRAFT?: "y";
+    MODERATION?: "y";
+  };
 };
 
 export interface NewPublicationSliceState {
   preview: PreviewNewType | null;
-  published: [];
-  drafts: [];
+  published: PublishedNewType[];
+  drafts: PublishedNewType[];
 }

@@ -11,12 +11,13 @@ export const EDITOR_TOOLS = {
     class: Header,
     config: {
       placeholder: "Заголовок",
-      levels: [2, 3, 4],
+      levels: [2, 3, 4, 5],
       defaultLevel: 2,
     },
   },
   paragraph: {
     class: Paragraph,
+    inlineToolbar: true,
   },
   embed: {
     class: Embed,
@@ -58,7 +59,7 @@ export const EDITOR_TOOLS = {
       },
     },
   },
-  link: Link,
+  // link: Link,
   quote: {
     class: Quote,
     inlineToolbar: true,
@@ -90,16 +91,16 @@ export const message = {
       Title: "Название",
       Message: "Сообщение",
     },
-    link: {
-      Link: "Вставьте ссылку",
-    },
-    linkTool: {
-      Link: "Ссылка",
-      "Couldn't fetch the link data": "Не удалось получить данные",
-      "Couldn't get this link data, try the other one":
-        "Не удалось получить данные по ссылке, попробуйте другую",
-      "Wrong response format from the server": "Неполадки на сервере",
-    },
+    // link: {
+    //   Link: "Вставьте ссылку",
+    // },
+    // linkTool: {
+    //   Link: "Ссылка",
+    //   "Couldn't fetch the link data": "Не удалось получить данные",
+    //   "Couldn't get this link data, try the other one":
+    //     "Не удалось получить данные по ссылке, попробуйте другую",
+    //   "Wrong response format from the server": "Неполадки на сервере",
+    // },
     image: {
       "Select an Image": "Выберите файл",
       Caption: "Подпись",
@@ -112,6 +113,7 @@ export const message = {
       "Heading 2": "Заголовок уровня 2",
       "Heading 3": "Заголовок уровня 3",
       "Heading 4": "Заголовок уровня 4",
+      "Heading 5": "Заголовок уровня 5",
     },
     paragraph: {
       "Enter something": "Введите текст",

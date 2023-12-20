@@ -1519,6 +1519,7 @@
     width: fit-content;
     font-size: 18px;
     font-weight: 500;
+    cursor: pointer;
   }
   &__date {
     display: block;
@@ -1678,6 +1679,7 @@
     min-width: 24px;
     width: 24px;
     height: 24px;
+    cursor: pointer;
     & svg {
       min-width: 24px;
       width: 24px;

@@ -48,7 +48,6 @@ const TrendItem: FC<TrendItemProps> = ({ trend }) => {
   };
 
   const changeFavorite = () => {
-
     if (isFavorite) {
       deleteFavorite({ itemId: trend.id, sectionId: "28" });
     }
@@ -77,10 +76,10 @@ const TrendItem: FC<TrendItemProps> = ({ trend }) => {
             <YouTube
               opts={{
                 width: "100%",
-                heigth: "100%",
+                // heigth: "100%",
                 playerVars: {
                   controls: 0,
-                  showinfo: 0,
+                  // showinfo: 0,
                   loop: 1,
                 },
               }}

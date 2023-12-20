@@ -8,13 +8,16 @@ import { formatDateDifference } from "../../utils/formatDate";
 import LegalAdvice from "../../components/modals/legalAdvice";
 import NewContent from "../../components/pageNew/newContent";
 import getCommentCountWord from "../../utils/getCommentCountWord";
-import { selectNewPublication } from "../../redux/new_publication/slice";
 import UserIcon from "../../components/userIcon";
 import { PreviewNewType } from "../../redux/new_publication/type";
+import { useSelector } from "react-redux";
+import { selectUser } from "../../redux/auth/slice";
+import RenderHTML from "../../components/renderHTML";
 
 const New = () => {
   const [modalActive, setModalActive] = useState(false);
   const [preview, setPreview] = useState<PreviewNewType>();
+  const { user } = useSelector(selectUser);
 
   useEffect(() => {
     const data = localStorage.getItem("preview");
@@ -23,7 +26,7 @@ const New = () => {
     }
   }, []);
 
-  if (!preview) {
+  if (!preview || !user) {
     return <p>Пусто</p>;
   }
 
@@ -73,6 +76,10 @@ const New = () => {
                           recommendationNews={[]}
                           setModalActive={setModalActive}
                         />
+                        <p className="small-description">
+                          <span>Краткое резюме статьи: </span>
+                          <RenderHTML content={preview.anons} />
+                        </p>
                       </div>
                     </div>
                   </div>
@@ -83,14 +90,14 @@ const New = () => {
                       <article className="c-author__wrapper">
                         <div className="c-author__img">
                           <UserIcon
-                            userPhoto={preview.author_photo}
-                            nameLatter={preview.author_name[0]}
-                            avatarColor={preview.author_avatar_color}
+                            userPhoto={user.photo}
+                            nameLatter={user.name[0]}
+                            avatarColor={user.avatar_color}
                           />
                         </div>
                         <div className="c-author__body">
                           <h3 className="c-author__name">
-                            {preview.author_name} {preview.author_surname}
+                            {user.name} {user.last_name}
                           </h3>
                         </div>
                       </article>

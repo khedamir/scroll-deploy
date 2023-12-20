@@ -1,37 +1,40 @@
 import React, { useEffect, useRef } from "react";
 import EditorJS, { EditorConfig, OutputData } from "@editorjs/editorjs";
 import { EDITOR_TOOLS, message } from "./EditorTools";
+import { useEditorContext } from "../../context/editorContext";
 
 interface EditorProps {
-  data: OutputData;
-  onChange: (data: OutputData) => void;
   holder: string;
 }
 
-export default function Editor({ data, onChange, holder }: EditorProps) {
+export default function Editor({ holder }: EditorProps) {
+  const { data, setData, dataUpdate, setDataUpdate } = useEditorContext();
   const ref = useRef<EditorJS | null>(null);
-  
 
   useEffect(() => {
-    if (!ref.current) {
+    const initializeEditor = async () => {
       const editorConfig: EditorConfig = {
         holder,
         autofocus: true,
         tools: EDITOR_TOOLS,
         data,
-        placeholder: 'Написать статью...',
+        placeholder: "Написать статью...",
         i18n: {
-          messages: message
+          messages: message,
         },
         onChange: async (api, event) => {
           const savedData = await api.saver.save();
-          console.log(savedData)
-          onChange(savedData);
+          console.log(savedData);
+          setData(savedData);
         },
       };
 
       const editor = new EditorJS(editorConfig);
       ref.current = editor;
+    };
+
+    if (!ref.current) {
+      initializeEditor();
     }
 
     // Добавляем функцию очистки при размонтировании
@@ -41,6 +44,14 @@ export default function Editor({ data, onChange, holder }: EditorProps) {
       }
     };
   }, []);
+
+  useEffect(() => {
+    console.log("editer");
+    if (data && dataUpdate) {
+      ref.current?.render(data);
+    }
+    setDataUpdate(false);
+  }, [dataUpdate]);
 
   return <div id={holder} className="prose max-w-full" />;
 }

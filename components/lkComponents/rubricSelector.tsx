@@ -9,7 +9,7 @@ import { baseURL } from "../../utils/server";
 
 interface RubricSelectorProps {
   selectRubric: RubricType | undefined;
-  setSelectRubric: (v: RubricType | undefined) => void;
+  setSelectRubric: (v: RubricType) => void;
 }
 
 const RubricSelector: FC<RubricSelectorProps> = ({
