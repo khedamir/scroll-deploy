@@ -1,5 +1,6 @@
 import React, { FC } from "react";
 import { PropType } from "../../redux/types";
+import Link from "next/link";
 
 interface TagsProps {
   tags: PropType;
@@ -11,7 +12,9 @@ const Tags: FC<TagsProps> = ({ tags }) => {
       {
         <div className="description-tags__inner">
           {tags.VALUE.map((tag, id) => (
-            <span key={id}>{tag}</span>
+            <Link href={"/"} key={id}>
+              {tag}
+            </Link>
           ))}
         </div>
       }

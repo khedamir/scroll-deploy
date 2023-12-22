@@ -98,6 +98,15 @@
     &:focus {
       outline: none;
     }
+
+    @media screen and (hover: hover) {
+      &:hover {
+        & svg {
+          transform: scale(0.9);
+          color: $icon-accent-on-light;
+        }
+      }
+    }
   }
   &__main {
     overflow-x: hidden;
@@ -265,5 +274,90 @@
     @media screen and (hover: hover) {
       opacity: 0;
     }
+  }
+}
+
+.bookmarks-btn {
+  position: relative;
+  transform-origin: top;
+  &::before {
+    content: "";
+    position: absolute;
+    opacity: 0;
+    border: 1px solid $icon-accent-on-light;
+    border-radius: 50%;
+  }
+  &::after {
+    content: "";
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    transform: scale(0);
+    box-shadow: 0 30px 0 -4px $icon-accent-on-light,
+      30px 0 0 -4px $icon-accent-on-light, 0 -30px 0 -4px $icon-accent-on-light,
+      -30px 0 0 -4px $icon-accent-on-light,
+      -22px 22px 0 -4px $icon-accent-on-light,
+      -22px -22px 0 -4px $icon-accent-on-light,
+      22px -22px 0 -4px $icon-accent-on-light,
+      22px 22px 0 -4px $icon-accent-on-light;
+    border-radius: 50%;
+  }
+  &.is--new {
+    animation: bookmark 0.3s forwards;
+    transition-delay: 0.3s;
+    &::before {
+      animation: circle 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+      animation-delay: 0.3s;
+    }
+    &::after {
+      animation: circles 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+      animation-delay: 0.3s;
+    }
+    svg {
+      color: $icon-base-on-light-shift-up;
+    }
+  }
+}
+
+@keyframes bookmark {
+  50% {
+    transform: scaleY(0.6);
+  }
+
+  100% {
+    transform: scaleY(1);
+  }
+}
+
+@keyframes circle {
+  from {
+    width: 0;
+    height: 0;
+    opacity: 0;
+  }
+
+  90% {
+    width: 32px;
+    height: 32px;
+    opacity: 1;
+  }
+
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes circles {
+  from {
+    transform: scale(0);
+  }
+
+  40% {
+    opacity: 1;
+  }
+
+  to {
+    transform: scale(0.8);
+    opacity: 0;
   }
 }

@@ -27,7 +27,7 @@ const WebinerItem: FC<WebinarItemProps> = ({ webinars }) => {
                     href={`/webinar/${webinars[0].id}`}
                     className="meetings-card__preview"
                   >
-                    <img src={`${webinars[0].images.preview}`} alt="Image" />
+                    <img src={`${webinars[0].images?.preview}`} alt="Image" />
                   </Link>
                   <Link
                     href={`/webinar/${webinars[0].id}`}

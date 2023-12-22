@@ -78,6 +78,11 @@
           &__bookmark {
             opacity: 1;
           }
+          &__img {
+            img {
+              transform: scale(1.025);
+            }
+          }
         }
       }
     }
@@ -220,6 +225,7 @@
       width: 100%;
       height: 100%;
       object-fit: cover;
+      transition: all 0.25s ease;
     }
     // &--sm {
     //   img {
@@ -1232,6 +1238,14 @@
     font-size: 29px;
     font-weight: 600;
     line-height: 1.1;
+
+    @media screen and (hover: hover) {
+      &[href] {
+        &:hover {
+          color: $text-base-on-light-shift-up;
+        }
+      }
+    }
   }
   &__bottom {
     margin-top: 16px;
@@ -1246,6 +1260,7 @@
   &__img {
     position: relative;
     display: block;
+    overflow: hidden;
     max-width: 375px;
     min-width: 375px;
     img {
@@ -1253,6 +1268,15 @@
       width: 100%;
       height: 100%;
       object-fit: cover;
+      transition: all 0.25s ease;
+    }
+
+    @media screen and (hover: hover) {
+      &:hover {
+        img {
+          transform: scale(1.05);
+        }
+      }
     }
 
     @media screen and (max-width: 767px) {
@@ -1316,6 +1340,14 @@
       outline: none;
     }
 
+    @media screen and (hover: hover) {
+      &:hover {
+        & > svg {
+          color: $icon-accent-on-light;
+        }
+      }
+    }
+
     @media screen and (max-width: 767px) {
       min-width: 56px;
       width: 56px;
@@ -1365,6 +1397,21 @@
     margin-right: auto;
     margin-left: auto;
     width: fit-content;
+
+    @media screen and (hover: hover) {
+      &:hover {
+        .meetings-card {
+          &__preview {
+            &:first-child {
+              transform: translateX(-10px);
+            }
+            &:last-child {
+              transform: translateX(10px);
+            }
+          }
+        }
+      }
+    }
   }
   &__images + &__title {
     margin-top: 50px;
@@ -1383,6 +1430,7 @@
     width: 86px;
     height: 86px;
     border-radius: 50%;
+    transition: all $transition-default;
     img {
       display: block;
       width: 100%;
@@ -1418,6 +1466,20 @@
     font-weight: 600;
     line-height: 1.1;
 
+    @media screen and (hover: hover) {
+      &[href] {
+        &:hover {
+          color: $text-base-on-light-shift-up;
+        }
+      }
+    }
+    @media screen and (hover: hover) {
+      &[href] {
+        &:hover {
+          color: $root-faint-on-dark-shift-down;
+        }
+      }
+    }
     @media screen and (max-width: 767px) {
       font-size: 16px;
       font-weight: 500;
@@ -1463,12 +1525,22 @@
   }
   &__img {
     display: block;
+    overflow: hidden;
     width: 50%;
     img {
       display: block;
       width: 100%;
       height: 100%;
       object-fit: cover;
+      transition: all 0.25s ease;
+    }
+
+    @media screen and (hover: hover) {
+      &:hover {
+        img {
+          transform: scale(1.05);
+        }
+      }
     }
   }
 }

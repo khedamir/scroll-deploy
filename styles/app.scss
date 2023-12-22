@@ -421,7 +421,7 @@
       flex-wrap: wrap;
       margin-right: -8px;
       margin-bottom: -8px;
-      & > span {
+      & > * {
         display: block;
         margin-right: 8px;
         margin-bottom: 8px;
@@ -435,6 +435,11 @@
         border-radius: 7px;
         &:hover {
           color: $text-base-on-light;
+        }
+        @media screen and (hover: hover) {
+          &:hover {
+            color: $text-accent-on-light-shift-up;
+          }
         }
       }
     }

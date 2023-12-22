@@ -21,6 +21,13 @@
     }
     &:focus {
       outline: none;
+      background: $white-color;
+    }
+
+    @media screen and (hover: hover) {
+      &:hover {
+        background: $white-color;
+      }
     }
   }
 }

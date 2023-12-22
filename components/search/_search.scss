@@ -120,7 +120,7 @@
     justify-content: center;
     padding: 42px 0 16px;
     width: 100%;
-    border-bottom: 2px solid $line-base-on-dark;
+    border-bottom: 2px solid rgba($line-base-on-dark, 0.8);
 
     @media screen and (min-width: 768px) and (max-width: 1399px) {
       padding: 88px 0 16px;

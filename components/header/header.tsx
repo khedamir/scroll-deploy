@@ -11,6 +11,7 @@ import { useSelector } from "react-redux";
 import { selectUser } from "../../redux/auth/slice";
 import { useRouter } from "next/router";
 import UserBlock from "./userBlock";
+import { useFavoriteContext } from "../../context/FavoritesContext";
 
 interface HeaderProps {
   isScrolling: boolean;
@@ -25,6 +26,8 @@ const Header: FC<HeaderProps> = ({ isScrolling }) => {
     setBookmarks,
     setSearchActive,
   } = useModalsContext();
+
+  const { bookmarksAnimateActive } = useFavoriteContext();
 
   const { user } = useSelector(selectUser);
   const router = useRouter();
@@ -74,13 +77,17 @@ const Header: FC<HeaderProps> = ({ isScrolling }) => {
               </span>
               <span
                 onClick={() => setBookmarks(true)}
-                className="header__btn header__btn--tablet-hidden bookmarks-btn"
+                className={`header__btn header__btn--tablet-hidden bookmarks-btn ${
+                  bookmarksAnimateActive && "is--new"
+                }`}
               >
                 <BookmarksIcon />
               </span>
               <span
                 onClick={() => setNotification(true)}
-                className="header__btn notifications-btn"
+                className={`header__btn notifications-btn ${
+                  false && "is--new"
+                }`}
               >
                 <NotificationIcon />
               </span>

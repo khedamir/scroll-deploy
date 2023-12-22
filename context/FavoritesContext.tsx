@@ -1,4 +1,4 @@
-import { createContext, useContext } from "react";
+import { createContext, useContext, useState } from "react";
 import { useSelector } from "react-redux";
 import { selectUser } from "../redux/auth/slice";
 import {
@@ -45,6 +45,8 @@ type changeFavoritePodcastType = {
 };
 
 const FavoritesContext = createContext({
+  bookmarksAnimateActive: false,
+  // setBookmarksAnimateActive: (v: boolean) => {},
   addFavorite: (props: addFavoritePropsType) => {},
   deleteFavorite: (props: removeFavoritePropsType) => {},
   deleteFavoriteBlock: (props: removeFavoriteBlockPropsType) => {},
@@ -54,6 +56,7 @@ const FavoritesContext = createContext({
 const FavoritesContextProvider = (props: any) => {
   const { user } = useSelector(selectUser);
   const dispatch = useAppDispatch();
+  const [bookmarksAnimateActive, setBookmarksAnimateActive] = useState(false);
 
   const addFavorite = ({
     itemId,
@@ -88,6 +91,10 @@ const FavoritesContextProvider = (props: any) => {
           addToFavorites({ sectionId, element: podcastItem, auth: false })
         );
       }
+      setBookmarksAnimateActive(true);
+      setTimeout(() => {
+        setBookmarksAnimateActive(false);
+      }, 1000);
       return;
     }
 
@@ -161,6 +168,7 @@ const FavoritesContextProvider = (props: any) => {
   return (
     <FavoritesContext.Provider
       value={{
+        bookmarksAnimateActive,
         addFavorite,
         deleteFavorite,
         deleteFavoriteBlock,
