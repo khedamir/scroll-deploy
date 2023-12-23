@@ -26,8 +26,6 @@ interface NewCardProps {
 
 const NewCard: FC<NewCardProps> = ({ newItem, isLast, newLimit, end }) => {
   const cardRef: RefObject<HTMLDivElement> = useRef(null);
-  const { user } = useSelector(selectUser);
-  const { setLoginActive } = useModalsContext();
   const isFavorite = useSelector((state: AppState) =>
     isElementInFavorites(state, "9", newItem.id)
   );
@@ -121,7 +119,14 @@ const NewCard: FC<NewCardProps> = ({ newItem, isLast, newLimit, end }) => {
               onClick={changeFavorite}
               className={`big-news-card__control ${isFavorite && "is--active"}`}
             >
-              <ReactSVG src="/img/sprite/icon-bookmarks.svg" />
+              <ReactSVG
+                className="default"
+                src="/img/sprite/icon-bookmarks.svg"
+              />
+              <ReactSVG
+                className="active"
+                src="/img/sprite/icon-bookmarks-filled.svg"
+              />
             </button>
           </div>
         </div>

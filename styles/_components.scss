@@ -83,7 +83,7 @@
   background: transparent;
   border: none;
   border-radius: 0;
-  & > svg {
+  & svg {
     min-width: 24px;
     width: 24px;
     height: 24px;
@@ -93,19 +93,19 @@
     outline: none;
   }
   &:active {
-    & > svg {
+    & svg {
       color: $icon-accent-on-light-shift-down;
     }
   }
 
   @media screen and (hover: hover) {
     &:hover {
-      & > svg {
+      & svg {
         color: $icon-accent-on-light;
       }
     }
     &:active {
-      & > svg {
+      & svg {
         color: $icon-accent-on-light-shift-down;
       }
     }
@@ -245,6 +245,73 @@
     }
     &:active {
       .c-bookmark__icon {
+        color: $icon-faint-on-light;
+      }
+    }
+  }
+}
+
+// notification btn
+.c-notification {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  min-width: 24px;
+  width: 24px;
+  height: 24px;
+  font-size: 0;
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  transition: all $transition-default;
+  &:focus {
+    outline: none;
+  }
+  &:active {
+    .c-notification__icon {
+      color: $icon-faint-on-light;
+    }
+  }
+  &.is--active {
+    .c-notification {
+      &__icon {
+        &--default {
+          opacity: 0;
+          visibility: hidden;
+        }
+        &--filled {
+          opacity: 1;
+          visibility: visible;
+        }
+      }
+    }
+  }
+  &__icon {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    min-width: 24px;
+    width: 24px;
+    height: 24px;
+    color: $icon-faint-on-light-shift-up;
+    &--filled {
+      opacity: 0;
+      visibility: hidden;
+    }
+  }
+
+  @media screen and (hover: hover) {
+    &:hover {
+      .c-notification__icon {
+        color: $icon-base-on-light;
+      }
+    }
+    &:active {
+      .c-notification__icon {
         color: $icon-faint-on-light;
       }
     }
@@ -415,7 +482,7 @@
     border: none;
     border-radius: 0;
     transition: all $transition-default;
-    & > svg {
+    & svg {
       min-width: 24px;
       width: 24px;
       height: 24px;
@@ -427,7 +494,7 @@
 
     @media screen and (hover: hover) {
       &:hover {
-        & > svg {
+        & svg {
           color: $icon-faint-on-light-shift-down;
         }
       }
@@ -515,6 +582,21 @@
     width: fit-content;
     text-align: left;
   }
+
+  @media screen and (hover: hover) {
+    &:hover {
+      .c-author {
+        &__img {
+          img {
+            transform: scale(1.05);
+          }
+        }
+        &__name {
+          color: $text-base-on-light;
+        }
+      }
+    }
+  }
   &__img {
     display: block;
     overflow: hidden;
@@ -527,6 +609,7 @@
       width: 100%;
       height: 100%;
       object-fit: cover;
+      transition: all 0.25s ease;
     }
   }
   &__img + &__body {
@@ -538,6 +621,7 @@
     font-size: 16px;
     font-weight: 500;
     color: rgba($text-base-on-light, 0.8);
+    transition: color $transition-default;
   }
 }
 

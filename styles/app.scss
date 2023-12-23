@@ -390,7 +390,6 @@
       .c-bookmark {
         &__icon {
           color: $icon-faint-on-light-shift-up;
-          // color: $icon-faint-on-light-shift-up;
         }
         &:active {
           .c-bookmark__icon {
@@ -491,7 +490,7 @@
     font-size: 16px;
     font-weight: 500;
     border-radius: 8px;
-    & > svg {
+    & svg {
       min-width: 32px;
       width: 32px;
       height: 32px;
@@ -931,7 +930,7 @@
     font-weight: 500;
     line-height: 1.28571;
     color: $white-color;
-    & > svg {
+    & svg {
       min-width: 24px;
       width: 24px;
       height: 24px;
@@ -1057,7 +1056,7 @@
     border: none;
     border-radius: 50%;
     transition: all $transition-default;
-    & > svg {
+    & svg {
       min-width: 24px;
       width: 24px;
       height: 24px;
@@ -1869,6 +1868,14 @@
   &__block {
     border-top: 1px solid $line-base-on-dark-shift-down;
     border-bottom: 1px solid $line-base-on-dark-shift-down;
+
+    @media screen and (hover: hover) {
+      &[href] {
+        &:hover {
+          color: $text-base-on-light-shift-up;
+        }
+      }
+    }
   }
 }
 
@@ -2007,6 +2014,8 @@
     z-index: 1;
     display: flex;
     align-items: flex-end;
+    margin-right: auto;
+    margin-left: auto;
 
     @media screen and (max-width: 767px) {
       width: 100%;
@@ -2070,6 +2079,8 @@
   }
   &__controls {
     margin-left: 20px;
+    max-width: 62px;
+    min-width: 62px;
 
     @media screen and (max-width: 1199px) {
       position: absolute;
@@ -2083,7 +2094,9 @@
     display: flex;
     flex-direction: column;
     align-items: flex-start;
+    overflow: hidden;
     padding: 0;
+    max-width: 100%;
     font-size: 14px;
     font-weight: 500;
     color: rgba($text-base-on-light, 0.8);
@@ -2091,7 +2104,7 @@
     border: none;
     border-radius: 0;
     transition: all $transition-default;
-    & > div svg {
+    & > * svg {
       color: $icon-base-on-light;
     }
     & svg {
@@ -2100,10 +2113,11 @@
       height: 24px;
       color: $icon-base-on-light;
     }
-    &.is-active {
-      div svg {
-        color: $back-accent-on-light-blue;
-      }
+    & > span {
+      overflow: hidden;
+      max-width: 100%;
+      text-overflow: ellipsis;
+      white-space: nowrap;
     }
     & > * + * {
       margin-top: 2px;
@@ -2240,6 +2254,7 @@
   }
 }
 
+// more topic
 .more-topic {
   background: $root-base-on-dark-shift-down;
 

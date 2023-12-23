@@ -78,19 +78,39 @@ const MediaControls: FC<MediaControlsProps> = ({
           <div className="media-controls__btns">
             <button
               onClick={addLike}
-              className="btn-control btn-control--blue media-controls__btn"
+              className={`btn-control btn-control--blue media-controls__btn ${
+                isLiked && "is--active"
+              }`}
             >
-              <ReactSVG src="/img/sprite/icon-like-thumb-up.svg" />
+              <div className="btn-control__icon">
+                <ReactSVG
+                  className="default"
+                  src="/img/sprite/icon-like-thumb-up.svg"
+                />
+                <ReactSVG
+                  className="active"
+                  src="/img/sprite/icon-like-thumb-up-filled.svg"
+                />
+              </div>
               <span>{likesCount}</span>
             </button>
             <Share />
             <button
               onClick={changeFavorite}
               className={`btn-control media-controls__btn ${
-                favorited && "is--active"
+                false && "is--active"
               }`}
             >
-              <ReactSVG src="/img/sprite/icon-bookmarks.svg" />
+              <div className="btn-control__icon">
+                <ReactSVG
+                  className="default"
+                  src="/img/sprite/icon-bookmarks.svg"
+                />
+                <ReactSVG
+                  className="active"
+                  src="/img/sprite/icon-bookmarks-filled.svg"
+                />
+              </div>
               <span>В закладки</span>
             </button>
           </div>

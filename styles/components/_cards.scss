@@ -86,6 +86,12 @@
             }
           }
         }
+        .tooltip-info-card {
+          visibility: visible;
+          opacity: 1;
+          transform: scale(1) translateY(0);
+          pointer-events: all;
+        }
       }
     }
     @media screen and (max-width: 767px) {
@@ -287,6 +293,17 @@
   overflow: hidden;
   background: $white-color;
   border-radius: 16px;
+
+  @media screen and (hover: hover) {
+    &:hover {
+      .big-news-card {
+        &__bookmark {
+          opacity: 1;
+        }
+      }
+    }
+  }
+
   &__body {
     padding: 24px;
   }
@@ -358,15 +375,13 @@
       color: $icon-faint-on-light-shift-up;
     }
 
-    &.is--active,
-    &:hover {
-      svg {
-        color: $back-accent-on-light-blue;
-      }
-    }
-
     &:focus {
       outline: none;
+    }
+  }
+  &__bookmark {
+    @media screen and (hover: hover) {
+      opacity: 0;
     }
   }
   &__top + &__title {
@@ -379,6 +394,12 @@
     font-weight: 600;
     line-height: 1.1;
 
+    @media screen and (hover: hover) {
+      &:hover {
+        color: $text-base-on-light-shift-up;
+      }
+    }
+
     @media screen and (max-width: 767px) {
       font-size: 22px;
     }
@@ -386,6 +407,7 @@
   &__img {
     position: relative;
     display: block;
+    overflow: hidden;
     width: 100%;
     &::before {
       content: "";
@@ -402,159 +424,18 @@
       width: 100%;
       height: 100%;
       object-fit: cover;
+      transition: all 0.25s ease;
+    }
+
+    @media screen and (hover: hover) {
+      &:hover {
+        img {
+          transform: scale(1.035);
+        }
+      }
     }
   }
 }
-
-// .tidings-card {
-//   position: relative;
-//   z-index: 1;
-//   padding: 12px;
-//   width: 100%;
-
-//   &__wrapper {
-//     display: flex;
-//     flex-direction: column;
-//     height: 100%;
-//   }
-//   &--md {
-//     .tidings-card {
-//       &__bg + .tidings-card__body {
-//         @media screen and (max-width: 767px) {
-//           padding-top: 218px;
-//         }
-//       }
-//     }
-//   }
-//   &--lg {
-//     .tidings-card {
-//       &__bg + .tidings-card__body {
-//         @media screen and (max-width: 767px) {
-//           padding-top: 218px;
-//         }
-//       }
-//       &__name {
-//         @media screen and (min-width: 768px) {
-//           font-size: 29px;
-//         }
-//       }
-//       &__inner {
-//         @media screen and (min-width: 768px) {
-//           margin-top: 16px;
-//           margin-bottom: -8px;
-//         }
-//       }
-//       &__help {
-//         @media screen and (min-width: 768px) {
-//           margin-bottom: 8px;
-//         }
-//       }
-//     }
-//   }
-
-//   @media screen and (hover: hover) {
-//     &:hover {
-//       .tidings-card {
-//         &__bg {
-//           &::before {
-//             opacity: 0.75;
-//           }
-//         }
-//         &__name {
-//           color: $text-base-on-light-shift-up;
-//         }
-//         &__help {
-//           color: $root-faint-on-light;
-//         }
-//       }
-//     }
-//   }
-
-//   &__bg {
-//     position: absolute;
-//     top: 0;
-//     right: 0;
-//     bottom: 0;
-//     left: 0;
-//     z-index: -1;
-//     display: block;
-//     width: 100%;
-//     height: 100%;
-//     &::before {
-//       content: "";
-//       position: absolute;
-//       top: 0;
-//       right: 0;
-//       bottom: 0;
-//       left: 0;
-//       z-index: 1;
-//       display: block;
-//       width: 100%;
-//       height: 100%;
-//       background: linear-gradient(0deg, #181818 0%, rgba(43, 43, 43, 0) 100%);
-//       transition: all $transition-default;
-//     }
-//     img {
-//       display: block;
-//       width: 100%;
-//       height: 100%;
-//       object-fit: cover;
-//     }
-//   }
-//   &__bg + &__body {
-//     margin-top: auto;
-//     padding-top: 70px;
-//     .tidings-card {
-//       &__name {
-//         color: $root-base-on-dark;
-
-//         @media screen and (hover: hover) {
-//           &:hover {
-//             color: $white-color;
-//           }
-//         }
-//       }
-//     }
-//   }
-//   &__img {
-//     display: block;
-//     width: 100%;
-//     height: auto;
-//     img {
-//       display: block;
-//       width: 100%;
-//       object-fit: cover;
-//     }
-//   }
-//   &__name {
-//     display: block;
-//     font-size: 16px;
-//     font-weight: 600;
-//     color: $text-base-on-light;
-//     transition: color $transition-default;
-
-//     @media screen and (max-width: 767px) {
-//       font-size: 22px;
-//     }
-//   }
-//   &__inner {
-//     display: flex;
-//     flex-wrap: wrap;
-//     margin-top: 8px;
-//     margin-right: -32px;
-//     margin-bottom: -4px;
-//   }
-//   &__help {
-//     display: block;
-//     margin-right: 32px;
-//     margin-bottom: 4px;
-//     width: fit-content;
-//     font-size: 14px;
-//     font-weight: 500;
-//     color: $text-faint-on-light-shift-up;
-//     transition: color $transition-default;
-//   }
-// }
 
 .tidings-card {
   display: block;
@@ -914,6 +795,18 @@
   }
   &__item {
     display: block;
+    @media screen and (hover: hover) {
+      &:hover {
+        color: $text-base-on-light-shift-up;
+        .content-card {
+          &__img {
+            img {
+              transform: scale(1.035);
+            }
+          }
+        }
+      }
+    }
 
     @media screen and (min-width: 768px) {
       &--center {
@@ -940,6 +833,7 @@
       display: block;
       width: 100%;
       object-fit: contain;
+      transition: all 0.25s ease;
     }
     &--rounding {
       border-radius: 16px;
@@ -983,6 +877,19 @@
   position: relative;
   z-index: 1;
   display: block;
+
+  @media screen and (hover: hover) {
+    &:hover {
+      .video-card {
+        &__img {
+          img {
+            transform: scale(1.035);
+          }
+        }
+      }
+    }
+  }
+
   &__img {
     position: absolute;
     top: 0;
@@ -991,6 +898,7 @@
     left: 0;
     z-index: -1;
     display: block;
+    overflow: hidden;
     width: 100%;
     height: 100%;
     * {
@@ -998,6 +906,7 @@
       width: 100%;
       height: 100%;
       object-fit: cover;
+      transition: all 0.25s ease;
     }
   }
   &__body {
@@ -1074,6 +983,20 @@
 .stories-card {
   display: block;
 
+  @media screen and (hover: hover) {
+    &:hover {
+      .stories-card {
+        &__img {
+          img {
+            transform: scale(1.035);
+          }
+        }
+        &__name {
+          color: $text-base-on-light-shift-up;
+        }
+      }
+    }
+  }
   @media screen and (max-width: 768px) {
     text-align: center;
   }
@@ -1092,6 +1015,7 @@
       width: 100%;
       height: 100%;
       object-fit: cover;
+      transition: all 0.25s ease;
     }
 
     @media screen and (max-width: 767px) {
@@ -1107,6 +1031,7 @@
     font-size: 14px;
     font-weight: 500;
     color: $root-faint-on-light-shift-down;
+    transition: color $transition-default;
 
     @media screen and (max-width: 767px) {
       overflow: hidden;
@@ -1164,6 +1089,17 @@
 
 .webinar-card {
   margin-bottom: 24px;
+
+  @media screen and (hover: hover) {
+    &:hover {
+      .webinar-card {
+        &__notification {
+          opacity: 1;
+        }
+      }
+    }
+  }
+
   &__wrapper {
     display: flex;
     overflow: hidden;
@@ -1230,6 +1166,11 @@
     }
     &:focus {
       outline: none;
+    }
+  }
+  &__notification {
+    @media screen and (hover: hover) {
+      opacity: 0;
     }
   }
   &__main {
@@ -1303,6 +1244,24 @@
 }
 
 .meetings-card {
+  @media screen and (hover: hover) {
+    &:hover {
+      .meetings-card {
+        &__notification {
+          opacity: 1;
+        }
+        &__preview {
+          &:first-child {
+            transform: translateX(-10px);
+          }
+          &:last-child {
+            transform: translateX(10px);
+          }
+        }
+      }
+    }
+  }
+
   &__wrapper {
     display: flex;
     height: 100%;
@@ -1392,6 +1351,11 @@
       outline: none;
     }
   }
+  &__notification {
+    @media screen and (hover: hover) {
+      opacity: 0;
+    }
+  }
   &__main {
     margin-top: 50px;
   }
@@ -1400,21 +1364,6 @@
     margin-right: auto;
     margin-left: auto;
     width: fit-content;
-
-    @media screen and (hover: hover) {
-      &:hover {
-        .meetings-card {
-          &__preview {
-            &:first-child {
-              transform: translateX(-10px);
-            }
-            &:last-child {
-              transform: translateX(10px);
-            }
-          }
-        }
-      }
-    }
   }
   &__images + &__title {
     margin-top: 50px;
@@ -1439,6 +1388,7 @@
       width: 100%;
       height: 100%;
       object-fit: cover;
+      transition: all 0.25s ease;
     }
     &:first-child {
       border: 1px solid $root-base-on-dark-shift-up;
@@ -1458,6 +1408,14 @@
         border-top: 12.5px solid transparent;
         border-left: 24px solid $root-base-on-light;
         border-bottom: 12.5px solid transparent;
+      }
+    }
+
+    @media screen and (hover: hover) {
+      &:hover {
+        img {
+          transform: scale(1.035);
+        }
       }
     }
   }
@@ -1545,6 +1503,70 @@
         }
       }
     }
+  }
+}
+
+.tooltip-info-card {
+  position: absolute;
+  bottom: calc(100% - 16px);
+  right: 32px;
+  z-index: 100;
+  transform: scale(0.99) translateY(0.7em);
+  display: block;
+  overflow: hidden;
+  visibility: hidden;
+  opacity: 0;
+  transform-origin: bottom;
+  padding: 12px 16px 16px;
+  min-width: 228px;
+  width: 228px;
+  color: $white-color;
+  background: rgba(#212121, 0.5);
+  border-radius: 14px 14px 14px;
+  backdrop-filter: blur(12px);
+  transition-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+  transition-duration: 500ms;
+  transition-property: opacity, transform;
+  pointer-events: none;
+  will-change: opacity, transform;
+  &__inner {
+    display: flex;
+    align-items: center;
+  }
+  &__icon {
+    margin-right: 4px;
+    min-width: 24px;
+    width: 24px;
+    height: 24px;
+    color: $white-color;
+  }
+  &__name {
+    display: block;
+    overflow: hidden;
+    max-width: 100%;
+    width: fit-content;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 1.25;
+    text-transform: uppercase;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    opacity: 0.8;
+  }
+  &__inner + &__description {
+    margin-top: 8px;
+  }
+  &__description {
+    display: -webkit-box;
+    overflow: hidden;
+    width: fit-content;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 1.28571;
+    text-overflow: ellipsis;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    opacity: 0.7;
   }
 }
 

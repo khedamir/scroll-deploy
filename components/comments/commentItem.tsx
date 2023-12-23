@@ -72,7 +72,16 @@ const CommentItem: FC<CommentItemProps> = ({ comment, setParentComment }) => {
               isLiked && "is--active"
             }`}
           >
-            <ReactSVG src="/img/sprite/icon-like-thumb-up.svg" />
+            <div className="feedback-btn__icon">
+              <ReactSVG
+                className="default"
+                src="/img/sprite/icon-like-thumb-up.svg"
+              />
+              <ReactSVG
+                className="active"
+                src="/img/sprite/icon-like-thumb-up-filled.svg"
+              />
+            </div>
             <span>{likesCount}</span>
           </button>
           <span className="comment-card__time comment-card__time--mobile">

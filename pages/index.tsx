@@ -137,11 +137,25 @@ const Index: NextPage = () => {
 
 export const getServerSideProps = wrapper.getServerSideProps(
   (store) => async () => {
+    console.time('fetchNews');
     await store.dispatch(fetchNews({ limit: 17 }));
+    console.timeEnd('fetchNews');
+    
+    console.time('fetchTrends');
     await store.dispatch(fetchTrends({ limit: 10 }));
+    console.timeEnd('fetchTrends');
+    
+    console.time('fetchPodcasts');
     await store.dispatch(fetchPodcasts({ limit: 3 }));
+    console.timeEnd('fetchPodcasts');
+    
+    console.time('fetchLectures');
     await store.dispatch(fetchLectures({ limit: 3 }));
+    console.timeEnd('fetchLectures');
+    
+    console.time('fetchWebinars');
     await store.dispatch(fetchWebinars({ limit: 2, webinar: "actual" }));
+    console.timeEnd('fetchWebinars');
     return {
       props: {},
     };

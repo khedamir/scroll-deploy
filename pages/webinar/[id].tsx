@@ -40,8 +40,15 @@ const Webinar: FC<WebinarProps> = ({ publication, oldWebinars }) => {
                           {publication.props.DATE_WEBINAR.VALUE.slice(0, -3)}
                         </span>
                         {router.query.webinar !== "old" && (
-                          <button className="webinar__notification">
-                            <ReactSVG src="/img/sprite/icon-notifications.svg" />
+                          <button className="c-notification webinar__notification">
+                            <ReactSVG
+                              className="c-notification__icon c-notification__icon--default"
+                              src="/img/sprite/icon-notifications.svg"
+                            />
+                            <ReactSVG
+                              className="c-notification__icon c-notification__icon--filled"
+                              src="/img/sprite/icon-notifications-filled.svg"
+                            />
                           </button>
                         )}
                       </div>

@@ -80,7 +80,7 @@
   &--transparent {
     color: $text-base-on-light;
     background: transparent;
-    & > svg {
+    & svg {
       color: $icon-faint-on-light;
     }
     &:hover {
@@ -110,7 +110,7 @@
   &--grey {
     color: $text-base-on-light;
     background: $root-faint-on-dark;
-    & > svg {
+    & svg {
       color: $icon-base-on-light;
     }
     &:hover {
@@ -146,7 +146,7 @@
       &:hover {
         color: $text-base-on-light;
         background: transparent;
-        & > svg {
+        & svg {
           color: $icon-accent-on-light;
         }
       }
@@ -173,7 +173,7 @@
       &:hover {
         color: $text-base-on-light;
         background: $root-faint-on-dark-shift-down;
-        & > svg {
+        & svg {
           color: $icon-accent-on-light;
         }
       }
@@ -210,7 +210,7 @@
   font-weight: 500;
   line-height: 1;
   text-align: center;
-  color: rgba($text-base-on-light, 0.8);
+  color: $text-base-on-light-shift-up;
   background: $root-base-on-dark;
   border: none;
   border-radius: 24px;
@@ -227,8 +227,62 @@
   &:focus {
     outline: none;
   }
+  &:hover {
+    color: $text-base-on-light-shift-up;
+  }
   &:active {
+    color: $text-base-on-light-shift-up;
     background: $root-faint-on-dark-shift-down;
+  }
+  &--blue {
+    &:active {
+      color: $text-accent-on-light;
+    }
+  }
+  &.is--active {
+    .btn-control {
+      &__icon {
+        & svg {
+          &.default {
+            opacity: 0;
+          }
+          &.active {
+            opacity: 1;
+          }
+        }
+      }
+    }
+  }
+  &--blue.is--active {
+    color: $text-accent-on-light;
+    .btn-control {
+      &__icon {
+        & svg {
+          color: $icon-accent-on-light;
+        }
+      }
+    }
+  }
+
+  &__icon {
+    position: relative;
+    z-index: 1;
+    min-width: 24px;
+    width: 24px;
+    height: 24px;
+    & svg {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      min-width: 24px;
+      width: 24px;
+      height: 24px;
+      color: $icon-base-on-light;
+      &.active {
+        opacity: 0;
+      }
+    }
   }
 
   @media screen and (hover: hover) {
@@ -239,11 +293,30 @@
       background: $root-faint-on-dark-shift-down;
     }
     &--blue {
-      &:hover,
-      &.is--active {
-        color: rgba($text-accent-on-light, 0.8);
+      &:hover {
+        color: $text-accent-on-light;
         & svg {
           color: $icon-accent-on-light;
+        }
+        .btn-control {
+          &__icon {
+            & svg {
+              color: $icon-accent-on-light;
+            }
+          }
+        }
+      }
+      &:active {
+        color: $text-accent-on-light;
+        & svg {
+          color: $icon-accent-on-light;
+        }
+        .btn-control {
+          &__icon {
+            & svg {
+              color: $icon-accent-on-light;
+            }
+          }
         }
       }
     }
@@ -422,8 +495,63 @@
   & > * + * {
     margin-left: 4px;
   }
+  &:hover {
+    color: $text-faint-on-light;
+  }
   &:focus {
     outline: none;
+  }
+
+  &.is--active {
+    .feedback-btn {
+      &__icon {
+        & svg {
+          &.default {
+            opacity: 0;
+          }
+          &.active {
+            opacity: 1;
+          }
+        }
+      }
+    }
+  }
+
+  @media screen and (hover: hover) {
+    &:hover {
+      color: $text-accent-on-light;
+      & svg {
+        color: $icon-accent-on-light;
+      }
+      .feedback-btn {
+        &__icon {
+          & svg {
+            color: $icon-accent-on-light;
+          }
+        }
+      }
+    }
+  }
+
+  &__icon {
+    position: relative;
+    z-index: 1;
+    min-width: 16px;
+    width: 16px;
+    height: 16px;
+    & svg {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      min-width: 16px;
+      width: 16px;
+      height: 16px;
+      color: $icon-faint-on-light;
+      &.active {
+        opacity: 0;
+      }
+    }
   }
 }
 
