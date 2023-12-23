@@ -18,11 +18,12 @@ const ThanksModal: FC<ThanksModalProps> = ({
   useHandleScroll(active);
   return (
     <div
+      onClick={() => setActive(false)}
       className={`modal ${active && "is--active"}`}
       id="modal-thanks-webinar"
     >
       <div className="modal__wrap">
-        <div className="modal__wrapper">
+        <div onClick={(e) => e.stopPropagation()} className="modal__wrapper">
           <button
             onClick={() => setActive(false)}
             className="modal__close-btn modal__close-btn--mobile"

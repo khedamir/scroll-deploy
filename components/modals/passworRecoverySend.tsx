@@ -32,17 +32,18 @@ const PassworRecoverySend = () => {
 
   return (
     <div
+      onClick={buttonBackClick}
       className={`modal modal--wide ${recoveryPasswordSend && "is--active"}`}
       id="modal-password-recovery-send"
     >
       <div className="modal__wrap">
-        <div className="modal__wrapper">
+        <div onClick={(e) => e.stopPropagation()} className="modal__wrapper">
           <div className="modal__left">
             <picture className="modal__logotype">
               <img src="/img/logotype.svg" alt="SCROLL" />
             </picture>
             <button
-              onClick={() => setRecoveryPasswordSend("")}
+              onClick={buttonBackClick}
               className="modal__close-btn modal__close-btn--mobile"
             >
               <ReactSVG src="/img/sprite/icon-close-thin.svg" />

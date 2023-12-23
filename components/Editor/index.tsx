@@ -24,7 +24,7 @@ export default function Editor({ holder }: EditorProps) {
         },
         onChange: async (api, event) => {
           const savedData = await api.saver.save();
-          console.log(savedData);
+          // console.log(savedData);
           setData(savedData);
         },
       };
@@ -46,12 +46,16 @@ export default function Editor({ holder }: EditorProps) {
   }, []);
 
   useEffect(() => {
-    console.log("editer");
     if (data && dataUpdate) {
-      ref.current?.render(data);
+      if (data.blocks.length === 0) {
+        ref.current?.clear();
+      } else {
+        ref.current?.render(data);
+      }
+      console.log("editer");
+      setDataUpdate(false);
     }
-    setDataUpdate(false);
-  }, [dataUpdate]);
+  }, [data]);
 
   return <div id={holder} className="prose max-w-full" />;
 }

@@ -1,15 +1,19 @@
 import React from "react";
 import { ReactSVG } from "react-svg";
 import { useModalsContext } from "../../context/ModalsContext";
+import { useHandleScroll } from "../../hooks";
 
 const Notification = () => {
   const { notification, setNotification } = useModalsContext();
+  useHandleScroll(notification);
+
   return (
     <div
+      onClick={() => setNotification(notification)}
       className={`notifications ${notification && "is--active"}`}
       id="notifications"
     >
-      <div className="notifications__wrap">
+      <div onClick={(e) => e.stopPropagation()} className="notifications__wrap">
         <div className="notifications__top">
           <h3 className="notifications__heading">Уведомления</h3>
           <button

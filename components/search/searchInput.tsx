@@ -56,7 +56,7 @@ const SearchInput: FC<SearchInputProps> = ({
   }, [debouncedSearch]);
 
   return (
-    <div className="search__top">
+    <div onClick={(e) => e.stopPropagation()} className="search__top">
       <div className="search__control">
         <button className="search__btn">
           <ReactSVG src="/img/sprite/icon-search.svg" />

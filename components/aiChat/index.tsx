@@ -1,4 +1,4 @@
-import React, { useEffect, useState, FC, useRef } from "react";
+import React, { useEffect, useState, FC, useRef, RefObject } from "react";
 import { ReactSVG } from "react-svg";
 import { Answers } from "./answers";
 import { askGpt } from "../../utils/askGpt";
@@ -24,6 +24,7 @@ const ChatAi = () => {
 
   const [activeItem, setActiveItem] = useState<number>();
   const contentRefs = useRef<any>({});
+  const mainRef: RefObject<HTMLDivElement> = useRef(null);
 
   useHandleScroll(aiChatActive);
 
@@ -34,11 +35,24 @@ const ChatAi = () => {
     return "0px";
   };
 
+  const scrollToTarget = (itemId: number) => {
+    if (mainRef.current && contentRefs.current[itemId]) {
+      const offset = contentRefs.current[itemId].offsetTop - 100;
+      mainRef.current.scrollTo({
+        top: offset,
+        behavior: "smooth",
+      });
+    }
+  };
+
   const toggleActiveItem = (id: number) => {
     if (activeItem === id) {
       setActiveItem(undefined);
     } else {
       setActiveItem(id);
+      setTimeout(() => {
+        scrollToTarget(id);
+      }, 200);
     }
   };
 
@@ -89,7 +103,7 @@ const ChatAi = () => {
               </p>
             </div>
           </div>
-          <div className="ai-chat__main">
+          <div ref={mainRef} className="ai-chat__main">
             <div className="ai-chat__list">
               {Answers.map((ans) => (
                 <div

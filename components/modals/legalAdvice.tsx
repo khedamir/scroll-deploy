@@ -57,11 +57,12 @@ const LegalAdvice: FC<LegalAdviceProps> = ({ active, setActive }) => {
   return (
     <>
       <div
+        onClick={() => setActive(false)}
         className={`modal modal--wide ${active && "is--active"}`}
         id="modal-legal-advice"
       >
         <div className="modal__wrap">
-          <div className="modal__wrapper">
+          <div onClick={(e) => e.stopPropagation()} className="modal__wrapper">
             <div className="modal__left">
               <div className="modal__circles">
                 <div className="modal__circle modal__circle--sm"></div>

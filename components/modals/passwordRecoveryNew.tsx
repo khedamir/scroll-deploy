@@ -71,20 +71,20 @@ const PasswordRecoveryNew = () => {
               <picture className="modal__logotype">
                 <img src="/img/logotype.svg" alt="SCROLL" />
               </picture>
-              <button
+              {/* <button
                 onClick={() => {}}
                 className="modal__close-btn modal__close-btn--mobile"
               >
                 <ReactSVG src="/img/sprite/icon-close-thin.svg" />
-              </button>
+              </button> */}
             </div>
             <div className="modal__right">
-              <button
+              {/* <button
                 onClick={() => {}}
                 className="modal__close-btn modal__close-btn--desktop"
               >
                 <ReactSVG src="/img/sprite/icon-close-thin.svg" />
-              </button>
+              </button> */}
               <div className="modal__content">
                 <h3 className="modal__heading">Восстановление пароля</h3>
                 <p className="modal__description">Введите новый пароль.</p>

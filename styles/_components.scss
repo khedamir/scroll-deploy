@@ -816,15 +816,20 @@
 
 .rubric__selector {
   .c-share__dropdown {
-    max-width: 284px;
+    width: 290px;
 
     .c-share__list {
       width: 100%;
       overflow-y: scroll;
-      max-height: 450px;
+      height: 440px;
       /* Стилизация вертикального скроллбара */
       &::-webkit-scrollbar {
         display: none;
+      }
+
+      .c-share__btn {
+        cursor: pointer;
+        gap: 4px;
       }
     }
     @media screen and (max-width: 767px) {

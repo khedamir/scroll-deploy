@@ -9,15 +9,15 @@ import { useModalsContext } from "../../../context/ModalsContext";
 import { selectUser } from "../../../redux/auth/slice";
 import { selectFavorites } from "../../../redux/favorites/slice";
 import { FavoriteNew } from "../../../redux/favorites/types";
+import { selectRubrics } from "../../../redux/rubrics/slice";
 
 interface NewsCardProps {
   news: NewType[];
 }
 
 const NewsCard: FC<NewsCardProps> = ({ news }) => {
-  const { user } = useSelector(selectUser);
   const favorites = useSelector(selectFavorites);
-  const { setLoginActive } = useModalsContext();
+  const { rubrics } = useSelector(selectRubrics);
   const { addFavorite, deleteFavorite } = useFavoriteContext();
 
   const isFavorite = (id: string) => {
@@ -70,21 +70,30 @@ const NewsCard: FC<NewsCardProps> = ({ news }) => {
         <div className="news-card__grid">
           <div className="news-card__grid-left">
             <div className="news-card__grid-wrapper">
-              <Link
-                href={`/news/${news[0].id}`}
-                className="tidings-card tidings-card--md news-card__grid-card news-card__grid-card--full"
-              >
+              <span className="tidings-card tidings-card--md news-card__grid-card news-card__grid-card--full">
                 <div className="tidings-card__wrapper">
                   <picture className="tidings-card__bg">
                     <img src={`${news[0].images.detail}`} alt="Image" />
                   </picture>
                   <div className="tidings-card__body">
-                    <span className="tidings-card__name">{news[0].name}</span>
+                    <Link
+                      href={`/news/${news[0].id}`}
+                      className="tidings-card__name"
+                    >
+                      {news[0].name}
+                    </Link>
                     <div className="tidings-card__inner-wrap">
                       <div className="tidings-card__inner">
-                        <span className="tidings-card__help">
+                        <Link
+                          href={`/rubrics/${
+                            rubrics.find(
+                              (rubric) => rubric.NAME === news[0].rubric
+                            )?.ID
+                          }`}
+                          className="tidings-card__help"
+                        >
                           {news[0].rubric}
-                        </span>
+                        </Link>
                         <span className="tidings-card__help">
                           {formatDateDifference(news[0].date)}
                         </span>
@@ -107,19 +116,28 @@ const NewsCard: FC<NewsCardProps> = ({ news }) => {
                     </div>
                   </div>
                 </div>
-              </Link>
-              <Link
-                href={`/news/${news[1].id}`}
-                className="tidings-card tidings-card--lg news-card__grid-card"
-              >
+              </span>
+              <span className="tidings-card tidings-card--lg news-card__grid-card">
                 <div className="tidings-card__wrapper">
                   <div className="tidings-card__body">
-                    <span className="tidings-card__name">{news[1].name}</span>
+                    <Link
+                      href={`/news/${news[1].id}`}
+                      className="tidings-card__name"
+                    >
+                      {news[1].name}
+                    </Link>
                     <div className="tidings-card__inner-wrap">
                       <div className="tidings-card__inner">
-                        <span className="tidings-card__help">
+                        <Link
+                          href={`/rubrics/${
+                            rubrics.find(
+                              (rubric) => rubric.NAME === news[1].rubric
+                            )?.ID
+                          }`}
+                          className="tidings-card__help"
+                        >
                           {news[1].rubric}
-                        </span>
+                        </Link>
                         <span className="tidings-card__help">
                           {formatDateDifference(news[1].date)}
                         </span>
@@ -142,24 +160,31 @@ const NewsCard: FC<NewsCardProps> = ({ news }) => {
                     </div>
                   </div>
                 </div>
-              </Link>
+              </span>
             </div>
           </div>
           <div className="news-card__grid-right">
-            <Link
-              href={`/news/${news[2].id}`}
-              className="tidings-card news-card__grid-card"
-            >
+            <span className="tidings-card news-card__grid-card">
               <div className="tidings-card__wrapper">
                 <div className="tidings-card__body">
-                  <span className="tidings-card__name text__wrapping">
+                  <Link
+                    href={`/news/${news[2].id}`}
+                    className="tidings-card__name text__wrapping"
+                  >
                     {news[2].name}
-                  </span>
+                  </Link>
                   <div className="tidings-card__inner-wrap">
                     <div className="tidings-card__inner">
-                      <span className="tidings-card__help">
+                      <Link
+                        href={`/rubrics/${
+                          rubrics.find(
+                            (rubric) => rubric.NAME === news[2].rubric
+                          )?.ID
+                        }`}
+                        className="tidings-card__help"
+                      >
                         {news[2].rubric}
-                      </span>
+                      </Link>
                       <span className="tidings-card__help">
                         {formatDateDifference(news[2].date)}
                       </span>
@@ -182,21 +207,28 @@ const NewsCard: FC<NewsCardProps> = ({ news }) => {
                   </div>
                 </div>
               </div>
-            </Link>
-            <Link
-              href={`/news/${news[3].id}`}
-              className="tidings-card news-card__grid-card"
-            >
+            </span>
+            <span className="tidings-card news-card__grid-card">
               <div className="tidings-card__wrapper">
                 <div className="tidings-card__body">
-                  <span className="tidings-card__name text__wrapping">
+                  <Link
+                    href={`/news/${news[3].id}`}
+                    className="tidings-card__name text__wrapping"
+                  >
                     {news[3].name}
-                  </span>
+                  </Link>
                   <div className="tidings-card__inner-wrap">
                     <div className="tidings-card__inner">
-                      <span className="tidings-card__help">
+                      <Link
+                        href={`/rubrics/${
+                          rubrics.find(
+                            (rubric) => rubric.NAME === news[3].rubric
+                          )?.ID
+                        }`}
+                        className="tidings-card__help"
+                      >
                         {news[3].rubric}
-                      </span>
+                      </Link>
                       <span className="tidings-card__help">
                         {formatDateDifference(news[3].date)}
                       </span>
@@ -219,21 +251,28 @@ const NewsCard: FC<NewsCardProps> = ({ news }) => {
                   </div>
                 </div>
               </div>
-            </Link>
-            <Link
-              href={`/news/${news[4].id}`}
-              className="tidings-card news-card__grid-card"
-            >
+            </span>
+            <span className="tidings-card news-card__grid-card">
               <div className="tidings-card__wrapper">
                 <div className="tidings-card__body">
-                  <span className="tidings-card__name text__wrapping">
+                  <Link
+                    href={`/news/${news[4].id}`}
+                    className="tidings-card__name text__wrapping"
+                  >
                     {news[4].name}
-                  </span>
+                  </Link>
                   <div className="tidings-card__inner-wrap">
                     <div className="tidings-card__inner">
-                      <span className="tidings-card__help">
+                      <Link
+                        href={`/rubrics/${
+                          rubrics.find(
+                            (rubric) => rubric.NAME === news[4].rubric
+                          )?.ID
+                        }`}
+                        className="tidings-card__help"
+                      >
                         {news[4].rubric}
-                      </span>
+                      </Link>
                       <span className="tidings-card__help">
                         {formatDateDifference(news[4].date)}
                       </span>
@@ -256,7 +295,7 @@ const NewsCard: FC<NewsCardProps> = ({ news }) => {
                   </div>
                 </div>
               </div>
-            </Link>
+            </span>
           </div>
         </div>
       </div>

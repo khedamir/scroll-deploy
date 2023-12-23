@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import InputMask from "react-input-mask";
 import { Controller, useForm } from "react-hook-form";
 import { useSelector } from "react-redux";
@@ -27,10 +27,14 @@ const UserDataForm = () => {
   const { setChangePasswordActive } = useModalsContext();
   const [userImg, setUserImg] = useState("");
   const [inputImgValue, setInputImg] = useState<any>();
+  const [isDisabled, setIsDisabled] = useState(true);
+  const [saved, setSaved] = useState(false);
 
   const {
     register,
     handleSubmit,
+    getValues,
+    watch,
     control,
     formState: { errors },
   } = useForm<FormValuesType>({
@@ -43,6 +47,12 @@ const UserDataForm = () => {
     },
     mode: "onBlur",
   });
+
+  const watchedName = watch("name");
+  const watchedLastName = watch("last_name");
+  const watchedCity = watch("city");
+  const watchedPhone = watch("phone");
+  const watchedEmail = watch("email");
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -69,27 +79,14 @@ const UserDataForm = () => {
     if (user) {
       const params: ChangeUserDataProps = {
         userId: user?.id,
-        data: {},
+        data: {
+          name: values.name,
+          last_name: values.last_name,
+          city: values.city,
+          phone: values.phone,
+          email: values.email,
+        },
       };
-      if (user.name !== values.name) {
-        params.data.name = values.name;
-      }
-
-      if (user.last_name !== values.last_name) {
-        params.data.last_name = values.last_name;
-      }
-
-      if (user.city !== values.city) {
-        params.data.city = values.city;
-      }
-
-      if (user.phone !== values.phone) {
-        params.data.phone = values.phone;
-      }
-
-      if (user.email !== values.email) {
-        params.data.email = values.email;
-      }
 
       if (userImg) {
         const path = await setImageFetch(inputImgValue);
@@ -97,10 +94,50 @@ const UserDataForm = () => {
       }
 
       UserDataChange(params).then(() => {
-        console.log("changed");
+        setSaved(true);
       });
     }
   };
+
+  const isDisabledCheck = () => {
+    if (user) {
+      if (user.name !== getValues("name")) {
+        return false;
+      }
+
+      if (user.last_name !== getValues("last_name")) {
+        return false;
+      }
+
+      if (user.city !== getValues("city")) {
+        return false;
+      }
+
+      if (user.phone !== getValues("phone")) {
+        return false;
+      }
+
+      if (user.email !== getValues("email")) {
+        return false;
+      }
+
+      if (userImg) {
+        return false;
+      }
+    }
+    return true;
+  };
+
+  useEffect(() => {
+    setIsDisabled(isDisabledCheck());
+  }, [
+    watchedName,
+    watchedLastName,
+    watchedCity,
+    watchedPhone,
+    watchedEmail,
+    userImg,
+  ]);
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="lk-edit__wrapper">
@@ -221,8 +258,11 @@ const UserDataForm = () => {
         </div>
       </div>
       <div className="lk-edit__bottom">
-        <button className="lk-edit__btn btn btn--md-bold btn--orange">
-          Сохранить
+        <button
+          disabled={isDisabled}
+          className="lk-edit__btn btn btn--md-bold btn--orange"
+        >
+          {saved ? "Сохранено" : "Сохранить"}
         </button>
       </div>
     </form>

@@ -10,14 +10,14 @@ import { selectUser } from "../../redux/auth/slice";
 import { isElementInFavorites } from "../../redux/favorites/slice";
 import { FavoriteNew } from "../../redux/favorites/types";
 import { AppState } from "../../redux/store";
+import { selectRubrics } from "../../redux/rubrics/slice";
 
 interface MoreNewItemProps {
   item: NewType;
 }
 
 const MoreNewItem: FC<MoreNewItemProps> = ({ item }) => {
-  const { user } = useSelector(selectUser);
-  const { setLoginActive } = useModalsContext();
+  const {rubrics} = useSelector(selectRubrics)
   const isFavorite = useSelector((state: AppState) =>
     isElementInFavorites(state, "9", item.id)
   );
@@ -66,7 +66,7 @@ const MoreNewItem: FC<MoreNewItemProps> = ({ item }) => {
           </Link>
           <div className="more-topic__inner">
             <div className="more-topic__elems">
-              <span className="more-topic__elem">{item.rubric}</span>
+              <Link href={`/rubrics/${rubrics.find(rubric => rubric.NAME === item.rubric)?.ID}`} className="more-topic__elem">{item.rubric}</Link>
               <span className="more-topic__elem">
                 {formatDateDifference(item.date)}
               </span>

@@ -76,11 +76,12 @@ const Login = () => {
 
   return (
     <div
+      onClick={() => setLoginActive(false)}
       className={`modal modal--wide ${loginActive && "is--active"}`}
       id="modal-login"
     >
       <div className="modal__wrap">
-        <div className="modal__wrapper">
+        <div onClick={(e) => e.stopPropagation()} className="modal__wrapper">
           <div className="modal__left">
             <picture className="modal__logotype">
               <img src="/img/logotype.svg" alt="SCROLL" />

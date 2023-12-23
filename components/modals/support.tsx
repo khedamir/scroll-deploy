@@ -43,11 +43,12 @@ const Support: FC<SupportProps> = ({ active, setActive }) => {
   return (
     <>
       <div
+        onClick={() => setActive(false)}
         className={`modal modal--wide ${active && "is--active"}`}
         id="modal-support"
       >
         <div className="modal__wrap">
-          <div className="modal__wrapper">
+          <div onClick={(e) => e.stopPropagation()} className="modal__wrapper">
             <div className="modal__left modal__left--orange">
               <div className="modal__circles">
                 <div className="modal__circle modal__circle--sm"></div>

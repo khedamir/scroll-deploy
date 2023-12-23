@@ -1,4 +1,4 @@
-import React, { MouseEvent, useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { ReactSVG } from "react-svg";
 import {
   OKShareButton,
@@ -31,7 +31,7 @@ const Share = () => {
     };
   }, [router]);
 
-  const linkCopy = (event: MouseEvent) => {
+  const linkCopy = (event: React.MouseEvent) => {
     const tempInput = document.createElement("input");
     tempInput.value = currentURL;
     document.body.appendChild(tempInput);
@@ -45,8 +45,33 @@ const Share = () => {
     event.preventDefault();
   };
 
+  const selectorRef = useRef<HTMLDivElement | null>(null);
+
+  const handleDocumentClick = (event: MouseEvent) => {
+    if (
+      selectorRef.current &&
+      !selectorRef.current.contains(event.target as Node)
+    ) {
+      // Клик произошел вне селектора, закрываем его
+      setActive(false);
+    }
+  };
+
+  useEffect(() => {
+    // Добавляем обработчик события при монтировании компонента
+    document.addEventListener("click", handleDocumentClick);
+
+    // Убираем обработчик события при размонтировании компонента
+    return () => {
+      document.removeEventListener("click", handleDocumentClick);
+    };
+  }, []);
+
   return (
-    <div className={`media-controls__btn c-share ${active && "is--active"}`}>
+    <div
+      ref={selectorRef}
+      className={`media-controls__btn c-share ${active && "is--active"}`}
+    >
       <button
         onClick={() => setActive(!active)}
         className="btn-control c-share__trigger"

@@ -47,11 +47,12 @@ const PasswordRecovery = () => {
 
   return (
     <div
+      onClick={() => setRecoveryPasswordActive(false)}
       className={`modal modal--wide ${recoveryPasswordActive && "is--active"}`}
       id="modal-password-recovery"
     >
       <div className="modal__wrap">
-        <div className="modal__wrapper">
+        <div onClick={(e) => e.stopPropagation()} className="modal__wrapper">
           <div className="modal__left">
             <picture className="modal__logotype">
               <img src="/img/logotype.svg" alt="SCROLL" />

@@ -14,11 +14,12 @@ const ChangePasswordComplete: FC<ChangePasswordCompleteProps> = ({
   useHandleScroll(active);
   return (
     <div
+      onClick={() => setActive(false)}
       className={`modal modal--wide ${active && "is--active"}`}
       id="modal-change-password"
     >
       <div className="modal__wrap">
-        <div className="modal__wrapper">
+        <div onClick={(e) => e.stopPropagation()} className="modal__wrapper">
           <div className="modal__left">
             <picture className="modal__logotype">
               <img src="/img/logotype.svg" alt="SCROLL" />

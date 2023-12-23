@@ -330,7 +330,6 @@ export const FileUpload = async ({ userId, file }: FileUploadType) => {
         "Content-Type": "multipart/form-data",
       },
     });
-    console.log(result);
     return result.data;
   } catch (error) {
     console.error("Произошла ошибка", error);
@@ -376,6 +375,7 @@ export type AddPublicationType = {
 
 export type GetPublicationsType = {
   userId: string;
+  iblockid: string;
 };
 
 export type DeletePublicationType = {
@@ -416,40 +416,27 @@ export const addPublication = async ({
       publication_id,
     };
 
-    console.log(params);
-
     const result = await server.post("/sw/v1/userPublications.php", params, {
       headers: {
         "Content-Type": "application/x-www-form-urlencoded",
       },
     });
-
-    if (publication_type === "moderation") {
-      const FFFF = await server.post("/sw/v1/userPublications.php", {
-        type: "addModeration",
-        userId,
-        iblockid,
-        publication_id,
-      });
-      console.log({
-        type: "addModeration",
-        userId,
-        iblockid,
-        publication_id,
-      });
-      console.log(FFFF);
-    }
+    console.log(result.data);
     return result.data;
   } catch (error) {
     console.error("Произошла ошибка", error);
   }
 };
 
-export const getPublications = async ({ userId }: GetPublicationsType) => {
+export const getPublications = async ({
+  userId,
+  iblockid,
+}: GetPublicationsType) => {
   try {
     const params = {
       userId,
       type: "get",
+      iblockid,
     };
 
     const result = await server.post("/sw/v1/userPublications.php", params, {

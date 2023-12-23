@@ -1,8 +1,6 @@
-import React, { FC, useState } from "react";
+import React, { FC } from "react";
 import { ReactSVG } from "react-svg";
-import { useModalsContext } from "../../context/ModalsContext";
 import { encryptEmail } from "../../utils/encryptEmail";
-import { server } from "../../utils/server";
 import { useHandleScroll } from "../../hooks";
 
 interface RegisterCompleteProps {
@@ -16,21 +14,16 @@ const RegisterComplete: FC<RegisterCompleteProps> = ({
   setActive,
   email,
 }) => {
-  const { setRecoveryPasswordActive } = useModalsContext();
-
-  const buttonBackClick = () => {
-    setRecoveryPasswordActive(true);
-  };
-
   useHandleScroll(active);
 
   return (
     <div
+      onClick={() => setActive(false)}
       className={`modal modal--wide ${active && "is--active"}`}
       id="modal-password-recovery-send"
     >
       <div className="modal__wrap">
-        <div className="modal__wrapper">
+        <div onClick={(e) => e.stopPropagation()} className="modal__wrapper">
           <div className="modal__left">
             <picture className="modal__logotype">
               <img src="/img/logotype.svg" alt="SCROLL" />

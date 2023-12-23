@@ -14,6 +14,8 @@ import {
   setPublished,
 } from "../../redux/new_publication/slice";
 import { PublishedNewType } from "../../redux/new_publication/type";
+import Empty from "./publicationsComponets/empty";
+import { useEditorContext } from "../../context/editorContext";
 
 interface PublicationsProps {
   active: boolean;
@@ -23,7 +25,6 @@ type ActiveBlockValue = "published" | "drafts";
 
 const Publications: FC<PublicationsProps> = ({ active }) => {
   const [activeBlock, setActiveBlock] = useState<ActiveBlockValue>("published");
-  const [isEdit, setIsEdit] = useState(false);
   const [formActive, setFormActive] = useState(false);
   const { user } = useSelector(selectUser);
   const dispatch = useAppDispatch();
@@ -35,27 +36,26 @@ const Publications: FC<PublicationsProps> = ({ active }) => {
       const fetchData = async () => {
         const result: { datas: PublishedNewType[] } = await getPublications({
           userId: user.id,
+          iblockid: "9",
         });
-        console.log(
-          result.datas.filter(
-            (item) => !(item.poperties.DRAFT || item.poperties.MODERATION)
-          )
-        );
-        dispatch(
-          setPublished(
-            result.datas.filter(
-              (item) => !(item.poperties.DRAFT || item.poperties.MODERATION)
+        if (result.datas) {
+          dispatch(
+            setPublished(
+              result.datas.filter(
+                (item) => !(item.poperties.DRAFT || item.poperties.MODERATION)
+              )
             )
-          )
-        );
-        dispatch(
-          setDrafts(
-            result.datas.filter(
-              (item) => item.poperties.DRAFT || item.poperties.MODERATION
+          );
+          dispatch(
+            setDrafts(
+              result.datas.filter(
+                (item) => item.poperties.DRAFT || item.poperties.MODERATION
+              )
             )
-          )
-        );
+          );
+        }
       };
+
       fetchData();
     }
   }, [dispatch]);
@@ -65,8 +65,6 @@ const Publications: FC<PublicationsProps> = ({ active }) => {
       <MyEditor
         active={formActive}
         setActive={setFormActive}
-        isEdit={isEdit}
-        setIsEdit={setIsEdit}
       />
       <div className="lk__body">
         <div className="lk__block">
@@ -120,14 +118,7 @@ const Publications: FC<PublicationsProps> = ({ active }) => {
                   <PublicationItem key={item.id} item={item} />
                 ))}
               </div>
-              {published.length === 0 && (
-                <div className="lk__empty">
-                  <p className="lk__description">
-                    У вас ещё нет публикаций. Напишите свою первую новость и
-                    здесь будет не так пусто.
-                  </p>
-                </div>
-              )}
+              {published.length === 0 && <Empty />}
             </div>
             <div
               className={`lk-publications__wrapper ${
@@ -140,18 +131,10 @@ const Publications: FC<PublicationsProps> = ({ active }) => {
                     key={item.id}
                     item={item}
                     setFormActive={setFormActive}
-                    setIsEdit={setIsEdit}
                   />
                 ))}
               </div>
-              {drafts.length === 0 && (
-                <div className="lk__empty">
-                  <p className="lk__description">
-                    У вас ещё нет публикаций Напишите свою первую новость и
-                    здесь будет не так пусто.
-                  </p>
-                </div>
-              )}
+              {drafts.length === 0 && <Empty />}
             </div>
           </div>
         </div>

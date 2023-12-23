@@ -67,7 +67,7 @@ const Comments: FC<CommentsProps> = ({
   }, [page]);
 
   return (
-    <div className={`comments ${otherClassName}`}>
+    <div id="publication-comments" className={`comments ${otherClassName}`}>
       <div className="comments__top">
         <h3 className="comments__heading">
           {getCommentCountWord(all_comments_count)}

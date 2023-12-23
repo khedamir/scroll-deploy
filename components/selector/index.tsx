@@ -1,5 +1,5 @@
 import { title } from "process";
-import React, { FC, ReactNode, useState } from "react";
+import React, { FC, ReactNode, useEffect, useRef, useState } from "react";
 import { ReactSVG } from "react-svg";
 
 interface SelectorProps {
@@ -8,9 +8,6 @@ interface SelectorProps {
   title: string;
   active: boolean;
   setActive: (v: boolean) => void;
-  //   items: any[];
-  //   selectItem: any;
-  //   setSelectItem: (v: any) => void;
 }
 
 const Selector: FC<SelectorProps> = ({
@@ -20,8 +17,34 @@ const Selector: FC<SelectorProps> = ({
   active,
   setActive,
 }) => {
+  const selectorRef = useRef<HTMLDivElement | null>(null);
+
+  const handleDocumentClick = (event: MouseEvent) => {
+    if (
+      selectorRef.current &&
+      !selectorRef.current.contains(event.target as Node)
+    ) {
+      // Клик произошел вне селектора, закрываем его
+      setActive(false);
+    }
+  };
+
+  useEffect(() => {
+    // Добавляем обработчик события при монтировании компонента
+    document.addEventListener("click", handleDocumentClick);
+
+    // Убираем обработчик события при размонтировании компонента
+    return () => {
+      document.removeEventListener("click", handleDocumentClick);
+    };
+  }, []);
+  
   return (
-    <div className={`media-controls__btn c-share ${active && "is--active"}`}>
+    <div
+      ref={selectorRef}
+      style={{ width: "fit-content" }}
+      className={`media-controls__btn c-share ${active && "is--active"}`}
+    >
       <button
         onClick={() => setActive(!active)}
         className="btn-control c-share__trigger"
@@ -39,22 +62,7 @@ const Selector: FC<SelectorProps> = ({
             <ReactSVG src="/img/sprite/icon-close.svg" />
           </button>
         </div>
-        <ul className="c-share__list">
-          {children}
-          {/* {items.map((item) => (
-            <li className="c-share__item">
-              <span className="c-share__btn">{item.NAME}</span>
-            </li>
-          ))}
-          <li className="c-share__item">
-            <a href="#" className="c-share__btn c-share__btn--sm">
-              элемент1
-            </a>
-          </li>
-          <li className="c-share__item">
-            <span className="c-share__btn">элемент2</span>
-          </li> */}
-        </ul>
+        <ul className="c-share__list">{children}</ul>
       </div>
     </div>
   );

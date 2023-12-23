@@ -8,19 +8,22 @@ import Audio from "./audio";
 import Link from "next/link";
 import { selectUser } from "../../redux/auth/slice";
 import Video from "./video";
+import { useHandleScroll } from "../../hooks";
 
 const Bookmarks = () => {
   const { bookmarks, setBookmarks } = useModalsContext();
   const { data } = useSelector(selectFavorites);
   const { user } = useSelector(selectUser);
+  useHandleScroll(bookmarks);
   return (
     <div
+      onClick={() => setBookmarks(false)}
       className={`bookmarks ${bookmarks && "is--active"} ${
         user && "bookmarks-auth"
       }`}
       id="bookmarks"
     >
-      <div className="bookmarks__wrap">
+      <div onClick={(e) => e.stopPropagation()} className="bookmarks__wrap">
         <div className="bookmarks__top">
           <h3 className="bookmarks__heading">Закладки</h3>
           <button

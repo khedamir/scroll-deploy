@@ -1,4 +1,4 @@
-import React, { FC, useState } from "react";
+import React, { FC, useEffect, useRef, useState } from "react";
 import Selector from "../selector";
 import { ReactSVG } from "react-svg";
 import { useSelector } from "react-redux";
@@ -10,14 +10,21 @@ import { baseURL } from "../../utils/server";
 interface RubricSelectorProps {
   selectRubric: RubricType | undefined;
   setSelectRubric: (v: RubricType) => void;
+  active: boolean;
+  setActive: (v: boolean) => void;
 }
 
 const RubricSelector: FC<RubricSelectorProps> = ({
   selectRubric,
   setSelectRubric,
+  active,
+  setActive,
 }) => {
   const { rubrics } = useSelector(selectRubrics);
-  const [active, setActive] = useState(false);
+  const selectItem = (rubric: RubricType) => {
+    setSelectRubric(rubric);
+    setActive(false);
+  };
 
   return (
     <div className={`rubric__selector ${active && "is--active"}`}>
@@ -44,7 +51,7 @@ const RubricSelector: FC<RubricSelectorProps> = ({
       >
         {rubrics &&
           rubrics.map((rubric) => (
-            <div key={rubric.ID} onClick={() => setSelectRubric(rubric)}>
+            <div key={rubric.ID} onClick={() => selectItem(rubric)}>
               <SelectItem>
                 <img src={`${baseURL}${rubric.THEME_ICON_PATH}`} alt="" />
                 {rubric.NAME}

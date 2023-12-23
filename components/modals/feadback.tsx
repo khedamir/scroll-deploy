@@ -38,11 +38,12 @@ const Feadback: FC<FeadbackProps> = ({ active, setActive }) => {
   return (
     <>
       <div
+        onClick={() => setActive(false)}
         className={`modal modal--wide ${active && "is--active"}`}
         id="modal-impression"
       >
         <div className="modal__wrap">
-          <div className="modal__wrapper">
+          <div onClick={(e) => e.stopPropagation()} className="modal__wrapper">
             <div className="modal__left modal__left--red">
               <div className="modal__circles">
                 <div className="modal__circle modal__circle--sm"></div>

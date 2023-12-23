@@ -118,6 +118,10 @@ const FavoritesContextProvider = (props: any) => {
       if (podcastItem) {
         dispatch(addToFavorites({ sectionId, element: podcastItem }));
       }
+      setBookmarksAnimateActive(true);
+      setTimeout(() => {
+        setBookmarksAnimateActive(false);
+      }, 1000);
     });
   };
 

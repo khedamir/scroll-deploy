@@ -8,6 +8,7 @@ import PodcastItem from "./podcastItem";
 import { SearchResultSort } from "../../utils/searchResultSort";
 import SearchInput from "./searchInput";
 import { server } from "../../utils/server";
+import { useHandleScroll } from "../../hooks";
 
 const Search = () => {
   const { searchActive, setSearchActive } = useModalsContext();
@@ -15,6 +16,7 @@ const Search = () => {
   const [news, setNews] = useState<SearchItem[]>([]);
   const [searched, setSearched] = useState(false);
   const sortedResult = SearchResultSort(result);
+  useHandleScroll(searchActive);
 
   useEffect(() => {
     const fetch = async () => {
@@ -29,7 +31,11 @@ const Search = () => {
   }, []);
 
   return (
-    <div className={`search ${searchActive && "is--active"}`} id="search">
+    <div
+      onClick={() => setSearchActive(false)}
+      className={`search ${searchActive && "is--active"}`}
+      id="search"
+    >
       <div className="search__wrap">
         <div className="search__wrapper">
           <button
@@ -51,7 +57,10 @@ const Search = () => {
             setSearched={setSearched}
           />
           <div className="search__main">
-            <div className="search__container">
+            <div
+              onClick={(e) => e.stopPropagation()}
+              className="search__container"
+            >
               {!result.length && searched && (
                 <>
                   <div className="search__empty is--active">

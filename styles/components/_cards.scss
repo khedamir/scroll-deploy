@@ -70,7 +70,9 @@
 
     @media screen and (hover: hover) {
       &:hover {
-        color: $text-base-on-light-shift-up;
+        * {
+          color: $text-base-on-light-shift-up;
+        }
         .news-card {
           &__help {
             color: $root-faint-on-light;
@@ -555,6 +557,7 @@
 // }
 
 .tidings-card {
+  display: block;
   position: relative;
   z-index: 1;
   padding: 16px;

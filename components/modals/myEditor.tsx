@@ -20,20 +20,14 @@ const Editor = dynamic(() => import("../../components/Editor"), {
 
 interface MyEditorProps {
   active: boolean;
-  isEdit: boolean;
   setActive: (v: boolean) => void;
-  setIsEdit: (v: boolean) => void;
 }
 
-export default function MyEditor({
-  active,
-  setActive,
-  isEdit,
-  setIsEdit,
-}: MyEditorProps) {
+export default function MyEditor({ active, setActive }: MyEditorProps) {
   const [isClicked, setIsClicked] = useState(false);
   const [thankModalActive, setThankModalActive] = useState(false);
-  const [error, setError] = useState(false);
+  const [selectActive, setSelectActive] = useState(false);
+
   const dispatch = useAppDispatch();
   useHandleScroll(active);
   const {
@@ -46,38 +40,38 @@ export default function MyEditor({
     addDraftNew,
     addPreviewNew,
     clearDatas,
+    isError,
+    setIsError,
   } = useEditorContext();
 
   const closeModal = () => {
-    addDraftNew({ publication_type: "draft", type: isEdit ? "update" : "add" })
-      .then((result) => {
-        dispatch(addDraft(result as unknown as PublishedNewType));
-      })
-      .catch((error) => {
-        console.error(error);
-        setError(true);
-      })
-      .finally(() => {
-        setActive(false);
-      });
+    if (title) {
+      addDraftNew({ publication_type: "draft" })
+        .then((result) => {
+          dispatch(addDraft(result as unknown as PublishedNewType));
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    }
     clearDatas();
     setActive(false);
+    setSelectActive(false);
   };
 
   const addDraftClick = () => {
     addDraftNew({
       publication_type: "moderation",
-      type: isEdit ? "update" : "add",
     })
       .then((result) => {
-        setError(false);
+        setIsError(false);
         dispatch(addDraft(result as unknown as PublishedNewType));
         setThankModalActive(true);
         setActive(false);
       })
       .catch((error) => {
         console.error(error);
-        setError(true);
+        setIsError(true);
       });
   };
 
@@ -131,6 +125,8 @@ export default function MyEditor({
               <RubricSelector
                 selectRubric={rubric}
                 setSelectRubric={setRubric}
+                active={selectActive}
+                setActive={setSelectActive}
               />
               <div className="editor-scroll">
                 <input
@@ -165,7 +161,7 @@ export default function MyEditor({
                   <ReactSVG src="/img/sprite/icon-eye.svg" />
                 </button>
               </div>
-              {error && (
+              {isError && (
                 <div className="editor-error">
                   Невозможно сохранить новость! Убедитесь что все поля заполнены
                   корректно!

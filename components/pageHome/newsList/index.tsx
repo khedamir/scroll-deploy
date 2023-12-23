@@ -9,6 +9,7 @@ import { useModalsContext } from "../../../context/ModalsContext";
 import { selectUser } from "../../../redux/auth/slice";
 import { selectFavorites } from "../../../redux/favorites/slice";
 import { FavoriteNew } from "../../../redux/favorites/types";
+import { selectRubrics } from "../../../redux/rubrics/slice";
 
 interface NewsListProps {
   news: NewType[];
@@ -18,6 +19,7 @@ interface NewsListProps {
 const NewsList: FC<NewsListProps> = ({ news, largeNewIndex }) => {
   const { user } = useSelector(selectUser);
   const favorites = useSelector(selectFavorites);
+  const { rubrics } = useSelector(selectRubrics);
   const { setLoginActive } = useModalsContext();
   const { addFavorite, deleteFavorite } = useFavoriteContext();
 
@@ -68,22 +70,27 @@ const NewsList: FC<NewsListProps> = ({ news, largeNewIndex }) => {
       {news && (
         <div className="news-card__wrapper">
           {news.map((item, id) => (
-            <Link
-              href={`/news/${item.id}`}
-              key={item.id}
-              className="news-card__item"
-            >
+            <span key={item.id} className="news-card__item">
               <div className="news-card__body">
-                <span
+                <Link
+                  href={`/news/${item.id}`}
                   className={`news-card__name ${
                     largeNewIndex === id && "news-card__name--lg"
                   }`}
                 >
                   {item.name}
-                </span>
+                </Link>
                 <div className="news-card__inner-wrap">
                   <div className="news-card__inner">
-                    <span className="news-card__help">{item.rubric}</span>
+                    <Link
+                      href={`/rubrics/${
+                        rubrics.find((rubric) => rubric.NAME === item.rubric)
+                          ?.ID
+                      }`}
+                      className="news-card__help"
+                    >
+                      {item.rubric}
+                    </Link>
                     <span className="news-card__help">
                       {formatDateDifference(item.date)}
                     </span>
@@ -106,11 +113,14 @@ const NewsList: FC<NewsListProps> = ({ news, largeNewIndex }) => {
                 </div>
               </div>
               {item.images.detail && largeNewIndex !== id && (
-                <picture className="news-card__img news-card__img--sm">
+                <Link
+                  href={`/news/${item.id}`}
+                  className="news-card__img news-card__img--sm"
+                >
                   <img src={`${item.images.detail}`} alt="Image" />
-                </picture>
+                </Link>
               )}
-            </Link>
+            </span>
           ))}
         </div>
       )}

@@ -22,7 +22,6 @@ import { selectRubrics } from "../redux/rubrics/slice";
 
 type AddDraftNewProps = {
   publication_type: "draft" | "moderation";
-  type: "add" | "update";
 };
 
 type SetDataProps = {
@@ -41,10 +40,18 @@ const EditorContext = createContext({
   setTitle: (v: string) => {},
   rubric: undefined,
   setRubric: (v: RubricType) => {},
-  data: undefined,
+  data: {
+    time: Date.now(),
+    blocks: [],
+    version: "2.28.2", // Укажите актуальную версию Editor.js
+  },
   setData: (v: OutputData) => {},
   dataUpdate: false,
   setDataUpdate: (v: boolean) => {},
+  isEdit: false,
+  setIsEdit: (v: boolean) => {},
+  isError: false,
+  setIsError: (v: boolean) => {},
   photo: "",
   setPhoto: (v: string) => {},
   changePhoto: (v: ChangeEvent<HTMLInputElement>) => {},
@@ -65,7 +72,6 @@ const EditorContextProvider = (props: any) => {
   const [title, setTitle] = useState("");
   const [rubric, setRubric] = useState<RubricType>();
   const [data, setData] = useState<OutputData>();
-  const [dataUpdate, setDataUpdate] = useState(false);
   const [photo, setPhoto] = useState("");
   const [textPreview, setTextPreview] = useState("");
   const [source, setSource] = useState("");
@@ -75,46 +81,57 @@ const EditorContextProvider = (props: any) => {
   const [photoData, setPhotoData] = useState<any>();
   const [sourcePhotoData, setSourcePhotoData] = useState<any>();
 
+  const [isEdit, setIsEdit] = useState(false);
+  const [isError, setIsError] = useState(false);
+  const [dataUpdate, setDataUpdate] = useState(false);
+
   const dispatch = useAppDispatch();
   const { user } = useSelector(selectUser);
   const { rubrics } = useSelector(selectRubrics);
 
-  const setDatas = ({
-    title,
-    preview,
-    rubric,
-    photo,
-    data,
-    source,
-    sourcePhoto,
-    publicationId,
-  }: SetDataProps) => {
-    console.log(sourcePhoto);
-    setTitle(title);
-    setRubric(rubrics.find((item) => item.NAME === rubric));
-    setPhoto(photo);
-    setSource(source);
-    setSourcePhoto(sourcePhoto);
-    setTextPreview(preview);
-    console.log(data);
-    setDataUpdate(true);
-    setData(parseHTMLToEditorData(data));
+  const setDatas = (datas: SetDataProps) => {
+    setTitle(datas.title);
+    setRubric(rubrics.find((item) => item.NAME === datas.rubric));
+    setPhoto(datas.photo);
+    setSource(datas.source);
+    setSourcePhoto(datas.sourcePhoto);
+    setTextPreview(datas.preview);
+    setData(parseHTMLToEditorData(datas.data));
     setPublicationId(publicationId);
+    setDataUpdate(true);
   };
 
   const clearDatas = () => {
     setTitle("");
     setRubric(undefined);
-    setPhoto("");
-    setPhotoData("");
-    setSource("");
-    setSourcePhoto("");
-    setSourcePhotoData("");
-    setTextPreview("");
-    setDataUpdate(true);
     setData(parseHTMLToEditorData(""));
+    setPhoto("");
+    setTextPreview("");
+    setSourcePhoto("");
+    setSource("");
     setPublicationId("");
-    console.log("clear");
+
+    setPhotoData("");
+    setSourcePhotoData("");
+    setIsEdit(false);
+    setIsError(false);
+    setDataUpdate(true);
+  };
+
+  const getFileData = (file: File): Promise<string> => {
+    return new Promise((resolve, reject) => {
+      const fileReader = new FileReader();
+
+      fileReader.onload = function (ev) {
+        if (ev.target && typeof ev.target.result === "string") {
+          resolve(ev.target.result);
+        } else {
+          reject(new Error("Failed to read file data."));
+        }
+      };
+
+      fileReader.readAsDataURL(file);
+    });
   };
 
   const changePhoto = (e: ChangeEvent<HTMLInputElement>) => {
@@ -145,23 +162,7 @@ const EditorContextProvider = (props: any) => {
     }
   };
 
-  const getFileData = (file: File): Promise<string> => {
-    return new Promise((resolve, reject) => {
-      const fileReader = new FileReader();
-
-      fileReader.onload = function (ev) {
-        if (ev.target && typeof ev.target.result === "string") {
-          resolve(ev.target.result);
-        } else {
-          reject(new Error("Failed to read file data."));
-        }
-      };
-
-      fileReader.readAsDataURL(file);
-    });
-  };
-
-  const addDraftNew = async ({ publication_type, type }: AddDraftNewProps) => {
+  const addDraftNew = async ({ publication_type }: AddDraftNewProps) => {
     if (user) {
       const new_photo = photoData
         ? await FileUpload({
@@ -188,7 +189,7 @@ const EditorContextProvider = (props: any) => {
         source,
         source_photo: new_source_photo.filePath,
         source_url: "",
-        type,
+        type: isEdit ? "update" : "add",
         publication_id: publicationId,
       });
 
@@ -260,6 +261,10 @@ const EditorContextProvider = (props: any) => {
         source,
         setSource,
         sourcePhoto,
+        isEdit,
+        setIsEdit,
+        isError,
+        setIsError,
         setSourcePhoto,
         changeSourcePhoto,
         addDraftNew,

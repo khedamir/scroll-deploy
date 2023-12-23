@@ -26,6 +26,7 @@ import { useSetCookie } from "../../hooks";
 import NewContent from "../../components/pageNew/newContent";
 import { selectComments } from "../../redux/comments/slice";
 import getCommentCountWord from "../../utils/getCommentCountWord";
+import { selectRubrics } from "../../redux/rubrics/slice";
 
 interface NewProps {
   publication: FullNewType;
@@ -39,6 +40,7 @@ const New: FC<NewProps> = ({ publication, recommendationNews }) => {
   const [modalActive, setModalActive] = useState(false);
   const { all_comments_count } = useSelector(selectComments);
   const { addFavorite, deleteFavorite } = useFavoriteContext();
+  const { rubrics } = useSelector(selectRubrics);
   const isFavorite = useSelector((state: AppState) =>
     isElementInFavorites(state, "9", publication.id)
   );
@@ -72,6 +74,12 @@ const New: FC<NewProps> = ({ publication, recommendationNews }) => {
     }
   };
 
+  const getRubricId = () => {
+    return rubrics.find(
+      (rubric) => rubric.NAME === publication.props.PUB_RUBRIC.VALUE[0]
+    )?.ID;
+  };
+
   return (
     <>
       <div className="layout layout--sticky-bottom">
@@ -91,7 +99,9 @@ const New: FC<NewProps> = ({ publication, recommendationNews }) => {
                         <h1>{publication.name}</h1>
                         <div className="description-block">
                           <div className="description-block__inner">
-                            <span>{publication.props.PUB_RUBRIC.VALUE[0]}</span>
+                            <Link href={`/rubrics/${getRubricId()}`}>
+                              {publication.props.PUB_RUBRIC.VALUE[0]}
+                            </Link>
                             <span>
                               {formatDateDifference(publication.date)}
                             </span>
@@ -100,7 +110,10 @@ const New: FC<NewProps> = ({ publication, recommendationNews }) => {
                         <div className="media-block">
                           <picture className="media-block__photo">
                             <img src={`${publication.images[1]}`} alt="" />
-                            <Link href="#" className="media-block__comments">
+                            <Link
+                              href="#publication-comments"
+                              className="media-block__comments"
+                            >
                               <ReactSVG src="/img/sprite/icon-comment.svg" />
                               <span>
                                 {getCommentCountWord(all_comments_count)}
