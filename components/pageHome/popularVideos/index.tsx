@@ -3,6 +3,7 @@ import React from "react";
 import { useSelector } from "react-redux";
 import { selectTrands } from "../../../redux/trends/slice";
 import { extractVideoId } from "../../../utils/extractVideoId";
+import Image from "next/image";
 
 const PopularVideos = () => {
   const { data } = useSelector(selectTrands);
@@ -19,7 +20,7 @@ const PopularVideos = () => {
               className="video-card popular-videos__videos-item"
             >
               <picture className="video-card__img">
-                <img src={item.images.preview} alt="Image" />
+                <Image fill priority src={item.images.preview} alt="Image" />
               </picture>
               <div className="video-card__body">
                 <div className="video-card__top">
@@ -30,7 +31,12 @@ const PopularVideos = () => {
                 <div className="video-card__bottom">
                   <span className="video-card__description">{item.name}</span>
                   <div className="video-card__author">
-                    <img src={item.poperties.AUTHOR_LOGO} alt="Image" />
+                    <Image
+                      width={32}
+                      height={32}
+                      src={item.poperties.AUTHOR_LOGO}
+                      alt="Image"
+                    />
                     <span>{item.poperties.PUB_AUTOR}</span>
                   </div>
                 </div>
@@ -46,7 +52,12 @@ const PopularVideos = () => {
               className="stories-card popular-videos__stories-item"
             >
               <picture className="stories-card__img">
-                <img src={item.images.preview} alt="Image" />
+                <Image
+                  width={116}
+                  height={116}
+                  src={item.images.preview}
+                  alt="Image"
+                />
               </picture>
               <span className="stories-card__name">
                 {item.poperties.PUB_AUTOR}

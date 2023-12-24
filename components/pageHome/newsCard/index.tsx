@@ -10,6 +10,7 @@ import { selectUser } from "../../../redux/auth/slice";
 import { selectFavorites } from "../../../redux/favorites/slice";
 import { FavoriteNew } from "../../../redux/favorites/types";
 import { selectRubrics } from "../../../redux/rubrics/slice";
+import Image from "next/image";
 
 interface NewsCardProps {
   news: NewType[];
@@ -73,7 +74,12 @@ const NewsCard: FC<NewsCardProps> = ({ news }) => {
               <span className="tidings-card tidings-card--md news-card__grid-card news-card__grid-card--full">
                 <div className="tidings-card__wrapper">
                   <picture className="tidings-card__bg">
-                    <img src={`${news[0].images.detail}`} alt="Image" />
+                    <Image
+                      fill
+                      loading={"lazy"}
+                      src={`${news[0].images.detail}`}
+                      alt="Image"
+                    />
                   </picture>
                   <div className="tidings-card__body">
                     <Link

@@ -11,12 +11,11 @@ import { FavoriteNew } from "../../../redux/favorites/types";
 import { selectUser } from "../../../redux/auth/slice";
 import { useModalsContext } from "../../../context/ModalsContext";
 import { useFavoriteContext } from "../../../context/FavoritesContext";
+import Image from "next/image";
 
 const LastNews = () => {
   const { data } = useSelector(selectNews);
-  const { user } = useSelector(selectUser);
   const favorites = useSelector(selectFavorites);
-  const { setLoginActive } = useModalsContext();
   const { addFavorite, deleteFavorite } = useFavoriteContext();
 
   const isFavorite = (id: string) => {
@@ -74,7 +73,12 @@ const LastNews = () => {
               >
                 <div className="tidings-card__wrapper">
                   <picture className="tidings-card__bg">
-                    <img src={`${data.datas[0].images.detail}`} alt="Image" />
+                    <Image
+                      fill
+                      src={`${data.datas[0].images.detail}`}
+                      alt="Image"
+                      priority
+                    />
                   </picture>
                   <div className="tidings-card__body">
                     <span className="tidings-card__name">
@@ -115,7 +119,12 @@ const LastNews = () => {
               >
                 <div className="tidings-card__wrapper">
                   <picture className="tidings-card__bg">
-                    <img src={`${data.datas[1].images.detail}`} alt="Image" />
+                    <Image
+                      fill
+                      src={`${data.datas[1].images.detail}`}
+                      alt="Image"
+                      priority
+                    />
                   </picture>
                   <div className="tidings-card__body">
                     <span className="tidings-card__name">

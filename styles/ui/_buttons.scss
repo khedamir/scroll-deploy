@@ -242,13 +242,19 @@
   &.is--active {
     .btn-control {
       &__icon {
-        & svg {
-          &.default {
-            opacity: 0;
-          }
-          &.active {
-            opacity: 1;
-          }
+        // & svg {
+        //   &.default {
+        //     opacity: 0;
+        //   }
+        //   &.active {
+        //     opacity: 1;
+        //   }
+        // }
+        .default svg {
+          opacity: 0;
+        }
+        .active svg {
+          opacity: 1;
         }
       }
     }
@@ -279,9 +285,12 @@
       width: 24px;
       height: 24px;
       color: $icon-base-on-light;
-      &.active {
-        opacity: 0;
-      }
+      // &.active {
+      //   opacity: 0;
+      // }
+    }
+    .active svg{
+      opacity: 0;
     }
   }
 
@@ -505,13 +514,19 @@
   &.is--active {
     .feedback-btn {
       &__icon {
-        & svg {
-          &.default {
-            opacity: 0;
-          }
-          &.active {
-            opacity: 1;
-          }
+        // & svg {
+        //   &.default {
+        //     opacity: 0;
+        //   }
+        //   &.active {
+        //     opacity: 1;
+        //   }
+        // }
+        .default svg {
+          opacity: 0;
+        }
+        .active svg {
+          opacity: 1;
         }
       }
     }
@@ -548,9 +563,12 @@
       width: 16px;
       height: 16px;
       color: $icon-faint-on-light;
-      &.active {
-        opacity: 0;
-      }
+      // &.active {
+      //   opacity: 0;
+      // }
+    }
+    .active svg{
+      opacity: 0;
     }
   }
 }

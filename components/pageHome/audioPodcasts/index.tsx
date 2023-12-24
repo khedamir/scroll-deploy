@@ -3,6 +3,7 @@ import React from "react";
 import { selectPodcasts } from "../../../redux/podcasts/slice";
 import { useSelector } from "react-redux";
 import { baseURL } from "../../../utils/server";
+import Image from "next/image";
 
 const AudioPodcasts = () => {
   const { data } = useSelector(selectPodcasts);
@@ -20,7 +21,18 @@ const AudioPodcasts = () => {
               }`}
             >
               <picture className="content-card__img">
-                <img src={`${podcast.podcastPhoto}`} alt="Image" />
+                <Image
+                  src={`${podcast.podcastPhoto}`}
+                  alt="Image"
+                  sizes="100vw"
+                  loading="lazy"
+                  style={{
+                    width: "100%",
+                    height: "auto",
+                  }}
+                  width={250}
+                  height={150}
+                />
               </picture>
               <div className="content-card__body">
                 <h3 className="content-card__title">{podcast.name}</h3>

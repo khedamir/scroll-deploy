@@ -15,8 +15,15 @@ const WebinarCard: FC<WebinarProps> = ({ webinar }) => {
           <div className="webinar-card__top">
             <div className="webinar-card__inner">
               <span className="webinar-card__subtitle">Вебинар</span>
-              <button className="webinar-card__control">
-                <ReactSVG src="/img/sprite/icon-notifications.svg" />
+              <button className="c-notification webinar-card__notification">
+                <ReactSVG
+                  className="c-notification__icon c-notification__icon--default"
+                  src="/img/sprite/icon-notifications.svg"
+                />
+                <ReactSVG
+                  className="c-notification__icon c-notification__icon--filled"
+                  src="/img/sprite/icon-notifications-filled.svg"
+                />
               </button>
             </div>
             <span className="webinar-card__date">

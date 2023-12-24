@@ -117,14 +117,14 @@ const NewCard: FC<NewCardProps> = ({ newItem, isLast, newLimit, end }) => {
           <div className="big-news-card__group">
             <button
               onClick={changeFavorite}
-              className={`big-news-card__control ${isFavorite && "is--active"}`}
+              className={`c-bookmark big-news-card__bookmark ${isFavorite && "is--active"}`}
             >
               <ReactSVG
-                className="default"
+                className="c-bookmark__icon c-bookmark__icon--default"
                 src="/img/sprite/icon-bookmarks.svg"
               />
               <ReactSVG
-                className="active"
+                className="c-bookmark__icon c-bookmark__icon--filled"
                 src="/img/sprite/icon-bookmarks-filled.svg"
               />
             </button>

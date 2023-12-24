@@ -3,6 +3,7 @@ import React from "react";
 import { useSelector } from "react-redux";
 import { selectLectures } from "../../../redux/lectures/slice";
 import { baseURL } from "../../../utils/server";
+import Image from "next/image";
 
 const LecturesBlock = () => {
   const { data } = useSelector(selectLectures);
@@ -17,7 +18,18 @@ const LecturesBlock = () => {
               className="content-card__item"
             >
               <picture className="content-card__img">
-                <img src={`${lecture.images.preview}`} alt="Image" />
+                <Image
+                  src={lecture.images.preview}
+                  alt="Image"
+                  sizes="100vw"
+                  loading="lazy"
+                  style={{
+                    width: "100%",
+                    height: "auto",
+                  }}
+                  width={250}
+                  height={150}
+                />
               </picture>
               <div className="content-card__body">
                 <h3 className="content-card__title">{lecture.name}</h3>

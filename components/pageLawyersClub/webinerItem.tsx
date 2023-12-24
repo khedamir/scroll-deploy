@@ -3,6 +3,7 @@ import React, { FC } from "react";
 import { ReactSVG } from "react-svg";
 import { WebinarType } from "../../redux/webinars/types";
 import { baseURL } from "../../utils/server";
+import Image from "next/image";
 
 interface WebinarItemProps {
   webinars: WebinarType[];
@@ -17,8 +18,15 @@ const WebinerItem: FC<WebinarItemProps> = ({ webinars }) => {
             <div className="meetings-card__body">
               <div className="meetings-card__top">
                 <span className="meetings-card__subtitle">Вебинар</span>
-                <button className="meetings-card__control">
-                  <ReactSVG src="/img/sprite/icon-notifications.svg" />
+                <button className="c-notification meetings-card__notification">
+                  <ReactSVG
+                    className="c-notification__icon c-notification__icon--default"
+                    src="/img/sprite/icon-notifications.svg"
+                  />
+                  <ReactSVG
+                    className="c-notification__icon c-notification__icon--filled"
+                    src="/img/sprite/icon-notifications-filled.svg"
+                  />
                 </button>
               </div>
               <div className="meetings-card__bottom meetings-card__bottom--flex">
@@ -27,13 +35,23 @@ const WebinerItem: FC<WebinarItemProps> = ({ webinars }) => {
                     href={`/webinar/${webinars[0].id}`}
                     className="meetings-card__preview"
                   >
-                    <img src={`${webinars[0].images?.preview}`} alt="Image" />
+                    <Image
+                      fill
+                      loading="lazy"
+                      src={`${webinars[0].images?.preview}`}
+                      alt="Image"
+                    />
                   </Link>
                   <Link
                     href={`/webinar/${webinars[0].id}`}
                     className="meetings-card__preview"
                   >
-                    <img src="/img/meetings-card-02.jpg" alt="Image" />
+                    <Image
+                      fill
+                      loading="lazy"
+                      src="/img/meetings-card-02.jpg"
+                      alt="Image"
+                    />
                   </Link>
                 </div>
                 <Link
@@ -55,8 +73,15 @@ const WebinerItem: FC<WebinarItemProps> = ({ webinars }) => {
                 <button className="meetings-card__play">
                   <ReactSVG src="/img/sprite/icon-play.svg" />
                 </button>
-                <button className="meetings-card__control">
-                  <ReactSVG src="/img/sprite/icon-notifications.svg" />
+                <button className="c-notification meetings-card__notification">
+                  <ReactSVG
+                    className="c-notification__icon c-notification__icon--default"
+                    src="/img/sprite/icon-notifications.svg"
+                  />
+                  <ReactSVG
+                    className="c-notification__icon c-notification__icon--filled"
+                    src="/img/sprite/icon-notifications-filled.svg"
+                  />
                 </button>
               </div>
               <div className="meetings-card__bottom">
@@ -67,7 +92,7 @@ const WebinerItem: FC<WebinarItemProps> = ({ webinars }) => {
                   {webinars[1].name}
                 </Link>
                 <span className="meetings-card__author">
-                  {webinars[1].poperties.FIO_SPIKERS[0]}
+                  {webinars[1]?.poperties.FIO_SPIKERS?.[0]}
                 </span>
               </div>
             </div>
@@ -75,7 +100,12 @@ const WebinerItem: FC<WebinarItemProps> = ({ webinars }) => {
               href={`/webinar/${webinars[1].id}`}
               className="meetings-card__img"
             >
-              <img src={`${webinars[1].images.preview}`} alt="Image" />
+              <Image
+                fill
+                loading="lazy"
+                src={`${webinars[1].images.preview}`}
+                alt="Image"
+              />
             </Link>
           </div>
         </div>

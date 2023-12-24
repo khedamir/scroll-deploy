@@ -6,7 +6,7 @@ export const fetchNews = createAsyncThunk<NewsData, FetchParams>(
   "news/fetchNews",
   async (params) => {
     const { data } = await server.get(
-      `/sw/v1/publications/?iblockid=9`,
+      `/sw/v1/publications/?iblockid=9&width=400&height=300`,
       {
         params,
       }

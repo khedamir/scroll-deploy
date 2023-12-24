@@ -5,6 +5,8 @@ export type FetchParams = {
   userId?: string | undefined;
   page?: number;
   rubric?: number;
+  width?: number;
+  height?: number;
 };
 
 export type TrendType = {

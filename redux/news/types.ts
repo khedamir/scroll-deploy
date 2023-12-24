@@ -4,6 +4,8 @@ export type FetchParams = {
   limit: number;
   page?: number;
   rubric?: number;
+  width?: number;
+  height?: number;
 };
 
 export type NewType = {

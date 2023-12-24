@@ -15,7 +15,7 @@ const SearchInput: FC<SearchInputProps> = ({
   searched,
 }) => {
   const searchInput: RefObject<HTMLInputElement> = useRef(null);
-  const [inputWidth, setInputWidth] = useState("auto");
+  const [inputWidth, setInputWidth] = useState("100px");
 
   function autoresize() {
     if (searchInput.current) {

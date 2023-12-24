@@ -98,7 +98,7 @@ const MediaControls: FC<MediaControlsProps> = ({
             <button
               onClick={changeFavorite}
               className={`btn-control media-controls__btn ${
-                false && "is--active"
+                favorited && "is--active"
               }`}
             >
               <div className="btn-control__icon">
