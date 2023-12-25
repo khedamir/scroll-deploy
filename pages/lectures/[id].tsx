@@ -14,7 +14,6 @@ import { formatDateDifference } from "../../utils/formatDate";
 import { FullVideoType } from "../../redux/types";
 import { extractVideoId } from "../../utils/extractVideoId";
 import { useFavoriteContext } from "../../context/FavoritesContext";
-import { useModalsContext } from "../../context/ModalsContext";
 import { selectUser } from "../../redux/auth/slice";
 import { isElementInFavorites } from "../../redux/favorites/slice";
 import { FavoriteVideo } from "../../redux/favorites/types";
@@ -27,7 +26,6 @@ interface LectureProps {
 const Lecture: FC<LectureProps> = ({ publication }) => {
   const { data } = useSelector(selectLectures);
   const { user } = useSelector(selectUser);
-  const { setLoginActive } = useModalsContext();
   const { addFavorite, deleteFavorite } = useFavoriteContext();
   const isFavorite = useSelector((state: AppState) =>
     isElementInFavorites(state, "26", publication.id)

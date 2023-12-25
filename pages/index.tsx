@@ -138,24 +138,40 @@ const Index: NextPage = () => {
 export const getServerSideProps = wrapper.getServerSideProps(
   (store) => async () => {
     console.time("fetchNews");
-    await store.dispatch(fetchNews({ limit: 17 }));
+
+    const newsPromise = store.dispatch(fetchNews({ limit: 17 }));
+    const trendsPromise = store.dispatch(fetchTrends({ limit: 10 }));
+    const podcastsPromise = store.dispatch(fetchPodcasts({ limit: 3 }));
+    const lecturesPromise = store.dispatch(fetchLectures({ limit: 3 }));
+    const webinarsPromise = store.dispatch(
+      fetchWebinars({ limit: 2, webinar: "actual" })
+    );
+
+    await Promise.allSettled([
+      newsPromise,
+      trendsPromise,
+      podcastsPromise,
+      lecturesPromise,
+      webinarsPromise,
+    ]);
     console.timeEnd("fetchNews");
+    // await store.dispatch(fetchNews({ limit: 17 }));
+    // await store.dispatch(fetchTrends({ limit: 10 }));
+    // await store.dispatch(fetchPodcasts({ limit: 3 }));
+    // await store.dispatch(fetchLectures({ limit: 3 }));
+    // await store.dispatch(fetchWebinars({ limit: 2, webinar: "actual" }));
 
-    console.time("fetchTrends");
-    await store.dispatch(fetchTrends({ limit: 10 }));
-    console.timeEnd("fetchTrends");
+    // console.time("fetchTrends");
+    // console.timeEnd("fetchTrends");
 
-    console.time("fetchPodcasts");
-    await store.dispatch(fetchPodcasts({ limit: 3 }));
-    console.timeEnd("fetchPodcasts");
+    // console.time("fetchPodcasts");
+    // console.timeEnd("fetchPodcasts");
 
-    console.time("fetchLectures");
-    await store.dispatch(fetchLectures({ limit: 3 }));
-    console.timeEnd("fetchLectures");
+    // console.time("fetchLectures");
+    // console.timeEnd("fetchLectures");
 
-    console.time("fetchWebinars");
-    await store.dispatch(fetchWebinars({ limit: 2, webinar: "actual" }));
-    console.timeEnd("fetchWebinars");
+    // console.time("fetchWebinars");
+    // console.timeEnd("fetchWebinars");
     return {
       props: {},
     };

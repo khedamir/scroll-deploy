@@ -1,8 +1,6 @@
 import React, { FC, useState } from "react";
 import Footer from "../../components/footer";
-import { ReactSVG } from "react-svg";
 import Support from "../../components/modals/support";
-import FeadbackBlock from "../../components/pageFaq/feadbackBlock";
 import { GetServerSideProps } from "next";
 import { server } from "../../utils/server";
 import Search from "../../components/pageFaq/search";

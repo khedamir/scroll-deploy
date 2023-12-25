@@ -2,7 +2,6 @@ import React, { FC } from "react";
 import Footer from "../../components/footer";
 import SecondSidebar from "../../components/sidebar/secondSidebar";
 import WebinarCard from "../../components/pageLawyersClub/webinarCard";
-import WebinerItem from "../../components/pageLawyersClub/webinerItem";
 import { fetchWebinars } from "../../redux/webinars/asyncAction";
 import { wrapper } from "../../redux/store";
 import { selectWebinars } from "../../redux/webinars/slice";
