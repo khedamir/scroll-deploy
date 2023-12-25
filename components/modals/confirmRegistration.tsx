@@ -7,6 +7,7 @@ import InputWrapper from "../InputWrapper";
 import { ReactSVG } from "react-svg";
 import Loader from "../loader";
 import { useHandleScroll } from "../../hooks";
+import Image from "next/image";
 
 interface FormValuesType {
   code: string;
@@ -79,7 +80,12 @@ const ConfirmRegistration = () => {
         <div className="modal__wrapper">
           <div className="modal__left">
             <picture className="modal__logotype">
-              <img src="/img/logotype.svg" alt="SCROLL" />
+              <Image
+                width={172}
+                height={32}
+                src="/img/logotype.svg"
+                alt="SCROLL"
+              />
             </picture>
             <button
               onClick={() => clearQueryParams()}

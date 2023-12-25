@@ -2,6 +2,7 @@ import React from "react";
 import { ReactSVG } from "react-svg";
 import { useModalsContext } from "../../context/ModalsContext";
 import { useHandleScroll } from "../../hooks";
+import Image from "next/image";
 
 const Notification = () => {
   const { notification, setNotification } = useModalsContext();
@@ -33,7 +34,12 @@ const Notification = () => {
                 <article className="notifications-card notifications__card">
                   <div className="notifications-card__wrapper">
                     <picture className="notifications-card__img">
-                      <img src="/img/user.jpg" alt="Image" />
+                      <Image
+                        width={34}
+                        height={34}
+                        src="/img/user.jpg"
+                        alt="Image"
+                      />
                     </picture>
                     <div className="notifications-card__body">
                       <span className="notifications-card__description">
@@ -73,7 +79,12 @@ const Notification = () => {
                     <div className="notifications-webinar__main">
                       <div className="notifications-webinar__inner">
                         <picture className="notifications-webinar__img">
-                          <img src="/img/user.jpg" alt="Image" />
+                          <Image
+                            width={36}
+                            height={36}
+                            src="/img/user.jpg"
+                            alt="Image"
+                          />
                         </picture>
                         <div className="notifications-webinar__body">
                           <p className="notifications-webinar__description">
@@ -103,7 +114,12 @@ const Notification = () => {
                 <article className="notifications-card notifications__card">
                   <div className="notifications-card__wrapper">
                     <picture className="notifications-card__img">
-                      <img src="/img/user.jpg" alt="Image" />
+                      <Image
+                        width={34}
+                        height={34}
+                        src="/img/user.jpg"
+                        alt="Image"
+                      />
                     </picture>
                     <div className="notifications-card__body">
                       <span className="notifications-card__description">
@@ -124,7 +140,12 @@ const Notification = () => {
                 <article className="notifications-card notifications__card">
                   <div className="notifications-card__wrapper">
                     <picture className="notifications-card__img">
-                      <img src="/img/user.jpg" alt="Image" />
+                      <Image
+                        width={34}
+                        height={34}
+                        src="/img/user.jpg"
+                        alt="Image"
+                      />
                     </picture>
                     <div className="notifications-card__body">
                       <span className="notifications-card__description">

@@ -2,6 +2,7 @@ import React, { FC } from "react";
 import { FullNewType } from "../../redux/types";
 import UserIcon from "../userIcon";
 import Link from "next/link";
+import Image from "next/image";
 
 interface NewAuthorProps {
   newItem: FullNewType;
@@ -13,7 +14,9 @@ const NewAuthor: FC<NewAuthorProps> = ({ newItem }) => {
       {newItem.props.SOURCE ? (
         <article className="c-author__wrapper">
           <picture className="c-author__img">
-            <img
+            <Image
+              width={76}
+              height={76}
               src={`${newItem.props.PUB_SOURCE_LOGO?.VALUE[0]}`}
               alt="Image"
             />
@@ -39,8 +42,13 @@ const NewAuthor: FC<NewAuthorProps> = ({ newItem }) => {
         </Link>
       ) : (
         <article className="c-author__wrapper">
-          <picture className="c-author__img">
-            <img src="/img/logotype-small.svg" alt="Image" />
+          <picture style={{ borderRadius: "15px" }} className="c-author__img">
+            <Image
+              width={76}
+              height={76}
+              src="/img/logotype-small.svg"
+              alt="Image"
+            />
           </picture>
           <div className="c-author__body">
             <h3 className="c-author__name">Scroll</h3>

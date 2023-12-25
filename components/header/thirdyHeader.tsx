@@ -9,6 +9,8 @@ import NotificationIcon from "../../public/img/sprite/icon-notifications.svg";
 import { useSelector } from "react-redux";
 import { selectUser } from "../../redux/auth/slice";
 import UserBlock from "./userBlock";
+import Image from "next/image";
+import LogotypeSmall from "../../public/img/logotype-small.svg";
 
 interface HeaderProps {
   title: string;
@@ -35,7 +37,12 @@ const ThirdyHeader: FC<HeaderProps> = ({ title }) => {
             <Link href="/" className="header__logotype header__logotype--small">
               <picture>
                 <source srcSet="/img/logotype.svg" media="(min-width: 768px)" />
-                <img src="/img/logotype-small.svg" alt="SCROLL" />
+                <Image
+                  width={24}
+                  height={24}
+                  src="/img/logotype-small.svg"
+                  alt="SCROLL"
+                />
               </picture>
             </Link>
           </div>

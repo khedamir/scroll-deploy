@@ -2,6 +2,7 @@ import Link from "next/link";
 import React, { FC } from "react";
 import { ReactSVG } from "react-svg";
 import { WebinarType } from "../../redux/webinars/types";
+import Image from "next/image";
 
 interface WebinarProps {
   webinar: WebinarType;
@@ -46,7 +47,7 @@ const WebinarCard: FC<WebinarProps> = ({ webinar }) => {
           </div>
         </div>
         <Link href={`/webinar/${webinar.id}`} className="webinar-card__img">
-          <img src={`${webinar.images.preview}`} alt="Image" />
+          <Image fill priority src={`${webinar.images.preview}`} alt="Image" />
         </Link>
       </div>
     </div>

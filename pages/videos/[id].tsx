@@ -16,6 +16,7 @@ import { selectUser } from "../../redux/auth/slice";
 import { useFavoriteContext } from "../../context/FavoritesContext";
 import { useModalsContext } from "../../context/ModalsContext";
 import { FavoriteVideo } from "../../redux/favorites/types";
+import Image from "next/image";
 
 interface VideoProps {
   publication: FullVideoType;
@@ -83,7 +84,12 @@ const Video: FC<VideoProps> = ({ publication }) => {
                       <h3 className="video__heading">{publication.name}</h3>
                       <div className="video__inner">
                         <a href="#" className="video__author">
-                          <img src={`${publication.images[1]}`} alt="Image" />
+                          <Image
+                            width={32}
+                            height={32}
+                            src={`${publication.images[1]}`}
+                            alt="Image"
+                          />
                           <span>{publication.props.PUB_AUTOR.VALUE[0]}</span>
                         </a>
                         <span className="video__time">

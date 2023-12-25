@@ -27,6 +27,7 @@ import NewContent from "../../components/pageNew/newContent";
 import { selectComments } from "../../redux/comments/slice";
 import getCommentCountWord from "../../utils/getCommentCountWord";
 import { selectRubrics } from "../../redux/rubrics/slice";
+import Image from "next/image";
 
 interface NewProps {
   publication: FullNewType;
@@ -109,7 +110,12 @@ const New: FC<NewProps> = ({ publication, recommendationNews }) => {
                         </div>
                         <div className="media-block">
                           <picture className="media-block__photo">
-                            <img src={`${publication.images[1]}`} alt="" />
+                            <Image
+                              fill
+                              priority
+                              src={`${publication.images[1]}`}
+                              alt="NewPhoto"
+                            />
                             <Link
                               href="#publication-comments"
                               className="media-block__comments"

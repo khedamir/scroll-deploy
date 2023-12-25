@@ -16,6 +16,7 @@ import { AppState, useAppDispatch } from "../../redux/store";
 import { FavoriteNew } from "../../redux/favorites/types";
 import { useFavoriteContext } from "../../context/FavoritesContext";
 import UserIcon from "../userIcon";
+import Image from "next/image";
 
 interface NewCardProps {
   newItem: NewType;
@@ -83,7 +84,9 @@ const NewCard: FC<NewCardProps> = ({ newItem, isLast, newLimit, end }) => {
               {newItem.poperties.SOURCE ? (
                 <>
                   <span className="big-news-card__author--img">
-                    <img
+                    <Image
+                      width={32}
+                      height={32}
                       src={`${newItem.poperties.PUB_SOURCE_LOGO}`}
                       alt="Icon"
                     />
@@ -105,7 +108,12 @@ const NewCard: FC<NewCardProps> = ({ newItem, isLast, newLimit, end }) => {
                 </>
               ) : (
                 <>
-                  <img src="/img/logotype-small.svg" alt="Image" />
+                  <Image
+                    width={32}
+                    height={32}
+                    src="/img/logotype-small.svg"
+                    alt="Image"
+                  />
                   <span>Scroll</span>
                 </>
               )}
@@ -117,7 +125,9 @@ const NewCard: FC<NewCardProps> = ({ newItem, isLast, newLimit, end }) => {
           <div className="big-news-card__group">
             <button
               onClick={changeFavorite}
-              className={`c-bookmark big-news-card__bookmark ${isFavorite && "is--active"}`}
+              className={`c-bookmark big-news-card__bookmark ${
+                isFavorite && "is--active"
+              }`}
             >
               <ReactSVG
                 className="c-bookmark__icon c-bookmark__icon--default"
@@ -136,7 +146,7 @@ const NewCard: FC<NewCardProps> = ({ newItem, isLast, newLimit, end }) => {
       </div>
       {newItem.images.detail && (
         <Link href={`/news/${newItem.id}`} className="big-news-card__img">
-          <img src={`${newItem.images.detail}`} alt="Image" />
+          <Image fill priority src={`${newItem.images.detail}`} alt="Image" />
         </Link>
       )}
     </div>

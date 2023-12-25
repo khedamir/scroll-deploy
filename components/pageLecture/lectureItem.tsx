@@ -2,6 +2,7 @@ import Link from "next/link";
 import React, { FC, RefObject, useEffect, useRef } from "react";
 import { LectureType } from "../../redux/lectures/types";
 import { formatDateDifference } from "../../utils/formatDate";
+import Image from "next/image";
 
 interface LectureItemProps {
   lecture: LectureType;
@@ -41,7 +42,7 @@ const LectureItem: FC<LectureItemProps> = ({
       className={`category-card category-card--sm ${otherClassName}`}
     >
       <picture className="category-card__img">
-        <img src={lecture.images.preview} alt="Image" />
+        <Image fill priority src={lecture.images.preview} alt="Image" />
       </picture>
       <div className="category-card__body">
         <span className="category-card__name">{lecture.name}</span>

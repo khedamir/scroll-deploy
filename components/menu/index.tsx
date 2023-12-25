@@ -8,6 +8,7 @@ import { selectRubrics } from "../../redux/rubrics/slice";
 import { baseURL } from "../../utils/server";
 import { useRouter } from "next/router";
 import { selectUser } from "../../redux/auth/slice";
+import Image from "next/image";
 
 const Menu = () => {
   const { setAiChatActive, menuActive, setMenuActive, setLoginActive } =
@@ -35,7 +36,12 @@ const Menu = () => {
                 {rubrics.map((value) => (
                   <li key={value.ID} className="nav__item">
                     <Link href={`/rubrics/${value.ID}`} className="nav__link">
-                      <img src={`${baseURL}${value.THEME_ICON_PATH}`} />
+                      <Image
+                        width={32}
+                        height={32}
+                        src={`${baseURL}${value.THEME_ICON_PATH}`}
+                        alt="rubric-logo"
+                      />
                       <span>{value.NAME}</span>
                     </Link>
                   </li>
@@ -50,7 +56,7 @@ const Menu = () => {
                 className="ai-btn ai-btn--lg menu__ai"
               >
                 <span>Спросить у ИИ</span>
-                <img src="/img/ai-img.png" alt="AI" />
+                <Image width={140} height={97} src="/img/ai-img.png" alt="AI" />
               </button>
               <button className="menu__btn">
                 <span>Закладки</span>

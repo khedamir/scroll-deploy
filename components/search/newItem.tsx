@@ -10,6 +10,7 @@ import { isElementInFavorites } from "../../redux/favorites/slice";
 import { FavoriteNew } from "../../redux/favorites/types";
 import { AppState } from "../../redux/store";
 import { useModalsContext } from "../../context/ModalsContext";
+import Image from "next/image";
 
 interface NewItemProps {
   item: SearchItem;
@@ -37,7 +38,7 @@ const NewItem: FC<NewItemProps> = ({ item }) => {
           </div>
         </div>
         <picture className="news-card__img">
-          <img src={item.images.detail} alt="Image" />
+          <Image fill loading="lazy" src={item.images.detail} alt="Image" />
         </picture>
       </Link>
     </div>

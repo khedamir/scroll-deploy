@@ -8,6 +8,7 @@ import {
 } from "../../../redux/favorites/types";
 import { useFavoriteContext } from "../../../context/FavoritesContext";
 import EmptyBookmarks from "./emptyBookmarks";
+import Image from "next/image";
 
 interface AudioProps {
   activeBlock: ActiveBlockValue;
@@ -31,7 +32,12 @@ const Audio: FC<AudioProps> = ({ activeBlock, data, changeFavorite }) => {
               <div key={item.id} className="lk-podcasts__wrapper">
                 <div className="lk-podcasts__item">
                   <picture className="lk-podcasts__img">
-                    <img src={item.data.podcastPhoto} alt="Image" />
+                    <Image
+                      fill
+                      loading="lazy"
+                      src={item.data.podcastPhoto}
+                      alt="Image"
+                    />
                   </picture>
                   <div className="lk-podcasts__body">
                     <div className="lk-podcasts__main">

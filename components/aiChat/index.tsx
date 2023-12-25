@@ -4,6 +4,8 @@ import { Answers } from "./answers";
 import { askGpt } from "../../utils/askGpt";
 import { useModalsContext } from "../../context/ModalsContext";
 import { useHandleScroll } from "../../hooks";
+import Image from "next/image";
+import Assistant from "../../public/img/ai-img.png";
 
 enum role {
   USER = "user",
@@ -95,7 +97,15 @@ const ChatAi = () => {
           </button>
           <div className="ai-chat-assistant ai-chat__assistant">
             <picture className="ai-chat-assistant__img">
-              <img src="/img/ai-img.png" alt="Assistant" />
+              <Image
+                src={Assistant}
+                alt="Assistant"
+                sizes="100vw"
+                style={{
+                  width: "100%",
+                  height: "auto",
+                }}
+              />
             </picture>
             <div className="ai-chat-assistant__dropdown">
               <p className="ai-chat-assistant__message">

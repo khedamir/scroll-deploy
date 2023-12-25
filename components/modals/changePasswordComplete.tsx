@@ -1,6 +1,7 @@
 import React, { FC } from "react";
 import { ReactSVG } from "react-svg";
 import { useHandleScroll } from "../../hooks";
+import Image from "next/image";
 
 interface ChangePasswordCompleteProps {
   active: boolean;
@@ -22,7 +23,12 @@ const ChangePasswordComplete: FC<ChangePasswordCompleteProps> = ({
         <div onClick={(e) => e.stopPropagation()} className="modal__wrapper">
           <div className="modal__left">
             <picture className="modal__logotype">
-              <img src="/img/logotype.svg" alt="SCROLL" />
+              <Image
+                width={172}
+                height={32}
+                src="/img/logotype.svg"
+                alt="SCROLL"
+              />
             </picture>
             <button
               onClick={() => setActive(false)}

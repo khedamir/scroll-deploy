@@ -6,6 +6,7 @@ import { selectRubrics } from "../../redux/rubrics/slice";
 import SelectItem from "../selector/selectItem";
 import { RubricType } from "../../redux/rubrics/types";
 import { baseURL } from "../../utils/server";
+import Image from "next/image";
 
 interface RubricSelectorProps {
   selectRubric: RubricType | undefined;
@@ -35,7 +36,12 @@ const RubricSelector: FC<RubricSelectorProps> = ({
           <div className={"rubric__selector-trigger"}>
             {selectRubric ? (
               <span>
-                <img src={`${baseURL}${selectRubric.THEME_ICON_PATH}`} alt="" />
+                <Image
+                  width={32}
+                  height={32}
+                  src={`${baseURL}${selectRubric.THEME_ICON_PATH}`}
+                  alt=""
+                />
                 {selectRubric.NAME}
               </span>
             ) : (
@@ -53,7 +59,12 @@ const RubricSelector: FC<RubricSelectorProps> = ({
           rubrics.map((rubric) => (
             <div key={rubric.ID} onClick={() => selectItem(rubric)}>
               <SelectItem>
-                <img src={`${baseURL}${rubric.THEME_ICON_PATH}`} alt="" />
+                <Image
+                  width={32}
+                  height={32}
+                  src={`${baseURL}${rubric.THEME_ICON_PATH}`}
+                  alt=""
+                />
                 {rubric.NAME}
               </SelectItem>
             </div>

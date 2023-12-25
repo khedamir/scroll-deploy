@@ -5,6 +5,7 @@ import { selectRubrics } from "../../redux/rubrics/slice";
 import { useSelector } from "react-redux";
 import { useRouter } from "next/router";
 import { baseURL } from "../../utils/server";
+import Image from "next/image";
 
 const Sidebar = () => {
   const router = useRouter();
@@ -25,7 +26,12 @@ const Sidebar = () => {
                 }`}
               >
                 <Link href={`/rubrics/${value.ID}`} className="nav__link">
-                  <img src={`${baseURL}${value.THEME_ICON_PATH}`} />
+                  <Image
+                    width={32}
+                    height={32}
+                    src={`${baseURL}${value.THEME_ICON_PATH}`}
+                    alt="rubric-icon"
+                  />
                   <span>{value.NAME}</span>
                 </Link>
               </li>

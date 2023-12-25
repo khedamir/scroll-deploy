@@ -13,6 +13,7 @@ import { PreviewNewType } from "../../redux/new_publication/type";
 import { useSelector } from "react-redux";
 import { selectUser } from "../../redux/auth/slice";
 import RenderHTML from "../../components/renderHTML";
+import Image from "next/image";
 
 const New = () => {
   const [modalActive, setModalActive] = useState(false);
@@ -55,7 +56,12 @@ const New = () => {
                         </div>
                         <div className="media-block">
                           <picture className="media-block__photo">
-                            <img src={`${preview.image}`} alt="" />
+                            <Image
+                              fill
+                              priority
+                              src={`${preview.image}`}
+                              alt=""
+                            />
                             <Link href="#" className="media-block__comments">
                               <ReactSVG src="/img/sprite/icon-comment.svg" />
                               <span>{getCommentCountWord(0)}</span>

@@ -289,7 +289,7 @@
       //   opacity: 0;
       // }
     }
-    .active svg{
+    .active svg {
       opacity: 0;
     }
   }
@@ -567,7 +567,7 @@
       //   opacity: 0;
       // }
     }
-    .active svg{
+    .active svg {
       opacity: 0;
     }
   }
@@ -618,6 +618,7 @@
     height: 100%;
     border-radius: 50%;
     overflow: hidden;
+    position: relative;
 
     img {
       width: 100%;

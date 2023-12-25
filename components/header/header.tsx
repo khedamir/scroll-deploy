@@ -12,6 +12,7 @@ import { selectUser } from "../../redux/auth/slice";
 import { useRouter } from "next/router";
 import UserBlock from "./userBlock";
 import { useFavoriteContext } from "../../context/FavoritesContext";
+import Image from "next/image";
 
 interface HeaderProps {
   isScrolling: boolean;
@@ -43,7 +44,7 @@ const Header: FC<HeaderProps> = ({ isScrolling }) => {
         <div className="header__wrapper">
           <div className="header__left">
             <Link href="/" className="header__logotype">
-              <img src="/img/logotype.svg" alt="SCROLL" />
+              <Image fill priority src="/img/logotype.svg" alt="SCROLL" />
             </Link>
           </div>
           <div className="header__center">
@@ -64,7 +65,7 @@ const Header: FC<HeaderProps> = ({ isScrolling }) => {
               className="ai-btn header__ai"
             >
               <span>Спросить у ИИ</span>
-              <img src="/img/ai-img.png" alt="AI" />
+              <Image width={79} height={62} src="/img/ai-img.png" alt="AI" />
             </button>
           </div>
           <div className="header__right">

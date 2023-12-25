@@ -1,5 +1,6 @@
 import React from "react";
 import { useEditorContext } from "../../context/editorContext";
+import Image from "next/image";
 
 const Photo = () => {
   const { photo, setPhoto, changePhoto } = useEditorContext();
@@ -28,7 +29,25 @@ const Photo = () => {
           </label>
         )}
       </div>
-      {photo && <img src={photo} alt="" />}
+      {photo && (
+        <picture
+          className="editor-photo__preview"
+          style={{ position: "relative" }}
+        >
+          <Image
+            src={photo}
+            alt="Image"
+            sizes="100vw"
+            loading="lazy"
+            style={{
+              width: "100%",
+              height: "auto",
+            }}
+            width={500}
+            height={300}
+          />
+        </picture>
+      )}
     </div>
   );
 };

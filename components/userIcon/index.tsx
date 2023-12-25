@@ -1,6 +1,7 @@
 import React, { FC } from "react";
 import { useSelector } from "react-redux";
 import { selectUser } from "../../redux/auth/slice";
+import Image from "next/image";
 
 interface UserIconProps {
   userPhoto: string;
@@ -19,7 +20,12 @@ const UserIcon: FC<UserIconProps> = ({
     <span className="user-btn">
       {userPhoto || photo ? (
         <picture className="user-btn__photo">
-          <img src={photo ? photo : userPhoto} alt="user photo" />
+          <Image
+            fill
+            priority
+            src={photo ? photo : userPhoto}
+            alt="user photo"
+          />
         </picture>
       ) : (
         <span

@@ -3,6 +3,7 @@ import { VideoType } from "../../redux/videos/types";
 import Link from "next/link";
 import { baseURL } from "../../utils/server";
 import { formatDateDifference } from "../../utils/formatDate";
+import Image from "next/image";
 
 interface VideoItemProps {
   video: VideoType;
@@ -28,11 +29,15 @@ const VideoItem: FC<VideoItemProps> = ({ video, isLast, newLimit, end }) => {
       observer.observe(cardRef.current);
     }
   }, [isLast]);
-  
+
   return (
-    <Link  href={`videos/${video.id}`} className="category-card videos__item" ref={cardRef}>
+    <Link
+      href={`videos/${video.id}`}
+      className="category-card videos__item"
+      ref={cardRef}
+    >
       <picture className="category-card__img">
-        <img src={`${video.images.preview}`} alt="Image" />
+        <Image fill priority src={`${video.images.preview}`} alt="Image" />
       </picture>
       <div className="category-card__body">
         <span className="category-card__name">{video.name}</span>

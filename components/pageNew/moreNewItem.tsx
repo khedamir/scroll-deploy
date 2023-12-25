@@ -11,19 +11,19 @@ import { isElementInFavorites } from "../../redux/favorites/slice";
 import { FavoriteNew } from "../../redux/favorites/types";
 import { AppState } from "../../redux/store";
 import { selectRubrics } from "../../redux/rubrics/slice";
+import Image from "next/image";
 
 interface MoreNewItemProps {
   item: NewType;
 }
 
 const MoreNewItem: FC<MoreNewItemProps> = ({ item }) => {
-  const {rubrics} = useSelector(selectRubrics)
+  const { rubrics } = useSelector(selectRubrics);
   const isFavorite = useSelector((state: AppState) =>
     isElementInFavorites(state, "9", item.id)
   );
   const { addFavorite, deleteFavorite } = useFavoriteContext();
   const changeFavorite = () => {
-
     if (isFavorite) {
       deleteFavorite({ itemId: item.id, sectionId: "9" });
     }
@@ -57,7 +57,7 @@ const MoreNewItem: FC<MoreNewItemProps> = ({ item }) => {
       <article className="more-topic__item">
         <Link href={`/news/${item.id}`} className="more-topic__img-wrap">
           <picture className="more-topic__img">
-            <img src={item.images.detail} alt="Image" />
+            <Image fill loading="lazy" src={item.images.detail} alt="Image" />
           </picture>
         </Link>
         <div className="more-topic__body">
@@ -66,7 +66,14 @@ const MoreNewItem: FC<MoreNewItemProps> = ({ item }) => {
           </Link>
           <div className="more-topic__inner">
             <div className="more-topic__elems">
-              <Link href={`/rubrics/${rubrics.find(rubric => rubric.NAME === item.rubric)?.ID}`} className="more-topic__elem">{item.rubric}</Link>
+              <Link
+                href={`/rubrics/${
+                  rubrics.find((rubric) => rubric.NAME === item.rubric)?.ID
+                }`}
+                className="more-topic__elem"
+              >
+                {item.rubric}
+              </Link>
               <span className="more-topic__elem">
                 {formatDateDifference(item.date)}
               </span>

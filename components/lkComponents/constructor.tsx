@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import React, { FC, useState } from "react";
 import { ReactSVG } from "react-svg";
@@ -16,7 +17,7 @@ const Constructor: FC<ConstructorProps> = ({ active }) => {
         <div className="lk__block">
           <div className="lk__fixed">
             <div className="lk__fixed-bg">
-              <img src="img/bg-square.svg" alt="Background" />
+              <Image fill priority src="img/bg-square.svg" alt="Background" />
             </div>
           </div>
         </div>

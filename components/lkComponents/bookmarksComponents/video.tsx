@@ -8,6 +8,7 @@ import {
 } from "../../../redux/favorites/types";
 import { useFavoriteContext } from "../../../context/FavoritesContext";
 import EmptyBookmarks from "./emptyBookmarks";
+import Image from "next/image";
 
 export type OrientationValue = "vertical" | "horizontal";
 
@@ -102,7 +103,12 @@ const Video: FC<VideoProps> = ({
                   className="lk-video__item lk-video__item--vertical"
                 >
                   <Link href={`/trends`} className="lk-video__media">
-                    <img src={item.data.images.preview} alt="Image" />
+                    <Image
+                      fill
+                      loading="lazy"
+                      src={item.data.images.preview}
+                      alt="Image"
+                    />
                   </Link>
                   <button
                     onClick={() => changeFavorite(item.id, "28")}
@@ -133,7 +139,12 @@ const Video: FC<VideoProps> = ({
             {videos?.map((item) => (
               <article key={item.id} className="lk-video__item">
                 <Link href="#" className="lk-video__media">
-                  <img src={item.data.images.preview} alt="Image" />
+                  <Image
+                    fill
+                    loading="lazy"
+                    src={item.data.images.preview}
+                    alt="Image"
+                  />
                 </Link>
                 <button
                   onClick={() => changeFavorite(item.id, "15")}
@@ -153,7 +164,12 @@ const Video: FC<VideoProps> = ({
             {lectures?.map((item) => (
               <article key={item.id} className="lk-video__item">
                 <Link href="#" className="lk-video__media">
-                  <img src={item.data.images.preview} alt="Image" />
+                  <Image
+                    fill
+                    loading="lazy"
+                    src={item.data.images.preview}
+                    alt="Image"
+                  />
                 </Link>
                 <button
                   onClick={() => changeFavorite(item.id, "26")}

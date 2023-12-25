@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import React, { useState, FC } from "react";
 
@@ -16,7 +17,12 @@ const LegalAdvice: FC<LegalAdviceProps> = ({ setModalActive, title }) => {
               <span className="content-widget__help">Консультация юриста</span>
               <h3 className="content-widget__title">{title}</h3>
               <picture className="content-widget__img">
-                <img src="/img/widget-consultation-01.jpg" alt="Image" />
+                <Image
+                  fill
+                  loading="lazy"
+                  src="/img/widget-consultation-01.jpg"
+                  alt="Image"
+                />
               </picture>
               <button
                 onClick={() => setModalActive(true)}

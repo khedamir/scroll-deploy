@@ -3,6 +3,7 @@ import React, { FC } from "react";
 import { ReactSVG } from "react-svg";
 import { FavoritePodcast, FavoriteSections } from "../../redux/favorites/types";
 import { useFavoriteContext } from "../../context/FavoritesContext";
+import Image from "next/image";
 
 interface AudioProps {
   item: FavoritePodcast;
@@ -22,7 +23,12 @@ const Audio: FC<AudioProps> = ({ item, sectionId }) => {
         href={`podcasts/${item.data.podcastId}`}
         className="bookmarks-card__img"
       >
-        <img src={item.data.podcastPhoto} alt="Image" />
+        <Image
+          width={110}
+          height={69}
+          src={item.data.podcastPhoto}
+          alt="Image"
+        />
         <ReactSVG
           className="bookmarks-card__img-icon"
           src="/img/sprite/icon-headheadset.svg"

@@ -1,6 +1,5 @@
 import React, { FC, useEffect, useState } from "react";
 import Footer from "../../components/footer";
-import Link from "next/link";
 import VideoWidget from "../../components/widgets/videoWidget";
 import Sidebar from "../../components/sidebar/sidebar";
 import AudioPodcasts from "../../components/pageHome/audioPodcasts";
@@ -13,13 +12,11 @@ import { useSelector } from "react-redux";
 import { selectNews } from "../../redux/news/slice";
 import NewCard from "../../components/newCard";
 import { useRouter } from "next/router";
-import { baseURL, server } from "../../utils/server";
+import { server } from "../../utils/server";
 import { NewType } from "../../redux/news/types";
-import { rubricByIdSelector } from "../../redux/rubrics/slice";
 import { fetchLectures } from "../../redux/lectures/asyncAction";
 import { fetchPodcasts } from "../../redux/podcasts/asyncAction";
 import { fetchTrends } from "../../redux/trends/asyncAction";
-import UserIcon from "../../components/userIcon";
 
 interface RubricsProps {
   recomendations: NewType[];

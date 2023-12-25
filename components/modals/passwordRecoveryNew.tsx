@@ -8,6 +8,7 @@ import ChangePasswordComplete from "./changePasswordComplete";
 import { useRouter } from "next/router";
 import { PasswrodRecoveryFetch } from "../../utils/formFetchs";
 import { useHandleScroll } from "../../hooks";
+import Image from "next/image";
 
 type FormValuesType = {
   password: string;
@@ -69,7 +70,12 @@ const PasswordRecoveryNew = () => {
           <div className="modal__wrapper">
             <div className="modal__left">
               <picture className="modal__logotype">
-                <img src="/img/logotype.svg" alt="SCROLL" />
+                <Image
+                  width={172}
+                  height={32}
+                  src="/img/logotype.svg"
+                  alt="SCROLL"
+                />
               </picture>
               {/* <button
                 onClick={() => {}}

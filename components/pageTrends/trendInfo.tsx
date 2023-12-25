@@ -1,6 +1,7 @@
 import React, { FC, useState } from "react";
 import { ReactSVG } from "react-svg";
 import TrendComments from "./trendComments";
+import Image from "next/image";
 
 interface TrendInfoProps {
   trendId: string;
@@ -24,7 +25,7 @@ const TrendInfo: FC<TrendInfoProps> = ({
       >
         <span className="trands__author-inner">
           <picture className="trands__author-img">
-            <img src={trendAuthorPhoto} alt="Image" />
+            <Image width={32} height={32} src={trendAuthorPhoto} alt="Image" />
           </picture>
           <div className="trands__author-group">
             <span className="trands__author-name">{trendAuthor}</span>

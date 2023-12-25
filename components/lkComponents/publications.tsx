@@ -16,6 +16,7 @@ import {
 import { PublishedNewType } from "../../redux/new_publication/type";
 import Empty from "./publicationsComponets/empty";
 import { useEditorContext } from "../../context/editorContext";
+import Image from "next/image";
 
 interface PublicationsProps {
   active: boolean;
@@ -62,10 +63,7 @@ const Publications: FC<PublicationsProps> = ({ active }) => {
 
   return (
     <div className={`lk-tabs__wrapper ${active && "is--active"}`}>
-      <MyEditor
-        active={formActive}
-        setActive={setFormActive}
-      />
+      <MyEditor active={formActive} setActive={setFormActive} />
       <div className="lk__body">
         <div className="lk__block">
           <div className="lk__fixed">
@@ -76,7 +74,12 @@ const Publications: FC<PublicationsProps> = ({ active }) => {
               Предложить новость
             </span>
             <div className="lk__fixed-bg">
-              <img src="/img/lines-vertical.svg" alt="Background" />
+              <Image
+                fill
+                priority
+                src="/img/lines-vertical.svg"
+                alt="Background"
+              />
             </div>
           </div>
         </div>

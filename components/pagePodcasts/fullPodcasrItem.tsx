@@ -12,6 +12,7 @@ import { isElementInFavorites } from "../../redux/favorites/slice";
 import { FavoritePodcast, FavoriteVideo } from "../../redux/favorites/types";
 import { AppState } from "../../redux/store";
 import { useAudioContext } from "../../context/audioContext";
+import Image from "next/image";
 
 interface PodcastItemProps {
   podcast: PodcastType;
@@ -59,7 +60,6 @@ const FullPodcastItem: FC<PodcastItemProps> = ({
   }, [isLast]);
 
   const changeFavorite = () => {
-
     if (isFavorite) {
       deleteFavorite({ itemId: podcast.id, sectionId: "34" });
     }
@@ -105,7 +105,7 @@ const FullPodcastItem: FC<PodcastItemProps> = ({
   return (
     <div className="podcasts__item">
       <Link href={`/podcasts/${podcast.podcastId}`} className="podcasts__img">
-        <img src={`${podcast.podcastPhoto}`} alt="Image" />
+        <Image fill priority src={`${podcast.podcastPhoto}`} alt="Image" />
       </Link>
       <div className="podcasts__main">
         <div className="podcasts__body">

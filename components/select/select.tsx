@@ -6,6 +6,7 @@ import { baseURL } from "../../utils/server";
 import { RubricType } from "../../redux/rubrics/types";
 import { useSelector } from "react-redux";
 import { selectRubrics } from "../../redux/rubrics/slice";
+import Image from "next/image";
 
 interface SelectProps {
   selectRubric: RubricType | undefined;
@@ -31,7 +32,12 @@ const Select: FC<SelectProps> = ({ selectRubric, setSelectRubric }) => {
       <div className="select-result">
         <span className="select-result__icon">
           {selectRubric ? (
-            <img src={`${baseURL}${selectRubric.THEME_ICON_PATH}`} />
+            <Image
+              width={32}
+              height={32}
+              src={`${baseURL}${selectRubric.THEME_ICON_PATH}`}
+              alt="rubric"
+            />
           ) : (
             <span>Выберите рубрику</span>
           )}

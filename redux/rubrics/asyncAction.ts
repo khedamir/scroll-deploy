@@ -7,6 +7,7 @@ export const fetchRubrics = createAsyncThunk<RubricType[]>(
   async () => {
     const { data } = await server.get("/api/v1/navigation/main");
     const rubrics: RubricType[] = Object.values(data.message);
+    console.log("hello");
 
     // const { data } = await server.get("/sw/v1/references/?iblockid=7", {
     //   params,

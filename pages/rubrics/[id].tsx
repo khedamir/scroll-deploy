@@ -20,6 +20,7 @@ import { fetchLectures } from "../../redux/lectures/asyncAction";
 import { fetchPodcasts } from "../../redux/podcasts/asyncAction";
 import { fetchTrends } from "../../redux/trends/asyncAction";
 import UserIcon from "../../components/userIcon";
+import Image from "next/image";
 
 interface RubricsProps {
   recomendations: NewType[];
@@ -81,7 +82,9 @@ const Rubrics: FC<RubricsProps> = ({ recomendations }) => {
                         >
                           {recomendation.poperties.PUB_SOURCE_LOGO ? (
                             <span className="page-list__item-img">
-                              <img
+                              <Image
+                                width={40}
+                                height={40}
                                 src={`${recomendation.poperties.PUB_SOURCE_LOGO}`}
                                 alt="Icon"
                               />

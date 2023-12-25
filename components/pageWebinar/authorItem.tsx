@@ -1,3 +1,4 @@
+import Image from "next/image";
 import React, { FC } from "react";
 
 interface AuthorItemProps {
@@ -11,9 +12,9 @@ const AuthorItem: FC<AuthorItemProps> = ({ fio, photo, position }) => {
     <article className="speaker-card webinar__speaker">
       <picture className="speaker-card__img">
         {photo ? (
-          <img src={photo} alt="Image" />
+          <Image fill loading="lazy" src={photo} alt="Image" />
         ) : (
-          <img src="/img/speaker.png" alt="Image" />
+          <Image fill loading="lazy" src="/img/speaker.png" alt="Image" />
         )}
       </picture>
       <div className="speaker-card__body">

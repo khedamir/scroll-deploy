@@ -2,6 +2,7 @@ import React, { FC } from "react";
 import { ReactSVG } from "react-svg";
 import { SearchItem } from "../../utils/search";
 import Link from "next/link";
+import Image from "next/image";
 
 interface PodcastItemProps {
   item: SearchItem;
@@ -26,7 +27,7 @@ const PodcastItem: FC<PodcastItemProps> = ({ item }) => {
           </div>
         </div>
         <picture className="news-card__img">
-          <img src={item.images?.preview} alt="Image" />
+          <Image fill loading="lazy" src={item.images?.preview} alt="Image" />
           <button className="news-card__media-control">
             <ReactSVG src="/img/sprite/icon-headheadset.svg" />
           </button>

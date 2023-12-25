@@ -10,6 +10,7 @@ import { useRouter } from "next/router";
 import { useSelector } from "react-redux";
 import { selectUser } from "../../redux/auth/slice";
 import UserBlock from "./userBlock";
+import Image from "next/image";
 
 const SecondHeader = () => {
   const { menuActive, setLoginActive, setSearchActive, setBookmarks } =
@@ -26,7 +27,7 @@ const SecondHeader = () => {
         <div className="header__wrapper">
           <div className="header__left">
             <Link href="/" className="header__logotype">
-              <img src="/img/logotype.svg" alt="SCROLL" />
+              <Image fill priority src="/img/logotype.svg" alt="SCROLL" />
             </Link>
           </div>
           <div className="header__center"></div>

@@ -3,6 +3,7 @@ import { ReactSVG } from "react-svg";
 import { SearchItem } from "../../utils/search";
 import Link from "next/link";
 import { formatDateDifference } from "../../utils/formatDate";
+import Image from "next/image";
 
 interface VideoItemProps {
   item: SearchItem;
@@ -39,7 +40,7 @@ const VideoItem: FC<VideoItemProps> = ({ item }) => {
           </div>
         </div>
         <picture className="news-card__img ">
-          <img src={item.images.preview} alt="Image" />
+          <Image fill loading="lazy" src={item.images.preview} alt="Image" />
           <button className="news-card__media-control">
             <ReactSVG src="/img/sprite/icon-play.svg" />
           </button>

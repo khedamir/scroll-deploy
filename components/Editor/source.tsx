@@ -1,5 +1,6 @@
 import React from "react";
 import { useEditorContext } from "../../context/editorContext";
+import Image from "next/image";
 
 const Source = () => {
   const { source, setSource, sourcePhoto, setSourcePhoto, changeSourcePhoto } =
@@ -36,7 +37,9 @@ const Source = () => {
         )}
       </div>
       <div className="editor-source__description">
-        {sourcePhoto && <img src={sourcePhoto} alt="" />}
+        {sourcePhoto && (
+          <Image width={36} height={36} src={sourcePhoto} alt="" />
+        )}
         <input
           type="text"
           value={source}

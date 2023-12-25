@@ -18,6 +18,7 @@ import { useModalsContext } from "../../context/ModalsContext";
 import { selectUser } from "../../redux/auth/slice";
 import { isElementInFavorites } from "../../redux/favorites/slice";
 import { FavoriteVideo } from "../../redux/favorites/types";
+import Image from "next/image";
 
 interface LectureProps {
   publication: FullVideoType;
@@ -33,7 +34,6 @@ const Lecture: FC<LectureProps> = ({ publication }) => {
   );
 
   const changeFavorite = () => {
-
     if (isFavorite) {
       deleteFavorite({ itemId: publication.id, sectionId: "26" });
     }
@@ -87,7 +87,12 @@ const Lecture: FC<LectureProps> = ({ publication }) => {
                       <h3 className="video__heading">{publication.name}</h3>
                       <div className="video__inner">
                         <a href="#" className="video__author">
-                          <img src={`${publication.images[1]}`} alt="Image" />
+                          <Image
+                            width={32}
+                            height={32}
+                            src={`${publication.images[1]}`}
+                            alt="Image"
+                          />
                           <span>{publication.props.PUB_AUTOR.VALUE[0]}</span>
                         </a>
                         <span className="video__time">

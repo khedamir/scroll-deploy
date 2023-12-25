@@ -3,6 +3,7 @@ import { FavoriteNew, FavoriteSections } from "../../redux/favorites/types";
 import { ReactSVG } from "react-svg";
 import Link from "next/link";
 import { useFavoriteContext } from "../../context/FavoritesContext";
+import Image from "next/image";
 
 interface NewProps {
   item: FavoriteNew;
@@ -19,7 +20,12 @@ const New: FC<NewProps> = ({ item, sectionId }) => {
   return (
     <article className="bookmarks-card bookmarks__item">
       <Link href={`/news/${item.id}`} className="bookmarks-card__img">
-        <img src={item.data.images.detail} alt="Image" />
+        <Image
+          width={110}
+          height={69}
+          src={item.data.images.detail}
+          alt="Image"
+        />
       </Link>
       <div className="bookmarks-card__body">
         <Link href={`/news/${item.id}`} className="bookmarks-card__title">

@@ -1,3 +1,4 @@
+import Image from "next/image";
 import React, { FC, useEffect, useRef } from "react";
 
 interface NewContentWidgetProps {
@@ -28,7 +29,12 @@ const NewContentWidget: FC<NewContentWidgetProps> = ({
           <span className="content-widget__help">Консультация юриста</span>
           <h5 className="content-widget__title">{title}</h5>
           <picture className="content-widget__img">
-            <img src="/img/widget-consultation-01.jpg" alt="Image" />
+            <Image
+              width={117}
+              height={117}
+              src="/img/widget-consultation-01.jpg"
+              alt="Image"
+            />
           </picture>
           <button
             onClick={() => setModalActive(true)}

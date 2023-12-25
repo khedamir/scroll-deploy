@@ -3,6 +3,7 @@ import React, { FC } from "react";
 import { ReactSVG } from "react-svg";
 import { WebinarType } from "../../redux/webinars/types";
 import { baseURL } from "../../utils/server";
+import Image from "next/image";
 
 interface WebinarItemProps {
   webinars: WebinarType[];
@@ -24,13 +25,23 @@ const OldWebinerItem: FC<WebinarItemProps> = ({ webinars }) => {
                     href={`/webinar/${webinars[0].id}?webinar=old`}
                     className="meetings-card__preview"
                   >
-                    <img src={`${webinars[0].images.preview}`} alt="Image" />
+                    <Image
+                      fill
+                      loading="lazy"
+                      src={`${webinars[0].images.preview}`}
+                      alt="Image"
+                    />
                   </Link>
                   <Link
                     href={`/webinar/${webinars[0].id}?webinar=old`}
                     className="meetings-card__preview"
                   >
-                    <img src="/img/meetings-card-02.jpg" alt="Image" />
+                    <Image
+                      fill
+                      loading="lazy"
+                      src="/img/meetings-card-02.jpg"
+                      alt="Image"
+                    />
                   </Link>
                 </div>
                 <Link
@@ -72,7 +83,12 @@ const OldWebinerItem: FC<WebinarItemProps> = ({ webinars }) => {
               href={`/webinar/${webinars[1].id}?webinar=old`}
               className="meetings-card__img"
             >
-              <img src={`${webinars[1].images.preview}`} alt="Image" />
+              <Image
+                fill
+                loading="lazy"
+                src={`${webinars[1].images.preview}`}
+                alt="Image"
+              />
             </Link>
           </div>
         </div>

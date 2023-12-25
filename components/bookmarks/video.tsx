@@ -3,6 +3,7 @@ import { ReactSVG } from "react-svg";
 import { FavoriteSections, FavoriteVideo } from "../../redux/favorites/types";
 import Link from "next/link";
 import { useFavoriteContext } from "../../context/FavoritesContext";
+import Image from "next/image";
 
 interface VideoProps {
   item: FavoriteVideo;
@@ -20,7 +21,12 @@ const Video: FC<VideoProps> = ({ item, sectionId, path }) => {
   return (
     <article className="bookmarks-card bookmarks__item">
       <Link href={`/${path}/${item.id}`} className="bookmarks-card__img">
-        <img src={item.data.images.preview} alt="Image" />
+        <Image
+          width={110}
+          height={69}
+          src={item.data.images.preview}
+          alt="Image"
+        />
         <ReactSVG
           className="bookmarks-card__img-icon"
           src="/img/sprite/icon-play.svg"

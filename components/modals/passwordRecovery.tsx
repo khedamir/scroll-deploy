@@ -5,6 +5,7 @@ import ContactInput, { ContactInputType } from "../ContactInput";
 import { useForm } from "react-hook-form";
 import { server } from "../../utils/server";
 import { useHandleScroll } from "../../hooks";
+import Image from "next/image";
 
 type FormValuesType = {
   contact: string;
@@ -55,7 +56,12 @@ const PasswordRecovery = () => {
         <div onClick={(e) => e.stopPropagation()} className="modal__wrapper">
           <div className="modal__left">
             <picture className="modal__logotype">
-              <img src="/img/logotype.svg" alt="SCROLL" />
+              <Image
+                width={172}
+                height={32}
+                src="/img/logotype.svg"
+                alt="SCROLL"
+              />
             </picture>
             <button
               onClick={() => setRecoveryPasswordActive(false)}

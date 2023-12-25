@@ -24,6 +24,7 @@ import {
 import { FavoritePodcast } from "../../redux/favorites/types";
 import { AudioContextProvider } from "../../context/audioContext";
 import AudioPlayer from "../../components/players/player";
+import Image from "next/image";
 
 interface PodcastProps {
   podcast: FullPodcastType;
@@ -96,7 +97,12 @@ const Podcast: FC<PodcastProps> = ({ podcast }) => {
                       <div className="podcast__wrapper-inner">
                         <div className="podcast__left">
                           <picture className="podcast__img">
-                            <img src={podcast.images.preview} alt="Image" />
+                            <Image
+                              width={116}
+                              height={98}
+                              src={podcast.images.preview}
+                              alt="Image"
+                            />
                           </picture>
                         </div>
                         <div className="podcast__right">

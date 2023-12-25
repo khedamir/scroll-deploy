@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import React, { FC } from "react";
 import { ReactSVG } from "react-svg";
@@ -14,7 +15,8 @@ const SecondHeader: FC<HeaderProps> = () => {
         <div className="header__wrapper">
           <div className="header__left">
             <a href="index.html" className="header__logotype">
-              <img src="/img/logotype.svg" alt="SCROLL" />
+              <Image fill priority src="/img/logotype.svg" alt="SCROLL" />
+              
             </a>
           </div>
           <div className="header__center"></div>
