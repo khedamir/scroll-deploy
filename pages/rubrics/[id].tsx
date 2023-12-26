@@ -21,20 +21,32 @@ import { fetchPodcasts } from "../../redux/podcasts/asyncAction";
 import { fetchTrends } from "../../redux/trends/asyncAction";
 import UserIcon from "../../components/userIcon";
 import Image from "next/image";
+import { RubricType } from "../../redux/rubrics/types";
+import Loader from "../../components/loader";
+import { fetchRubrics } from "../../redux/rubrics/asyncAction";
 
 interface RubricsProps {
   recomendations: NewType[];
 }
 
 const Rubrics: FC<RubricsProps> = ({ recomendations }) => {
-  console.log(recomendations);
   const { data } = useSelector(selectNews);
 
   const [nextPublication, setNextPublications] = useState<NewType[]>([]);
   const [page, setPage] = useState(2);
-  let totalPages = data.pagination?.totalPages;
+  let totalPages = data?.pagination?.totalPages;
 
   const router = useRouter();
+
+  useEffect(() => {
+    if (totalPages && page <= totalPages) {
+      fetchNextNews();
+    }
+  }, [page]);
+
+  if (router.isFallback) {
+    return <Loader text="Идет загрузка" />;
+  }
 
   const fetchNextNews = async () => {
     const result = await server.get(`/sw/v1/publications/?iblockid=9`, {
@@ -48,12 +60,6 @@ const Rubrics: FC<RubricsProps> = ({ recomendations }) => {
     console.log(newArr);
     setNextPublications(newArr);
   };
-
-  useEffect(() => {
-    if (totalPages && page <= totalPages) {
-      fetchNextNews();
-    }
-  }, [page]);
 
   return (
     <div className="layout">
@@ -103,7 +109,7 @@ const Rubrics: FC<RubricsProps> = ({ recomendations }) => {
                       ))}
                     </div>
                   </div>
-                  {data.datas.map((item) => (
+                  {data?.datas.map((item) => (
                     <NewCard key={item.id} newItem={item} />
                   ))}
                 </>
@@ -148,22 +154,47 @@ const Rubrics: FC<RubricsProps> = ({ recomendations }) => {
   );
 };
 
-export const getServerSideProps = wrapper.getServerSideProps(
-  (store) => async (context) => {
-    const { query } = context;
+export const getStaticPaths = async () => {
+  try {
+    const { data } = await server.get("/api/v1/navigation/main");
+    const rubrics: RubricType[] = Object.values(data.message);
+    const paths = rubrics.map((rubric) => ({
+      params: {
+        id: rubric.ID,
+      },
+    }));
+    return { paths, fallback: false };
+  } catch (error) {
+    console.error("Error in getStaticPaths:", error);
+    throw error;
+  }
+};
 
-    await store.dispatch(fetchPodcasts({ limit: 3 }));
-    await store.dispatch(fetchTrends({ limit: 10 }));
-    await store.dispatch(fetchLectures({ limit: 3 }));
-    await store.dispatch(
-      fetchNews({ limit: 2, page: 1, rubric: Number(query.id) })
+export const getStaticProps = wrapper.getStaticProps(
+  (store) => async (context) => {
+    const podcastsPromise = store.dispatch(fetchPodcasts({ limit: 3 }));
+    const trendsPromise = store.dispatch(fetchTrends({ limit: 10 }));
+    const lecturesPromise = store.dispatch(fetchLectures({ limit: 3 }));
+    const rubricsPromise = store.dispatch(fetchRubrics());
+    const newsPromise = store.dispatch(
+      fetchNews({ limit: 2, page: 1, rubric: Number(context.params?.id) })
     );
-    const { data } = await server.get(
+
+    const results = await Promise.allSettled([
+      podcastsPromise,
+      trendsPromise,
+      lecturesPromise,
+      newsPromise,
+      rubricsPromise,
+    ]);
+
+    const recomendationResult = await server.get(
       `/sw/v1/publications/?iblockid=9&limit=5`
     );
+
     return {
       props: {
-        recomendations: data.datas,
+        recomendations: recomendationResult.data.datas,
       },
     };
   }

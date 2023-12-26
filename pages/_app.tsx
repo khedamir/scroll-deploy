@@ -6,9 +6,11 @@ import { Provider } from "react-redux";
 import Layout from "../components/layout";
 import { ModalsContextProvider } from "../context/ModalsContext";
 import { wrapper } from "../redux/store";
-import { fetchRubrics } from "../redux/rubrics/asyncAction";
 import { FavoritesContextProvider } from "../context/FavoritesContext";
 import { EditorContextProvider } from "../context/editorContext";
+import { RubricType } from "../redux/rubrics/types";
+import { server } from "../utils/server";
+import { fetchRubrics } from "../redux/rubrics/asyncAction";
 
 function MyApp({ Component, ...rest }: AppProps) {
   const { store } = wrapper.useWrappedStore(rest);
@@ -28,15 +30,15 @@ function MyApp({ Component, ...rest }: AppProps) {
   );
 }
 
-MyApp.getInitialProps = wrapper.getInitialAppProps(
-  () =>
-    async ({ Component, ctx }) => {
-      await ctx.store.dispatch(fetchRubrics());
-      const pageProps = Component.getInitialProps
-        ? await Component.getInitialProps({ ...ctx })
-        : {};
-      return { pageProps };
-    }
-);
+// MyApp.getInitialProps = wrapper.getInitialAppProps(
+//   () =>
+//     async ({ Component, ctx }) => {
+//       await ctx.store.dispatch(fetchRubrics());
+//       const pageProps = Component.getInitialProps
+//         ? await Component.getInitialProps({ ...ctx })
+//         : {};
+//       return { pageProps };
+//     }
+// );
 
 export default MyApp;

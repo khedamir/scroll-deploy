@@ -86,6 +86,13 @@ const ChangePassword = () => {
                   onSubmit={handleSubmit(onSubmit)}
                   className="modal-form modal__form"
                 >
+                  <input
+                    style={{ display: "none" }}
+                    type="text"
+                    id="username"
+                    name="username"
+                    autoComplete="username"
+                  ></input>
                   <InputWrapper
                     labelValue="Новый пароль"
                     htmlForValue="modal-change-password-1"

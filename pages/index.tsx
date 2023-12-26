@@ -24,6 +24,7 @@ import { PaginationType } from "../redux/types";
 import { NewType } from "../redux/news/types";
 import Link from "next/link";
 import { fetchTrends } from "../redux/trends/asyncAction";
+import { fetchRubrics } from "../redux/rubrics/asyncAction";
 
 type PaginationDataType = {
   items: NewType[][];
@@ -135,47 +136,30 @@ const Index: NextPage = () => {
   );
 };
 
-export const getServerSideProps = wrapper.getServerSideProps(
-  (store) => async () => {
-    console.time("fetchNews");
+export const getStaticProps = wrapper.getStaticProps((store) => async () => {
+  const newsPromise = store.dispatch(fetchNews({ limit: 17 }));
+  const rubricsPromise = store.dispatch(fetchRubrics());
+  const trendsPromise = store.dispatch(fetchTrends({ limit: 10 }));
+  const podcastsPromise = store.dispatch(fetchPodcasts({ limit: 3 }));
+  const lecturesPromise = store.dispatch(fetchLectures({ limit: 3 }));
+  const webinarsPromise = store.dispatch(
+    fetchWebinars({ limit: 2, webinar: "actual" })
+  );
 
-    const newsPromise = store.dispatch(fetchNews({ limit: 17 }));
-    const trendsPromise = store.dispatch(fetchTrends({ limit: 10 }));
-    const podcastsPromise = store.dispatch(fetchPodcasts({ limit: 3 }));
-    const lecturesPromise = store.dispatch(fetchLectures({ limit: 3 }));
-    const webinarsPromise = store.dispatch(
-      fetchWebinars({ limit: 2, webinar: "actual" })
-    );
+  console.time("fetchNews");
+  await Promise.allSettled([
+    newsPromise,
+    rubricsPromise,
+    trendsPromise,
+    podcastsPromise,
+    lecturesPromise,
+    webinarsPromise,
+  ]);
+  console.timeEnd("fetchNews");
 
-    await Promise.allSettled([
-      newsPromise,
-      trendsPromise,
-      podcastsPromise,
-      lecturesPromise,
-      webinarsPromise,
-    ]);
-    console.timeEnd("fetchNews");
-    // await store.dispatch(fetchNews({ limit: 17 }));
-    // await store.dispatch(fetchTrends({ limit: 10 }));
-    // await store.dispatch(fetchPodcasts({ limit: 3 }));
-    // await store.dispatch(fetchLectures({ limit: 3 }));
-    // await store.dispatch(fetchWebinars({ limit: 2, webinar: "actual" }));
-
-    // console.time("fetchTrends");
-    // console.timeEnd("fetchTrends");
-
-    // console.time("fetchPodcasts");
-    // console.timeEnd("fetchPodcasts");
-
-    // console.time("fetchLectures");
-    // console.timeEnd("fetchLectures");
-
-    // console.time("fetchWebinars");
-    // console.timeEnd("fetchWebinars");
-    return {
-      props: {},
-    };
-  }
-);
+  return {
+    props: {},
+  };
+});
 
 export default Index;

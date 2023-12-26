@@ -1,14 +1,21 @@
-import Link from "next/link";
-import React, { useEffect } from "react";
+import React, { FC, useEffect } from "react";
 import { useSelector } from "react-redux";
-import { ReactSVG } from "react-svg";
 import Swiper from "swiper";
 import { selectNews } from "../../redux/news/slice";
 import MoreNewItem from "./moreNewItem";
 import MoreNewsGrup from "./moreNewsGrup";
+import { useAppDispatch } from "../../redux/store";
+import { selectRubrics } from "../../redux/rubrics/slice";
+import { fetchNews } from "../../redux/news/asyncAction";
 
-const MoreNews = () => {
+interface MoreNewProps {
+  rubricName: string;
+}
+
+const MoreNews: FC<MoreNewProps> = ({ rubricName }) => {
   const { data } = useSelector(selectNews);
+  const dispatch = useAppDispatch();
+  const { rubrics } = useSelector(selectRubrics);
 
   useEffect(() => {
     const swiper = new Swiper(".more-topic__slider .swiper", {
@@ -20,6 +27,11 @@ const MoreNews = () => {
       swiper.destroy(true, true);
     };
   }, []);
+
+  useEffect(() => {
+    const rubricId = rubrics.find((item) => item.NAME === rubricName)?.ID;
+    dispatch(fetchNews({ limit: 25, page: 1, rubric: Number(rubricId) }));
+  }, [rubricName]);
 
   const newsComponents = [];
   for (let i = 0; i < data.datas.length; i += 6) {

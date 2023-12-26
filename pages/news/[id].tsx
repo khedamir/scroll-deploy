@@ -21,13 +21,15 @@ import { useFavoriteContext } from "../../context/FavoritesContext";
 import { isElementInFavorites } from "../../redux/favorites/slice";
 import { AppState, wrapper } from "../../redux/store";
 import MoreNews from "../../components/pageNew/moreNews";
-import { fetchNews } from "../../redux/news/asyncAction";
 import { useSetCookie } from "../../hooks";
 import NewContent from "../../components/pageNew/newContent";
 import { selectComments } from "../../redux/comments/slice";
 import getCommentCountWord from "../../utils/getCommentCountWord";
 import { selectRubrics } from "../../redux/rubrics/slice";
 import Image from "next/image";
+import { GetStaticPaths, GetStaticProps, InferGetStaticPropsType } from "next";
+import Loader from "../../components/loader";
+import { fetchRubrics } from "../../redux/rubrics/asyncAction";
 
 interface NewProps {
   publication: FullNewType;
@@ -43,8 +45,12 @@ const New: FC<NewProps> = ({ publication, recommendationNews }) => {
   const { addFavorite, deleteFavorite } = useFavoriteContext();
   const { rubrics } = useSelector(selectRubrics);
   const isFavorite = useSelector((state: AppState) =>
-    isElementInFavorites(state, "9", publication.id)
+    isElementInFavorites(state, "9", String(router.query.id))
   );
+
+  if (router.isFallback) {
+    return <Loader text="Идет загрузка" />;
+  }
 
   const changeFavorite = () => {
     if (isFavorite) {
@@ -111,10 +117,14 @@ const New: FC<NewProps> = ({ publication, recommendationNews }) => {
                         <div className="media-block">
                           <picture className="media-block__photo">
                             <Image
-                              fill
-                              priority
                               src={`${publication.images[1]}`}
                               alt="NewPhoto"
+                              priority
+                              fill
+                              sizes="100%"
+                              style={{
+                                objectFit: "cover",
+                              }}
                             />
                             <Link
                               href="#publication-comments"
@@ -149,7 +159,7 @@ const New: FC<NewProps> = ({ publication, recommendationNews }) => {
                         <Tags tags={publication.props.PUB_TAG} />
                       </div>
                       <Comments
-                        id_publication={publication.id}
+                        id_publication={String(router.query.id)}
                         iblockId={"9"}
                       />
                     </div>
@@ -171,57 +181,89 @@ const New: FC<NewProps> = ({ publication, recommendationNews }) => {
           </div>
         </div>
       </div>
-      <MoreNews />
+      <MoreNews rubricName={publication.props.PUB_RUBRIC.VALUE[0]} />
     </>
   );
 };
 
-export const getServerSideProps = wrapper.getServerSideProps(
+export const getStaticPaths = (async () => {
+  try {
+    const { data } = await server.get(`/sw/v1/publications/?iblockid=9`);
+    const news = data.datas || [];
+
+    const paths = news.map((newItem: { id: string }) => ({
+      params: { id: newItem?.id?.toString() || "" },
+    }));
+
+    return { paths, fallback: true };
+  } catch (error) {
+    console.error("Error in getStaticPaths:", error);
+    throw error;
+  }
+}) satisfies GetStaticPaths;
+
+export const getStaticProps = wrapper.getStaticProps(
   (store) => async (context) => {
-    const { query } = context;
-    try {
-      const fetchNew = async (itemId: string) => {
-        const { data } = await server.get(`/sw/v1/publications/?id=${itemId}`);
-        return data.datas[Number(itemId)];
-      };
+    await store.dispatch(fetchRubrics());
+    const fetchNew = async (itemId: string) => {
+      const { data } = await server.get(`/sw/v1/publications/?id=${itemId}`);
+      return data.datas[Number(itemId)];
+    };
+    // запрос активной новости
+    const publication: FullNewType = await fetchNew(String(context.params?.id));
 
-      // запрос активной новости
-      const publication: FullNewType = await fetchNew(String(query.id));
+    // получение рекомендаций новостей
+    const listId = getAnchorsId(publication.content);
+    const recommendationNews: FullNewType[] = [];
+    const fetchRecommendationPromises = listId.map((item) =>
+      fetchNew(String(item))
+    );
+    await Promise.all(fetchRecommendationPromises).then((recommendations) => {
+      recommendationNews.push(...recommendations);
+    });
 
-      const rubricId = store
-        .getState()
-        .rubrics.rubrics.find(
-          (item) => item.NAME === publication.props.PUB_RUBRIC.VALUE[0]
-        )?.ID;
-      await store.dispatch(
-        fetchNews({ limit: 25, page: 1, rubric: Number(rubricId) })
-      );
-
-      // получение рекомендаций новостей
-      const listId = getAnchorsId(publication.content);
-      const recommendationNews: FullNewType[] = [];
-      const fetchRecommendationPromises = listId.map((item) =>
-        fetchNew(String(item))
-      );
-      await Promise.all(fetchRecommendationPromises).then((recommendations) => {
-        recommendationNews.push(...recommendations);
-      });
-
-      return {
-        props: {
-          publication: publication,
-          recommendationNews: recommendationNews,
-        },
-      };
-    } catch (error) {
-      return {
-        redirect: {
-          destination: "/server-error",
-          permanent: false,
-        },
-      };
-    }
+    return {
+      props: {
+        publication: publication,
+        recommendationNews: recommendationNews,
+      },
+    };
   }
 );
+// export const getStaticProps = (async (context) => {
+//   try {
+//     const fetchNew = async (itemId: string) => {
+//       const { data } = await server.get(`/sw/v1/publications/?id=${itemId}`);
+//       return data.datas[Number(itemId)];
+//     };
+
+//     // запрос активной новости
+//     const publication: FullNewType = await fetchNew(String(context.params?.id));
+
+//     // получение рекомендаций новостей
+//     const listId = getAnchorsId(publication.content);
+//     const recommendationNews: FullNewType[] = [];
+//     const fetchRecommendationPromises = listId.map((item) =>
+//       fetchNew(String(item))
+//     );
+//     await Promise.all(fetchRecommendationPromises).then((recommendations) => {
+//       recommendationNews.push(...recommendations);
+//     });
+
+//     return {
+//       props: {
+//         publication: publication,
+//         recommendationNews: recommendationNews,
+//       },
+//     };
+//   } catch (error) {
+//     return {
+//       redirect: {
+//         destination: "/server-error",
+//         permanent: false,
+//       },
+//     };
+//   }
+// }) satisfies GetStaticProps<NewProps>;
 
 export default New;

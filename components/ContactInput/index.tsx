@@ -54,6 +54,7 @@ const ContactInput: FC<ContactInputProps> = ({
             // id="email"
             className="input-field__input"
             placeholder="Email"
+            autoComplete="email"
             {...register("contact", contactsSchemes.email)}
           />
         ) : (

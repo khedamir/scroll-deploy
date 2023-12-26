@@ -30,16 +30,14 @@ const Comments: FC<CommentsProps> = ({
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    if (user) {
-      dispatch(
-        fetchComments({
-          id_publication,
-          type: "get",
-          userId: user.id,
-          page: 1,
-        })
-      );
-    }
+    dispatch(
+      fetchComments({
+        id_publication,
+        type: "get",
+        userId: user ? user.id : "",
+        page: 1,
+      })
+    );
   }, [user]);
 
   const fetchNewPage = async () => {

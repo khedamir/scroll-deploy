@@ -32,7 +32,6 @@ const Publications: FC<PublicationsProps> = ({ active }) => {
   const { published, drafts } = useSelector(selectNewPublication);
 
   useEffect(() => {
-    dispatch(fetchRubrics());
     if (user) {
       const fetchData = async () => {
         const result: { datas: PublishedNewType[] } = await getPublications({

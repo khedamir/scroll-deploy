@@ -21,6 +21,7 @@ import Bookmarks from "../bookmarks";
 import { setFavorites } from "../../redux/favorites/slice";
 import { useSelector } from "react-redux";
 import { selectUser } from "../../redux/auth/slice";
+import { fetchRubrics } from "../../redux/rubrics/asyncAction";
 
 const Layout = ({ children }: { children: ReactNode }) => {
   const headerComponents: any = {

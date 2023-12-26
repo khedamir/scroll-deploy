@@ -98,6 +98,13 @@ const PasswordRecoveryNew = () => {
                   onSubmit={handleSubmit(onSubmit)}
                   className="modal-form modal__form"
                 >
+                  <input
+                    style={{ display: "none" }}
+                    type="text"
+                    id="username_1"
+                    name="username"
+                    autoComplete="username"
+                  ></input>
                   <InputWrapper
                     labelValue="Новый пароль"
                     htmlForValue="modal-recovery-password-1"
