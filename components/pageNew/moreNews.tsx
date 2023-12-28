@@ -1,18 +1,18 @@
-import React, { FC, useEffect } from "react";
-import { useSelector } from "react-redux";
+import React, { FC, useEffect, useState } from "react";
 import Swiper from "swiper";
-import { selectNews } from "../../redux/news/slice";
 import MoreNewItem from "./moreNewItem";
 import MoreNewsGrup from "./moreNewsGrup";
-import { useAppDispatch } from "../../redux/store";
+import { NewType, RubricType } from "../../redux/types";
+import { fetchNews } from "../../server/content";
 
 interface MoreNewProps {
+  rubrics: RubricType[];
   rubricName: string;
 }
 
-const MoreNews: FC<MoreNewProps> = ({ rubricName }) => {
-  const { data } = useSelector(selectNews);
-  const dispatch = useAppDispatch();
+const MoreNews: FC<MoreNewProps> = ({ rubrics, rubricName }) => {
+  const [news, setNews] = useState<NewType[]>([]);
+  const rubricId = rubrics.find((item) => item.NAME === rubricName)?.ID;
 
   useEffect(() => {
     const swiper = new Swiper(".more-topic__slider .swiper", {
@@ -25,21 +25,22 @@ const MoreNews: FC<MoreNewProps> = ({ rubricName }) => {
     };
   }, []);
 
-  // useEffect(() => {
-  //   const rubricId = rubrics.find((item) => item.NAME === rubricName)?.ID;
-  //   dispatch(fetchNews({ limit: 25, page: 1, rubric: Number(rubricId) }));
-  // }, [rubricName]);
+  useEffect(() => {
+    fetchNews({ limit: 25, rubric: Number(rubricId) }).then((result) => {
+      setNews(result.datas);
+    });
+  }, [rubricName]);
 
   const newsComponents = [];
-  for (let i = 0; i < data.datas.length; i += 6) {
-    const individualNews = data.datas.slice(i, i + 3);
-    const threeNewsCard = data.datas.slice(i + 3, i + 6);
+  for (let i = 0; i < news.length; i += 6) {
+    const individualNews = news.slice(i, i + 3);
+    const threeNewsCard = news.slice(i + 3, i + 6);
     newsComponents.push(
       <React.Fragment key={i}>
         {individualNews.map((item) => (
-          <MoreNewItem key={item.id} item={item} />
+          <MoreNewItem key={item.id} item={item} rubricId={rubricId} />
         ))}
-        <MoreNewsGrup items={threeNewsCard} />
+        <MoreNewsGrup items={threeNewsCard} rubricId={rubricId} />
       </React.Fragment>
     );
   }

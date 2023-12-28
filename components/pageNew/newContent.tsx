@@ -1,7 +1,7 @@
 import React, { FC } from "react";
 import RecomendationNew from "./recomendationNew";
 import NewFragment from "./newFragment";
-import { FullNewType } from "../../redux/types";
+import { getAnchorsId } from "../../utils/getAnchorsId";
 
 interface NewContentProps {
   widgetTitle?: string;
@@ -14,22 +14,21 @@ const NewContent: FC<NewContentProps> = ({
   setModalActive,
   widgetTitle,
 }) => {
+  const newsIdList = getAnchorsId(content);
   const anchorRegex = /<a name="\d+"><\/a>/;
   const articleParts = content.split(anchorRegex);
   return (
     <>
-      {/* {articleParts.map((part, index) => (
+      {articleParts.map((part, index) => (
         <React.Fragment key={index}>
-          {index > 0 && (
-            <RecomendationNew newItem={recommendationNews[index - 1]} />
-          )}
+          {index > 0 && <RecomendationNew newId={newsIdList[index - 1]} />}
           <NewFragment
             title={widgetTitle}
             fragment={part}
             setModalActive={setModalActive}
           />
         </React.Fragment>
-      ))} */}
+      ))}
     </>
   );
 };

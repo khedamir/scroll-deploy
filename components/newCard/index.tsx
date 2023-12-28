@@ -1,7 +1,6 @@
 import Link from "next/link";
 import React, { FC, RefObject, useEffect, useRef, useState } from "react";
 import { ReactSVG } from "react-svg";
-import { NewType } from "../../redux/news/types";
 import { formatDateDifference } from "../../utils/formatDate";
 import { useSelector } from "react-redux";
 import { useModalsContext } from "../../context/ModalsContext";
@@ -17,6 +16,7 @@ import { FavoriteNew } from "../../redux/favorites/types";
 import { useFavoriteContext } from "../../context/FavoritesContext";
 import UserIcon from "../userIcon";
 import Image from "next/image";
+import { NewType } from "../../redux/types";
 
 interface NewCardProps {
   newItem: NewType;

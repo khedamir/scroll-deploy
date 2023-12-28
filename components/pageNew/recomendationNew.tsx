@@ -1,15 +1,24 @@
-import React, { FC } from "react";
+import React, { FC, useEffect, useState } from "react";
 import { ReactSVG } from "react-svg";
 import { FullNewType } from "../../redux/types";
 import { formatDateDifference } from "../../utils/formatDate";
 import Link from "next/link";
+import { fetchNew } from "../../server/content";
 
 interface RecommendationNewsProps {
-  newItem: FullNewType;
+  newId: number | null;
 }
 
-const RecomendationNew: FC<RecommendationNewsProps> = ({ newItem }) => {
-  return (
+const RecomendationNew: FC<RecommendationNewsProps> = ({ newId }) => {
+  const [newItem, setNewItem] = useState<FullNewType>();
+  useEffect(() => {
+    if (newId) {
+      fetchNew(String(newId)).then((result) => {
+        setNewItem(result);
+      });
+    }
+  }, []);
+  return newItem ? (
     <Link className="big-news__block" href={`/news/${newItem.id}`}>
       <h5>{newItem.name}</h5>
       <div className="description-block">
@@ -29,6 +38,8 @@ const RecomendationNew: FC<RecommendationNewsProps> = ({ newItem }) => {
         </div>
       </div>
     </Link>
+  ) : (
+    <div>Loading...</div>
   );
 };
 

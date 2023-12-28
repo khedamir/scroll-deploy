@@ -15,7 +15,7 @@ import { useSetCookie } from "../../hooks";
 import NewContent from "../../components/pageNew/newContent";
 import { GetStaticPaths } from "next";
 import Loader from "../../components/loader";
-import { fetchNew } from "../../server/content";
+import { fetchNew, fetchRubrics } from "../../server/content";
 import NewHeader from "../../components/pageNew/newHeader";
 
 interface NewProps {
@@ -40,7 +40,7 @@ const New: FC<NewProps> = ({ publication, rubrics }) => {
         <div className="container">
           <div className="layout__wrap layout__wrap--padding">
             <div className="layout__left">
-              <Sidebar rubrics={[]} />
+              <Sidebar rubrics={rubrics} />
               <Footer />
             </div>
             <div className="layout__main">
@@ -84,7 +84,10 @@ const New: FC<NewProps> = ({ publication, rubrics }) => {
           </div>
         </div>
       </div>
-      <MoreNews rubricName={publication.props.PUB_RUBRIC.VALUE[0]} />
+      <MoreNews
+        rubrics={rubrics}
+        rubricName={publication.props.PUB_RUBRIC.VALUE[0]}
+      />
     </>
   );
 };
@@ -93,11 +96,9 @@ export const getStaticPaths = (async () => {
   try {
     const { data } = await server.get(`/sw/v1/publications/?iblockid=9`);
     const news = data.datas || [];
-
     const paths = news.map((newItem: { id: string }) => ({
       params: { id: newItem?.id?.toString() || "" },
     }));
-
     return { paths, fallback: true };
   } catch (error) {
     console.error("Error in getStaticPaths:", error);
@@ -107,10 +108,12 @@ export const getStaticPaths = (async () => {
 
 export const getStaticProps = async (context: { params: { id: any } }) => {
   const publication: FullNewType = await fetchNew(String(context.params?.id));
+  const rubrics: RubricType[] = await fetchRubrics();
 
   return {
     props: {
       publication: publication,
+      rubrics: rubrics,
     },
   };
 };

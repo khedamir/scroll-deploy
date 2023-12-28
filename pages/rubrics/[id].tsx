@@ -1,38 +1,28 @@
 import React, { FC, useEffect, useState } from "react";
 import Footer from "../../components/footer";
-import Link from "next/link";
 import VideoWidget from "../../components/widgets/videoWidget";
 import Sidebar from "../../components/sidebar/sidebar";
-import AudioPodcasts from "../../components/pageHome/audioPodcasts";
-import PopularVideos from "../../components/pageHome/popularVideos";
 import SectionLayout from "../../components/pageHome/sectionLayout";
-import LecturesBlock from "../../components/pageHome/lecturesBlock";
-import { fetchNews } from "../../redux/news/asyncAction";
-import { wrapper } from "../../redux/store";
-import { useSelector } from "react-redux";
-import { selectNews } from "../../redux/news/slice";
 import NewCard from "../../components/newCard";
 import { useRouter } from "next/router";
-import { baseURL, server } from "../../utils/server";
-import { NewType } from "../../redux/news/types";
-import { fetchLectures } from "../../redux/lectures/asyncAction";
-import { fetchPodcasts } from "../../redux/podcasts/asyncAction";
-import { fetchTrends } from "../../redux/trends/asyncAction";
-import UserIcon from "../../components/userIcon";
-import Image from "next/image";
+import { server } from "../../utils/server";
+import { NewType } from "../../redux/types";
 import Loader from "../../components/loader";
-import { RubricType } from "../../redux/types";
+import { PaginationType, RubricType } from "../../redux/types";
+import { fetchNews, fetchRubrics } from "../../server/content";
+import SectionsBlock from "../../components/pageRubric/sectionsBlock";
+import LastNews from "../../components/pageRubric/lastNews";
 
 interface RubricsProps {
-  recomendations: NewType[];
+  news: NewType[];
+  pagination: PaginationType;
+  rubrics: RubricType[];
 }
 
-const Rubrics: FC<RubricsProps> = ({ recomendations }) => {
-  const { data } = useSelector(selectNews);
-
+const Rubrics: FC<RubricsProps> = ({ news, pagination, rubrics }) => {
   const [nextPublication, setNextPublications] = useState<NewType[]>([]);
   const [page, setPage] = useState(2);
-  let totalPages = data?.pagination?.totalPages;
+  let totalPages = pagination?.totalPages;
 
   const router = useRouter();
 
@@ -47,14 +37,12 @@ const Rubrics: FC<RubricsProps> = ({ recomendations }) => {
   }
 
   const fetchNextNews = async () => {
-    const result = await server.get(`/sw/v1/publications/?iblockid=9`, {
-      params: {
-        page: page,
-        limit: 2,
-        rubric: Number(router.query.id),
-      },
+    const result = await fetchNews({
+      page: page,
+      limit: 2,
+      rubric: Number(router.query.id),
     });
-    const newArr = [...nextPublication, ...result.data.datas];
+    const newArr = [...nextPublication, ...result.datas];
     console.log(newArr);
     setNextPublications(newArr);
   };
@@ -64,7 +52,7 @@ const Rubrics: FC<RubricsProps> = ({ recomendations }) => {
       <div className="container">
         <div className="layout__wrap layout__wrap--padding">
           <div className="layout__left">
-            <Sidebar rubrics={[]} />
+            <Sidebar rubrics={rubrics} />
             <Footer />
           </div>
 
@@ -74,59 +62,30 @@ const Rubrics: FC<RubricsProps> = ({ recomendations }) => {
               children1={
                 <>
                   <h1 className="layout__head">
-                    {/* {rubricByIdSelector(String(router.query.id))?.NAME} */}
+                    {
+                      rubrics.find((rubric) => rubric.ID === router.query.id)
+                        ?.NAME
+                    }
                   </h1>
-                  <div className="page-list">
-                    <div className="page-list__wrapper">
-                      {recomendations.map((recomendation) => (
-                        <Link
-                          key={recomendation.id}
-                          href={`/news/${recomendation.id}`}
-                          className="page-list__item"
-                        >
-                          {recomendation.poperties.PUB_SOURCE_LOGO ? (
-                            <span className="page-list__item-img">
-                              <Image
-                                width={40}
-                                height={40}
-                                src={`${recomendation.poperties.PUB_SOURCE_LOGO}`}
-                                alt="Icon"
-                              />
-                            </span>
-                          ) : (
-                            <span className="page-list__item-img">
-                              <UserIcon
-                                userPhoto={recomendation.author_photo}
-                                nameLatter={recomendation.author_name?.[0]}
-                                avatarColor={recomendation.author_avatar_color}
-                              />
-                            </span>
-                          )}
-                          <span>{recomendation.name}</span>
-                        </Link>
-                      ))}
-                    </div>
-                  </div>
-                  {data?.datas.map((item) => (
+                  <LastNews />
+                  {news.slice(0, 3).map((item) => (
                     <NewCard key={item.id} newItem={item} />
                   ))}
                 </>
               }
               children2={<VideoWidget />}
             />
+            <SectionsBlock />
+            <SectionLayout
+              children1={
+                <>
+                  {news.slice(3).map((item) => (
+                    <NewCard key={item.id} newItem={item} />
+                  ))}
+                </>
+              }
+            />
 
-            {/* <SectionLayout
-              children1={<PopularVideos />}
-              children2={<span className="layout__heading">тренды</span>}
-            />
-            <SectionLayout
-              children1={<AudioPodcasts />}
-              children2={<span className="layout__heading">аудиоподкасты</span>}
-            />
-            <SectionLayout
-              children1={<LecturesBlock />}
-              children2={<span className="layout__heading">лекции</span>}
-            /> */}
             {nextPublication.length !== 0 && (
               <SectionLayout
                 children1={
@@ -142,7 +101,6 @@ const Rubrics: FC<RubricsProps> = ({ recomendations }) => {
                     ))}
                   </>
                 }
-                children2={<></>}
               />
             )}
           </div>
@@ -168,42 +126,16 @@ export const getStaticPaths = async () => {
   }
 };
 
-export const getStaticProps = wrapper.getStaticProps(
-  (store) => async (context) => {
-    const podcastsPromise = store.dispatch(fetchPodcasts({ limit: 3 }));
-    const trendsPromise = store.dispatch(fetchTrends({ limit: 10 }));
-    const lecturesPromise = store.dispatch(fetchLectures({ limit: 3 }));
-    // const rubricsPromise = store.dispatch(fetchRubrics());
-    const newsPromise = store.dispatch(
-      fetchNews({ limit: 2, page: 1, rubric: Number(context.params?.id) })
-    );
-
-    // await store.dispatch(fetchPodcasts({ limit: 3 }));
-    // await store.dispatch(fetchTrends({ limit: 10 }));
-    // await store.dispatch(fetchLectures({ limit: 3 }));
-    // await store.dispatch(fetchRubrics());
-    // await store.dispatch(
-    //   fetchNews({ limit: 2, page: 1, rubric: Number(context.params?.id) })
-    // );
-
-    const results = await Promise.allSettled([
-      podcastsPromise,
-      trendsPromise,
-      lecturesPromise,
-      newsPromise,
-      // rubricsPromise,
-    ]);
-
-    const recomendationResult = await server.get(
-      `/sw/v1/publications/?iblockid=9&limit=5`
-    );
-
-    return {
-      props: {
-        recomendations: recomendationResult.data.datas,
-      },
-    };
-  }
-);
+export const getStaticProps = async (context: { params: { id: any } }) => {
+  const news = await fetchNews({ limit: 10, rubric: context.params.id });
+  const rubrics = await fetchRubrics();
+  return {
+    props: {
+      news: news.datas,
+      pagination: news.pagination,
+      rubrics: rubrics,
+    },
+  };
+};
 
 export default Rubrics;

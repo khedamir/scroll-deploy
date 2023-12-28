@@ -2,11 +2,9 @@ import Link from "next/link";
 import React, { FC } from "react";
 import { ReactSVG } from "react-svg";
 import { formatDateDifference } from "../../utils/formatDate";
-import { NewType } from "../../redux/news/types";
+import { NewType } from "../../redux/types";
 import { useSelector } from "react-redux";
 import { useFavoriteContext } from "../../context/FavoritesContext";
-import { useModalsContext } from "../../context/ModalsContext";
-import { selectUser } from "../../redux/auth/slice";
 import { isElementInFavorites } from "../../redux/favorites/slice";
 import { FavoriteNew } from "../../redux/favorites/types";
 import { AppState } from "../../redux/store";
@@ -14,9 +12,10 @@ import Image from "next/image";
 
 interface MoreNewItemProps {
   item: NewType;
+  rubricId: string | undefined;
 }
 
-const MoreNewItem: FC<MoreNewItemProps> = ({ item }) => {
+const MoreNewItem: FC<MoreNewItemProps> = ({ item, rubricId }) => {
   const isFavorite = useSelector((state: AppState) =>
     isElementInFavorites(state, "9", item.id)
   );
@@ -64,14 +63,9 @@ const MoreNewItem: FC<MoreNewItemProps> = ({ item }) => {
           </Link>
           <div className="more-topic__inner">
             <div className="more-topic__elems">
-              {/* <Link
-                href={`/rubrics/${
-                  rubrics.find((rubric) => rubric.NAME === item.rubric)?.ID
-                }`}
-                className="more-topic__elem"
-              >
+              <Link href={`/rubrics/${rubricId}`} className="more-topic__elem">
                 {item.rubric}
-              </Link> */}
+              </Link>
               <span className="more-topic__elem">
                 {formatDateDifference(item.date)}
               </span>

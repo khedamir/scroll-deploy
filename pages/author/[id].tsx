@@ -13,7 +13,7 @@ import { selectNews } from "../../redux/news/slice";
 import NewCard from "../../components/newCard";
 import { useRouter } from "next/router";
 import { server } from "../../utils/server";
-import { NewType } from "../../redux/news/types";
+import { NewType } from "../../redux/types";
 import { fetchLectures } from "../../redux/lectures/asyncAction";
 import { fetchPodcasts } from "../../redux/podcasts/asyncAction";
 import { fetchTrends } from "../../redux/trends/asyncAction";
@@ -24,11 +24,11 @@ interface RubricsProps {
 
 const Rubrics: FC<RubricsProps> = ({ recomendations }) => {
   console.log(recomendations);
-  const { data } = useSelector(selectNews);
+  // const { data } = useSelector(selectNews);
 
   const [nextPublication, setNextPublications] = useState<NewType[]>([]);
   const [page, setPage] = useState(2);
-  let totalPages = data.pagination?.totalPages;
+  let totalPages = 1;
 
   const router = useRouter();
 
@@ -61,18 +61,18 @@ const Rubrics: FC<RubricsProps> = ({ recomendations }) => {
           </div>
 
           <div className="layout__main">
-            <SectionLayout
+            {/* <SectionLayout
               rightVisible={false}
               children1={
                 <>
                   <h1 className="layout__head">Александр Македонский</h1>
-                  {data.datas.map((item) => (
+                  {[].map((item) => (
                     <NewCard key={item.id} newItem={item} />
                   ))}
                 </>
               }
               children2={<VideoWidget />}
-            />
+            /> */}
 
             {/* <SectionLayout
               children1={<PopularVideos />}

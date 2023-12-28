@@ -24,8 +24,8 @@ export type NewType = {
   rubric: string;
   author_name: string;
   author_surname: string;
-  author_avatar_color: string | null;
-  author_photo: string | null;
+  author_avatar_color: string;
+  author_photo: string;
   poperties: {
     PUB_TAG: string[];
     SOURCE: string;

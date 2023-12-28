@@ -12,7 +12,6 @@ import commentsReducer from "./comments/slice";
 import authReducer from "./auth/slice";
 import favoritesReducer from "./favorites/slice";
 import newpublicationReducer from "./new_publication/slice";
-
 import mainPageReducer from "./main_page/slice";
 
 const store = () =>

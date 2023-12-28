@@ -2,7 +2,7 @@ import React, { FC, ReactNode, RefObject, useEffect, useRef } from "react";
 
 interface SectionProps {
   children1: ReactNode;
-  children2: ReactNode;
+  children2?: ReactNode;
   rightVisible?: boolean;
 }
 
