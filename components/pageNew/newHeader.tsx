@@ -4,7 +4,7 @@ import React, { FC } from "react";
 import getCommentCountWord from "../../utils/getCommentCountWord";
 import { ReactSVG } from "react-svg";
 import MediaControls from "../mediaControls";
-import { FullNewType } from "../../redux/types";
+import { FullNewType, RubricType } from "../../redux/types";
 import { useSelector } from "react-redux";
 import { selectComments } from "../../redux/comments/slice";
 import { useFavoriteContext } from "../../context/FavoritesContext";
@@ -16,9 +16,10 @@ import { FavoriteNew } from "../../redux/favorites/types";
 
 interface NewHeaderProps {
   publication: FullNewType;
+  rubrics: RubricType[];
 }
 
-const NewHeader: FC<NewHeaderProps> = ({ publication }) => {
+const NewHeader: FC<NewHeaderProps> = ({ publication, rubrics }) => {
   const router = useRouter();
   const { all_comments_count } = useSelector(selectComments);
   const { addFavorite, deleteFavorite } = useFavoriteContext();
@@ -55,20 +56,20 @@ const NewHeader: FC<NewHeaderProps> = ({ publication }) => {
     }
   };
 
-  //   const getRubricId = () => {
-  //     return rubrics.find(
-  //       (rubric) => rubric.NAME === publication.props.PUB_RUBRIC.VALUE[0]
-  //     )?.ID;
-  //   };
+  const getRubricById = () => {
+    return rubrics.find(
+      (rubric) => rubric.NAME === publication.props.PUB_RUBRIC.VALUE[0]
+    )?.ID;
+  };
 
   return (
     <>
       <h1>{publication.name}</h1>
       <div className="description-block">
         <div className="description-block__inner">
-          {/* <Link href={`/rubrics/${getRubricById()}`}>
+          <Link href={`/rubrics/${getRubricById()}`}>
             {publication.props.PUB_RUBRIC.VALUE[0]}
-          </Link> */}
+          </Link>
           <span>{formatDateDifference(publication.date)}</span>
         </div>
       </div>

@@ -8,7 +8,7 @@ export function getAnchorsId(text: string) {
       return numberMatch ? parseInt(numberMatch[1], 10) : null; // Преобразуем число в целое число
     });
 
-    return numbers;
+    return numbers as number[];
   } else {
     return [];
   }

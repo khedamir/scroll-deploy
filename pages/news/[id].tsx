@@ -25,7 +25,6 @@ interface NewProps {
 
 const New: FC<NewProps> = ({ publication, rubrics }) => {
   const [modalActive, setModalActive] = useState(false);
-
   const router = useRouter();
   useSetCookie(`/news/${router.query.id}`, String(router.query.id));
 
@@ -49,7 +48,10 @@ const New: FC<NewProps> = ({ publication, rubrics }) => {
                   <div className="big-news mobile-wide">
                     <div className="big-news__wrap">
                       <div className="big-news__content content">
-                        <NewHeader publication={publication} />
+                        <NewHeader
+                          publication={publication}
+                          rubrics={rubrics}
+                        />
                         <NewContent
                           widgetTitle={publication.props.WIDGET?.VALUE[0]}
                           content={publication.content}

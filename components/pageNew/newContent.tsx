@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import React, { FC, useEffect, useState } from "react";
 import RecomendationNew from "./recomendationNew";
 import NewFragment from "./newFragment";
 import { getAnchorsId } from "../../utils/getAnchorsId";
@@ -14,7 +14,11 @@ const NewContent: FC<NewContentProps> = ({
   setModalActive,
   widgetTitle,
 }) => {
-  const newsIdList = getAnchorsId(content);
+  const [newsIdList, setNewIdList] = useState<number[]>([]);
+  useEffect(() => {
+    setNewIdList(getAnchorsId(content));
+  }, [content]);
+
   const anchorRegex = /<a name="\d+"><\/a>/;
   const articleParts = content.split(anchorRegex);
   return (

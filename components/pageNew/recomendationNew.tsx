@@ -17,7 +17,7 @@ const RecomendationNew: FC<RecommendationNewsProps> = ({ newId }) => {
         setNewItem(result);
       });
     }
-  }, []);
+  }, [newId]);
   return newItem ? (
     <Link className="big-news__block" href={`/news/${newItem.id}`}>
       <h5>{newItem.name}</h5>
