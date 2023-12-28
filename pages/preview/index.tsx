@@ -38,7 +38,7 @@ const New = () => {
         <div className="container">
           <div className="layout__wrap layout__wrap--padding">
             <div className="layout__left">
-              <Sidebar />
+              <Sidebar rubrics={[]} />
               <Footer />
             </div>
             <div className="layout__main">
@@ -79,7 +79,6 @@ const New = () => {
                         </div>
                         <NewContent
                           content={preview.content}
-                          recommendationNews={[]}
                           setModalActive={setModalActive}
                         />
                         <p className="small-description">

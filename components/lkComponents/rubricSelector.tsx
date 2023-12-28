@@ -2,11 +2,10 @@ import React, { FC, useEffect, useRef, useState } from "react";
 import Selector from "../selector";
 import { ReactSVG } from "react-svg";
 import { useSelector } from "react-redux";
-import { selectRubrics } from "../../redux/rubrics/slice";
 import SelectItem from "../selector/selectItem";
-import { RubricType } from "../../redux/rubrics/types";
 import { baseURL } from "../../utils/server";
 import Image from "next/image";
+import { RubricType } from "../../redux/types";
 
 interface RubricSelectorProps {
   selectRubric: RubricType | undefined;
@@ -21,7 +20,7 @@ const RubricSelector: FC<RubricSelectorProps> = ({
   active,
   setActive,
 }) => {
-  const { rubrics } = useSelector(selectRubrics);
+  // const { rubrics } = useSelector(selectRubrics);
   const selectItem = (rubric: RubricType) => {
     setSelectRubric(rubric);
     setActive(false);
@@ -29,7 +28,7 @@ const RubricSelector: FC<RubricSelectorProps> = ({
 
   return (
     <div className={`rubric__selector ${active && "is--active"}`}>
-      <Selector
+      {/* <Selector
         active={active}
         setActive={setActive}
         triggerItem={
@@ -69,7 +68,7 @@ const RubricSelector: FC<RubricSelectorProps> = ({
               </SelectItem>
             </div>
           ))}
-      </Selector>
+      </Selector> */}
     </div>
   );
 };

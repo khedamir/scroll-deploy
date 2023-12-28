@@ -56,7 +56,7 @@ const Rubrics: FC<RubricsProps> = ({ recomendations }) => {
       <div className="container">
         <div className="layout__wrap layout__wrap--padding">
           <div className="layout__left">
-            <Sidebar />
+            <Sidebar rubrics={[]} />
             <Footer />
           </div>
 
@@ -74,7 +74,7 @@ const Rubrics: FC<RubricsProps> = ({ recomendations }) => {
               children2={<VideoWidget />}
             />
 
-            <SectionLayout
+            {/* <SectionLayout
               children1={<PopularVideos />}
               children2={<span className="layout__heading">тренды</span>}
             />
@@ -85,7 +85,7 @@ const Rubrics: FC<RubricsProps> = ({ recomendations }) => {
             <SectionLayout
               children1={<LecturesBlock />}
               children2={<span className="layout__heading">лекции</span>}
-            />
+            /> */}
             {nextPublication.length !== 0 && (
               <SectionLayout
                 children1={

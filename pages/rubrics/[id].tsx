@@ -15,15 +15,13 @@ import NewCard from "../../components/newCard";
 import { useRouter } from "next/router";
 import { baseURL, server } from "../../utils/server";
 import { NewType } from "../../redux/news/types";
-import { rubricByIdSelector } from "../../redux/rubrics/slice";
 import { fetchLectures } from "../../redux/lectures/asyncAction";
 import { fetchPodcasts } from "../../redux/podcasts/asyncAction";
 import { fetchTrends } from "../../redux/trends/asyncAction";
 import UserIcon from "../../components/userIcon";
 import Image from "next/image";
-import { RubricType } from "../../redux/rubrics/types";
 import Loader from "../../components/loader";
-import { fetchRubrics } from "../../redux/rubrics/asyncAction";
+import { RubricType } from "../../redux/types";
 
 interface RubricsProps {
   recomendations: NewType[];
@@ -66,7 +64,7 @@ const Rubrics: FC<RubricsProps> = ({ recomendations }) => {
       <div className="container">
         <div className="layout__wrap layout__wrap--padding">
           <div className="layout__left">
-            <Sidebar />
+            <Sidebar rubrics={[]} />
             <Footer />
           </div>
 
@@ -76,7 +74,7 @@ const Rubrics: FC<RubricsProps> = ({ recomendations }) => {
               children1={
                 <>
                   <h1 className="layout__head">
-                    {rubricByIdSelector(String(router.query.id))?.NAME}
+                    {/* {rubricByIdSelector(String(router.query.id))?.NAME} */}
                   </h1>
                   <div className="page-list">
                     <div className="page-list__wrapper">
@@ -117,7 +115,7 @@ const Rubrics: FC<RubricsProps> = ({ recomendations }) => {
               children2={<VideoWidget />}
             />
 
-            <SectionLayout
+            {/* <SectionLayout
               children1={<PopularVideos />}
               children2={<span className="layout__heading">тренды</span>}
             />
@@ -128,7 +126,7 @@ const Rubrics: FC<RubricsProps> = ({ recomendations }) => {
             <SectionLayout
               children1={<LecturesBlock />}
               children2={<span className="layout__heading">лекции</span>}
-            />
+            /> */}
             {nextPublication.length !== 0 && (
               <SectionLayout
                 children1={
@@ -175,17 +173,25 @@ export const getStaticProps = wrapper.getStaticProps(
     const podcastsPromise = store.dispatch(fetchPodcasts({ limit: 3 }));
     const trendsPromise = store.dispatch(fetchTrends({ limit: 10 }));
     const lecturesPromise = store.dispatch(fetchLectures({ limit: 3 }));
-    const rubricsPromise = store.dispatch(fetchRubrics());
+    // const rubricsPromise = store.dispatch(fetchRubrics());
     const newsPromise = store.dispatch(
       fetchNews({ limit: 2, page: 1, rubric: Number(context.params?.id) })
     );
+
+    // await store.dispatch(fetchPodcasts({ limit: 3 }));
+    // await store.dispatch(fetchTrends({ limit: 10 }));
+    // await store.dispatch(fetchLectures({ limit: 3 }));
+    // await store.dispatch(fetchRubrics());
+    // await store.dispatch(
+    //   fetchNews({ limit: 2, page: 1, rubric: Number(context.params?.id) })
+    // );
 
     const results = await Promise.allSettled([
       podcastsPromise,
       trendsPromise,
       lecturesPromise,
       newsPromise,
-      rubricsPromise,
+      // rubricsPromise,
     ]);
 
     const recomendationResult = await server.get(

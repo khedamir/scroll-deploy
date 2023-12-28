@@ -6,13 +6,11 @@ import { FullNewType } from "../../redux/types";
 interface NewContentProps {
   widgetTitle?: string;
   content: string;
-  recommendationNews: FullNewType[];
   setModalActive: (v: boolean) => void;
 }
 
 const NewContent: FC<NewContentProps> = ({
   content,
-  recommendationNews,
   setModalActive,
   widgetTitle,
 }) => {
@@ -20,7 +18,7 @@ const NewContent: FC<NewContentProps> = ({
   const articleParts = content.split(anchorRegex);
   return (
     <>
-      {articleParts.map((part, index) => (
+      {/* {articleParts.map((part, index) => (
         <React.Fragment key={index}>
           {index > 0 && (
             <RecomendationNew newItem={recommendationNews[index - 1]} />
@@ -31,7 +29,7 @@ const NewContent: FC<NewContentProps> = ({
             setModalActive={setModalActive}
           />
         </React.Fragment>
-      ))}
+      ))} */}
     </>
   );
 };

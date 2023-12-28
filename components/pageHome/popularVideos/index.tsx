@@ -1,14 +1,17 @@
 import Link from "next/link";
-import React from "react";
+import React, { FC } from "react";
 import { useSelector } from "react-redux";
-import { selectTrands } from "../../../redux/trends/slice";
-import { extractVideoId } from "../../../utils/extractVideoId";
 import Image from "next/image";
+import { selectMainPage } from "../../../redux/main_page/slice";
+import { TrendType } from "../../../redux/types";
 
-const PopularVideos = () => {
-  const { data } = useSelector(selectTrands);
-  const trends1 = data.datas.slice(0, 4);
-  const trends2 = data.datas.slice(4, 9);
+interface PopularVideosProps {
+  trends: TrendType[];
+}
+
+const PopularVideos: FC<PopularVideosProps> = ({ trends }) => {
+  const trends1 = trends.slice(0, 4);
+  const trends2 = trends.slice(4, 9);
   return (
     <div className="popular-videos">
       <div className="popular-videos__wrapper">

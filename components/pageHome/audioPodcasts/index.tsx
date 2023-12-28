@@ -1,18 +1,20 @@
 import Link from "next/link";
-import React from "react";
+import React, { FC } from "react";
 import { selectPodcasts } from "../../../redux/podcasts/slice";
 import { useSelector } from "react-redux";
-import { baseURL } from "../../../utils/server";
 import Image from "next/image";
+import { EditionType } from "../../../redux/types";
 
-const AudioPodcasts = () => {
-  const { data } = useSelector(selectPodcasts);
+interface AudioPodcastsProps {
+  editions: EditionType[];
+}
 
+const AudioPodcasts: FC<AudioPodcastsProps> = ({ editions }) => {
   return (
     <div className="content-card">
       <div className="content-card__wrap">
         <div className="content-card__wrapper content-card__wrapper--flex content-card__wrapper--scroll">
-          {data.datas.map((podcast, id) => (
+          {editions.map((podcast, id) => (
             <Link
               key={podcast.id}
               href={`/podcasts/${podcast.podcastId}`}

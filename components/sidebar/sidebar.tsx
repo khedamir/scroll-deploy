@@ -1,16 +1,17 @@
-import React, { useState } from "react";
+import React, { FC, useState } from "react";
 import Link from "next/link";
 import { ReactSVG } from "react-svg";
-import { selectRubrics } from "../../redux/rubrics/slice";
-import { useSelector } from "react-redux";
 import { useRouter } from "next/router";
 import { baseURL } from "../../utils/server";
 import Image from "next/image";
+import { RubricType } from "../../redux/types";
 
-const Sidebar = () => {
+interface SidebarProps {
+  rubrics: RubricType[];
+}
+
+const Sidebar: FC<SidebarProps> = ({ rubrics }) => {
   const router = useRouter();
-
-  const { rubrics } = useSelector(selectRubrics);
   const [itemsVisible, setItemsVisible] = useState<boolean>(false);
 
   return (

@@ -6,7 +6,6 @@ import {
   useEffect,
   useState,
 } from "react";
-import { RubricType } from "../redux/rubrics/types";
 import { FileUpload, addPublication } from "../utils/formFetchs";
 import { useSelector } from "react-redux";
 import { selectUser } from "../redux/auth/slice";
@@ -18,7 +17,7 @@ import {
 import { useAppDispatch } from "../redux/store";
 import { addDraft, addPreview } from "../redux/new_publication/slice";
 import { PublishedNewType } from "../redux/new_publication/type";
-import { selectRubrics } from "../redux/rubrics/slice";
+import { RubricType } from "../redux/types";
 
 type AddDraftNewProps = {
   publication_type: "draft" | "moderation";
@@ -87,11 +86,11 @@ const EditorContextProvider = (props: any) => {
 
   const dispatch = useAppDispatch();
   const { user } = useSelector(selectUser);
-  const { rubrics } = useSelector(selectRubrics);
+  // const { rubrics } = useSelector(selectRubrics);
 
   const setDatas = (datas: SetDataProps) => {
     setTitle(datas.title);
-    setRubric(rubrics.find((item) => item.NAME === datas.rubric));
+    // setRubric(rubrics.find((item) => item.NAME === datas.rubric));
     setPhoto(datas.photo);
     setSource(datas.source);
     setSourcePhoto(datas.sourcePhoto);

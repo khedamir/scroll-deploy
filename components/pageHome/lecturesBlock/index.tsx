@@ -1,17 +1,18 @@
 import Link from "next/link";
-import React from "react";
-import { useSelector } from "react-redux";
-import { selectLectures } from "../../../redux/lectures/slice";
-import { baseURL } from "../../../utils/server";
+import React, { FC } from "react";
 import Image from "next/image";
+import { VideoType } from "../../../redux/types";
 
-const LecturesBlock = () => {
-  const { data } = useSelector(selectLectures);
+interface LecturesBlockProps {
+  lectures: VideoType[];
+}
+
+const LecturesBlock: FC<LecturesBlockProps> = ({ lectures }) => {
   return (
     <div className="content-card">
       <div className="content-card__wrap">
         <div className="content-card__wrapper content-card__wrapper--flex">
-          {data.datas.map((lecture) => (
+          {lectures.map((lecture) => (
             <Link
               key={lecture.id}
               href={`/lectures/${lecture.id}`}

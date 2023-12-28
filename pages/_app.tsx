@@ -8,9 +8,6 @@ import { ModalsContextProvider } from "../context/ModalsContext";
 import { wrapper } from "../redux/store";
 import { FavoritesContextProvider } from "../context/FavoritesContext";
 import { EditorContextProvider } from "../context/editorContext";
-import { RubricType } from "../redux/rubrics/types";
-import { server } from "../utils/server";
-import { fetchRubrics } from "../redux/rubrics/asyncAction";
 
 function MyApp({ Component, ...rest }: AppProps) {
   const { store } = wrapper.useWrappedStore(rest);

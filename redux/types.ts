@@ -4,6 +4,103 @@ export enum Status {
   ERROR = "error",
 }
 
+export type RubricType = {
+  CODE: string;
+  ID: string;
+  NAME: string;
+  SHOW_IN_MAIN_MENU: boolean;
+  THEME_ICON_PATH: string;
+};
+
+export type NewType = {
+  id: string;
+  name: string;
+  likes: string;
+  views: string;
+  liked: boolean; // возможно надо убрать
+  anons: string;
+  images: { detail: string };
+  date: string;
+  rubric: string;
+  author_name: string;
+  author_surname: string;
+  author_avatar_color: string | null;
+  author_photo: string | null;
+  poperties: {
+    PUB_TAG: string[];
+    SOURCE: string;
+    PUB_SOURCE_LOGO: string;
+    AUTHOR: number;
+  };
+};
+
+export type VideoType = {
+  id: string;
+  name: string;
+  likes: string;
+  views: string;
+  liked: boolean; // возможно надо убрать
+  images: { preview: string };
+  date: string;
+  poperties: {
+    PUB_TAG: string;
+    PUB_AUTOR: string;
+    LINK_VIDEO: string;
+  };
+};
+
+export type TrendType = {
+  id: string;
+  name: string;
+  likes: string;
+  views: string;
+  liked: boolean; // возможно надо убрать
+  images: { preview: string };
+  date: string;
+  poperties: {
+    PUB_TAG: string[];
+    PUB_AUTOR: string;
+    LINK_VIDEO: string;
+    AUTHOR_LOGO: string;
+  };
+};
+
+export type EditionType = {
+  id: string;
+  name: string;
+  anons: string;
+  date: string;
+  podcastId: string;
+  podcastName: string;
+  podcastAuthor: string;
+  podcastPhoto: string;
+  poperties: {
+    EDITION: string;
+    DURATION: string;
+    LINK_AUDIO: string;
+  };
+};
+
+export type WebinarType = {
+  id: string;
+  name: string;
+  anons: string;
+  images: { preview: string };
+  date: string;
+  poperties: {
+    FIO_SPIKERS: string[];
+    PROF_SPIKERS: string[];
+    FOTO_SPIKERS: string[]; // в апи надо исправить
+    THEME_EVENTS: string[7];
+    PRISE_EVENTS: string;
+    PRISE_SLOGAN: string;
+    DATE_WEBINAR: string;
+    VIDEO_VEBINAR: string | undefined;
+  };
+};
+
+// ???
+
 export type PaginationType = {
   page: number;
   perPage: number;
@@ -61,10 +158,10 @@ export type FullPodcastType = {
   props: {
     AUTHOR_PODCAST: PropType;
   };
-  editions: EditionType[];
+  editions: EDITIONType[];
 };
 
-export type EditionType = {
+export type EDITIONType = {
   id: string;
   anons: string;
   name: string;

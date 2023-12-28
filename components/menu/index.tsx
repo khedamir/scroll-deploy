@@ -4,7 +4,6 @@ import Footer from "../footer";
 import { ReactSVG } from "react-svg";
 import { useModalsContext } from "../../context/ModalsContext";
 import { useSelector } from "react-redux";
-import { selectRubrics } from "../../redux/rubrics/slice";
 import { baseURL } from "../../utils/server";
 import { useRouter } from "next/router";
 import { selectUser } from "../../redux/auth/slice";
@@ -13,7 +12,7 @@ import Image from "next/image";
 const Menu = () => {
   const { setAiChatActive, menuActive, setMenuActive, setLoginActive } =
     useModalsContext();
-  const { rubrics } = useSelector(selectRubrics);
+  // const { rubrics } = useSelector(selectRubrics);
   const router = useRouter();
   const { user, status } = useSelector(selectUser);
 
@@ -32,7 +31,7 @@ const Menu = () => {
         <div className="menu__main">
           <div className="menu__block">
             <nav className="nav menu__nav">
-              <ul className="nav__list">
+              {/* <ul className="nav__list">
                 {rubrics.map((value) => (
                   <li key={value.ID} className="nav__item">
                     <Link href={`/rubrics/${value.ID}`} className="nav__link">
@@ -46,7 +45,7 @@ const Menu = () => {
                     </Link>
                   </li>
                 ))}
-              </ul>
+              </ul> */}
             </nav>
           </div>
           <div className="menu__block">

@@ -1,7 +1,6 @@
 import Link from "next/link";
 import React, { FC, useEffect, useState } from "react";
 import MyEditor from "../modals/myEditor";
-import { fetchRubrics } from "../../redux/rubrics/asyncAction";
 import { useAppDispatch } from "../../redux/store";
 import { useSelector } from "react-redux";
 import { selectUser } from "../../redux/auth/slice";

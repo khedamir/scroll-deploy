@@ -3,18 +3,18 @@ import LastNews from "../lastNews";
 import NewsList from "../newsList";
 import NewsSections from "../newsSections";
 import { useSelector } from "react-redux";
-import { selectNews } from "../../../redux/news/slice";
+import { selectMainPage } from "../../../redux/main_page/slice";
 
 const FirstBlock = () => {
-  const { data } = useSelector(selectNews);
+  const { news } = useSelector(selectMainPage);
 
   return (
     <>
       <LastNews />
-      <NewsList news={data.datas.slice(3, 6)} />
+      <NewsList news={news.slice(3, 6)} />
       <NewsSections />
-      <NewsList news={data.datas.slice(6, 8)} />
-      <NewsList news={data.datas.slice(8, 9)} largeNewIndex={0} />
+      <NewsList news={news.slice(6, 8)} />
+      <NewsList news={news.slice(8, 9)} largeNewIndex={0} />
     </>
   );
 };

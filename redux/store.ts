@@ -1,7 +1,6 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { useDispatch } from "react-redux";
 import { createWrapper } from "next-redux-wrapper";
-import rubricsReducer from "./rubrics/slice";
 import newsReducer from "./news/slice";
 import videosReducer from "./videos/slice";
 import lecturesReducer from "./lectures/slice";
@@ -14,10 +13,13 @@ import authReducer from "./auth/slice";
 import favoritesReducer from "./favorites/slice";
 import newpublicationReducer from "./new_publication/slice";
 
+import mainPageReducer from "./main_page/slice";
+
 const store = () =>
   configureStore({
     reducer: {
-      rubrics: rubricsReducer,
+      mainPage: mainPageReducer,
+
       news: newsReducer,
       videos: videosReducer,
       lectures: lecturesReducer,

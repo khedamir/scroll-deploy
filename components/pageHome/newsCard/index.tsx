@@ -1,24 +1,22 @@
 import Link from "next/link";
 import React, { FC, MouseEvent } from "react";
-import { NewType } from "../../../redux/news/types";
 import { formatDateDifference } from "../../../utils/formatDate";
 import { ReactSVG } from "react-svg";
 import { useSelector } from "react-redux";
 import { useFavoriteContext } from "../../../context/FavoritesContext";
-import { useModalsContext } from "../../../context/ModalsContext";
-import { selectUser } from "../../../redux/auth/slice";
 import { selectFavorites } from "../../../redux/favorites/slice";
 import { FavoriteNew } from "../../../redux/favorites/types";
-import { selectRubrics } from "../../../redux/rubrics/slice";
 import Image from "next/image";
+import { NewType, RubricType } from "../../../redux/types";
+import { selectMainPage } from "../../../redux/main_page/slice";
 
 interface NewsCardProps {
   news: NewType[];
+  rubrics: RubricType[];
 }
 
-const NewsCard: FC<NewsCardProps> = ({ news }) => {
+const NewsCard: FC<NewsCardProps> = ({ news, rubrics }) => {
   const favorites = useSelector(selectFavorites);
-  const { rubrics } = useSelector(selectRubrics);
   const { addFavorite, deleteFavorite } = useFavoriteContext();
 
   const isFavorite = (id: string) => {

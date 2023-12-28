@@ -1,7 +1,6 @@
 import React, { FC, MouseEvent } from "react";
 import Link from "next/link";
 import { ReactSVG } from "react-svg";
-import { NewType } from "../../../redux/news/types";
 import { formatDateDifference } from "../../../utils/formatDate";
 import { useSelector } from "react-redux";
 import { useFavoriteContext } from "../../../context/FavoritesContext";
@@ -9,8 +8,9 @@ import { useModalsContext } from "../../../context/ModalsContext";
 import { selectUser } from "../../../redux/auth/slice";
 import { selectFavorites } from "../../../redux/favorites/slice";
 import { FavoriteNew } from "../../../redux/favorites/types";
-import { selectRubrics } from "../../../redux/rubrics/slice";
 import Image from "next/image";
+import { NewType } from "../../../redux/types";
+import { selectMainPage } from "../../../redux/main_page/slice";
 
 interface NewsListProps {
   news: NewType[];
@@ -20,7 +20,7 @@ interface NewsListProps {
 const NewsList: FC<NewsListProps> = ({ news, largeNewIndex }) => {
   const { user } = useSelector(selectUser);
   const favorites = useSelector(selectFavorites);
-  const { rubrics } = useSelector(selectRubrics);
+  const { rubrics } = useSelector(selectMainPage);
   const { setLoginActive } = useModalsContext();
   const { addFavorite, deleteFavorite } = useFavoriteContext();
 

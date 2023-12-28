@@ -1,7 +1,7 @@
 import React, { FC } from "react";
 import { ReactSVG } from "react-svg";
 import RenderHTML from "../renderHTML";
-import { EditionType } from "../../redux/types";
+import { EDITIONType, EditionType } from "../../redux/types";
 import { useSelector } from "react-redux";
 import { useFavoriteContext } from "../../context/FavoritesContext";
 import { useModalsContext } from "../../context/ModalsContext";
@@ -12,7 +12,7 @@ import { AppState } from "../../redux/store";
 import { useAudioContext } from "../../context/audioContext";
 
 interface PodcastItemProps {
-  podcast: EditionType;
+  podcast: EDITIONType;
   podcastID: string;
   podcastAuthor: string;
   podcastPhoto: string;
