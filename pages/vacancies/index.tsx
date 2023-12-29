@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { FC, useRef, useState } from "react";
 import Footer from "../../components/footer";
 import { ReactSVG } from "react-svg";
 import { wrapper } from "../../redux/store";
@@ -7,52 +7,14 @@ import { selectVacancies } from "../../redux/vacancies/slice";
 import { useSelector } from "react-redux";
 import { formatDateDifference } from "../../utils/formatDate";
 import RenderHTML from "../../components/renderHTML";
+import { server } from "../../utils/server";
+import { VacanciesData } from "../../redux/vacancies/types";
 
-// const content = (
-//   <>
-//     <p>
-//       <b>Обязанности:</b>
-//     </p>
-//     <ul>
-//       <li>
-//         Разработка проектов договоров, приложений к ним и доп соглашений,
-//         соглашений контрактов, протоколов разногласий и др.
-//       </li>
-//       <li>
-//         Юридическая экспертиза договоров контрагентов, проверка на соответствие
-//         законодательству и выявление рисков
-//       </li>
-//       <li>Ведение переговоров по вопросам урегулирования условий договоров</li>
-//       <li>Учет, хранение договоров</li>
-//       <li>
-//         Проверка контрагентов по специализированной программе, составление досье
-//         контрагента (сбор документов)
-//       </li>
-//     </ul>
-//     <p>
-//       <b>Требования:</b>
-//     </p>
-//     <ul>
-//       <li>Высшее юридическое образование</li>
-//       <li>Знание гражданского законодательства</li>
-//       <li>Опыт работы 1-3 лет</li>
-//     </ul>
-//     <p>
-//       <b>Условия:</b>
-//     </p>
-//     <ul>
-//       <li>Полный рабочий день, 5/2 с 8:30 до 17:30</li>
-//       <li>Современный офис</li>
-//       <li>Официальное трудоустройство</li>
-//       <li>Окончательный размер з/п согласуется по результатам собеседования</li>
-//     </ul>
-//   </>
-// );
+interface VacanciesProps {
+  data: VacanciesData;
+}
 
-const Vacancies = () => {
-  const { data } = useSelector(selectVacancies);
-  console.log(data);
-
+const Vacancies: FC<VacanciesProps> = ({ data }) => {
   const [activeItem, setActiveItem] = useState<string>();
   const contentRefs = useRef<any>({});
 
@@ -164,13 +126,16 @@ const Vacancies = () => {
   );
 };
 
-export const getServerSideProps = wrapper.getServerSideProps(
-  (store) => async () => {
-    await store.dispatch(fetchVacancies({ limit: 15 }));
-    return {
-      props: {},
-    };
-  }
-);
+export const getStaticProps = async () => {
+  const { data } = await server.get(`/sw/v1/publications/?iblockid=30`, {
+    params: { limit: 25 },
+  });
+  return {
+    props: {
+      data: data,
+      revalidation: 60,
+    },
+  };
+};
 
 export default Vacancies;

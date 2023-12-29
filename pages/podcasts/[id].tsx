@@ -1,4 +1,4 @@
-import React, { FC, useState } from "react";
+import React, { FC, useEffect, useState } from "react";
 import Footer from "../../components/footer";
 import { ReactSVG } from "react-svg";
 import SecondSidebar from "../../components/sidebar/secondSidebar";
@@ -25,13 +25,15 @@ import { FavoritePodcast } from "../../redux/favorites/types";
 import { AudioContextProvider } from "../../context/audioContext";
 import AudioPlayer from "../../components/players/player";
 import Image from "next/image";
+import { fetchNew } from "../../server/content";
+import { PodcastType } from "../../redux/podcasts/types";
 
 interface PodcastProps {
   podcast: FullPodcastType;
 }
 
 const Podcast: FC<PodcastProps> = ({ podcast }) => {
-  const { data } = useSelector(selectPodcasts);
+  const [data, setData] = useState<PodcastType[]>([]);
   const { user } = useSelector(selectUser);
   const { setLoginActive } = useModalsContext();
   const dispatch = useAppDispatch();
@@ -79,6 +81,22 @@ const Podcast: FC<PodcastProps> = ({ podcast }) => {
       }
     });
   };
+
+  useEffect(() => {
+    const fetchPodcasts = async () => {
+      const result = await server.get(
+        `/sw/v1/podcasts/?iblockid=34&width=400&height=300`,
+        {
+          params: { limit: 5 },
+        }
+      );
+
+      return result.data.datas;
+    };
+    fetchPodcasts().then((result) => {
+      setData(result);
+    });
+  }, []);
 
   return (
     <AudioContextProvider>
@@ -167,7 +185,7 @@ const Podcast: FC<PodcastProps> = ({ podcast }) => {
                 <div className="layout__right">
                   <div className="content-card">
                     <div className="content-card__wrapper">
-                      {data.datas.map((podcast) => (
+                      {data.map((podcast) => (
                         <PodcastCard key={podcast.id} podcast={podcast} />
                       ))}
                     </div>
@@ -182,16 +200,28 @@ const Podcast: FC<PodcastProps> = ({ podcast }) => {
   );
 };
 
-export const getServerSideProps = wrapper.getServerSideProps(
-  (store) => async (context) => {
-    const { id } = context.params || {};
-    await store.dispatch(fetchPodcasts({ limit: 5 }));
-    const { data } = await server.get(`/sw/v1/podcasts/?id=${id}`);
-    return {
-      props: {
-        podcast: data.datas[Number(id)],
-      },
-    };
-  }
-);
+// export const getStaticPaths = async () => {
+//   try {
+//     const { data } = await server.get(`/sw/v1/podcasts/?iblockid=34`);
+//     const news = data.datas || [];
+//     const paths = news.map((newItem: { id: string }) => ({
+//       params: { id: newItem?.id?.toString() || "" },
+//     }));
+//     return { paths, fallback: true };
+//   } catch (error) {
+//     console.error("Error in getStaticPaths:", error);
+//     throw error;
+//   }
+// };
+
+export const getServerSideProps = async (context: { query: { id: any } }) => {
+  const podcast: FullPodcastType = await fetchNew(String(context.query.id));
+
+  return {
+    props: {
+      podcast: podcast,
+    },
+  };
+};
+
 export default Podcast;

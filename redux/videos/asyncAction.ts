@@ -1,5 +1,5 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { FetchParams, VideoType, VideosData } from "./types";
+import { FetchParams, VideosData } from "./types";
 import { server } from "../../utils/server";
 
 export const fetchVideos = createAsyncThunk<VideosData, FetchParams>(

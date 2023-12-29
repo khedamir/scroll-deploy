@@ -1,7 +1,7 @@
-import React, { FC, useState } from "react";
+import React, { FC, useEffect, useState } from "react";
 import Footer from "../../components/footer";
 import Support from "../../components/modals/support";
-import { GetServerSideProps } from "next";
+import { GetStaticProps } from "next";
 import { server } from "../../utils/server";
 import Search from "../../components/pageFaq/search";
 import SectionBlock from "../../components/pageFaq/sectionBlock";
@@ -12,23 +12,33 @@ export type SectionBLock = {
   section_name: string;
 };
 
-interface FaqProps {
-  publications: SectionBLock[];
-}
+// interface FaqProps {
+//   publications: SectionBLock[];
+// }
 
-const Faq: FC<FaqProps> = ({ publications }) => {
+const Faq = () => {
   const [activeForm, setActiveForm] = useState(false);
-
   const [serchResult, setSearchResult] = useState<SectionBLock[]>([]);
+  const [data, setData] = useState<SectionBLock[]>([]);
 
-  // const [activeItem, setActiveItem] = useState(["", ""]);
-  // function toggleActiveItem(v1: string, v2: string) {
-  //   if (activeItem[0] === v1 && activeItem[1] === v2) {
-  //     setActiveItem(["", ""]);
-  //   } else {
-  //     setActiveItem([v1, v2]);
-  //   }
-  // }
+  useEffect(() => {
+    const fetchData = async () => {
+      const params = {
+        iblockId: "35",
+      };
+      const { data } = await server.post(`/sw/v1/help.php`, params, {
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+      });
+
+      return Object.values(data.datas) as SectionBLock[];
+    };
+
+    fetchData().then((result) => {
+      setData(result);
+    });
+  }, []);
 
   return (
     <>
@@ -53,7 +63,7 @@ const Faq: FC<FaqProps> = ({ publications }) => {
                         </div>
                       ) : (
                         <div className="faq__wrapper">
-                          {publications.map((item) => (
+                          {data.map((item) => (
                             <SectionBlock key={item.section_id} item={item} />
                           ))}
                         </div>
@@ -81,32 +91,21 @@ const Faq: FC<FaqProps> = ({ publications }) => {
   );
 };
 
-export const getServerSideProps: GetServerSideProps<FaqProps> = async (
-  context
-) => {
-  try {
-    const params = {
-      iblockId: "35",
-    };
-    const { data } = await server.post(`/sw/v1/help.php`, params, {
-      headers: {
-        "Content-Type": "application/x-www-form-urlencoded",
-      },
-    });
+// export const getStaticProps: GetStaticProps<FaqProps> = async () => {
+// const params = {
+//   iblockId: "35",
+// };
+//   const { data } = await server.post(`/sw/v1/help.php`, params, {
+//     headers: {
+//       "Content-Type": "application/x-www-form-urlencoded",
+//     },
+//   });
 
-    return {
-      props: {
-        publications: Object.values(data.datas),
-      },
-    };
-  } catch (error) {
-    return {
-      redirect: {
-        destination: "/server-error",
-        permanent: false,
-      },
-    };
-  }
-};
+//   return {
+//     props: {
+//       publications: Object.values(data.datas),
+//     },
+//   };
+// };
 
 export default Faq;

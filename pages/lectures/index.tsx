@@ -1,17 +1,15 @@
-import React, { useEffect, useState } from "react";
+import React, { FC, useEffect, useState } from "react";
 import Footer from "../../components/footer";
 import SecondSidebar from "../../components/sidebar/secondSidebar";
 import LectureItem from "../../components/pageLecture/lectureItem";
-import { wrapper } from "../../redux/store";
-import { fetchLectures } from "../../redux/lectures/asyncAction";
-import { useSelector } from "react-redux";
-import { selectLectures } from "../../redux/lectures/slice";
-import { LectureType } from "../../redux/lectures/types";
+import { LectureType, LecturesData } from "../../redux/lectures/types";
 import { server } from "../../utils/server";
 
-const Lectures = () => {
-  const { data } = useSelector(selectLectures);
+interface LecturesProps {
+  data: LecturesData;
+}
 
+const Lectures: FC<LecturesProps> = ({ data }) => {
   const [nextPublication, setNextPublications] = useState<LectureType[]>([]);
   const [page, setPage] = useState(2);
   let totalPages = data.pagination?.totalPages;
@@ -77,13 +75,18 @@ const Lectures = () => {
   );
 };
 
-export const getServerSideProps = wrapper.getServerSideProps(
-  (store) => async () => {
-    await store.dispatch(fetchLectures({ limit: 8 }));
-    return {
-      props: {},
-    };
-  }
-);
+export const getStaticProps = async () => {
+  const { data } = await server.get(
+    `/sw/v1/publications/?iblockid=26&width=250&height=150`,
+    {
+      params: { limit: 8 },
+    }
+  );
+  return {
+    props: {
+      data: data,
+    },
+  };
+};
 
 export default Lectures;

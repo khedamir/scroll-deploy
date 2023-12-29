@@ -1,18 +1,21 @@
-import React, { useEffect, useState } from "react";
+import React, { FC, useEffect, useState } from "react";
 import Footer from "../../components/footer";
 import SecondSidebar from "../../components/sidebar/secondSidebar";
 import { selectPodcasts } from "../../redux/podcasts/slice";
 import { useSelector } from "react-redux";
 import { fetchPodcasts } from "../../redux/podcasts/asyncAction";
 import { wrapper } from "../../redux/store";
-import { PodcastType } from "../../redux/podcasts/types";
+import { PodcastType, PodcastsData } from "../../redux/podcasts/types";
 import { server } from "../../utils/server";
 import FullPodcastItem from "../../components/pagePodcasts/fullPodcasrItem";
 import Players from "../../components/players/player";
 import { AudioContextProvider } from "../../context/audioContext";
 
-const Podcasts = () => {
-  const { data } = useSelector(selectPodcasts);
+interface PodcastsProps {
+  data: PodcastsData;
+}
+
+const Podcasts: FC<PodcastsProps> = ({ data }) => {
   const [nextPublication, setNextPublications] = useState<PodcastType[]>([]);
   const [page, setPage] = useState(2);
   let totalPages = data.pagination?.totalPages;
@@ -81,13 +84,18 @@ const Podcasts = () => {
   );
 };
 
-export const getServerSideProps = wrapper.getServerSideProps(
-  (store) => async () => {
-    await store.dispatch(fetchPodcasts({ limit: 10 }));
-    return {
-      props: {},
-    };
-  }
-);
+export const getStaticProps = async () => {
+  const { data } = await server.get(
+    `/sw/v1/podcasts/?iblockid=34&width=400&height=300`,
+    {
+      params: { limit: 10 },
+    }
+  );
+  return {
+    props: {
+      data: data,
+    },
+  };
+};
 
 export default Podcasts;

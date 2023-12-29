@@ -5,8 +5,7 @@ import SecondSidebar from "../../components/sidebar/secondSidebar";
 import LectureItem from "../../components/pageLecture/lectureItem";
 import MediaControls from "../../components/mediaControls";
 import MediaContent from "../../components/mediaContent";
-import { fetchLectures } from "../../redux/lectures/asyncAction";
-import { AppState, wrapper } from "../../redux/store";
+import { AppState } from "../../redux/store";
 import { useSelector } from "react-redux";
 import { selectLectures } from "../../redux/lectures/slice";
 import { server } from "../../utils/server";
@@ -14,22 +13,28 @@ import { formatDateDifference } from "../../utils/formatDate";
 import { FullVideoType } from "../../redux/types";
 import { extractVideoId } from "../../utils/extractVideoId";
 import { useFavoriteContext } from "../../context/FavoritesContext";
-import { selectUser } from "../../redux/auth/slice";
 import { isElementInFavorites } from "../../redux/favorites/slice";
 import { FavoriteVideo } from "../../redux/favorites/types";
 import Image from "next/image";
+import { fetchNew } from "../../server/content";
+import { useRouter } from "next/router";
+import Loader from "../../components/loader";
 
 interface LectureProps {
   publication: FullVideoType;
 }
 
 const Lecture: FC<LectureProps> = ({ publication }) => {
+  const router = useRouter();
   const { data } = useSelector(selectLectures);
-  const { user } = useSelector(selectUser);
   const { addFavorite, deleteFavorite } = useFavoriteContext();
   const isFavorite = useSelector((state: AppState) =>
-    isElementInFavorites(state, "26", publication.id)
+    isElementInFavorites(state, "26", String(router.query.id))
   );
+
+  if (router.isFallback) {
+    return <Loader text="Идет загрузка" />;
+  }
 
   const changeFavorite = () => {
     if (isFavorite) {
@@ -136,27 +141,51 @@ const Lecture: FC<LectureProps> = ({ publication }) => {
   );
 };
 
-export const getServerSideProps = wrapper.getServerSideProps(
-  (store) => async (context) => {
-    const { id } = context.params || {};
-    try {
-      await store.dispatch(fetchLectures({ limit: 15 }));
-      const { data } = await server.get(`/sw/v1/publications/?id=${id}`);
-
-      return {
-        props: {
-          publication: data.datas[Number(id)],
-        },
-      };
-    } catch (error) {
-      return {
-        redirect: {
-          destination: "/server-error",
-          permanent: false,
-        },
-      };
-    }
+export const getStaticPaths = async () => {
+  try {
+    const { data } = await server.get(`/sw/v1/publications/?iblockid=26`);
+    const news = data.datas || [];
+    const paths = news.map((newItem: { id: string }) => ({
+      params: { id: newItem?.id?.toString() || "" },
+    }));
+    return { paths, fallback: true };
+  } catch (error) {
+    console.error("Error in getStaticPaths:", error);
+    throw error;
   }
-);
+};
+
+export const getStaticProps = async (context: { params: { id: any } }) => {
+  const publication: FullVideoType = await fetchNew(String(context.params?.id));
+
+  return {
+    props: {
+      publication: publication,
+    },
+  };
+};
+
+// export const getServerSideProps = wrapper.getServerSideProps(
+//   (store) => async (context) => {
+//     const { id } = context.params || {};
+//     try {
+//       await store.dispatch(fetchLectures({ limit: 15 }));
+//       const { data } = await server.get(`/sw/v1/publications/?id=${id}`);
+
+//       return {
+//         props: {
+//           publication: data.datas[Number(id)],
+//         },
+//       };
+//     } catch (error) {
+//       return {
+//         redirect: {
+//           destination: "/server-error",
+//           permanent: false,
+//         },
+//       };
+//     }
+//   }
+// );
 
 export default Lecture;

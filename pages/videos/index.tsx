@@ -1,31 +1,26 @@
-import React, { useEffect, useState } from "react";
+import React, { FC, useEffect, useState } from "react";
 import Footer from "../../components/footer";
 import SecondSidebar from "../../components/sidebar/secondSidebar";
-import { wrapper } from "../../redux/store";
-import { useSelector } from "react-redux";
-import { fetchVideos } from "../../redux/videos/asyncAction";
-import { selectVideos } from "../../redux/videos/slice";
 import { server } from "../../utils/server";
-import { VideoType } from "../../redux/videos/types";
+import { VideoType, VideosData } from "../../redux/videos/types";
 import VideoItem from "../../components/pageVideos/videoItem";
 
-const Viedos = () => {
-  const { data } = useSelector(selectVideos);
+interface LecturesProps {
+  data: VideosData;
+}
 
+const Viedos: FC<LecturesProps> = ({ data }) => {
   const [nextPublication, setNextPublications] = useState<VideoType[]>([]);
   const [page, setPage] = useState(2);
   let totalPages = data.pagination?.totalPages;
 
   const fetchNextNews = async () => {
-    const result = await server.get(
-      `/sw/v1/publications/?iblockid=15`,
-      {
-        params: {
-          page: page,
-          limit: 3,
-        },
-      }
-    );
+    const result = await server.get(`/sw/v1/publications/?iblockid=15`, {
+      params: {
+        page: page,
+        limit: 3,
+      },
+    });
     if (totalPages !== result.data.pagination.totalPages) {
       totalPages = result.data.pagination.totalPages;
     }
@@ -38,7 +33,7 @@ const Viedos = () => {
       fetchNextNews();
     }
   }, [page]);
-  
+
   return (
     <div className="layout layout--sticky-bottom">
       <div className="container">
@@ -76,13 +71,18 @@ const Viedos = () => {
   );
 };
 
-export const getServerSideProps = wrapper.getServerSideProps(
-  (store) => async () => {
-    await store.dispatch(fetchVideos({ limit: 3 }));
-    return {
-      props: {},
-    };
-  }
-);
+export const getStaticProps = async () => {
+  const { data } = await server.get(
+    `/sw/v1/publications/?iblockid=15&width=550&height=350`,
+    {
+      params: { limit: 8 },
+    }
+  );
+  return {
+    props: {
+      data: data,
+    },
+  };
+};
 
 export default Viedos;

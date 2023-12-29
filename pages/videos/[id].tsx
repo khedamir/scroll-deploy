@@ -4,31 +4,34 @@ import Comments from "../../components/comments";
 import SecondSidebar from "../../components/sidebar/secondSidebar";
 import MediaControls from "../../components/mediaControls";
 import MediaContent from "../../components/mediaContent";
-import { baseURL, server } from "../../utils/server";
+import { server } from "../../utils/server";
 import { formatDateDifference } from "../../utils/formatDate";
 import { FullVideoType } from "../../redux/types";
-import { GetServerSideProps } from "next";
 import { extractVideoId } from "../../utils/extractVideoId";
 import { useSelector } from "react-redux";
 import { isElementInFavorites } from "../../redux/favorites/slice";
 import { AppState } from "../../redux/store";
-import { selectUser } from "../../redux/auth/slice";
 import { useFavoriteContext } from "../../context/FavoritesContext";
-import { useModalsContext } from "../../context/ModalsContext";
 import { FavoriteVideo } from "../../redux/favorites/types";
 import Image from "next/image";
+import { useRouter } from "next/router";
+import Loader from "../../components/loader";
+import { fetchNew } from "../../server/content";
 
 interface VideoProps {
   publication: FullVideoType;
 }
 
 const Video: FC<VideoProps> = ({ publication }) => {
-  const { user } = useSelector(selectUser);
-  const { setLoginActive } = useModalsContext();
   const { addFavorite, deleteFavorite } = useFavoriteContext();
+  const router = useRouter();
   const isFavorite = useSelector((state: AppState) =>
-    isElementInFavorites(state, "15", publication.id)
+    isElementInFavorites(state, "15", String(router.query.id))
   );
+
+  if (router.isFallback) {
+    return <Loader text="Идет загрузка" />;
+  }
 
   const changeFavorite = () => {
     if (isFavorite) {
@@ -123,26 +126,28 @@ const Video: FC<VideoProps> = ({ publication }) => {
   );
 };
 
-export const getServerSideProps: GetServerSideProps<VideoProps> = async (
-  context
-) => {
-  const { id } = context.params || {};
+export const getStaticPaths = async () => {
   try {
-    const { data } = await server.get(`/sw/v1/publications/?id=${id}`);
-
-    return {
-      props: {
-        publication: data.datas[Number(id)],
-      },
-    };
+    const { data } = await server.get(`/sw/v1/publications/?iblockid=15`);
+    const news = data.datas || [];
+    const paths = news.map((newItem: { id: string }) => ({
+      params: { id: newItem?.id?.toString() || "" },
+    }));
+    return { paths, fallback: true };
   } catch (error) {
-    return {
-      redirect: {
-        destination: "/server-error",
-        permanent: false,
-      },
-    };
+    console.error("Error in getStaticPaths:", error);
+    throw error;
   }
+};
+
+export const getStaticProps = async (context: { params: { id: any } }) => {
+  const publication: FullVideoType = await fetchNew(String(context.params?.id));
+
+  return {
+    props: {
+      publication: publication,
+    },
+  };
 };
 
 export default Video;
