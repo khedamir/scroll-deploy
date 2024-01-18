@@ -27,7 +27,7 @@ const Audio: FC<AudioProps> = ({ activeBlock, data, changeFavorite }) => {
     >
       <div className="lk-bookmarks__wrapper-inner">
         <div className="lk-podcasts lk-bookmarks__section">
-          {data ? (
+          {data.length ? (
             data?.map((item) => (
               <div key={item.id} className="lk-podcasts__wrapper">
                 <div className="lk-podcasts__item">

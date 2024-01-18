@@ -6,25 +6,19 @@ import Hamburger from "../hamburger";
 import SearchIcon from "../../public/img/sprite/icon-search.svg";
 import BookmarksIcon from "../../public/img/sprite/icon-bookmarks.svg";
 import NotificationIcon from "../../public/img/sprite/icon-notifications.svg";
-import { useSelector } from "react-redux";
-import { selectUser } from "../../redux/auth/slice";
+
 import UserBlock from "./userBlock";
 import Image from "next/image";
-import LogotypeSmall from "../../public/img/logotype-small.svg";
+import { useFavoriteContext } from "../../context/FavoritesContext";
 
 interface HeaderProps {
   title: string;
 }
 
 const ThirdyHeader: FC<HeaderProps> = ({ title }) => {
-  const { menuActive, setLoginActive, setSearchActive, setBookmarks } =
+  const { menuActive, setNotification, setSearchActive, setBookmarks } =
     useModalsContext();
-
-  const { user, status } = useSelector(selectUser);
-
-  const login = () => {
-    setLoginActive(true);
-  };
+  const { bookmarksAnimateActive } = useFavoriteContext();
 
   return (
     <header
@@ -59,13 +53,20 @@ const ThirdyHeader: FC<HeaderProps> = ({ title }) => {
               </span>
               <span
                 onClick={() => setBookmarks(true)}
-                className="header__btn header__btn--tablet-hidden bookmarks-btn"
+                className={`header__btn header__btn--tablet-hidden bookmarks-btn ${
+                  bookmarksAnimateActive && "is--new"
+                }`}
               >
                 <BookmarksIcon />
               </span>
-              <Link href="#" className="header__btn notifications-btn">
+              <span
+                onClick={() => setNotification(true)}
+                className={`header__btn notifications-btn ${
+                  false && "is--new"
+                }`}
+              >
                 <NotificationIcon />
-              </Link>
+              </span>
             </div>
             <div className="header__controls header__controls--second">
               <UserBlock />

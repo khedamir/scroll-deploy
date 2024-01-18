@@ -1,4 +1,4 @@
-import React, { FC, useEffect } from "react";
+import React, { FC, useEffect, useState } from "react";
 
 import SearchIcon from "../../public/img/sprite/icon-search.svg";
 import BookmarksIcon from "../../public/img/sprite/icon-bookmarks.svg";
@@ -7,12 +7,11 @@ import NotificationIcon from "../../public/img/sprite/icon-notifications.svg";
 import Link from "next/link";
 import { useModalsContext } from "../../context/ModalsContext";
 import Hamburger from "../hamburger";
-import { useSelector } from "react-redux";
-import { selectUser } from "../../redux/auth/slice";
-import { useRouter } from "next/router";
 import UserBlock from "./userBlock";
 import { useFavoriteContext } from "../../context/FavoritesContext";
 import Image from "next/image";
+import { useSelector } from "react-redux";
+import { selectNotifications } from "../../redux/notifications/slice";
 
 interface HeaderProps {
   isScrolling: boolean;
@@ -22,16 +21,26 @@ const Header: FC<HeaderProps> = ({ isScrolling }) => {
   const {
     setAiChatActive,
     menuActive,
-    setLoginActive,
     setNotification,
     setBookmarks,
     setSearchActive,
   } = useModalsContext();
 
   const { bookmarksAnimateActive } = useFavoriteContext();
+  const { data } = useSelector(selectNotifications);
+  const [notificationsActive, setNotificationActive] = useState(false);
 
-  const { user } = useSelector(selectUser);
-  const router = useRouter();
+  useEffect(() => {
+    if (notificationsActive) {
+      setTimeout(() => {
+        setNotificationActive(false);
+      }, 1000);
+    }
+  }, [notificationsActive, setNotification]);
+
+  useEffect(() => {
+    setNotificationActive(true);
+  }, [data]);
 
   return (
     <header
@@ -87,7 +96,7 @@ const Header: FC<HeaderProps> = ({ isScrolling }) => {
               <span
                 onClick={() => setNotification(true)}
                 className={`header__btn notifications-btn ${
-                  false && "is--new"
+                  data.length && "is--new"
                 }`}
               >
                 <NotificationIcon />

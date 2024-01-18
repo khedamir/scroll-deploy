@@ -617,6 +617,7 @@
     justify-content: center;
     text-align: center;
     height: 300px;
+    width: 100%;
     p {
       font-family: "Inter", sans-serif;
       font-size: 18px;
@@ -625,6 +626,13 @@
       line-height: 24px;
       color: $text-faint-on-light;
       max-width: 300px;
+
+      span {
+        display: inline;
+        div {
+          display: inline;
+        }
+      }
     }
 
     @media screen and (max-width: 767px) {

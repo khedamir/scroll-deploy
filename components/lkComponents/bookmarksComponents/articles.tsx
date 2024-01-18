@@ -14,6 +14,7 @@ interface ArticlesProps {
 
 const Articles: FC<ArticlesProps> = ({ activeBlock, data, changeFavorite }) => {
   const { deleteFavoriteBlock } = useFavoriteContext();
+  console.log(data);
   return (
     <div
       className={`lk-bookmarks__wrapper ${
@@ -22,7 +23,7 @@ const Articles: FC<ArticlesProps> = ({ activeBlock, data, changeFavorite }) => {
     >
       <div className="lk-bookmarks__wrapper-inner">
         <div className="lk-articles lk-bookmarks__section">
-          {data ? (
+          {data.length ? (
             data?.map((item) => (
               <div key={item.id} className="lk-articles__wrapper">
                 <div className="lk-articles__column">
