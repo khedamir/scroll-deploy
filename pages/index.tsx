@@ -24,6 +24,8 @@ import {
   fetchWebinars,
 } from "../redux/main_page/asyncAction";
 import { selectMainPage } from "../redux/main_page/slice";
+import PromoWidget from "../components/widgets/promoWidget";
+import QuoteCards from "../components/pageHome/quoteCards";
 
 const Index: NextPage = () => {
   const { rubrics, news, trends, editions, lectures, webinars } =
@@ -84,6 +86,10 @@ const Index: NextPage = () => {
                 </Link>
               }
             />
+            <SectionLayout
+              children1={<QuoteCards />}
+              children2={<PromoWidget />}
+            />
           </div>
         </div>
       </div>
@@ -101,7 +107,6 @@ export const getStaticProps = wrapper.getStaticProps((store) => async () => {
     fetchWebinars({ limit: 2, webinar: "actual" })
   );
 
-  console.time("fetchNews");
   await Promise.allSettled([
     newsPromise,
     rubricsPromise,
@@ -110,10 +115,11 @@ export const getStaticProps = wrapper.getStaticProps((store) => async () => {
     lecturesPromise,
     webinarsPromise,
   ]);
-  console.timeEnd("fetchNews");
 
   return {
-    props: {},
+    props: {
+      revalidation: 60,
+    },
   };
 });
 

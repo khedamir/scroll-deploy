@@ -31,7 +31,6 @@ export const newPublicationSlice = createSlice({
       if (index !== -1) {
         state.drafts[index] = action.payload;
       } else {
-        console.log(action.payload);
         state.drafts = [...state.drafts, action.payload];
       }
     },

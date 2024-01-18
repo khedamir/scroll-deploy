@@ -22,6 +22,7 @@ const initialState: FavoritesSliceState = {
       items: [],
     },
   },
+  filled: false,
   status: Status.LOADING,
 };
 
@@ -90,7 +91,10 @@ export const favoritesSlice = createSlice({
     });
     builder.addCase(fetchFavorites.fulfilled, (state, action) => {
       state.status = Status.SUCCESS;
-      state.data = action.payload;
+      if (Object.values(action.payload).length) {
+        state.data = action.payload;
+        state.filled = true;
+      }
     });
     builder.addCase(fetchFavorites.rejected, (state) => {
       state.status = Status.ERROR;
@@ -133,7 +137,11 @@ export const areAllElementsInFavorites = (
   return false;
 };
 
-export const { removeFromFavorites, addToFavorites, removeFromFavoritesBlock, setFavorites } =
-  favoritesSlice.actions;
+export const {
+  removeFromFavorites,
+  addToFavorites,
+  removeFromFavoritesBlock,
+  setFavorites,
+} = favoritesSlice.actions;
 
 export default favoritesSlice.reducer;

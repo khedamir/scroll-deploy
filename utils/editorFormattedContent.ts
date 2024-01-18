@@ -46,9 +46,6 @@ export function parseHTMLToEditorData(htmlString: string): OutputData {
         child.nextElementSibling?.nextElementSibling?.nextElementSibling
           ?.nextSibling?.textContent || "";
 
-      console.log(
-        child.nextElementSibling?.nextElementSibling?.nextElementSibling
-      );
       blocks.push({
         type: "quote",
         data: {
@@ -76,12 +73,7 @@ export function parseHTMLToEditorData(htmlString: string): OutputData {
       child = child.nextElementSibling?.nextElementSibling as Element;
     }
   });
-
-  console.log({
-    time: Date.now(),
-    blocks,
-    version: "2.28.2", // Укажите актуальную версию Editor.js
-  });
+  
   return {
     time: Date.now(),
     blocks,
@@ -111,7 +103,6 @@ export function editorFormattedContent(data: OutputData) {
         return "";
       })
       .join("");
-  console.log(result);
   return result;
 }
 

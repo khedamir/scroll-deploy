@@ -361,21 +361,46 @@
   border: none;
   border-radius: 50%;
   transition: all $transition-default;
+  & svg {
+    min-width: 64px;
+    width: 64px;
+    height: 64px;
+    color: $white-color;
+  }
   &:focus {
     outline: none;
   }
   &:hover {
     color: $white-color;
   }
+  &--xs {
+    padding: 8px;
+    min-width: 96px;
+    width: 96px;
+    height: 96px;
+    & svg {
+      min-width: 24px;
+      width: 24px;
+      height: 24px;
+    }
+  }
   &--sm {
     padding: 8px;
     min-width: 128px;
     width: 128px;
     height: 128px;
+    & svg {
+      min-width: 32px;
+      width: 32px;
+      height: 32px;
+    }
   }
   &--pink {
     color: $root-faint-on-light;
     background: $root-complement-2-shift-up;
+    & svg {
+      color: $root-faint-on-light;
+    }
     &:hover {
       color: $root-faint-on-light;
     }
@@ -383,6 +408,10 @@
       color: $white-color;
       background: $root-complement-2-on-light-shift-down;
     }
+  }
+
+  &--black {
+    background: $root-base-on-light-shift-down;
   }
 
   @media screen and (hover: hover) {
@@ -393,10 +422,18 @@
       &:hover {
         color: $white-color;
         background: $root-complement-2-on-light;
+        & svg {
+          color: $white-color;
+        }
       }
       &:active {
         color: $white-color;
         background: $root-complement-2-on-light-shift-down;
+      }
+    }
+    &--black {
+      &:hover {
+        background: $root-base-on-light;
       }
     }
   }

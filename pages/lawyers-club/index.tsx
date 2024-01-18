@@ -2,9 +2,9 @@ import React, { FC } from "react";
 import Footer from "../../components/footer";
 import SecondSidebar from "../../components/sidebar/secondSidebar";
 import WebinarCard from "../../components/pageLawyersClub/webinarCard";
-import { WebinarType } from "../../redux/webinars/types";
 import { server } from "../../utils/server";
 import OldWebinerItem from "../../components/pageLawyersClub/oldWebinarItem";
+import { WebinarType } from "../../redux/types";
 
 interface LawyersClubProps {
   actualWebinars: WebinarType[];
@@ -66,6 +66,7 @@ export const getStaticProps = async () => {
     props: {
       actualWebinars: actual.data.datas,
       oldWebinars: old.data.datas,
+      revalidation: 60,
     },
   };
 };

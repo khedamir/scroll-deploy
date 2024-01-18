@@ -2,15 +2,16 @@ import React, { FC, useEffect, useState } from "react";
 import Footer from "../../components/footer";
 import SecondSidebar from "../../components/sidebar/secondSidebar";
 import LectureItem from "../../components/pageLecture/lectureItem";
-import { LectureType, LecturesData } from "../../redux/lectures/types";
 import { server } from "../../utils/server";
+import { VideoType } from "../../redux/types";
 
 interface LecturesProps {
-  data: LecturesData;
+  // type_problem
+  data: any;
 }
 
 const Lectures: FC<LecturesProps> = ({ data }) => {
-  const [nextPublication, setNextPublications] = useState<LectureType[]>([]);
+  const [nextPublication, setNextPublications] = useState<VideoType[]>([]);
   const [page, setPage] = useState(2);
   let totalPages = data.pagination?.totalPages;
 
@@ -47,7 +48,7 @@ const Lectures: FC<LecturesProps> = ({ data }) => {
               <div className="layout__center layout__center--wide">
                 <div className="lectures mobile-wide">
                   <div className="lectures__wrapper">
-                    {data.datas.map((lecture) => (
+                    {data.datas.map((lecture: any) => (
                       <LectureItem
                         key={lecture.id}
                         lecture={lecture}

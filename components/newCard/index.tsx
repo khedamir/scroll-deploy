@@ -95,16 +95,20 @@ const NewCard: FC<NewCardProps> = ({ newItem, isLast, newLimit, end }) => {
                 </>
               ) : newItem.author_name ? (
                 <>
-                  <span className="big-news-card__author--img">
-                    <UserIcon
-                      userPhoto={newItem.author_photo}
-                      nameLatter={newItem.author_name[0]}
-                      avatarColor={newItem.author_avatar_color}
-                    />
-                  </span>
-                  <span>
-                    {newItem.author_name} {newItem.author_surname}
-                  </span>
+                  <Link href={`/author/${newItem.poperties.AUTHOR}`}>
+                    <span className="big-news-card__author--img">
+                      <UserIcon
+                        userPhoto={newItem.author_photo}
+                        nameLatter={newItem.author_name[0]}
+                        avatarColor={newItem.author_avatar_color}
+                      />
+                    </span>
+                  </Link>
+                  <Link href={`/author/${newItem.poperties.AUTHOR}`}>
+                    <span>
+                      {newItem.author_name} {newItem.author_surname}
+                    </span>
+                  </Link>
                 </>
               ) : (
                 <>

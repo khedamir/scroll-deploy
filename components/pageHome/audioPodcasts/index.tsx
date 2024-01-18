@@ -1,7 +1,5 @@
 import Link from "next/link";
 import React, { FC } from "react";
-import { selectPodcasts } from "../../../redux/podcasts/slice";
-import { useSelector } from "react-redux";
 import Image from "next/image";
 import { EditionType } from "../../../redux/types";
 

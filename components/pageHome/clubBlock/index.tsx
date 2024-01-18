@@ -1,8 +1,4 @@
-import Link from "next/link";
 import React, { FC } from "react";
-import { useSelector } from "react-redux";
-import { ReactSVG } from "react-svg";
-import { selectWebinars } from "../../../redux/webinars/slice";
 import WebinerItem from "../../pageLawyersClub/webinerItem";
 import { WebinarType } from "../../../redux/types";
 

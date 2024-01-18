@@ -43,7 +43,6 @@ const Rubrics: FC<RubricsProps> = ({ news, pagination, rubrics }) => {
       rubric: Number(router.query.id),
     });
     const newArr = [...nextPublication, ...result.datas];
-    console.log(newArr);
     setNextPublications(newArr);
   };
 
@@ -134,6 +133,7 @@ export const getStaticProps = async (context: { params: { id: any } }) => {
       news: news.datas,
       pagination: news.pagination,
       rubrics: rubrics,
+      revalidation: 60,
     },
   };
 };

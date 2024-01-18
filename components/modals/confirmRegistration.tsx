@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useModalsContext } from "../../context/ModalsContext";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/router";
@@ -21,13 +21,12 @@ const ConfirmRegistration = () => {
 
   useHandleScroll(Boolean(confirm_user_id));
 
-  const clearQueryParams = () => {
-    const { pathname, query } = router;
-    const newUrl = { pathname };
-    router.replace({ pathname: newUrl.pathname, query: {} }, undefined, {
+  const clearQueryParams = useCallback(() => {
+    const { pathname } = router;
+    router.replace({ pathname: "/", query: {} }, undefined, {
       shallow: true,
     });
-  };
+  }, [router]);
 
   const {
     register,
@@ -41,29 +40,25 @@ const ConfirmRegistration = () => {
   });
 
   useEffect(() => {
-    let timeoutId;
     if (confirm_code) {
       registerConfirm({
         userId: String(confirm_user_id),
         confirm_code: String(confirm_code),
       }).then(() => {
+        clearQueryParams();
         setSucces(true);
-
-        timeoutId = setTimeout(() => {
-          setLoginActive(true);
-          clearQueryParams();
-        }, 1500);
+        setLoginActive(true);
       });
     }
-  }, []);
+  }, [clearQueryParams, confirm_code, confirm_user_id, setLoginActive]);
 
   const onSubmit = async (values: FormValuesType) => {
     registerConfirm({
       userId: String(confirm_user_id),
       confirm_code: values.code,
     }).then(() => {
-      setLoginActive(true);
       clearQueryParams();
+      setLoginActive(true);
     });
     try {
     } catch (error) {
@@ -105,7 +100,7 @@ const ConfirmRegistration = () => {
               {!confirm_code ? (
                 <>
                   <h3 className="modal__heading">
-                    Введите код для подтверждения регистрации
+                    Введите код для подтверждения регистрации!!!
                   </h3>
                   <form
                     onSubmit={handleSubmit(onSubmit)}

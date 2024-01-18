@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import InputMask from "react-input-mask";
-import { Controller, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { useSelector } from "react-redux";
 import { ReactSVG } from "react-svg";
-import { selectUser } from "../../redux/auth/slice";
+import { selectUser, setUserData } from "../../redux/auth/slice";
 import InputWrapper from "../InputWrapper";
 import { changeUserData } from "../modals/validationSchemes";
 import { useModalsContext } from "../../context/ModalsContext";
@@ -13,6 +13,8 @@ import {
   UserDataChange,
 } from "../../utils/formFetchs";
 import UserIcon from "../userIcon";
+import { useAppDispatch } from "../../redux/store";
+import { ChangedUserData } from "../../redux/auth/types";
 
 type FormValuesType = {
   name: string;
@@ -27,16 +29,16 @@ const UserDataForm = () => {
   const { setChangePasswordActive } = useModalsContext();
   const [userImg, setUserImg] = useState("");
   const [inputImgValue, setInputImg] = useState<any>();
-  const [isDisabled, setIsDisabled] = useState(true);
   const [saved, setSaved] = useState(false);
+
+  const dispatch = useAppDispatch();
 
   const {
     register,
     handleSubmit,
-    getValues,
-    watch,
-    control,
-    formState: { errors },
+    setValue,
+    reset,
+    formState: { errors, isDirty, isValid },
   } = useForm<FormValuesType>({
     defaultValues: {
       name: user?.name || "",
@@ -47,12 +49,6 @@ const UserDataForm = () => {
     },
     mode: "onBlur",
   });
-
-  const watchedName = watch("name");
-  const watchedLastName = watch("last_name");
-  const watchedCity = watch("city");
-  const watchedPhone = watch("phone");
-  const watchedEmail = watch("email");
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -79,13 +75,7 @@ const UserDataForm = () => {
     if (user) {
       const params: ChangeUserDataProps = {
         userId: user?.id,
-        data: {
-          name: values.name,
-          last_name: values.last_name,
-          city: values.city,
-          phone: values.phone,
-          email: values.email,
-        },
+        data: values,
       };
 
       if (userImg) {
@@ -94,50 +84,27 @@ const UserDataForm = () => {
       }
 
       UserDataChange(params).then(() => {
+        dispatch(setUserData(values as ChangedUserData));
         setSaved(true);
+        setInputImg("");
       });
     }
   };
 
-  const isDisabledCheck = () => {
-    if (user) {
-      if (user.name !== getValues("name")) {
-        return false;
-      }
-
-      if (user.last_name !== getValues("last_name")) {
-        return false;
-      }
-
-      if (user.city !== getValues("city")) {
-        return false;
-      }
-
-      if (user.phone !== getValues("phone")) {
-        return false;
-      }
-
-      if (user.email !== getValues("email")) {
-        return false;
-      }
-
-      if (userImg) {
-        return false;
-      }
-    }
-    return true;
-  };
-
   useEffect(() => {
-    setIsDisabled(isDisabledCheck());
-  }, [
-    watchedName,
-    watchedLastName,
-    watchedCity,
-    watchedPhone,
-    watchedEmail,
-    userImg,
-  ]);
+    if (saved) {
+      setTimeout(() => {
+        setSaved(false);
+        reset({
+          name: user?.name || "",
+          last_name: user?.last_name || "",
+          city: user?.city || "",
+          phone: user?.phone || "",
+          email: user?.email || "",
+        });
+      }, 1500);
+    }
+  }, [reset, saved]);
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="lk-edit__wrapper">
@@ -218,19 +185,15 @@ const UserDataForm = () => {
             errorMessage={errors.phone?.message}
             otherClassName="lk-edit__input"
           >
-            <Controller
-              name="phone"
-              control={control}
-              rules={changeUserData.phone}
-              render={({ field }) => (
-                <InputMask
-                  mask={"+7 (999) 999-99-99"}
-                  placeholder={"+7 (999) 999-99-99"}
-                  className="input-field__input"
-                  id="lk-edit-phone"
-                  {...field}
-                />
-              )}
+            <InputMask
+              {...register("phone", changeUserData.phone)}
+              mask="+7 (999) 999-99-99"
+              placeholder={"+7 (999) 999-99-99"}
+              className="input-field__input"
+              id="lk-edit-phone"
+              onChange={(e) => {
+                setValue("phone", e.target.value, { shouldDirty: true });
+              }}
             />
           </InputWrapper>
           <InputWrapper
@@ -259,7 +222,7 @@ const UserDataForm = () => {
       </div>
       <div className="lk-edit__bottom">
         <button
-          disabled={isDisabled}
+          disabled={(!(isDirty && isValid) && !Boolean(inputImgValue)) || saved}
           className="lk-edit__btn btn btn--md-bold btn--orange"
         >
           {saved ? "Сохранено" : "Сохранить"}

@@ -7,7 +7,6 @@ import MediaControls from "../../components/mediaControls";
 import MediaContent from "../../components/mediaContent";
 import { AppState } from "../../redux/store";
 import { useSelector } from "react-redux";
-import { selectLectures } from "../../redux/lectures/slice";
 import { server } from "../../utils/server";
 import { formatDateDifference } from "../../utils/formatDate";
 import { FullVideoType } from "../../redux/types";
@@ -26,7 +25,6 @@ interface LectureProps {
 
 const Lecture: FC<LectureProps> = ({ publication }) => {
   const router = useRouter();
-  const { data } = useSelector(selectLectures);
   const { addFavorite, deleteFavorite } = useFavoriteContext();
   const isFavorite = useSelector((state: AppState) =>
     isElementInFavorites(state, "26", String(router.query.id))
@@ -123,7 +121,7 @@ const Lecture: FC<LectureProps> = ({ publication }) => {
               <div className="layout__right">
                 <div className="content-card mobile-wide">
                   <div className="content-card__wrapper">
-                    {data.datas.map((lecture) => (
+                    {[].map((lecture: any) => (
                       <LectureItem
                         key={lecture.id}
                         lecture={lecture}
@@ -161,31 +159,9 @@ export const getStaticProps = async (context: { params: { id: any } }) => {
   return {
     props: {
       publication: publication,
+      revalidation: 300,
     },
   };
 };
-
-// export const getServerSideProps = wrapper.getServerSideProps(
-//   (store) => async (context) => {
-//     const { id } = context.params || {};
-//     try {
-//       await store.dispatch(fetchLectures({ limit: 15 }));
-//       const { data } = await server.get(`/sw/v1/publications/?id=${id}`);
-
-//       return {
-//         props: {
-//           publication: data.datas[Number(id)],
-//         },
-//       };
-//     } catch (error) {
-//       return {
-//         redirect: {
-//           destination: "/server-error",
-//           permanent: false,
-//         },
-//       };
-//     }
-//   }
-// );
 
 export default Lecture;

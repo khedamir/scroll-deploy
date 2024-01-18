@@ -11,12 +11,10 @@ export const fetchComments = createAsyncThunk<
   },
   FetchParams
 >("comments/fetchComments", async (params) => {
-  console.log(params);
   const { data } = await server.post(`/sw/v1/comments.php`, params, {
     headers: {
       "Content-Type": "application/x-www-form-urlencoded",
     },
   });
-  console.log(data);
   return data;
 });

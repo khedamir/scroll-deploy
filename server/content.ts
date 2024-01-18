@@ -14,6 +14,8 @@ type FetchParams = {
   limit?: number;
   page?: number;
   rubric?: number;
+  type?: "userPublications";
+  userId?: string;
 };
 
 export const fetchNew = async (itemId: string) => {
@@ -75,4 +77,19 @@ export const fetchRubrics = async () => {
   const { data } = await server.get("/api/v1/navigation/main");
   const rubrics: RubricType[] = Object.values(data.message);
   return rubrics;
+};
+
+type fetchInfoParams = {
+  type: "popularRubrics" | "lastWeekVideos" | "publicationLastComment";
+  publicationId?: string;
+};
+
+export const fetchInfo = async (params: fetchInfoParams) => {
+  const { data } = await server.post("/sw/v1/getInfo.php", params, {
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+    },
+  });
+
+  return data.datas;
 };

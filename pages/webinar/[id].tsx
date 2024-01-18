@@ -4,10 +4,7 @@ import { ReactSVG } from "react-svg";
 import Link from "next/link";
 import AuthorItem from "../../components/pageWebinar/authorItem";
 import RegisterBlock from "../../components/pageWebinar/registerBlock";
-import { wrapper } from "../../redux/store";
-import { fetchWebinars } from "../../redux/webinars/asyncAction";
 import { server } from "../../utils/server";
-import { WebinarType } from "../../redux/webinars/types";
 import OldWebinerItem from "../../components/pageLawyersClub/oldWebinarItem";
 import { FullWebinarType } from "../../redux/types";
 import RenderHTML from "../../components/renderHTML";
@@ -15,12 +12,12 @@ import { useRouter } from "next/router";
 
 interface WebinarProps {
   publication: FullWebinarType;
-  oldWebinars: WebinarType[];
+  // type_problem
+  oldWebinars: any[];
 }
 
 const Webinar: FC<WebinarProps> = ({ publication, oldWebinars }) => {
   const router = useRouter();
-  console.log(publication);
 
   return (
     <div className="layout">
@@ -147,31 +144,29 @@ const Webinar: FC<WebinarProps> = ({ publication, oldWebinars }) => {
   );
 };
 
-export const getServerSideProps = wrapper.getServerSideProps(
-  (store) => async (context) => {
-    const { id } = context.params || {};
-    try {
-      await store.dispatch(fetchWebinars({ limit: 15 }));
-      const { data } = await server.get(`/sw/v1/publications/?id=${id}`);
-      const oldWebinars = await server.get(
-        "/sw/v1/publications/?iblockid=11&webinar=old&limit=10"
-      );
+export const getServerSideProps = async (context: { params: { id: any } }) => {
+  try {
+    const { data } = await server.get(
+      `/sw/v1/publications/?id=${context.params?.id}`
+    );
+    const oldWebinars = await server.get(
+      "/sw/v1/publications/?iblockid=11&webinar=old&limit=10"
+    );
 
-      return {
-        props: {
-          publication: data.datas[Number(id)],
-          oldWebinars: oldWebinars.data.datas,
-        },
-      };
-    } catch (error) {
-      return {
-        redirect: {
-          destination: "/server-error",
-          permanent: false,
-        },
-      };
-    }
+    return {
+      props: {
+        publication: data.datas[Number(context.params?.id)],
+        oldWebinars: oldWebinars.data.datas,
+      },
+    };
+  } catch (error) {
+    return {
+      redirect: {
+        destination: "/server-error",
+        permanent: false,
+      },
+    };
   }
-);
+};
 
 export default Webinar;

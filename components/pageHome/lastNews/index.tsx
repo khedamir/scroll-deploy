@@ -1,14 +1,10 @@
-import React, { useState, MouseEvent } from "react";
+import React, { MouseEvent } from "react";
 import Link from "next/link";
 import { useSelector } from "react-redux";
-import { selectNews } from "../../../redux/news/slice";
-import { baseURL } from "../../../utils/server";
 import { formatDateDifference } from "../../../utils/formatDate";
 import { ReactSVG } from "react-svg";
 import { selectFavorites } from "../../../redux/favorites/slice";
 import { FavoriteNew } from "../../../redux/favorites/types";
-import { selectUser } from "../../../redux/auth/slice";
-import { useModalsContext } from "../../../context/ModalsContext";
 import { useFavoriteContext } from "../../../context/FavoritesContext";
 import Image from "next/image";
 import { selectMainPage } from "../../../redux/main_page/slice";

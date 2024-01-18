@@ -110,7 +110,6 @@ export const advertisingFetch = async ({
       form_text_19: phone,
       form_email_20: email,
     };
-
     await server.post("/sw/v1//webform/?id=5", params, {
       headers: {
         "Content-Type": "application/x-www-form-urlencoded",
@@ -265,14 +264,11 @@ export const UserDataChange = async ({ userId, data }: ChangeUserDataProps) => {
       ...data,
     };
 
-    console.log(data);
-
     const result = await server.post("/sw/v1/userData.php", params, {
       headers: {
         "Content-Type": "application/x-www-form-urlencoded",
       },
     });
-    console.log(result);
   } catch (error) {
     console.error("Произошла ошибка", error);
   }
@@ -298,7 +294,6 @@ export const PasswrodRecoveryFetch = async ({
         "Content-Type": "application/x-www-form-urlencoded",
       },
     });
-    console.log(result);
   } catch (error) {
     console.error("Произошла ошибка", error);
   }
@@ -349,7 +344,6 @@ export const FileDelete = async (data: FileDeleteType) => {
         "Content-Type": "application/x-www-form-urlencoded",
       },
     });
-    console.log(result);
   } catch (error) {
     console.error("Произошла ошибка", error);
   }
@@ -421,7 +415,6 @@ export const addPublication = async ({
         "Content-Type": "application/x-www-form-urlencoded",
       },
     });
-    console.log(result.data);
     return result.data;
   } catch (error) {
     console.error("Произошла ошибка", error);
@@ -444,7 +437,6 @@ export const getPublications = async ({
         "Content-Type": "application/x-www-form-urlencoded",
       },
     });
-    console.log(result);
     return result.data;
   } catch (error) {
     console.error("Произошла ошибка", error);
@@ -469,7 +461,6 @@ export const deletePublication = async ({
         "Content-Type": "application/x-www-form-urlencoded",
       },
     });
-    console.log(result);
     return result.data;
   } catch (error) {
     console.error("Произошла ошибка", error);

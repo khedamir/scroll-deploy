@@ -11,6 +11,7 @@ import { FavoriteNew } from "../../../redux/favorites/types";
 import Image from "next/image";
 import { NewType } from "../../../redux/types";
 import { selectMainPage } from "../../../redux/main_page/slice";
+import Tooltip from "./tooltip";
 
 interface NewsListProps {
   news: NewType[];
@@ -126,18 +127,7 @@ const NewsList: FC<NewsListProps> = ({ news, largeNewIndex }) => {
                   />
                 </Link>
               ) : (
-                <article className="tooltip-info-card">
-                  <div className="tooltip-info-card__inner">
-                    <ReactSVG
-                      className="tooltip-info-card__icon"
-                      src="/img/sprite/icon-comment.svg"
-                    />
-                    <span className="tooltip-info-card__name">Aleks</span>
-                  </div>
-                  <p className="tooltip-info-card__description">
-                    Считаю, что власти Турции не получали данных...
-                  </p>
-                </article>
+                <Tooltip publicationId={item.id} />
               )}
             </span>
           ))}

@@ -1,11 +1,11 @@
 import Link from "next/link";
 import React, { FC, RefObject, useEffect, useRef } from "react";
-import { LectureType } from "../../redux/lectures/types";
 import { formatDateDifference } from "../../utils/formatDate";
 import Image from "next/image";
+import { VideoType } from "../../redux/types";
 
 interface LectureItemProps {
-  lecture: LectureType;
+  lecture: VideoType;
   otherClassName?: string;
   isLast?: boolean;
   newLimit?: () => void;

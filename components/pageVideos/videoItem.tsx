@@ -1,7 +1,6 @@
 import React, { FC, RefObject, useEffect, useRef } from "react";
-import { VideoType } from "../../redux/videos/types";
+import { VideoType } from "../../redux/types";
 import Link from "next/link";
-import { baseURL } from "../../utils/server";
 import { formatDateDifference } from "../../utils/formatDate";
 import Image from "next/image";
 

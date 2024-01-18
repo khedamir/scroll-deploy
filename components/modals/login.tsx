@@ -44,7 +44,7 @@ const Login = () => {
 
   useEffect(() => {
     setValue("contact", "ui@ui.ru");
-  }, [contactType]);
+  }, [contactType, setValue]);
 
   const onSubmit = async (values: FormValuesType) => {
     try {

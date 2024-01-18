@@ -61,13 +61,4 @@ const Trends = () => {
   );
 };
 
-// export const getServerSideProps = wrapper.getServerSideProps(
-//   (store) => async () => {
-//     await store.dispatch(fetchTrends({ limit: 15 }));
-//     return {
-//       props: {},
-//     };
-//   }
-// );
-
 export default Trends;

@@ -2,11 +2,12 @@ import React, { FC, useEffect, useState } from "react";
 import Footer from "../../components/footer";
 import SecondSidebar from "../../components/sidebar/secondSidebar";
 import { server } from "../../utils/server";
-import { VideoType, VideosData } from "../../redux/videos/types";
 import VideoItem from "../../components/pageVideos/videoItem";
+import { VideoType } from "../../redux/types";
 
 interface LecturesProps {
-  data: VideosData;
+  // type_problem
+  data: any;
 }
 
 const Viedos: FC<LecturesProps> = ({ data }) => {
@@ -48,7 +49,7 @@ const Viedos: FC<LecturesProps> = ({ data }) => {
               <div className="layout__center layout__center--wide">
                 <div className="videos mobile-wide">
                   <div className="videos__wrapper">
-                    {data.datas.map((video) => (
+                    {data.datas.map((video: any) => (
                       <VideoItem key={video.id} video={video} />
                     ))}
                     {nextPublication.map((video, index) => (
@@ -81,6 +82,7 @@ export const getStaticProps = async () => {
   return {
     props: {
       data: data,
+      revalidation: 60,
     },
   };
 };

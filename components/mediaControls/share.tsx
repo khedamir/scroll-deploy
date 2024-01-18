@@ -17,7 +17,6 @@ const Share = () => {
   useEffect(() => {
     // Подписываемся на изменения маршрута и обновляем состояние
     setCurrentURL(window.location.href);
-    console.log(window.location.href);
 
     const handleRouteChange = (url: string) => {
       setCurrentURL(url);

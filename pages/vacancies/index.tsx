@@ -1,17 +1,13 @@
 import React, { FC, useRef, useState } from "react";
 import Footer from "../../components/footer";
 import { ReactSVG } from "react-svg";
-import { wrapper } from "../../redux/store";
-import { fetchVacancies } from "../../redux/vacancies/asyncAction";
-import { selectVacancies } from "../../redux/vacancies/slice";
-import { useSelector } from "react-redux";
 import { formatDateDifference } from "../../utils/formatDate";
 import RenderHTML from "../../components/renderHTML";
 import { server } from "../../utils/server";
-import { VacanciesData } from "../../redux/vacancies/types";
 
 interface VacanciesProps {
-  data: VacanciesData;
+  // type_problem
+  data: any;
 }
 
 const Vacancies: FC<VacanciesProps> = ({ data }) => {
@@ -47,7 +43,7 @@ const Vacancies: FC<VacanciesProps> = ({ data }) => {
               <div className="layout__center">
                 <div className="vacancies">
                   <div className="vacancies__wrapper">
-                    {data.datas.map((vacancy) => (
+                    {data.datas.map((vacancy: any) => (
                       <div
                         key={vacancy.id}
                         className={`vacancies__item ${

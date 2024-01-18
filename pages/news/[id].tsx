@@ -27,7 +27,6 @@ const New: FC<NewProps> = ({ publication, rubrics }) => {
   const [modalActive, setModalActive] = useState(false);
   const router = useRouter();
   useSetCookie(`/news/${router.query.id}`, String(router.query.id));
-
   if (router.isFallback) {
     return <Loader text="Идет загрузка" />;
   }
@@ -116,6 +115,7 @@ export const getStaticProps = async (context: { params: { id: any } }) => {
     props: {
       publication: publication,
       rubrics: rubrics,
+      revalidation: 300,
     },
   };
 };

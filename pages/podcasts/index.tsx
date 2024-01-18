@@ -1,22 +1,20 @@
 import React, { FC, useEffect, useState } from "react";
 import Footer from "../../components/footer";
 import SecondSidebar from "../../components/sidebar/secondSidebar";
-import { selectPodcasts } from "../../redux/podcasts/slice";
-import { useSelector } from "react-redux";
-import { fetchPodcasts } from "../../redux/podcasts/asyncAction";
 import { wrapper } from "../../redux/store";
-import { PodcastType, PodcastsData } from "../../redux/podcasts/types";
 import { server } from "../../utils/server";
 import FullPodcastItem from "../../components/pagePodcasts/fullPodcasrItem";
 import Players from "../../components/players/player";
 import { AudioContextProvider } from "../../context/audioContext";
+import { EditionType } from "../../redux/types";
 
 interface PodcastsProps {
-  data: PodcastsData;
+  // type_problem
+  data: any;
 }
 
 const Podcasts: FC<PodcastsProps> = ({ data }) => {
-  const [nextPublication, setNextPublications] = useState<PodcastType[]>([]);
+  const [nextPublication, setNextPublications] = useState<EditionType[]>([]);
   const [page, setPage] = useState(2);
   let totalPages = data.pagination?.totalPages;
 
@@ -31,7 +29,6 @@ const Podcasts: FC<PodcastsProps> = ({ data }) => {
       totalPages = result.data.pagination.totalPages;
     }
     const newArr = [...nextPublication, ...result.data.datas];
-    console.log(result.data);
     setNextPublications(newArr);
   };
 
@@ -58,7 +55,7 @@ const Podcasts: FC<PodcastsProps> = ({ data }) => {
                 >
                   <div className="podcasts">
                     <div className="podcasts__wrapper">
-                      {data.datas.map((podcast) => (
+                      {data.datas.map((podcast: any) => (
                         <FullPodcastItem key={podcast.id} podcast={podcast} />
                       ))}
                       {nextPublication.map((podcast, index) => (
@@ -94,6 +91,7 @@ export const getStaticProps = async () => {
   return {
     props: {
       data: data,
+      revalidation: 60,
     },
   };
 };

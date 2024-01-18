@@ -1,9 +1,9 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 
 import { AppState } from "../store";
 import { fetchAuth, fetchAuthMe } from "./asyncAction";
 import { Status } from "../types";
-import { AuthSliceState } from "./types";
+import { AuthSliceState, ChangedUserData } from "./types";
 
 const initialState: AuthSliceState = {
   user: null,
@@ -18,6 +18,15 @@ export const authSlice = createSlice({
       state.user = null;
       state.status = Status.LOADING;
     },
+    setUserData: (state, action: PayloadAction<ChangedUserData>) => {
+      if (state.user) {
+        state.user.name = action.payload.name;
+        state.user.last_name = action.payload.last_name;
+        state.user.city = action.payload.city;
+        state.user.phone = action.payload.phone;
+        state.user.email = action.payload.email;
+      }
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(fetchAuth.pending, (state) => {
@@ -30,7 +39,6 @@ export const authSlice = createSlice({
       localStorage.setItem("id", action.payload.user_id);
     });
     builder.addCase(fetchAuth.rejected, (state, action) => {
-      console.log(action);
       state.status = Status.ERROR;
       state.user = null;
     });
@@ -53,5 +61,5 @@ export const authSlice = createSlice({
 
 export const selectUser = (state: AppState) => state.auth;
 
-export const { logout } = authSlice.actions;
+export const { logout, setUserData } = authSlice.actions;
 export default authSlice.reducer;

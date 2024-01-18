@@ -1,9 +1,22 @@
 import Image from "next/image";
 import Link from "next/link";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { ReactSVG } from "react-svg";
+import { fetchInfo } from "../../server/content";
+
+type DataType = {
+  photo: string;
+  total: number;
+};
 
 const VideoWidget = () => {
+  const [data, setData] = useState<DataType>();
+  useEffect(() => {
+    fetchInfo({ type: "lastWeekVideos" }).then((result) => {
+      setData(result);
+    });
+  }, []);
+
   return (
     <Link href="/videos" className="video-widget layout__sticky">
       <div className="video-widget__body">
@@ -14,13 +27,13 @@ const VideoWidget = () => {
             src="/img/sprite/icon-arrow-next.svg"
           />
         </div>
-        <span className="video-widget__help">35 новых видео</span>
+        <span className="video-widget__help">{data?.total} новых видео</span>
       </div>
       <picture className="video-widget__img">
         <Image
           width={126}
           height={100}
-          src="/img/video-widget-01.jpg"
+          src={data ? data.photo : ""}
           alt="Image"
         />
       </picture>

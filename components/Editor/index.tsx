@@ -24,7 +24,6 @@ export default function Editor({ holder }: EditorProps) {
         },
         onChange: async (api, event) => {
           const savedData = await api.saver.save();
-          // console.log(savedData);
           setData(savedData);
         },
       };
@@ -52,7 +51,6 @@ export default function Editor({ holder }: EditorProps) {
       } else {
         ref.current?.render(data);
       }
-      console.log("editer");
       setDataUpdate(false);
     }
   }, [data]);

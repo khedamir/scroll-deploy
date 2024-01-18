@@ -146,6 +146,7 @@ export const getStaticProps = async (context: { params: { id: any } }) => {
   return {
     props: {
       publication: publication,
+      revalidation: 300,
     },
   };
 };

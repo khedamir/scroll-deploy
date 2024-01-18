@@ -1,6 +1,8 @@
 import Link from "next/link";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { ReactSVG } from "react-svg";
+import { server } from "../../../utils/server";
+import { fetchInfo } from "../../../server/content";
 
 const List = [
   { id: 1, name: "Льготы", current: 14 },
@@ -9,7 +11,19 @@ const List = [
   { id: 4, name: "Административные правонарушения", current: 14 },
 ];
 
+type ItemType = {
+  id: string;
+  name: string;
+  elements: number;
+};
+
 const NewsSections = () => {
+  const [items, setItems] = useState<ItemType[]>([]);
+  useEffect(() => {
+    fetchInfo({ type: "popularRubrics" }).then((result) => {
+      setItems(result);
+    });
+  }, []);
   return (
     <div className="news-list mobile-wide section-indent">
       <div className="news-list__wrap">
@@ -17,12 +31,19 @@ const NewsSections = () => {
           <span className="news-list__help">Новости</span>
         </div>
         <div className="news-list__wrapper">
-          {List.map((item) => (
-            <Link key={item.id} href={`rubrics/${item.id}`} className="news-list__item">
-              <span className="news-list__value">{item.current}</span>
+          {items.map((item) => (
+            <Link
+              key={item.id}
+              href={`rubrics/${item.id}`}
+              className="news-list__item"
+            >
+              <span className="news-list__value">{item.elements}</span>
               <div className="news-list__inner">
                 <span className="news-list__name">{item.name}</span>
-                <ReactSVG className="news-list__icon" src="/img/sprite/icon-arrow-link-up.svg" />
+                <ReactSVG
+                  className="news-list__icon"
+                  src="/img/sprite/icon-arrow-link-up.svg"
+                />
               </div>
             </Link>
           ))}

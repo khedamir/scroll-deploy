@@ -30,7 +30,6 @@ const AudioPlayer = () => {
   } = useAudioContext();
 
   useEffect(() => {
-    console.log(podcastId, audioLink);
     setPlayed(0);
     setDuration(0);
   }, [podcastId, audioLink]);

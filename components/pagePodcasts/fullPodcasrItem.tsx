@@ -1,7 +1,6 @@
 import Link from "next/link";
 import React, { FC, RefObject, useEffect, useRef, useState } from "react";
 import { ReactSVG } from "react-svg";
-import { PodcastType } from "../../redux/podcasts/types";
 import RenderHTML from "../renderHTML";
 import { useSelector } from "react-redux";
 import { selectUser } from "../../redux/auth/slice";
@@ -13,9 +12,10 @@ import { FavoritePodcast, FavoriteVideo } from "../../redux/favorites/types";
 import { AppState } from "../../redux/store";
 import { useAudioContext } from "../../context/audioContext";
 import Image from "next/image";
+import { EditionType } from "../../redux/types";
 
 interface PodcastItemProps {
-  podcast: PodcastType;
+  podcast: EditionType;
   isLast?: boolean;
   newLimit?: () => void;
   end?: boolean;

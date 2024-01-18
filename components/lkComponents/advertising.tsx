@@ -22,7 +22,7 @@ const Advertising: FC<AdvertisingProps> = ({ active }) => {
   const { user } = useSelector(selectUser);
   const [thanksActive, setThanksActive] = useState(false);
 
-  const getNameFiled = () => {
+  const getNameField = () => {
     let name = "";
     if (user) {
       if (user.name) {
@@ -42,11 +42,12 @@ const Advertising: FC<AdvertisingProps> = ({ active }) => {
   const {
     register,
     handleSubmit,
+    setValue,
     control,
     formState: { errors },
   } = useForm({
     defaultValues: {
-      name: getNameFiled(),
+      name: getNameField(),
       phone: user?.phone ? user.phone : "",
       email: user?.email ? user.email : "",
     },
@@ -96,19 +97,15 @@ const Advertising: FC<AdvertisingProps> = ({ active }) => {
               errorMessage={errors.phone?.message}
               otherClassName="lk-order-ads__input"
             >
-              <Controller
-                control={control}
-                name={"phone"}
-                rules={advertisingSchemes.phone}
-                render={({ field }) => (
-                  <InputMask
-                    mask={"+7 (999) 999-99-99"}
-                    placeholder={"+7 (999) 999-99-99"}
-                    className="input-field__input"
-                    id="lk-edit-phone__ads"
-                    {...field}
-                  />
-                )}
+              <InputMask
+                {...register("phone", advertisingSchemes.phone)}
+                mask="+7 (999) 999-99-99"
+                placeholder={"+7 (999) 999-99-99"}
+                className="input-field__input"
+                id="lk-edit-phone__ads"
+                onChange={(e) => {
+                  setValue("phone", e.target.value);
+                }}
               />
             </InputWrapper>
             <InputWrapper

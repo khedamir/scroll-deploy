@@ -21,6 +21,7 @@ import Bookmarks from "../bookmarks";
 import { setFavorites } from "../../redux/favorites/slice";
 import { useSelector } from "react-redux";
 import { selectUser } from "../../redux/auth/slice";
+import { fetchNotifications } from "../../redux/notifications/asyncAction";
 
 const Layout = ({ children }: { children: ReactNode }) => {
   const headerComponents: any = {
@@ -116,6 +117,12 @@ const Layout = ({ children }: { children: ReactNode }) => {
     if (user) {
       dispatch(
         fetchFavorites({
+          userId: String(user.id),
+          type: "get",
+        })
+      );
+      dispatch(
+        fetchNotifications({
           userId: String(user.id),
           type: "get",
         })

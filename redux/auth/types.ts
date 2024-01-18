@@ -29,6 +29,15 @@ export type UserData = {
   avatar_color: string;
 };
 
+export type ChangedUserData = {
+  name: string;
+  last_name: string;
+  email: string;
+  phone: string;
+  city: string;
+  photo: string;
+};
+
 export interface AuthSliceState {
   user: UserData | null;
   status: Status;

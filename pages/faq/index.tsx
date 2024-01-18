@@ -12,10 +12,6 @@ export type SectionBLock = {
   section_name: string;
 };
 
-// interface FaqProps {
-//   publications: SectionBLock[];
-// }
-
 const Faq = () => {
   const [activeForm, setActiveForm] = useState(false);
   const [serchResult, setSearchResult] = useState<SectionBLock[]>([]);
@@ -90,22 +86,5 @@ const Faq = () => {
     </>
   );
 };
-
-// export const getStaticProps: GetStaticProps<FaqProps> = async () => {
-// const params = {
-//   iblockId: "35",
-// };
-//   const { data } = await server.post(`/sw/v1/help.php`, params, {
-//     headers: {
-//       "Content-Type": "application/x-www-form-urlencoded",
-//     },
-//   });
-
-//   return {
-//     props: {
-//       publications: Object.values(data.datas),
-//     },
-//   };
-// };
 
 export default Faq;

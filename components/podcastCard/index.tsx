@@ -1,10 +1,10 @@
 import Link from "next/link";
 import React, { FC } from "react";
-import { PodcastType } from "../../redux/podcasts/types";
+import { EditionType } from "../../redux/types";
 import Image from "next/image";
 
 interface PodcastCardProps {
-  podcast: PodcastType;
+  podcast: EditionType;
 }
 
 const PodcastCard: FC<PodcastCardProps> = ({ podcast }) => {

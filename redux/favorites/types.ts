@@ -40,23 +40,18 @@ export type FavoritePodcast = {
 
 export type FavoritesType = {
   "9": {
-    // NAME: "Новости";
     items: FavoriteNew[];
   };
   "15": {
-    // NAME: "Видео";
     items: FavoriteVideo[];
   };
   "26": {
-    // NAME: "Лекции";
     items: FavoriteVideo[];
   };
   "28": {
-    // NAME: "Тренды";
     items: FavoriteVideo[];
   };
   "34": {
-    // NAME: "Выпуски (Подкасты)";
     items: FavoritePodcast[];
   };
 };
@@ -65,5 +60,6 @@ export type FavoriteSections = "9" | "15" | "26" | "28" | "34";
 
 export interface FavoritesSliceState {
   data: FavoritesType;
+  filled: boolean;
   status: Status;
 }

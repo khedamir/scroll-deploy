@@ -5,11 +5,9 @@ import SecondSidebar from "../../components/sidebar/secondSidebar";
 import PodcastItem from "../../components/pagePodcasts/podcastItem";
 import PodcastCard from "../../components/podcastCard";
 import { AppState, useAppDispatch, wrapper } from "../../redux/store";
-import { fetchPodcasts } from "../../redux/podcasts/asyncAction";
 import { useSelector } from "react-redux";
-import { selectPodcasts } from "../../redux/podcasts/slice";
 import { server } from "../../utils/server";
-import { FullPodcastType } from "../../redux/types";
+import { EditionType, FullPodcastType } from "../../redux/types";
 import RenderHTML from "../../components/renderHTML";
 import { selectUser } from "../../redux/auth/slice";
 import { useModalsContext } from "../../context/ModalsContext";
@@ -26,14 +24,13 @@ import { AudioContextProvider } from "../../context/audioContext";
 import AudioPlayer from "../../components/players/player";
 import Image from "next/image";
 import { fetchNew } from "../../server/content";
-import { PodcastType } from "../../redux/podcasts/types";
 
 interface PodcastProps {
   podcast: FullPodcastType;
 }
 
 const Podcast: FC<PodcastProps> = ({ podcast }) => {
-  const [data, setData] = useState<PodcastType[]>([]);
+  const [data, setData] = useState<EditionType[]>([]);
   const { user } = useSelector(selectUser);
   const { setLoginActive } = useModalsContext();
   const dispatch = useAppDispatch();
@@ -220,6 +217,7 @@ export const getServerSideProps = async (context: { query: { id: any } }) => {
   return {
     props: {
       podcast: podcast,
+      revalidation: 300,
     },
   };
 };

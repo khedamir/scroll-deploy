@@ -87,7 +87,6 @@ export const changeItemLike = async ({
         userId,
       },
     });
-    console.log(result);
   } catch (error) {
     console.error("Произошла ошибка при обработке лайка:", error);
   }

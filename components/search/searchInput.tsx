@@ -31,7 +31,6 @@ const SearchInput: FC<SearchInputProps> = ({
         if (!searched) {
           setSearched(true);
         }
-        console.log(result);
       });
     } else {
       setResult([]);

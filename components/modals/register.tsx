@@ -42,7 +42,7 @@ const Register = () => {
 
   useEffect(() => {
     setValue("contact", "");
-  }, [contactType]);
+  }, [contactType, setValue]);
 
   const loginButtonClick = () => {
     setLoginActive(true);

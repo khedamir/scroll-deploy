@@ -2262,6 +2262,89 @@
   }
 }
 
+// promo block
+.promo-block {
+  display: block;
+  padding: 24px 16px;
+  width: 100%;
+  text-align: left;
+  color: $root-base-on-light;
+  border: 1px solid $line-faint-on-light;
+  border-radius: 8px;
+
+  @media screen and (max-width: 1199px) {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  @media screen and (min-width: 768px) and (max-width: 1199px) {
+    padding: 32px 56px;
+  }
+
+  &__title {
+    display: block;
+    width: fit-content;
+    font-size: 29px;
+    font-weight: 600;
+    line-height: 1.10345;
+    opacity: 0.9;
+
+    @media screen and (max-width: 767px) {
+      font-size: 24px;
+    }
+  }
+  &__description {
+    display: block;
+    margin-top: 16px;
+    width: fit-content;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 1.25;
+    opacity: 0.7;
+
+    @media screen and (max-width: 1199px) {
+      margin-top: 12px;
+    }
+    @media screen and (max-width: 767px) {
+      font-size: 15px;
+    }
+  }
+  &__btn {
+    margin-top: 36px;
+    margin-left: auto;
+
+    @media screen and (min-width: 768px) and (max-width: 1199px) {
+      margin-top: 0;
+      margin-left: 68px;
+    }
+    @media screen and (max-width: 767px) {
+      margin-top: 0;
+      margin-left: 24px;
+    }
+  }
+}
+
+// rubrics bookmarks
+.rubrics-bookmarks {
+  padding: 24px 16px 16px;
+  &__inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+  }
+  &__title {
+    display: block;
+    width: fit-content;
+    font-size: 16px;
+    font-weight: 600;
+    color: $text-faint-on-light-shift-up;
+  }
+  &__bookmark {
+    margin-left: 16px;
+  }
+}
+
 // more topic
 .more-topic {
   background: $root-base-on-dark-shift-down;
