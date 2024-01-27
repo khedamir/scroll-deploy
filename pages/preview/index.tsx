@@ -39,7 +39,6 @@ const New = () => {
           <div className="layout__wrap layout__wrap--padding">
             <div className="layout__left">
               <Sidebar rubrics={[]} />
-              <Footer />
             </div>
             <div className="layout__main">
               <div className="layout__main-wrapper">

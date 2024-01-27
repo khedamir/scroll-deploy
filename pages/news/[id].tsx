@@ -39,7 +39,6 @@ const New: FC<NewProps> = ({ publication, rubrics }) => {
           <div className="layout__wrap layout__wrap--padding">
             <div className="layout__left">
               <Sidebar rubrics={rubrics} />
-              <Footer />
             </div>
             <div className="layout__main">
               <div className="layout__main-wrapper">
