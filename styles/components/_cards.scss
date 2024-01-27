@@ -99,6 +99,17 @@
     justify-content: space-between;
     padding: 0 0 0 24px;
 
+    &:first-child {
+      .news-card__img {
+        border-top-right-radius: 16px;
+      }
+    }
+    &:last-child {
+      .news-card__img {
+        border-bottom-right-radius: 16px;
+      }
+    }
+
     &--reverse {
       flex-direction: row-reverse;
       padding: 0;
@@ -1963,6 +1974,7 @@
     z-index: 1;
     display: block;
     width: 100%;
+    height: 100%;
     &::before {
       content: "";
       display: block;

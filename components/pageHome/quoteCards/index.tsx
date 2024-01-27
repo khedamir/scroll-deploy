@@ -1,81 +1,115 @@
-import React from "react";
+import React, { FC } from "react";
 import { ReactSVG } from "react-svg";
+import { NewType } from "../../../redux/types";
+import { formatDateDifference } from "../../../utils/formatDate";
+import { useSelector } from "react-redux";
+import { selectMainPage } from "../../../redux/main_page/slice";
+import Link from "next/link";
 
-const QuoteCards = () => {
+interface QuoteCardsProps {
+  news: NewType[];
+}
+
+const QuoteCards: FC<QuoteCardsProps> = ({ news }) => {
+  const { rubrics } = useSelector(selectMainPage);
+
   return (
-    <div className="news-card mobile-wide">
-      <div className="news-card__grid">
-        <div className="news-card__grid-left">
-          <article className="quote-card news-card__grid-card news-card__grid-card--full">
-            <div className="quote-card__wrapper">
-              <div className="quote-card__main">
-                <p className="quote-card__description">
-                  Ничего страшного, никакого пенальти не было. Просто немного
-                  накопилась усталость в мышцах, и я почувствовал боль, которую
-                  не хотелось усугублять.
-                </p>
-                <span className="quote-card__author">
-                  Александр Македонский
-                </span>
-              </div>
-              <div className="quote-card__inner">
-                <span className="quote-card__help">30 минут назад</span>
-              </div>
-            </div>
-            <picture className="quote-card__img">
-              <img src="img/quote-card-img.jpg" alt="Image" />
-            </picture>
-          </article>
-        </div>
-        <div className="news-card__grid-right">
-          <a href="#" className="tidings-card news-card__grid-card">
-            <div className="tidings-card__wrapper">
-              <picture className="tidings-card__img tidings-card__img--full tidings-card__img--vr">
-                <img src="img/news-card-vertical.jpg" alt="Image" />
-              </picture>
-              <div className="tidings-card__body">
-                <span className="tidings-card__name">
-                  Компании Маска Neuralink разрешили испытывать чипы на мозгах
-                  людей
-                </span>
-                <div className="tidings-card__inner-wrap">
-                  <div className="tidings-card__inner">
-                    <span className="tidings-card__help">30 минут назад</span>
+    news?.length === 2 && (
+      <div className="news-card mobile-wide">
+        <div className="news-card__grid">
+          <div className="news-card__grid-left">
+            <article className="quote-card news-card__grid-card news-card__grid-card--full">
+              <Link
+                href={`/news/${news[0].id}`}
+                className="tidings-card news-card__grid-card"
+              >
+                <div className="tidings-card__wrapper">
+                  <div className="tidings-card__body">
+                    <span className="tidings-card__name">{news[0].name}</span>
+                    <div className="tidings-card__inner-wrap">
+                      <div className="tidings-card__inner">
+                        <span className="tidings-card__help">
+                          {formatDateDifference(news[0].date)}
+                        </span>
+                      </div>
+                      <button className="c-bookmark tidings-card__bookmark">
+                        <ReactSVG
+                          className="c-bookmark__icon c-bookmark__icon--default"
+                          src="/img/sprite/icon-bookmarks.svg"
+                        />
+                        <ReactSVG
+                          className="c-bookmark__icon c-bookmark__icon--filled"
+                          src="/img/sprite/icon-bookmarks-filled.svg"
+                        />
+                      </button>
+                    </div>
                   </div>
-                  <button className="c-bookmark tidings-card__bookmark">
-                    <ReactSVG
-                      className="c-bookmark__icon c-bookmark__icon--default"
-                      src="/img/sprite/icon-bookmarks.svg"
-                    />
-                    <ReactSVG
-                      className="c-bookmark__icon c-bookmark__icon--filled"
-                      src="/img/sprite/icon-bookmarks-filled.svg"
-                    />
-                  </button>
+                </div>
+              </Link>
+              <div className="rubrics-bookmarks news-card__rubrics">
+                <div className="rubrics-bookmarks__inner">
+                  <div className="rubrics-bookmarks__inner">
+                    <Link
+                      href={`/rubrics/${
+                        rubrics.find((rubric) => rubric.NAME === news[0].rubric)
+                          ?.ID
+                      }`}
+                      className="rubrics-bookmarks__title"
+                    >
+                      {news[0].rubric}
+                    </Link>
+                  </div>
                 </div>
               </div>
-            </div>
-          </a>
-          <div className="rubrics-bookmarks news-card__rubrics">
-            <div className="rubrics-bookmarks__inner">
-              <a href="#" className="rubrics-bookmarks__title">
-                Пособия
-              </a>
-              <button className="c-bookmark rubrics-bookmarks__bookmark">
-                <ReactSVG
-                  className="c-bookmark__icon c-bookmark__icon--default"
-                  src="/img/sprite/icon-bookmarks.svg"
-                />
-                <ReactSVG
-                  className="c-bookmark__icon c-bookmark__icon--filled"
-                  src="/img/sprite/icon-bookmarks-filled.svg"
-                />
-              </button>
+              <picture className="quote-card__img">
+                <img src={news[0].images.detail} alt="Image" />
+              </picture>
+            </article>
+          </div>
+          <div className="news-card__grid-right">
+            <Link href={`/news/${news[1].id}`} className="tidings-card news-card__grid-card">
+              <div className="tidings-card__wrapper">
+                <picture className="tidings-card__img tidings-card__img--full tidings-card__img--vr">
+                  <img src={news[1].images.detail} alt="Image" />
+                </picture>
+                <div className="tidings-card__body">
+                  <span className="tidings-card__name">{news[1].name}</span>
+                  <div className="tidings-card__inner-wrap">
+                    <div className="tidings-card__inner">
+                      <span className="tidings-card__help">
+                        {formatDateDifference(news[1].date)}
+                      </span>
+                    </div>
+                    <button className="c-bookmark tidings-card__bookmark">
+                      <ReactSVG
+                        className="c-bookmark__icon c-bookmark__icon--default"
+                        src="/img/sprite/icon-bookmarks.svg"
+                      />
+                      <ReactSVG
+                        className="c-bookmark__icon c-bookmark__icon--filled"
+                        src="/img/sprite/icon-bookmarks-filled.svg"
+                      />
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </Link>
+            <div className="rubrics-bookmarks news-card__rubrics">
+              <div className="rubrics-bookmarks__inner">
+                <Link
+                  href={`/rubrics/${
+                    rubrics.find((rubric) => rubric.NAME === news[1].rubric)?.ID
+                  }`}
+                  className="rubrics-bookmarks__title"
+                >
+                  {news[1].rubric}
+                </Link>
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
+    )
   );
 };
 

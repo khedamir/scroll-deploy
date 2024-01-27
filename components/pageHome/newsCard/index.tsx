@@ -8,7 +8,6 @@ import { selectFavorites } from "../../../redux/favorites/slice";
 import { FavoriteNew } from "../../../redux/favorites/types";
 import Image from "next/image";
 import { NewType, RubricType } from "../../../redux/types";
-import { selectMainPage } from "../../../redux/main_page/slice";
 
 interface NewsCardProps {
   news: NewType[];

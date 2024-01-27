@@ -32,6 +32,7 @@ export const favoritesSlice = createSlice({
   reducers: {
     setFavorites: (state, action: PayloadAction<FavoritesType>) => {
       state.data = action.payload;
+      state.filled = true;
     },
     addToFavorites: (
       state,

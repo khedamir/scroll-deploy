@@ -14,7 +14,9 @@ export const notificationsSlice = createSlice({
   initialState,
   reducers: {
     allNotificationsViewed: (state) => {
-      state.data = [];
+      state.data = state.data.map((item) => {
+        return { ...item, viewed: "Y" };
+      });
     },
     addNotificationViewed: (
       state,
@@ -23,7 +25,13 @@ export const notificationsSlice = createSlice({
       }>
     ) => {
       const { id } = action.payload;
-      state.data = state.data.filter((item) => item.id !== id);
+      const newData = state.data.map((item) => {
+        if (item.id === id) {
+          return { ...item, viewed: 'Y' };
+        }
+        return item;
+      });
+      state.data = newData as NotificationsType[];
     },
   },
   extraReducers: (builder) => {
@@ -44,6 +52,7 @@ export const notificationsSlice = createSlice({
 
 export const selectNotifications = (state: AppState) => state.notifications;
 
-export const { allNotificationsViewed, addNotificationViewed } = notificationsSlice.actions;
+export const { allNotificationsViewed, addNotificationViewed } =
+  notificationsSlice.actions;
 
 export default notificationsSlice.reducer;

@@ -5,6 +5,7 @@ import { useRouter } from "next/router";
 import { baseURL } from "../../utils/server";
 import Image from "next/image";
 import { RubricType } from "../../redux/types";
+import Footer from "../footer";
 
 interface SidebarProps {
   rubrics: RubricType[];
@@ -49,6 +50,7 @@ const Sidebar: FC<SidebarProps> = ({ rubrics }) => {
             <ReactSVG src="/img/sprite/icon-arrow-down.svg" />
           </button>
         </nav>
+        <Footer otherClassName="layout__footer" />
       </div>
     </div>
   );

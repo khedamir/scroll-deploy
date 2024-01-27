@@ -99,17 +99,6 @@ const Layout = ({ children }: { children: ReactNode }) => {
   useEffect(() => {
     if (localStorage.getItem("token") && localStorage.getItem("id")) {
       dispatch(fetchAuthMe({ userId: String(localStorage.getItem("id")) }));
-      dispatch(
-        fetchFavorites({
-          userId: String(localStorage.getItem("id")),
-          type: "get",
-        })
-      );
-    } else {
-      const favorites = localStorage.getItem("favorites");
-      if (favorites) {
-        dispatch(setFavorites(JSON.parse(favorites)));
-      }
     }
   }, [dispatch]);
 

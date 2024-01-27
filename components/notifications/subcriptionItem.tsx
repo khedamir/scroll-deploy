@@ -9,7 +9,11 @@ interface SubcriptionItemProps {
 
 const SubcriptionItem: FC<SubcriptionItemProps> = ({ notification }) => {
   return (
-    <div className="notifications__item">
+    <div
+      className={`notifications__item ${
+        notification.viewed === 'Y' && "notifications__item--viewed"
+      }`}
+    >
       <div className="notifications-subscribe">
         <div className="notifications-subscribe__wrapper">
           <div className="notifications-subscribe__body">

@@ -84,6 +84,21 @@
       }
     }
   }
+  &__scroll {
+    overflow-x: hidden;
+    margin-bottom: -20px;
+    padding-bottom: 20px;
+    max-height: calc(100dvh - 90px);
+    .simplebar-track.simplebar-vertical {
+      height: calc(100% - 20px);
+    }
+  }
+  &__scroll-inner {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: calc(100dvh - 90px - 20px);
+  }
   &__main {
     margin-left: 20px;
     max-width: calc(100% - 253px - 20px);

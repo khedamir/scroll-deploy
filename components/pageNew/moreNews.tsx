@@ -5,6 +5,7 @@ import MoreNewsGrup from "./moreNewsGrup";
 import { NewType, RubricType } from "../../redux/types";
 import { fetchNews } from "../../server/content";
 
+
 interface MoreNewProps {
   rubrics: RubricType[];
   rubricName: string;

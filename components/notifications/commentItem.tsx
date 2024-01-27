@@ -43,7 +43,11 @@ const CommentItem: FC<CommentItemProps> = ({
     }
   };
   return (
-    <div className="notifications__item notifications__item--divider">
+    <div
+      className={`notifications__item notifications__item--divider ${
+        notification.viewed === "Y" && "notifications__item--viewed"
+      }`}
+    >
       <article className="notifications-card notifications__card">
         <div className="notifications-card__wrapper">
           <picture className="notifications-card__img">

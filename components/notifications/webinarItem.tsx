@@ -43,7 +43,11 @@ const WebinarItem: FC<WebinarItemProps> = ({
     }
   };
   return (
-    <div className="notifications__item notifications__item--divider">
+    <div
+      className={`notifications__item notifications__item--divider ${
+        notification.viewed === "Y" && "notifications__item--viewed"
+      }`}
+    >
       <div className="notifications-webinar">
         <div className="notifications-webinar__wrapper">
           <div className="notifications-webinar__main">

@@ -11,14 +11,18 @@ interface SupportItemProps {
 
 const SupportItem: FC<SupportItemProps> = ({ notification }) => {
   return (
-    <div className="notifications__item notifications__item--divider">
+    <div
+      className={`notifications__item notifications__item--divider ${
+        notification.viewed === "Y" && "notifications__item--viewed"
+      }`}
+    >
       <article className="notifications-card notifications__card">
         <div className="notifications-card__wrapper">
           <div className="notifications-card__img support-img">
             <ReactSVG
               width={34}
               height={34}
-              src={'/img/sprite/icon-support.svg'}
+              src={"/img/sprite/icon-support.svg"}
             />
           </div>
           <div className="notifications-card__body">

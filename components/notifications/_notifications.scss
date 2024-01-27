@@ -130,6 +130,10 @@
         padding: 24px 0 0;
       }
     }
+
+    &--viewed {
+      opacity: 0.7;
+    }
   }
   &__item + &__item--divider {
     border-top: 1px solid $line-base-on-dark-shift-down;

@@ -93,7 +93,7 @@ const Video: FC<VideoProps> = ({ publication }) => {
                             src={`${publication.images[1]}`}
                             alt="Image"
                           />
-                          <span>{publication.props.PUB_AUTOR.VALUE[0]}</span>
+                          <span>{publication.props.PUB_AUTOR?.VALUE[0]}</span>
                         </a>
                         <span className="video__time">
                           {formatDateDifference(publication.date)}

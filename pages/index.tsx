@@ -1,6 +1,5 @@
 import React from "react";
 import { NextPage } from "next";
-import Footer from "../components/footer";
 import VideoWidget from "../components/widgets/videoWidget";
 import Sidebar from "../components/sidebar/sidebar";
 import SectionLayout from "../components/pageHome/sectionLayout";
@@ -26,6 +25,7 @@ import {
 import { selectMainPage } from "../redux/main_page/slice";
 import PromoWidget from "../components/widgets/promoWidget";
 import QuoteCards from "../components/pageHome/quoteCards";
+import LastSection from "../components/pageHome/lastSection";
 
 const Index: NextPage = () => {
   const { rubrics, news, trends, editions, lectures, webinars } =
@@ -37,7 +37,6 @@ const Index: NextPage = () => {
         <div className="layout__wrap layout__wrap--padding">
           <div className="layout__left">
             <Sidebar rubrics={rubrics} />
-            <Footer />
           </div>
           <div className="layout__main">
             <SectionLayout
@@ -87,7 +86,12 @@ const Index: NextPage = () => {
               }
             />
             <SectionLayout
-              children1={<QuoteCards />}
+              children1={
+                <>
+                  <QuoteCards news={news.slice(17, 19)} />
+                  <LastSection />
+                </>
+              }
               children2={<PromoWidget />}
             />
           </div>
@@ -98,7 +102,7 @@ const Index: NextPage = () => {
 };
 
 export const getStaticProps = wrapper.getStaticProps((store) => async () => {
-  const newsPromise = store.dispatch(fetchNews({ limit: 17 }));
+  const newsPromise = store.dispatch(fetchNews({ limit: 19 }));
   const rubricsPromise = store.dispatch(fetchRubrics());
   const trendsPromise = store.dispatch(fetchTrends({ limit: 10 }));
   const podcastsPromise = store.dispatch(fetchEditions({ limit: 3 }));
