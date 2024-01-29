@@ -74,7 +74,7 @@ const Video: FC<VideoProps> = ({
               </button>
             </li>
           </ul>
-          {Boolean(trends.length || videos.length || lectures.length) && (
+          {Boolean(trends?.length || videos?.length || lectures?.length) && (
             <button
               onClick={deleteBlock}
               className="lk-bookmarks__favorites c-bookmark is--active"
@@ -95,7 +95,7 @@ const Video: FC<VideoProps> = ({
             orientation === "vertical" && "is--active"
           }`}
         >
-          {trends.length ? (
+          {trends?.length ? (
             trends.map((item) => (
               <div key={item.id} className="lk-video__wrapper">
                 <article
@@ -186,7 +186,7 @@ const Video: FC<VideoProps> = ({
                 </button>
               </article>
             ))}
-            {!videos.length && !lectures.length && <EmptyBookmarks />}
+            {!videos?.length && !lectures?.length && <EmptyBookmarks />}
           </div>
         </div>
       </div>
