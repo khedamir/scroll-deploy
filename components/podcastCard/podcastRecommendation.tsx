@@ -18,7 +18,7 @@ const fetchPodcasts = async () => {
 
 const PodcastRecommendation = () => {
   const { data, isLoading } = useSWR<EditionType[]>(
-    "home-page-widget-video",
+    "podcast-page-recommendations",
     fetchPodcasts
   );
 
@@ -30,7 +30,7 @@ const PodcastRecommendation = () => {
     <div className="layout__right">
       <div className="content-card">
         <div className="content-card__wrapper">
-          {data?.map((podcast) => (
+          {data.map((podcast) => (
             <PodcastCard key={podcast.id} podcast={podcast} />
           ))}
         </div>
