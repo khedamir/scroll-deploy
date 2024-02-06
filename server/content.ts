@@ -16,10 +16,16 @@ type FetchParams = {
   rubric?: number;
   type?: "userPublications";
   userId?: string;
+  webinar?: 'old' | 'actual'
 };
 
 export const fetchNew = async (itemId: string) => {
   const { data } = await server.get(`/sw/v1/publications/?id=${itemId}`);
+  return data.datas[Number(itemId)];
+};
+
+export const fetchPodcast = async (itemId: string) => {
+  const { data } = await server.get(`/sw/v1/podcasts/?id=${itemId}`);
   return data.datas[Number(itemId)];
 };
 

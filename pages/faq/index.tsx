@@ -1,10 +1,9 @@
-import React, { FC, useEffect, useState } from "react";
+import React, { useState } from "react";
 import Footer from "../../components/footer";
 import Support from "../../components/modals/support";
-import { GetStaticProps } from "next";
-import { server } from "../../utils/server";
 import Search from "../../components/pageFaq/search";
 import SectionBlock from "../../components/pageFaq/sectionBlock";
+import SectionList from "../../components/pageFaq/sectionList";
 
 export type SectionBLock = {
   elements: { id: string; answer: string; question: string }[];
@@ -15,26 +14,6 @@ export type SectionBLock = {
 const Faq = () => {
   const [activeForm, setActiveForm] = useState(false);
   const [serchResult, setSearchResult] = useState<SectionBLock[]>([]);
-  const [data, setData] = useState<SectionBLock[]>([]);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      const params = {
-        iblockId: "35",
-      };
-      const { data } = await server.post(`/sw/v1/help.php`, params, {
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded",
-        },
-      });
-
-      return Object.values(data.datas) as SectionBLock[];
-    };
-
-    fetchData().then((result) => {
-      setData(result);
-    });
-  }, []);
 
   return (
     <>
@@ -58,11 +37,7 @@ const Faq = () => {
                           ))}
                         </div>
                       ) : (
-                        <div className="faq__wrapper">
-                          {data.map((item) => (
-                            <SectionBlock key={item.section_id} item={item} />
-                          ))}
-                        </div>
+                        <SectionList />
                       )}
                     </div>
                   </div>

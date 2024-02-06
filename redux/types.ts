@@ -92,7 +92,7 @@ export type WebinarType = {
     FIO_SPIKERS: string[];
     PROF_SPIKERS: string[];
     FOTO_SPIKERS: string[]; // в апи надо исправить
-    THEME_EVENTS: string[7];
+    THEME_EVENTS: string[];
     PRISE_EVENTS: string;
     PRISE_SLOGAN: string;
     DATE_WEBINAR: string;

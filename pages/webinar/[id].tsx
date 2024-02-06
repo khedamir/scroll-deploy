@@ -9,14 +9,14 @@ import OldWebinerItem from "../../components/pageLawyersClub/oldWebinarItem";
 import { FullWebinarType } from "../../redux/types";
 import RenderHTML from "../../components/renderHTML";
 import { useRouter } from "next/router";
+import OldWebinars from "../../components/pageWebinar/oldWebinars";
 
 interface WebinarProps {
   publication: FullWebinarType;
-  // type_problem
-  oldWebinars: any[];
+  // oldWebinars: any[];
 }
 
-const Webinar: FC<WebinarProps> = ({ publication, oldWebinars }) => {
+const Webinar: FC<WebinarProps> = ({ publication }) => {
   const router = useRouter();
 
   return (
@@ -120,20 +120,7 @@ const Webinar: FC<WebinarProps> = ({ publication, oldWebinars }) => {
                     )}
                   </div>
                 </div>
-                <div className="webinar-grid section-indent section-indent--lg">
-                  <h3 className="webinar-grid__head">Прошедшие встречи</h3>
-                  {oldWebinars.map(
-                    (web, id) =>
-                      id % 2 !== 0 &&
-                      id !== 0 &&
-                      oldWebinars[id - 1] && (
-                        <OldWebinerItem
-                          key={web.id}
-                          webinars={[web, oldWebinars[id - 1]]}
-                        />
-                      )
-                  )}
-                </div>
+                <OldWebinars />
               </div>
               <div className="layout__right"></div>
             </div>
@@ -149,14 +136,14 @@ export const getServerSideProps = async (context: { params: { id: any } }) => {
     const { data } = await server.get(
       `/sw/v1/publications/?id=${context.params?.id}`
     );
-    const oldWebinars = await server.get(
-      "/sw/v1/publications/?iblockid=11&webinar=old&limit=10"
-    );
+    // const oldWebinars = await server.get(
+    //   "/sw/v1/publications/?iblockid=11&webinar=old&limit=10"
+    // );
 
     return {
       props: {
         publication: data.datas[Number(context.params?.id)],
-        oldWebinars: oldWebinars.data.datas,
+        // oldWebinars: oldWebinars.data.datas,
       },
     };
   } catch (error) {

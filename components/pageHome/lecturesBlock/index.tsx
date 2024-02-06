@@ -2,12 +2,20 @@ import Link from "next/link";
 import React, { FC } from "react";
 import Image from "next/image";
 import { VideoType } from "../../../redux/types";
+import AudioPodcastSkeleton from "../audioPodcasts/audioPodcastSkeleton";
 
 interface LecturesBlockProps {
   lectures: VideoType[];
+  isLoading?: boolean;
 }
 
-const LecturesBlock: FC<LecturesBlockProps> = ({ lectures }) => {
+const LecturesBlock: FC<LecturesBlockProps> = ({
+  lectures,
+  isLoading = false,
+}) => {
+  if (isLoading || !lectures) {
+    return <AudioPodcastSkeleton />;
+  }
   return (
     <div className="content-card">
       <div className="content-card__wrap">

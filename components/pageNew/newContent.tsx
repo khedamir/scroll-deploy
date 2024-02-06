@@ -25,7 +25,9 @@ const NewContent: FC<NewContentProps> = ({
     <>
       {articleParts.map((part, index) => (
         <React.Fragment key={index}>
-          {index > 0 && <RecomendationNew newId={newsIdList[index - 1]} />}
+          {index > 0 && (
+            <RecomendationNew newId={newsIdList[index - 1]} index={index} />
+          )}
           <NewFragment
             title={widgetTitle}
             fragment={part}

@@ -27,7 +27,7 @@ const OldWebinerItem: FC<WebinarItemProps> = ({ webinars }) => {
                     <Image
                       fill
                       loading="lazy"
-                      src={`${webinars[0].images.preview}`}
+                      src={`${webinars[0].images?.preview}`}
                       alt="Image"
                     />
                   </Link>
@@ -74,7 +74,7 @@ const OldWebinerItem: FC<WebinarItemProps> = ({ webinars }) => {
                   {webinars[1].name}
                 </Link>
                 <span className="meetings-card__author">
-                  {webinars[1].poperties.FIO_SPIKERS[0]}
+                  {webinars[1].poperties?.FIO_SPIKERS?.[0]}
                 </span>
               </div>
             </div>
@@ -85,7 +85,7 @@ const OldWebinerItem: FC<WebinarItemProps> = ({ webinars }) => {
               <Image
                 fill
                 loading="lazy"
-                src={`${webinars[1].images.preview}`}
+                src={`${webinars[1].images?.preview}`}
                 alt="Image"
               />
             </Link>

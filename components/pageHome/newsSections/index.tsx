@@ -3,6 +3,8 @@ import React, { useEffect, useState } from "react";
 import { ReactSVG } from "react-svg";
 import { server } from "../../../utils/server";
 import { fetchInfo } from "../../../server/content";
+import useSWR from "swr";
+import Skeleton from "react-loading-skeleton";
 
 const List = [
   { id: 1, name: "Льготы", current: 14 },
@@ -18,12 +20,11 @@ type ItemType = {
 };
 
 const NewsSections = () => {
-  const [items, setItems] = useState<ItemType[]>([]);
-  useEffect(() => {
-    fetchInfo({ type: "popularRubrics" }).then((result) => {
-      setItems(result);
-    });
-  }, []);
+  const { data, isLoading } = useSWR<ItemType[]>(
+    "home-page-popular-rubrics",
+    () => fetchInfo({ type: "popularRubrics" })
+  );
+
   return (
     <div className="news-list mobile-wide section-indent">
       <div className="news-list__wrap">
@@ -31,22 +32,34 @@ const NewsSections = () => {
           <span className="news-list__help">Новости</span>
         </div>
         <div className="news-list__wrapper">
-          {items.map((item) => (
-            <Link
-              key={item.id}
-              href={`rubrics/${item.id}`}
-              className="news-list__item"
-            >
-              <span className="news-list__value">{item.elements}</span>
-              <div className="news-list__inner">
-                <span className="news-list__name">{item.name}</span>
-                <ReactSVG
-                  className="news-list__icon"
-                  src="/img/sprite/icon-arrow-link-up.svg"
-                />
-              </div>
-            </Link>
-          ))}
+          {isLoading ? (
+            <div className="rubrics-skeleton">
+              <Skeleton height={48} borderRadius={14} />
+              <Skeleton
+                className="rubrics-skeleton__item"
+                height={48}
+                borderRadius={14}
+                count={4}
+              />
+            </div>
+          ) : (
+            data?.map((item) => (
+              <Link
+                key={item.id}
+                href={`rubrics/${item.id}`}
+                className="news-list__item"
+              >
+                <span className="news-list__value">{item.elements}</span>
+                <div className="news-list__inner">
+                  <span className="news-list__name">{item.name}</span>
+                  <ReactSVG
+                    className="news-list__icon"
+                    src="/img/sprite/icon-arrow-link-up.svg"
+                  />
+                </div>
+              </Link>
+            ))
+          )}
         </div>
       </div>
     </div>

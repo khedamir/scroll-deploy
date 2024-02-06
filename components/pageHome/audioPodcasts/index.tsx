@@ -2,12 +2,21 @@ import Link from "next/link";
 import React, { FC } from "react";
 import Image from "next/image";
 import { EditionType } from "../../../redux/types";
+import AudioPodcastSkeleton from "./audioPodcastSkeleton";
 
 interface AudioPodcastsProps {
   editions: EditionType[];
+  isLoading?: boolean;
 }
 
-const AudioPodcasts: FC<AudioPodcastsProps> = ({ editions }) => {
+const AudioPodcasts: FC<AudioPodcastsProps> = ({
+  editions,
+  isLoading = false,
+}) => {
+  if (isLoading || !editions) {
+    return <AudioPodcastSkeleton />;
+  }
+
   return (
     <div className="content-card">
       <div className="content-card__wrap">

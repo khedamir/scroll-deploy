@@ -23,14 +23,15 @@ import { FavoritePodcast } from "../../redux/favorites/types";
 import { AudioContextProvider } from "../../context/audioContext";
 import AudioPlayer from "../../components/players/player";
 import Image from "next/image";
-import { fetchNew } from "../../server/content";
+import { fetchNew, fetchPodcast } from "../../server/content";
+import useSWR from "swr";
+import PodcastRecommendation from "../../components/podcastCard/podcastRecommendation";
 
 interface PodcastProps {
   podcast: FullPodcastType;
 }
 
 const Podcast: FC<PodcastProps> = ({ podcast }) => {
-  const [data, setData] = useState<EditionType[]>([]);
   const { user } = useSelector(selectUser);
   const { setLoginActive } = useModalsContext();
   const dispatch = useAppDispatch();
@@ -78,22 +79,6 @@ const Podcast: FC<PodcastProps> = ({ podcast }) => {
       }
     });
   };
-
-  useEffect(() => {
-    const fetchPodcasts = async () => {
-      const result = await server.get(
-        `/sw/v1/podcasts/?iblockid=34&width=400&height=300`,
-        {
-          params: { limit: 5 },
-        }
-      );
-
-      return result.data.datas;
-    };
-    fetchPodcasts().then((result) => {
-      setData(result);
-    });
-  }, []);
 
   return (
     <AudioContextProvider>
@@ -179,15 +164,7 @@ const Podcast: FC<PodcastProps> = ({ podcast }) => {
                   </div>
                   <AudioPlayer />
                 </div>
-                <div className="layout__right">
-                  <div className="content-card">
-                    <div className="content-card__wrapper">
-                      {data.map((podcast) => (
-                        <PodcastCard key={podcast.id} podcast={podcast} />
-                      ))}
-                    </div>
-                  </div>
-                </div>
+                <PodcastRecommendation />
               </div>
             </div>
           </div>
@@ -212,7 +189,7 @@ const Podcast: FC<PodcastProps> = ({ podcast }) => {
 // };
 
 export const getServerSideProps = async (context: { query: { id: any } }) => {
-  const podcast: FullPodcastType = await fetchNew(String(context.query.id));
+  const podcast: FullPodcastType = await fetchPodcast(String(context.query.id));
 
   return {
     props: {

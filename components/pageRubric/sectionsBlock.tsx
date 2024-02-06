@@ -9,36 +9,52 @@ import {
   fetchLectures,
   fetchTrends,
 } from "../../server/content";
+import useSWR from "swr";
 
 const SectionsBlock = () => {
-  const [trends, setTrends] = useState<TrendType[]>([]);
-  const [editions, setEditions] = useState<EditionType[]>([]);
-  const [lectures, setLectures] = useState<VideoType[]>([]);
+  const { data: trends, isLoading: trendsIsLoading } = useSWR<TrendType[]>(
+    "rubric-page-trends",
+    () => fetchTrends({ limit: 10 }).then((result) => result.datas)
+  );
 
-  useEffect(() => {
-    fetchTrends({ limit: 10 }).then((result) => {
-      setTrends(result.datas);
-    });
-    fetchEditions({ limit: 3 }).then((result) => {
-      setEditions(result.datas);
-    });
-    fetchLectures({ limit: 3 }).then((result) => {
-      setLectures(result.datas);
-    });
-  }, []);
+  const { data: editions, isLoading: editionsIsLoading } = useSWR<
+    EditionType[]
+  >("rubric-page-editions", () =>
+    fetchEditions({ limit: 3 }).then((result) => result.datas)
+  );
+
+  const { data: lectures, isLoading: lecturesIsLoading } = useSWR<VideoType[]>(
+    "rubric-page-lectures",
+    () => fetchLectures({ limit: 3 }).then((result) => result.datas)
+  );
 
   return (
     <>
       <SectionLayout
-        children1={<PopularVideos trends={trends} />}
+        children1={
+          <PopularVideos
+            trends={trends as TrendType[]}
+            isLoading={trendsIsLoading}
+          />
+        }
         children2={<span className="layout__heading">тренды</span>}
       />
       <SectionLayout
-        children1={<AudioPodcasts editions={editions} />}
+        children1={
+          <AudioPodcasts
+            editions={editions as EditionType[]}
+            isLoading={editionsIsLoading}
+          />
+        }
         children2={<span className="layout__heading">аудиоподкасты</span>}
       />
       <SectionLayout
-        children1={<LecturesBlock lectures={lectures} />}
+        children1={
+          <LecturesBlock
+            lectures={lectures as VideoType[]}
+            isLoading={lecturesIsLoading}
+          />
+        }
         children2={<span className="layout__heading">лекции</span>}
       />
     </>

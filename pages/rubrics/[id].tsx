@@ -1,5 +1,4 @@
 import React, { FC, useEffect, useState } from "react";
-import Footer from "../../components/footer";
 import VideoWidget from "../../components/widgets/videoWidget";
 import Sidebar from "../../components/sidebar/sidebar";
 import SectionLayout from "../../components/pageHome/sectionLayout";

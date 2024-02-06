@@ -4,12 +4,20 @@ import { useSelector } from "react-redux";
 import Image from "next/image";
 import { selectMainPage } from "../../../redux/main_page/slice";
 import { TrendType } from "../../../redux/types";
+import PopularVideosSkeleton from "./popularVideosSkeleton";
 
 interface PopularVideosProps {
   trends: TrendType[];
+  isLoading?: boolean;
 }
 
-const PopularVideos: FC<PopularVideosProps> = ({ trends }) => {
+const PopularVideos: FC<PopularVideosProps> = ({
+  trends,
+  isLoading = false,
+}) => {
+  if (isLoading || !trends) {
+    return <PopularVideosSkeleton />;
+  }
   const trends1 = trends.slice(0, 4);
   const trends2 = trends.slice(4, 9);
   return (

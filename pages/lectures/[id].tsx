@@ -18,6 +18,7 @@ import Image from "next/image";
 import { fetchNew } from "../../server/content";
 import { useRouter } from "next/router";
 import Loader from "../../components/loader";
+import LectureRecommendations from "../../components/pageLecture/lectureRecommendations";
 
 interface LectureProps {
   publication: FullVideoType;
@@ -118,19 +119,7 @@ const Lecture: FC<LectureProps> = ({ publication }) => {
                   />
                 </div>
               </div>
-              <div className="layout__right">
-                <div className="content-card mobile-wide">
-                  <div className="content-card__wrapper">
-                    {[].map((lecture: any) => (
-                      <LectureItem
-                        key={lecture.id}
-                        lecture={lecture}
-                        otherClassName="content-card__item"
-                      />
-                    ))}
-                  </div>
-                </div>
-              </div>
+              <LectureRecommendations />
             </div>
           </div>
         </div>

@@ -4,7 +4,9 @@ import MoreNewItem from "./moreNewItem";
 import MoreNewsGrup from "./moreNewsGrup";
 import { NewType, RubricType } from "../../redux/types";
 import { fetchNews } from "../../server/content";
-
+import useSWR from "swr";
+import Skeleton from "react-loading-skeleton";
+import MoreNewsSkeleton from "./moreNewsSkeleton";
 
 interface MoreNewProps {
   rubrics: RubricType[];
@@ -12,8 +14,13 @@ interface MoreNewProps {
 }
 
 const MoreNews: FC<MoreNewProps> = ({ rubrics, rubricName }) => {
-  const [news, setNews] = useState<NewType[]>([]);
   const rubricId = rubrics.find((item) => item.NAME === rubricName)?.ID;
+
+  const { data, isLoading } = useSWR<NewType[]>("new-page-more-news", () =>
+    fetchNews({ limit: 25, rubric: Number(rubricId) }).then((result) => {
+      return result.datas;
+    })
+  );
 
   useEffect(() => {
     const swiper = new Swiper(".more-topic__slider .swiper", {
@@ -24,18 +31,16 @@ const MoreNews: FC<MoreNewProps> = ({ rubrics, rubricName }) => {
     return () => {
       swiper.destroy(true, true);
     };
-  }, []);
+  }, [data]);
 
-  useEffect(() => {
-    fetchNews({ limit: 25, rubric: Number(rubricId) }).then((result) => {
-      setNews(result.datas);
-    });
-  }, [rubricName]);
+  if (!data || isLoading) {
+    return <MoreNewsSkeleton />;
+  }
 
   const newsComponents = [];
-  for (let i = 0; i < news.length; i += 6) {
-    const individualNews = news.slice(i, i + 3);
-    const threeNewsCard = news.slice(i + 3, i + 6);
+  for (let i = 0; i < data.length; i += 6) {
+    const individualNews = data.slice(i, i + 3);
+    const threeNewsCard = data.slice(i + 3, i + 6);
     newsComponents.push(
       <React.Fragment key={i}>
         {individualNews.map((item) => (
